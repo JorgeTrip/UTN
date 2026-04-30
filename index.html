@@ -48,7 +48,8 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;min-
 body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");opacity:.5;}
 
 /* ───── GLOBAL HEADER ───── */
-.g-header{position:relative;z-index:2;background:var(--s1);border-bottom:2px solid var(--border);padding:18px 32px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.g-header{position:relative;z-index:2;background:var(--s1);border-bottom:2px solid var(--border);padding:18px 32px;}
+.g-header-inner{max-width:1440px;margin:0 auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:space-between;}
 .g-logo{display:flex;flex-direction:column;gap:3px;}
 .g-badge-row{display:flex;gap:6px;align-items:center;}
 .g-badge{font-size:10px;font-weight:800;letter-spacing:1.2px;padding:4px 10px;border-radius:5px;text-transform:uppercase;}
@@ -60,8 +61,9 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;back
 .g-date{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);}
 
 /* ───── SUPER TABS ───── */
-.super-tab-bar{position:relative;z-index:2;background:var(--s1);border-bottom:1px solid var(--border);display:flex;gap:0;padding:0 24px;}
-.super-tab{padding:13px 22px;font-size:14px;font-weight:700;color:var(--muted);cursor:pointer;border:none;background:none;font-family:'Outfit',sans-serif;border-bottom:3px solid transparent;transition:color .15s;display:flex;align-items:center;gap:9px;}
+.super-tab-bar{position:relative;z-index:2;background:var(--s1);border-bottom:1px solid var(--border);padding:0 32px;}
+.super-tab-inner{max-width:1440px;margin:0 auto;display:flex;gap:0;flex-wrap:wrap;}
+.super-tab{padding:13px 18px;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;border:none;background:none;font-family:'Outfit',sans-serif;border-bottom:3px solid transparent;transition:color .15s;display:flex;align-items:center;gap:6px;white-space:nowrap;}
 .super-tab:hover{color:var(--text);}
 .super-tab.active{color:var(--text);}
 .super-tab.sp1.active{border-bottom-color:var(--green);}
@@ -75,8 +77,9 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
 .sec::after{content:'';flex:1;height:1px;background:var(--border);}
 
 /* ───── SUBTABS ───── */
-.sub-tab-bar{display:flex;gap:3px;border-bottom:1px solid var(--border);margin-bottom:22px;}
-.sub-tab{padding:9px 16px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;background:none;border-top:none;border-left:none;border-right:none;font-family:'Outfit',sans-serif;transition:color .15s;display:flex;align-items:center;gap:7px;}
+.sub-tab-bar{border-bottom:1px solid var(--border);margin-bottom:22px;padding:0;}
+.sub-tab-inner{max-width:1440px;margin:0 auto;display:flex;gap:3px;flex-wrap:wrap;}
+.sub-tab{padding:9px 12px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;background:none;border-top:none;border-left:none;border-right:none;font-family:'Outfit',sans-serif;transition:color .15s;display:flex;align-items:center;gap:5px;white-space:nowrap;}
 .sub-tab:hover{color:var(--text);}
 .sub-tab.active{color:var(--text);border-bottom-color:var(--green);}
 .sub-tab.blue.active{border-bottom-color:var(--blue);}
@@ -224,8 +227,9 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
 .strat-card ul li:last-child{border-bottom:none;}
 
 /* ───── PLANIFICADOR (legacy styles) ───── */
-.main-tabs{display:flex;gap:3px;border-bottom:1px solid var(--border);margin-top:6px;}
-.main-tab{padding:11px 20px;font-size:14px;font-weight:700;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;background:none;border-top:none;border-left:none;border-right:none;font-family:'Outfit',sans-serif;transition:color .15s;display:flex;align-items:center;gap:9px;}
+.main-tabs{border-bottom:1px solid var(--border);margin-top:6px;padding:0;}
+.main-tabs-inner{max-width:1440px;margin:0 auto;display:flex;gap:3px;flex-wrap:wrap;}
+.main-tab{padding:11px 16px;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;background:none;border-top:none;border-left:none;border-right:none;font-family:'Outfit',sans-serif;transition:color .15s;display:flex;align-items:center;gap:6px;white-space:nowrap;}
 .main-tab:hover{color:var(--text);}
 .main-tab.active{color:var(--text);}
 .main-tab.mq1.active{border-bottom-color:#a78bfa;}
@@ -235,8 +239,9 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
 .main-tab.mq2.active .mbadge{background:rgba(56,189,248,.12);color:#7dd3fc;}
 .main-panel{display:none;padding-top:22px;}
 .main-panel.active{display:block;}
-.plan-sub-tab-bar{display:flex;gap:3px;border-bottom:1px solid var(--border);margin-bottom:20px;}
-.plan-sub-tab{padding:9px 16px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;background:none;border-top:none;border-left:none;border-right:none;font-family:'Outfit',sans-serif;transition:color .15s;display:flex;align-items:center;gap:7px;}
+.plan-sub-tab-bar{border-bottom:1px solid var(--border);margin-bottom:20px;padding:0;}
+.plan-sub-tab-inner{max-width:1440px;margin:0 auto;display:flex;gap:3px;flex-wrap:wrap;}
+.plan-sub-tab{padding:9px 12px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;background:none;border-top:none;border-left:none;border-right:none;font-family:'Outfit',sans-serif;transition:color .15s;display:flex;align-items:center;gap:5px;white-space:nowrap;}
 .plan-sub-tab:hover{color:var(--text);}
 .plan-sub-tab.active{color:var(--text);border-bottom-color:#38bdf8;}
 .plan-sub-tab.rec.active{border-bottom-color:#22d3a4;}
@@ -265,6 +270,8 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
 .ev{position:absolute;left:3px;right:3px;border-radius:7px;padding:7px 9px;font-size:11px;z-index:10;overflow:hidden;border-left:3px solid transparent;cursor:default;transition:filter .15s;}
 .ev:has(a){cursor:pointer;}
 .ev:hover{filter:brightness(1.18);}
+.ev.today{animation:todayPulse 3s ease-in-out infinite;}
+@keyframes todayPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,0.15),inset 0 0 15px rgba(255,255,255,0.08);filter:brightness(1);}50%{box-shadow:0 0 20px 3px rgba(255,255,255,0.25),inset 0 0 20px rgba(255,255,255,0.15);filter:brightness(1.15);}}
 .ev-name{font-weight:700;font-size:11.5px;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .ev-time{font-size:9.5px;font-family:'JetBrains Mono',monospace;opacity:.75;margin-top:3px;}
 .ev-k{font-size:9px;font-family:'JetBrains Mono',monospace;opacity:.5;margin-top:1px;}
@@ -296,6 +303,8 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
 .gcal-btn:hover{background:rgba(66,133,244,.22);border-color:rgba(66,133,244,.55);}
 .day-summary{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:10px;margin-top:16px;}
 .ds-card{background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:11px 14px;}
+.ds-card.today{animation:cardPulse 3s ease-in-out infinite;}
+@keyframes cardPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,0.1),inset 0 0 10px rgba(255,255,255,0.05);border-color:var(--border);}50%{box-shadow:0 0 15px 2px rgba(255,255,255,0.2),inset 0 0 15px rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.3);}}
 .ds-day{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
 .ds-name{font-size:12px;font-weight:700;display:flex;align-items:flex-start;gap:7px;margin-bottom:4px;line-height:1.3;}
 .ds-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:3px;}
@@ -315,29 +324,33 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
 
 <!-- ═══════════ GLOBAL HEADER ═══════════ -->
 <header class="g-header">
-  <div class="g-logo">
-    <div class="g-badge-row">
-      <span class="g-badge gb-utn">UTN · FRBA</span>
-      <span class="g-badge gb-k23">Plan K23</span>
+  <div class="g-header-inner">
+    <div class="g-logo">
+      <div class="g-badge-row">
+        <span class="g-badge gb-utn">UTN · FRBA</span>
+        <span class="g-badge gb-k23">Plan K23</span>
+      </div>
     </div>
-  </div>
-  <div>
-    <div class="g-title">Ingeniería en Sistemas de Información</div>
-    <div class="g-sub">Jorge Osvaldo Tripodi · Leg. 172-060.0 · Sede Medrano · Turno Noche</div>
-  </div>
-  <div class="g-right">
-    <div class="g-date">Actualizado: 08/03/2026</div>
-    <div style="font-size:11px;color:var(--muted);">Transición K08 → K23 efectiva feb. 2026</div>
+    <div>
+      <div class="g-title">Ingeniería en Sistemas de Información</div>
+      <div class="g-sub">Jorge Osvaldo Tripodi · Leg. 172-060.0 · Turno Noche</div>
+    </div>
+    <div class="g-right">
+      <div class="g-date">Actualizado: 08/03/2026</div>
+      <div style="font-size:11px;color:var(--muted);">Transición K08 → K23 efectiva feb. 2026</div>
+    </div>
   </div>
 </header>
 
 <!-- ═══════════ SUPER TAB BAR ═══════════ -->
 <div class="super-tab-bar">
-  <button class="super-tab sp1 active" onclick="superTab(0)">📊 Seguimiento de Carrera</button>
-  <button class="super-tab sp2" onclick="superTab(1)">🗓 Planificador 2026</button>
-  <button class="super-tab" onclick="superTab(2)">🗓 Planificador 2027</button>
-  <button class="super-tab" onclick="superTab(3)">🗓 Planificador 2028</button>
-  <button class="super-tab" onclick="superTab(4)">🗓 Planificador 2029</button>
+  <div class="super-tab-inner">
+    <button class="super-tab sp1 active" onclick="superTab(0)">📊 Seguimiento de Carrera</button>
+    <button class="super-tab sp2" onclick="superTab(1)">🗓 Planificador 2026</button>
+    <button class="super-tab" onclick="superTab(2)">🗓 Planificador 2027</button>
+    <button class="super-tab" onclick="superTab(3)">🗓 Planificador 2028</button>
+    <button class="super-tab" onclick="superTab(4)">🗓 Planificador 2029</button>
+  </div>
 </div>
 
 <!-- ═══════════════════════════════════════
@@ -348,10 +361,12 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
 
   <!-- SUB-TAB BAR -->
   <div class="sub-tab-bar">
-    <button class="sub-tab active" onclick="sp1Tab(0)">📈 Dashboard <span class="sbadge">KPIs</span></button>
-    <button class="sub-tab blue" onclick="sp1Tab(1)">🗺 Mapa Curricular <span class="sbadge">K23</span></button>
-    <button class="sub-tab blue" onclick="sp1Tab(2)">⚖ Peso Académico <span class="sbadge">Res. 2902/25</span></button>
-    <button class="sub-tab blue" onclick="sp1Tab(3)">🧭 Estrategia <span class="sbadge">Correlativas</span></button>
+    <div class="sub-tab-inner">
+      <button class="sub-tab active" onclick="sp1Tab(0)">📈 Dashboard <span class="sbadge">KPIs</span></button>
+      <button class="sub-tab blue" onclick="sp1Tab(1)">🗺 Mapa Curricular <span class="sbadge">K23</span></button>
+      <button class="sub-tab blue" onclick="sp1Tab(2)">⚖ Peso Académico <span class="sbadge">Res. 2902/25</span></button>
+      <button class="sub-tab blue" onclick="sp1Tab(3)">🧭 Estrategia <span class="sbadge">Correlativas</span></button>
+    </div>
   </div>
 
   <!-- ─── SUB-PANEL 0: DASHBOARD ─── -->
@@ -1376,12 +1391,14 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
 <div class="sec">Vista por cuatrimestre · 2026</div>
 
 <div class="main-tabs">
-  <button class="main-tab mq1 active" onclick="mainTabIn('sp1-plan',0)">
-    1er Cuatrimestre <span class="mbadge">Seminario Integrador · Comunicación de Datos · Adm. Sistemas de Información — única combinación posible</span>
-  </button>
-  <button class="main-tab mq2" onclick="mainTabIn('sp1-plan',1)">
-    2do Cuatrimestre <span class="mbadge">Ingeniería y Calidad de Software · Investigación Operativa · Legislación · Tecnologías para la Automatización · Adm. Sistemas de Información — 3 alternativas</span>
-  </button>
+  <div class="main-tabs-inner">
+    <button class="main-tab mq1 active" onclick="mainTabIn('sp1-plan',0)">
+      1er Cuatrimestre <span class="mbadge">Seminario Integrador · Comunicación de Datos · Adm. Sistemas de Información — única combinación posible</span>
+    </button>
+    <button class="main-tab mq2" onclick="mainTabIn('sp1-plan',1)">
+      2do Cuatrimestre <span class="mbadge">Ingeniería y Calidad de Software · Investigación Operativa · Legislación · Tecnologías para la Automatización · Adm. Sistemas de Información — 3 alternativas</span>
+    </button>
+  </div>
 </div>
 
 <!-- Q1 -->
@@ -1401,18 +1418,17 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
       <div class="cal-head-cell"></div>
       <div class="cal-head-cell lit" style="color:var(--si)">LUNES</div>
       <div class="cal-head-cell lit" style="color:var(--cd)">MARTES</div>
-      <div class="cal-head-cell lit" style="color:var(--si)">MIÉRCOLES</div>
+      <div class="cal-head-cell">MIÉRCOLES</div>
       <div class="cal-head-cell lit" style="color:var(--asi)">JUEVES</div>
       <div class="cal-head-cell lit" style="color:var(--cd)">VIERNES</div>
     </div>
     <div class="cal-body" id="q1body" style="grid-template-columns:48px repeat(5,1fr)"></div>
   </div>
   <div class="day-summary">
-    <div class="ds-card"><div class="ds-day">Lunes</div><div class="ds-name"><span class="ds-dot" style="background:var(--si)"></span>Seminario Integrador</div><div class="ds-det">19:00 – 22:15<br>K4061</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Seminario%20Integrador&dates=20260316T190000/20260316T221500&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DMO%2CWE%3BUNTIL%3D20260703T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Seminario%20Integrador%0AComisi%C3%B3n%3A%20K4061%0ACursada%201C%202026%20%C2%B7%20Lu%2019-22%3A15%20%2B%20Mi%2019-22%3A15" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a><a href="Seminario_Integrador_2026.html" class="gcal-btn" style="background:rgba(167,139,250,.1);border-color:rgba(167,139,250,.3);color:#ddd6fe;margin-top:5px;" title="Ver detalles de la materia"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><path d="M9 18l6-6-6-6"/></svg> Ver detalles</a></div>
-    <div class="ds-card"><div class="ds-day">Martes</div><div class="ds-name"><span class="ds-dot" style="background:var(--cd)"></span>Comunicación de Datos</div><div class="ds-det">19:00 – 21:30<br>K3055</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Comunicaci%C3%B3n%20de%20Datos&dates=20260317T190000/20260317T213000&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DTU%3BUNTIL%3D20260703T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Comunicaci%C3%B3n%20de%20Datos%0AComisi%C3%B3n%3A%20K3055%0ACursada%201C%202026%20%C2%B7%20Ma%2019-21%3A30" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a><a href="Comunicaciones_K3055_2026.html" class="gcal-btn" style="background:rgba(56,189,248,.1);border-color:rgba(56,189,248,.3);color:#bae6fd;margin-top:5px;" title="Ver detalles de la materia"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><path d="M9 18l6-6-6-6"/></svg> Ver detalles</a></div>
-    <div class="ds-card"><div class="ds-day">Miércoles</div><div class="ds-name"><span class="ds-dot" style="background:var(--si)"></span>Seminario Integrador</div><div class="ds-det">19:00 – 22:15<br>K4061</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Seminario%20Integrador&dates=20260316T190000/20260316T221500&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DMO%2CWE%3BUNTIL%3D20260703T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Seminario%20Integrador%0AComisi%C3%B3n%3A%20K4061%0ACursada%201C%202026%20%C2%B7%20Lu%2019-22%3A15%20%2B%20Mi%2019-22%3A15" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a><a href="Seminario_Integrador_2026.html" class="gcal-btn" style="background:rgba(167,139,250,.1);border-color:rgba(167,139,250,.3);color:#ddd6fe;margin-top:5px;" title="Ver detalles de la materia"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><path d="M9 18l6-6-6-6"/></svg> Ver detalles</a></div>
-    <div class="ds-card"><div class="ds-day">Jueves</div><div class="ds-name"><span class="ds-dot" style="background:var(--asi)"></span>Administración de Sistemas de Información</div><div class="ds-det">18:15 – 23:00<br>K4053 · ANUAL</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Administraci%C3%B3n%20de%20Sistemas%20de%20Informaci%C3%B3n&dates=20260319T181500/20260319T230000&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DTH%3BUNTIL%3D20261127T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Administraci%C3%B3n%20de%20Sistemas%20de%20Informaci%C3%B3n%0AComisi%C3%B3n%3A%20K4053%0AMateria%20ANUAL%202026%20%C2%B7%20Ju%2018%3A15-23%3A00" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a><a href="AdSI_Dashboard.html" class="gcal-btn" style="background:rgba(34,211,164,.1);border-color:rgba(34,211,164,.3);color:#6ee7c7;margin-top:5px;" title="Ver detalles de la materia"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><path d="M9 18l6-6-6-6"/></svg> Ver detalles</a></div>
-    <div class="ds-card"><div class="ds-day">Viernes</div><div class="ds-name"><span class="ds-dot" style="background:var(--cd)"></span>Comunicación de Datos</div><div class="ds-det">19:00 – 23:00<br>K3055</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Comunicaci%C3%B3n%20de%20Datos&dates=20260320T190000/20260320T230000&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DFR%3BUNTIL%3D20260703T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Comunicaci%C3%B3n%20de%20Datos%0AComisi%C3%B3n%3A%20K3055%0ACursada%201C%202026%20%C2%B7%20Vi%2019-23%3A00" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a><a href="Comunicaciones_K3055_2026.html" class="gcal-btn" style="background:rgba(56,189,248,.1);border-color:rgba(56,189,248,.3);color:#bae6fd;margin-top:5px;" title="Ver detalles de la materia"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><path d="M9 18l6-6-6-6"/></svg> Ver detalles</a></div>
+    <div class="ds-card"><div class="ds-day">Lunes</div><div class="ds-name"><span class="ds-dot" style="background:var(--si)"></span>Seminario Integrador</div><div class="ds-det">19:00 - 22:15<br>K4061</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Seminario%20Integrador&dates=20260316T190000/20260316T221500&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DMO%3BUNTIL%3D20260703T235959Z&location=UTN%20FRBA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Seminario%20Integrador%0AComisi%C3%B3n%3A%20K4061%0ACursada%201C%202026%20%C2%B7%20Lu%2019-22%3A15" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a><a href="Seminario_Integrador_2026.html" class="gcal-btn" style="background:rgba(167,139,250,.1);border-color:rgba(167,139,250,.3);color:#ddd6fe;margin-top:5px;" title="Ver detalles de la materia"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><path d="M9 18l6-6-6-6"/></svg> Ver detalles</a></div>
+    <div class="ds-card"><div class="ds-day">Martes</div><div class="ds-name"><span class="ds-dot" style="background:var(--cd)"></span>Comunicación de Datos</div><div class="ds-det">19:00 - 21:30<br>K3055</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Comunicaci%C3%B3n%20de%20Datos&dates=20260317T190000/20260317T213000&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DTU%3BUNTIL%3D20260703T235959Z&location=UTN%20FRBA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Comunicaci%C3%B3n%20de%20Datos%0AComisi%C3%B3n%3A%20K3055%0ACursada%201C%202026%20%C2%B7%20Ma%2019-21%3A30" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a><a href="Comunicaciones_K3055_2026.html" class="gcal-btn" style="background:rgba(56,189,248,.1);border-color:rgba(56,189,248,.3);color:#bae6fd;margin-top:5px;" title="Ver detalles de la materia"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><path d="M9 18l6-6-6-6"/></svg> Ver detalles</a></div>
+    <div class="ds-card"><div class="ds-day">Jueves</div><div class="ds-name"><span class="ds-dot" style="background:var(--asi)"></span>Administración de Sistemas de Información</div><div class="ds-det">18:15 - 23:00<br>K4053 - ANUAL</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Administraci%C3%B3n%20de%20Sistemas%20de%20Informaci%C3%B3n&dates=20260319T181500/20260319T230000&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DTH%3BUNTIL%3D20261127T235959Z&location=UTN%20FRBA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Administraci%C3%B3n%20de%20Sistemas%20de%20Informaci%C3%B3n%0AComisi%C3%B3n%3A%20K4053%0AMateria%20ANUAL%202026%20%C2%B7%20Ju%2018%3A15-23%3A00" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a><a href="AdSI_Dashboard.html" class="gcal-btn" style="background:rgba(34,211,164,.1);border-color:rgba(34,211,164,.3);color:#6ee7c7;margin-top:5px;" title="Ver detalles de la materia"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><path d="M9 18l6-6-6-6"/></svg> Ver detalles</a></div>
+    <div class="ds-card"><div class="ds-day">Viernes</div><div class="ds-name"><span class="ds-dot" style="background:var(--cd)"></span>Comunicación de Datos</div><div class="ds-det">19:00 - 23:00<br>K3055</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Comunicaci%C3%B3n%20de%20Datos&dates=20260320T190000/20260320T230000&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DFR%3BUNTIL%3D20260703T235959Z&location=UTN%20FRBA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Comunicaci%C3%B3n%20de%20Datos%0AComisi%C3%B3n%3A%20K3055%0ACursada%201C%202026%20%C2%B7%20Vi%2019-23%3A00" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a><a href="Comunicaciones_K3055_2026.html" class="gcal-btn" style="background:rgba(56,189,248,.1);border-color:rgba(56,189,248,.3);color:#bae6fd;margin-top:5px;" title="Ver detalles de la materia"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><path d="M9 18l6-6-6-6"/></svg> Ver detalles</a></div>
   </div>
 </div>
 
@@ -1424,9 +1440,11 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
   </div>
 
   <div class="plan-sub-tab-bar">
-    <button class="plan-sub-tab rec active" onclick="planSubTabIn('sp1-plan',0)">★ Alternativa 1 <span class="plan-sbadge">Todo Medrano</span></button>
-    <button class="plan-sub-tab" onclick="planSubTabIn('sp1-plan',1)">Alternativa 2 <span class="plan-sbadge">Leg. Viernes · Campus</span></button>
-    <button class="plan-sub-tab" onclick="planSubTabIn('sp1-plan',2)">Alternativa 3 <span class="plan-sbadge">Leg. Lunes · Campus</span></button>
+    <div class="plan-sub-tab-inner">
+      <button class="plan-sub-tab rec active" onclick="planSubTabIn('sp1-plan',0)">★ Alternativa 1 <span class="plan-sbadge">Todo Medrano</span></button>
+      <button class="plan-sub-tab" onclick="planSubTabIn('sp1-plan',1)">Alternativa 2 <span class="plan-sbadge">Leg. Viernes · Campus</span></button>
+      <button class="plan-sub-tab" onclick="planSubTabIn('sp1-plan',2)">Alternativa 3 <span class="plan-sbadge">Leg. Lunes · Campus</span></button>
+    </div>
   </div>
 
   <!-- Q2 Alt 1 -->
@@ -1548,12 +1566,14 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
 </div>
 
 <div class="main-tabs">
-  <button class="main-tab mq1 active" onclick="mainTabIn('sp2-plan',0)">
-    1er Cuatrimestre <span class="mbadge">Simulación · Redes de Datos · Inteligencia Artificial · Criptografía (Electiva N4)</span>
-  </button>
-  <button class="main-tab mq2" onclick="mainTabIn('sp2-plan',1)">
-    2do Cuatrimestre <span class="mbadge">Ciencia de Datos · Sistemas de Gestión · Gestión Gerencial · IoT · Arquitecturas Concurrentes (Electivas N4)</span>
-  </button>
+  <div class="main-tabs-inner">
+    <button class="main-tab mq1 active" onclick="mainTabIn('sp2-plan',0)">
+      1er Cuatrimestre <span class="mbadge">Simulación · Redes de Datos · Inteligencia Artificial · Criptografía (Electiva N4)</span>
+    </button>
+    <button class="main-tab mq2" onclick="mainTabIn('sp2-plan',1)">
+      2do Cuatrimestre <span class="mbadge">Ciencia de Datos · Sistemas de Gestión · Gestión Gerencial · IoT · Arquitecturas Concurrentes (Electivas N4)</span>
+    </button>
+  </div>
 </div>
 
 <!-- 2027 Q1 -->
@@ -1641,12 +1661,14 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
 </div>
 
 <div class="main-tabs">
-  <button class="main-tab mq1 active" onclick="mainTabIn('sp3-plan',0)">
-    1er Cuatrimestre <span class="mbadge">Proyecto Final (ANUAL) · Seguridad en Sistemas · Auditoría de Sistemas · Sistemas de Info. Geográfica (Electivas N5)</span>
-  </button>
-  <button class="main-tab mq2" onclick="mainTabIn('sp3-plan',1)">
-    2do Cuatrimestre <span class="mbadge">Proyecto Final continúa (ANUAL) · Calidad Avanzada · Bioinformática (Electivas N5)</span>
-  </button>
+  <div class="main-tabs-inner">
+    <button class="main-tab mq1 active" onclick="mainTabIn('sp3-plan',0)">
+      1er Cuatrimestre <span class="mbadge">Proyecto Final (ANUAL) · Seguridad en Sistemas · Auditoría de Sistemas · Sistemas de Info. Geográfica (Electivas N5)</span>
+    </button>
+    <button class="main-tab mq2" onclick="mainTabIn('sp3-plan',1)">
+      2do Cuatrimestre <span class="mbadge">Proyecto Final continúa (ANUAL) · Calidad Avanzada · Bioinformática (Electivas N5)</span>
+    </button>
+  </div>
 </div>
 
 <!-- 2028 Q1 -->
@@ -1737,12 +1759,14 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
 </div>
 
 <div class="main-tabs">
-  <button class="main-tab mq1 active" onclick="mainTabIn('sp4-plan',0)">
-    1er Cuatrimestre <span class="mbadge">Graduación / PPS / Pendientes opcionales</span>
-  </button>
-  <button class="main-tab mq2" onclick="mainTabIn('sp4-plan',1)">
-    2do Cuatrimestre <span class="mbadge">Colación · Cierre de carrera</span>
-  </button>
+  <div class="main-tabs-inner">
+    <button class="main-tab mq1 active" onclick="mainTabIn('sp4-plan',0)">
+      1er Cuatrimestre <span class="mbadge">Graduación / PPS / Pendientes opcionales</span>
+    </button>
+    <button class="main-tab mq2" onclick="mainTabIn('sp4-plan',1)">
+      2do Cuatrimestre <span class="mbadge">Colación · Cierre de carrera</span>
+    </button>
+  </div>
 </div>
 
 <!-- 2029 Q1 -->
@@ -1924,7 +1948,6 @@ function buildCal(bodyId, numDays, events, hasSat) {
 buildCal('q1body', 5, [
   {day:0, cls:'si',  name:'Seminario Integrador',             h1:19,m1:0, h2:22,m2:15, k:'K4061', url:'Seminario_Integrador_2026.html'},
   {day:1, cls:'cd',  name:'Comunicación de Datos',            h1:19,m1:0, h2:21,m2:30, k:'K3055', url:'Comunicaciones_K3055_2026.html'},
-  {day:2, cls:'si',  name:'Seminario Integrador',             h1:19,m1:0, h2:22,m2:15, k:'K4061', url:'Seminario_Integrador_2026.html'},
   {day:3, cls:'asi', name:'Administración de Sistemas de Información',  h1:18,m1:15,h2:23,m2:0,  k:'K4053', anual:true, url:'AdSI_Dashboard.html'},
   {day:4, cls:'cd',  name:'Comunicación de Datos',            h1:19,m1:0, h2:23,m2:0,  k:'K3055', url:'Comunicaciones_K3055_2026.html'}
 ], false);
@@ -2018,6 +2041,88 @@ buildCal('y28q2body', 5, [
     }
   });
 })();
+
+/*  HIGHLIGHT TODAY'S EVENTS  */
+function highlightToday() {
+  // Remover clase 'today' de todos los elementos
+  document.querySelectorAll('.ev.today, .ds-card.today').forEach(function(el) {
+    el.classList.remove('today');
+  });
+  
+  // Obtener día de la semana actual (0=domingo, 1=lunes, ..., 6=sábado)
+  var today = new Date().getDay();
+  
+  // Mapear días de la semana a índices de columnas del calendario
+  // En el calendario: 0=lunes, 1=martes, 2=miércoles, 3=jueves, 4=viernes, 5=sábado
+  var dayMap = {1:0, 2:1, 3:2, 4:3, 5:4, 6:5, 0:-1}; // domingo (-1) no existe en el calendario
+  var dayIndex = dayMap[today];
+  
+  if (dayIndex === -1) return; // Domingo: no hay clases
+  
+  // Nombres de días para las tarjetas del day-summary
+  var dayNames = ['', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+  var todayName = dayNames[today];
+  
+  // Buscar todos los contenedores de calendario visibles
+  var visibleCalBodies = document.querySelectorAll('.main-panel.active .cal-body, .plan-sub-panel.active .cal-body');
+  
+  visibleCalBodies.forEach(function(calBody) {
+    // Obtener las columnas de días del calendario
+    var dayCols = calBody.querySelectorAll('.day-col');
+    
+    if (dayIndex < dayCols.length) {
+      // Aplicar clase 'today' a los eventos del día actual
+      var todayEvents = dayCols[dayIndex].querySelectorAll('.ev');
+      todayEvents.forEach(function(ev) {
+        ev.classList.add('today');
+      });
+    }
+  });
+  
+  // Buscar todos los day-summary visibles y aplicar clase 'today' a las tarjetas correspondientes
+  var visibleDaySummaries = document.querySelectorAll('.main-panel.active .day-summary, .plan-sub-panel.active .day-summary');
+  
+  visibleDaySummaries.forEach(function(summary) {
+    var cards = summary.querySelectorAll('.ds-card');
+    cards.forEach(function(card) {
+      var dayLabel = card.querySelector('.ds-day');
+      if (dayLabel && dayLabel.textContent.trim() === todayName) {
+        card.classList.add('today');
+      }
+    });
+  });
+}
+
+// Ejecutar al cargar la página
+highlightToday();
+
+// Ejecutar cada vez que se cambia de tab
+var originalSuperTab = superTab;
+superTab = function(i) {
+  originalSuperTab(i);
+  setTimeout(highlightToday, 50);
+};
+
+var originalSp1Tab = sp1Tab;
+sp1Tab = function(i) {
+  originalSp1Tab(i);
+  setTimeout(highlightToday, 50);
+};
+
+var originalMainTabIn = mainTabIn;
+mainTabIn = function(containerId, i) {
+  originalMainTabIn(containerId, i);
+  setTimeout(highlightToday, 50);
+};
+
+var originalPlanSubTabIn = planSubTabIn;
+planSubTabIn = function(containerId, i) {
+  originalPlanSubTabIn(containerId, i);
+  setTimeout(highlightToday, 50);
+};
+
+// Actualizar cada minuto (por si cambia el día)
+setInterval(highlightToday, 60000);
 
 </script>
 </body>
