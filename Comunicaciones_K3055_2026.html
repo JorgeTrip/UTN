@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comunicaciones K3055 — UTN FRBA</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #0b0f1a;
+    --surface:   #111827;
+    --card:      #161d2e;
+    --border:    #1e2d45;
+    --accent:    #00b4d8;
+    --accent2:   #00c9a7;
+    --accent3:   #f5a623;
+    --danger:    #e74c3c;
+    --text:      #e8edf5;
+    --muted:     #6b7fa3;
+    --highlight: #1a2540;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: relative;
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    background: linear-gradient(180deg, #080e1f 0%, var(--bg) 100%);
+  }
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 0;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .logo-block { display: flex; align-items: center; gap: 1rem; }
+  .utn-badge {
+    background: var(--accent);
+    color: #000;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+  .header-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    line-height: 1.2;
+    color: var(--text);
+  }
+  .header-title span { color: var(--accent); }
+  .header-meta {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-top: 0.2rem;
+    font-family: 'DM Mono', monospace;
+  }
+  .header-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; }
+  .meet-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, #00b4d8, #0077b6);
+    color: #fff;
+    text-decoration: none;
+    padding: 0.65rem 1.2rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 12px rgba(0,180,216,0.4);
+    white-space: nowrap;
+  }
+  .meet-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,180,216,0.5); }
+  .icon-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    text-decoration: none;
+    padding: 0.6rem 0.9rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: border-color 0.15s, background 0.15s;
+    white-space: nowrap;
+  }
+  .icon-btn:hover { border-color: var(--accent); background: var(--highlight); }
+
+  /* ── MAIN ── */
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── NEXT CLASS HERO ── */
+  #next-class-card {
+    background: linear-gradient(135deg, #0a1e30 0%, #061828 60%, #040f1f 100%);
+    border: 1px solid #1a4060;
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    animation: fadeUp 0.5s ease both;
+  }
+  #next-class-card::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,180,216,0.15) 0%, transparent 70%);
+  }
+  .next-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    color: var(--accent2);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .next-class-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+  .next-class-detail {
+    color: var(--muted);
+    font-size: 0.88rem;
+    margin-bottom: 1.2rem;
+    line-height: 1.6;
+    max-width: 700px;
+  }
+  .next-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 20px;
+    border: 1px solid;
+    white-space: nowrap;
+  }
+  .badge-date      { color: var(--accent);  border-color: rgba(0,180,216,0.4);    background: rgba(0,180,216,0.08); }
+  .badge-virtual   { color: #60a5fa;        border-color: rgba(96,165,250,0.3);   background: rgba(96,165,250,0.07); }
+  .badge-presencial{ color: var(--accent3); border-color: rgba(245,166,35,0.3);   background: rgba(245,166,35,0.07); }
+  .badge-parcial   { color: var(--danger);  border-color: rgba(231,76,60,0.3);    background: rgba(231,76,60,0.08); }
+  .badge-entrega   { color: #f472b6;        border-color: rgba(244,114,182,0.3);  background: rgba(244,114,182,0.08); }
+  .badge-sin-act   { color: var(--muted);   border-color: rgba(107,127,163,0.3);  background: rgba(107,127,163,0.07); }
+  .badge-ejercicio { color: #a78bfa;        border-color: rgba(167,139,250,0.3);  background: rgba(167,139,250,0.08); }
+  .badge-teorico   { color: #60a5fa;        border-color: rgba(96,165,250,0.4);   background: rgba(96,165,250,0.09); }
+  .badge-practico  { color: #34d399;        border-color: rgba(52,211,153,0.4);   background: rgba(52,211,153,0.09); }
+
+  .badge-inline {
+    font-size: 0.6rem;
+    padding: 0.15rem 0.4rem;
+    margin-left: 0.4rem;
+    vertical-align: middle;
+  }
+
+  .countdown-block { margin-left: auto; text-align: right; }
+  .countdown-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 2rem;
+    font-weight: 500;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .countdown-label { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+
+  /* ── PROGRESS ── */
+  .progress-wrap { margin-bottom: 1.5rem; }
+  .progress-header { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
+  .progress-label { color: var(--muted); font-family: 'DM Mono', monospace; font-size: 0.72rem; }
+  .progress-val   { color: var(--accent); font-family: 'DM Mono', monospace; font-size: 0.72rem; }
+  .progress-bar-bg { background: var(--border); border-radius: 100px; height: 6px; overflow: hidden; }
+  .progress-bar-fill {
+    height: 100%;
+    border-radius: 100px;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--accent2) 100%);
+    transition: width 1s ease;
+  }
+
+  /* ── TABS ── */
+  .tabs {
+    display: flex;
+    gap: 0.25rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1.5rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tab-btn {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.6rem 1rem;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ── LAYOUT ── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  /* ── SCHEDULE ── */
+  .schedule-list { list-style: none; }
+  .schedule-item {
+    display: grid;
+    grid-template-columns: 90px 1fr auto;
+    gap: 0.75rem;
+    align-items: start;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background 0.15s;
+  }
+  .schedule-item:last-child { border-bottom: none; }
+  .schedule-item:hover { background: var(--highlight); padding-left: 0.5rem; padding-right: 0.5rem; }
+  .schedule-item.is-past { opacity: 0.4; }
+  .schedule-item.is-current {
+    background: rgba(0,180,216,0.07);
+    border-color: rgba(0,180,216,0.3);
+    border-bottom: 1px solid rgba(0,180,216,0.3);
+    border-radius: 8px;
+    padding-left: 0.5rem; padding-right: 0.5rem;
+  }
+  .schedule-item.is-current .sch-date { color: var(--accent); }
+  .sch-date { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--muted); padding-top: 2px; white-space: nowrap; }
+  .sch-class-num { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--muted); margin-bottom: 0.2rem; display: flex; align-items: center; flex-wrap: wrap; gap: 0.3rem; }
+  .sch-topic { font-size: 0.85rem; font-weight: 500; line-height: 1.4; color: var(--text); }
+  .sch-detail { font-size: 0.78rem; color: var(--muted); margin-top: 0.3rem; line-height: 1.4; display: none; }
+  .schedule-item.expanded .sch-detail { display: block; }
+  .sch-badges { display: flex; flex-wrap: wrap; gap: 0.3rem; padding-top: 2px; }
+
+  /* ── SIDEBAR ── */
+  .key-dates { list-style: none; }
+  .key-date-item { display: flex; gap: 0.75rem; align-items: flex-start; padding: 0.75rem 0; border-bottom: 1px solid var(--border); }
+  .key-date-item:last-child { border-bottom: none; }
+  .kd-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+  .kd-dot.parcial  { background: var(--danger); }
+  .kd-dot.avance   { background: var(--accent); }
+  .kd-dot.final    { background: var(--accent2); }
+  .kd-dot.feriado  { background: var(--muted); }
+  .kd-dot.ejercicio{ background: #a78bfa; }
+  .kd-date { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--muted); }
+  .kd-desc { font-size: 0.83rem; font-weight: 500; margin-top: 0.1rem; }
+  .kd-sub  { font-size: 0.75rem; color: var(--muted); margin-top: 0.1rem; }
+
+  /* ── LINKS ── */
+  .links-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+  .link-item {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.7rem 0.9rem;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.82rem;
+    font-weight: 500;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .link-item:hover { border-color: var(--accent); background: var(--highlight); }
+  .link-icon { font-size: 1.1rem; flex-shrink: 0; }
+  .link-meta { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--muted); margin-top: 0.1rem; }
+
+  /* ── GRADING ── */
+  .grading-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+  .grade-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    position: relative;
+    overflow: hidden;
+    animation: fadeUp 0.5s ease both;
+  }
+  .grade-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .grade-card.p1::before  { background: var(--danger); }
+  .grade-card.p2::before  { background: var(--accent3); }
+  .grade-card.ej::before  { background: #a78bfa; }
+  .grade-card-pct { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; line-height: 1; margin-bottom: 0.4rem; }
+  .grade-card.p1 .grade-card-pct  { color: var(--danger); }
+  .grade-card.p2 .grade-card-pct  { color: var(--accent3); }
+  .grade-card.ej .grade-card-pct  { color: #a78bfa; }
+  .grade-card-title { font-size: 0.82rem; font-weight: 600; margin-bottom: 0.3rem; }
+  .grade-card-desc  { font-size: 0.73rem; color: var(--muted); line-height: 1.4; }
+
+  /* ── STAT BAR ── */
+  .stat-inline {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+  .stat-bar-bg { flex: 1; height: 4px; background: var(--border); border-radius: 100px; overflow: hidden; }
+  .stat-bar-fill { height: 100%; border-radius: 100px; }
+  .stat-pct { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--text); min-width: 28px; text-align: right; }
+
+  /* ── NOTES ── */
+  .note-section { margin-bottom: 1.5rem; }
+  .note-section h3 { font-family: 'Syne', sans-serif; font-size: 0.95rem; color: var(--accent2); margin-bottom: 0.75rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+  .note-list { list-style: none; }
+  .note-list li { font-size: 0.83rem; color: var(--text); padding: 0.4rem 0; border-bottom: 1px solid rgba(30,45,69,0.5); line-height: 1.5; }
+  .note-list li:last-child { border-bottom: none; }
+  .note-list li::before { content: '›'; color: var(--accent); margin-right: 0.5rem; font-weight: 700; }
+  .note-list strong { color: var(--text); }
+
+  /* ── ALERT ── */
+  .alert-box {
+    background: rgba(0,180,216,0.07);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1rem;
+    font-size: 0.83rem;
+    color: var(--text);
+    line-height: 1.5;
+  }
+  .alert-box.warn {
+    background: rgba(245,166,35,0.07);
+    border-left-color: var(--accent3);
+  }
+  .alert-box strong { color: var(--accent); }
+  .alert-box.warn strong { color: var(--accent3); }
+
+  /* ── DOCENTE ── */
+  .docente-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  .docente-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 0.85rem; color: #fff;
+    margin-bottom: 0.4rem;
+  }
+  .docente-name  { font-weight: 600; font-size: 0.88rem; }
+  .docente-role  { font-size: 0.73rem; color: var(--muted); }
+  .docente-email { font-size: 0.73rem; color: var(--accent2); font-family: 'DM Mono', monospace; margin-top: 0.3rem; word-break: break-all; }
+  .docente-email a { color: inherit; text-decoration: none; }
+  .docente-email a:hover { text-decoration: underline; }
+
+  /* ── CHECKLIST ── */
+  .checklist { list-style: none; }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.65rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.84rem;
+    line-height: 1.5;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist input[type=checkbox] { accent-color: var(--accent2); width: 16px; height: 16px; cursor: pointer; flex-shrink: 0; margin-top: 2px; }
+  .checklist .check-done { text-decoration: line-through; color: var(--muted); }
+  .check-label-main { font-weight: 500; }
+  .check-label-sub  { font-size: 0.73rem; color: var(--muted); display: block; margin-top: 0.1rem; }
+
+  /* ── OSI LAYERS ── */
+  .osi-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 1.5rem;
+  }
+  .osi-row {
+    display: grid;
+    grid-template-columns: 30px 160px 1fr auto;
+    gap: 0.75rem;
+    align-items: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.6rem 0.9rem;
+    transition: background 0.15s, border-color 0.15s;
+    cursor: default;
+  }
+  .osi-row:hover { background: var(--highlight); border-color: var(--accent); }
+  .osi-num { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--muted); text-align: center; }
+  .osi-name { font-weight: 600; font-size: 0.82rem; }
+  .osi-desc { font-size: 0.75rem; color: var(--muted); }
+  .osi-proto { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--accent2); text-align: right; white-space: nowrap; }
+  .osi-app    { border-left: 3px solid #a78bfa; }
+  .osi-pres   { border-left: 3px solid #818cf8; }
+  .osi-ses    { border-left: 3px solid #6366f1; }
+  .osi-trans  { border-left: 3px solid var(--accent3); }
+  .osi-net    { border-left: 3px solid #22d3ee; }
+  .osi-link   { border-left: 3px solid var(--accent2); }
+  .osi-phys   { border-left: 3px solid #94a3b8; }
+  .osi-app .osi-name  { color: #a78bfa; }
+  .osi-pres .osi-name { color: #818cf8; }
+  .osi-ses .osi-name  { color: #6366f1; }
+  .osi-trans .osi-name{ color: var(--accent3); }
+  .osi-net .osi-name  { color: #22d3ee; }
+  .osi-link .osi-name { color: var(--accent2); }
+  .osi-phys .osi-name { color: #94a3b8; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    margin-top: 1rem;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    main { padding: 1rem; }
+    .header-inner { padding: 1rem 0; }
+    .schedule-item { grid-template-columns: 75px 1fr; }
+    .sch-badges { display: none; }
+    .countdown-block { display: none; }
+    .header-actions .icon-btn { display: none; }
+    .osi-row { grid-template-columns: 25px 1fr; }
+    .osi-desc, .osi-proto { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo-block">
+      <span class="utn-badge">UTN · FRBA</span>
+      <div>
+        <div class="header-title"><span>Comunicaciones de datos</span> K3055</div>
+        <div class="header-meta">4to año · Turno Noche · Martes (Teoría) · Viernes (TP) · 2026 · Ing. Gardella</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <a href="https://aulasvirtuales.frba.utn.edu.ar/course/view.php?id=29560" target="_blank" class="icon-btn">
+        🎓 Aula Virtual
+      </a>
+      <a href="https://drive.google.com/drive/u/1/folders/1nfAQ2PzXQ1YHDTz2uo5GmiMEq1yOc2nw" target="_blank" class="icon-btn">
+        📁 Drive
+      </a>
+      <a href="https://gemini.google.com/gem/cfed010b96ad" target="_blank" class="icon-btn">
+        💬 Gemini
+      </a>
+      <a href="https://gemini.google.com/notebook/notebooks%2Fd50e938e-7497-4cdd-a27e-4fc95fa3be81" target="_blank" class="icon-btn">
+        📓 Notebook
+      </a>
+      <a id="meet-clase-btn" href="" target="_blank" class="meet-btn" title="Conectar a clase virtual" style="background:linear-gradient(135deg,#7c3aed,#4f46e5);box-shadow:0 4px 12px rgba(124,58,237,0.4);display:none;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 10l4.553-2.069A1 1 0 0121 8.87v6.26a1 1 0 01-1.447.9L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>
+        Clase Virtual
+      </a>
+      <script>
+        (function(){
+          // Se muestra el botón de Zoom (martes) o Meet (viernes) según el día de hoy
+          var today = new Date();
+          var dayOfWeek = today.getDay(); // 0=domingo, 2=martes, 5=viernes
+          var btn = document.getElementById('meet-clase-btn');
+          
+          if (btn) {
+            // Martes (día 2) → Zoom
+            if (dayOfWeek === 2 && typeof TEORIA_ZOOM !== 'undefined' && TEORIA_ZOOM) {
+              btn.href = TEORIA_ZOOM;
+              btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 10l4.553-2.069A1 1 0 0121 8.87v6.26a1 1 0 01-1.447.9L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>Zoom Teoría <span style="opacity:0.7;font-size:0.75em">(Mar)</span>';
+              btn.style.display = 'inline-flex';
+            }
+            // Viernes (día 5) → Meet TP
+            else if (dayOfWeek === 5 && typeof TP_MEET !== 'undefined' && TP_MEET) {
+              btn.href = TP_MEET;
+              btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 10l4.553-2.069A1 1 0 0121 8.87v6.26a1 1 0 01-1.447.9L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>Meet TP <span style="opacity:0.7;font-size:0.75em">(Vier)</span>';
+              btn.style.display = 'inline-flex';
+            }
+          }
+        })();
+      </script>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- HÉROE: PRÓXIMA CLASE -->
+  <div id="next-class-card">
+    <div class="next-label" id="next-label">📡 Próxima clase</div>
+    <div class="next-class-title" id="next-title">Cargando...</div>
+    <div class="next-class-detail" id="next-detail"></div>
+    <div class="next-meta">
+      <div id="next-badges" style="display:flex;flex-wrap:wrap;gap:0.4rem;"></div>
+      <div class="countdown-block" id="countdown-block">
+        <div class="countdown-num" id="countdown-num">—</div>
+        <div class="countdown-label">días para la clase</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROGRESO -->
+  <div class="progress-wrap card" style="margin-bottom:1.5rem;">
+    <div class="progress-header">
+      <span class="progress-label">📊 Progreso de la cursada (27/03 → 07/07)</span>
+      <span class="progress-val" id="progress-val">0 / 14 clases</span>
+    </div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="cronograma">📅 Cronograma</button>
+    <button class="tab-btn" data-tab="evaluacion">✅ Evaluación</button>
+    <button class="tab-btn" data-tab="contenidos">📡 Contenidos</button>
+    <button class="tab-btn" data-tab="notas">📋 Notas de Clase</button>
+  </div>
+
+  <!-- ─────────────── TAB: CRONOGRAMA ─────────────── -->
+  <div class="tab-panel active" id="tab-cronograma">
+    <div class="two-col">
+      <div class="card" style="padding:1.25rem;">
+        <div class="section-title">Cronograma completo</div>
+        <ul class="schedule-list" id="schedule-list"></ul>
+      </div>
+      <div>
+        <!-- Fechas clave -->
+        <div class="card" style="margin-bottom:1rem;">
+          <div class="section-title">📌 Fechas clave</div>
+          <ul class="key-dates">
+            <li class="key-date-item">
+              <div class="kd-dot avance"></div>
+              <div>
+                <div class="kd-date">Cada viernes</div>
+                <div class="kd-desc">Ejercicios semanales</div>
+                <div class="kd-sub">Entrega obligatoria cada semana</div>
+              </div>
+            </li>
+            <li class="key-date-item">
+              <div class="kd-dot feriado"></div>
+              <div>
+                <div class="kd-date">01 MAY 2026</div>
+                <div class="kd-desc">Feriado — Sin clase TP</div>
+                <div class="kd-sub">Día Internacional del Trabajador</div>
+              </div>
+            </li>
+            <li class="key-date-item">
+              <div class="kd-dot parcial"></div>
+              <div>
+                <div class="kd-date">15 MAY 2026</div>
+                <div class="kd-desc">Primer Parcial</div>
+                <div class="kd-sub">Clase presencial en FRBA</div>
+              </div>
+            </li>
+            <li class="key-date-item">
+              <div class="kd-dot feriado"></div>
+              <div>
+                <div class="kd-date">25 MAY 2026</div>
+                <div class="kd-desc">Feriado — Sin clase</div>
+                <div class="kd-sub">Día de la Patria</div>
+              </div>
+            </li>
+            <li class="key-date-item">
+              <div class="kd-dot avance"></div>
+              <div>
+                <div class="kd-date">09 JUN 2026</div>
+                <div class="kd-desc">Clase presencial</div>
+                <div class="kd-sub">Sede FRBA</div>
+              </div>
+            </li>
+            <li class="key-date-item">
+              <div class="kd-dot parcial"></div>
+              <div>
+                <div class="kd-date">26 JUN 2026</div>
+                <div class="kd-desc">Segundo Parcial</div>
+                <div class="kd-sub">Clase presencial en FRBA</div>
+              </div>
+            </li>
+            <li class="key-date-item">
+              <div class="kd-dot final"></div>
+              <div>
+                <div class="kd-date">30 JUN · 03 JUL · 07 JUL 2026</div>
+                <div class="kd-desc">Recuperatorios</div>
+                <div class="kd-sub">Recuperación 1er y 2do parcial</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <!-- Links rápidos -->
+        <div class="card">
+          <div class="section-title">🔗 Links rápidos</div>
+          <ul class="links-list">
+            <li><a class="link-item" href="https://meet.google.com/rzg-oeid-pck" target="_blank">
+              <span class="link-icon">⚙️</span>
+              <div><div>Google Meet — Clases Prácticas (Viernes)</div><div class="link-meta">meet.google.com/rzg-oeid-pck · Viernes</div></div>
+            </a></li>
+            <li id="link-zoom-teoria"><a class="link-item" id="link-zoom-teoria-a" href="" target="_blank">
+              <span class="link-icon">📚</span>
+              <div><div>Zoom — Clases Teóricas (Martes)</div><div class="link-meta">Martes · Turno Noche</div></div>
+            </a></li>
+            <script>
+              (function(){
+                var url = (typeof TEORIA_ZOOM !== 'undefined') ? TEORIA_ZOOM : '';
+                if (url) {
+                  var a = document.getElementById('link-zoom-teoria-a');
+                  if (a) { a.href = url; }
+                }
+              })();
+            </script>
+            <li><a class="link-item" href="https://aulasvirtuales.frba.utn.edu.ar/course/view.php?id=29560" target="_blank">
+              <span class="link-icon">🎓</span>
+              <div><div>Aula Virtual FRBA</div><div class="link-meta">Moodle · ID 29560</div></div>
+            </a></li>
+            <li><a class="link-item" href="https://drive.google.com/drive/u/1/folders/1nfAQ2PzXQ1YHDTz2uo5GmiMEq1yOc2nw" target="_blank">
+              <span class="link-icon">📁</span>
+              <div><div>Drive Oficial de la Cátedra</div><div class="link-meta">Material, apuntes, bibliografía</div></div>
+            </a></li>
+            <li><a class="link-item" href="https://gemini.google.com/gem/cfed010b96ad" target="_blank">
+              <span class="link-icon">🤖</span>
+              <div><div>Chat Gemini — Asistente de la materia</div><div class="link-meta">gemini.google.com</div></div>
+            </a></li>
+            <li><a class="link-item" href="mailto:raulgardella@frba.utn.edu.ar">
+              <span class="link-icon">✉️</span>
+              <div><div>Ing. Gardella — Consultas Teoría</div><div class="link-meta">raulgardella@frba.utn.edu.ar</div></div>
+            </a></li>
+            <li><a class="link-item" href="mailto:atassano@frba.utn.edu.ar">
+              <span class="link-icon">✉️</span>
+              <div><div>Ing. Tassano — Consultas Práctica</div><div class="link-meta">atassano@frba.utn.edu.ar</div></div>
+            </a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────── TAB: EVALUACIÓN ─────────────── -->
+  <div class="tab-panel" id="tab-evaluacion">
+
+    <div class="alert-box" style="margin-bottom:1.5rem;">
+      <strong>📌 Modalidad de cursada:</strong> Dos parciales + ejercicios semanales (viernes). El aula virtual y las carpetas en Drive son los recursos principales de la materia.
+    </div>
+
+    <div class="card" style="margin-bottom:1.5rem;">
+      <div class="section-title">Estructura de evaluación</div>
+      <div class="grading-grid">
+        <div class="grade-card p1">
+          <div class="grade-card-pct">P1</div>
+          <div class="grade-card-title">Primer Parcial</div>
+          <div class="grade-card-desc">15 de mayo — Presencial. Temas: OSI, TCP/IP, Internet, señales, redes.</div>
+        </div>
+        <div class="grade-card p2">
+          <div class="grade-card-pct">P2</div>
+          <div class="grade-card-title">Segundo Parcial</div>
+          <div class="grade-card-desc">26 de junio — Presencial. Temas: transmisión, conmutación, topologías y más.</div>
+        </div>
+        <div class="grade-card ej">
+          <div class="grade-card-pct">EJ</div>
+          <div class="grade-card-title">Ejercicios Semanales</div>
+          <div class="grade-card-desc">Entrega obligatoria cada viernes. Prácticos de aplicación de conceptos.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:1.5rem;">
+      <div class="section-title">Calendario de parciales y recuperatorios</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;font-size:0.82rem;">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem;border-left:3px solid var(--danger);">
+          <div style="font-size:1.2rem;margin-bottom:0.4rem;">📝</div>
+          <div style="font-weight:600;margin-bottom:0.3rem;color:var(--danger);">15/05 — Primer Parcial</div>
+          <div style="color:var(--muted);">Presencial. Modelo OSI, TCP/IP, Internet, señales analógicas y digitales.</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem;border-left:3px solid var(--accent3);">
+          <div style="font-size:1.2rem;margin-bottom:0.4rem;">📝</div>
+          <div style="font-weight:600;margin-bottom:0.3rem;color:var(--accent3);">26/06 — Segundo Parcial</div>
+          <div style="color:var(--muted);">Presencial. Transmisión de datos, conmutación, topologías, redes WAN/LAN.</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem;border-left:3px solid #a78bfa;">
+          <div style="font-size:1.2rem;margin-bottom:0.4rem;">🔁</div>
+          <div style="font-weight:600;margin-bottom:0.3rem;color:#a78bfa;">30/06 — Recup. 1er Parcial</div>
+          <div style="color:var(--muted);">Recuperatorio del primer parcial.</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem;border-left:3px solid #a78bfa;">
+          <div style="font-size:1.2rem;margin-bottom:0.4rem;">🔁</div>
+          <div style="font-weight:600;margin-bottom:0.3rem;color:#a78bfa;">03/07 — Recup. 2do Parcial</div>
+          <div style="color:var(--muted);">Recuperatorio del segundo parcial.</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem;border-left:3px solid #a78bfa;">
+          <div style="font-size:1.2rem;margin-bottom:0.4rem;">🔁</div>
+          <div style="font-weight:600;margin-bottom:0.3rem;color:#a78bfa;">07/07 — Recup. Final</div>
+          <div style="color:var(--muted);">Recuperación de 1er o 2do parcial (última instancia).</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Bibliografía recomendada</div>
+      <div style="display:flex;flex-direction:column;gap:0.75rem;">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.9rem 1rem;display:flex;gap:0.75rem;align-items:flex-start;">
+          <span style="font-size:1.2rem;flex-shrink:0;">📘</span>
+          <div>
+            <div style="font-weight:600;font-size:0.85rem;">Comunicaciones — Castro & Fusario</div>
+            <div style="font-size:0.75rem;color:var(--muted);margin-top:0.2rem;">Introducción a las redes digitales de transmisión de datos y señales isócronas · Editorial Alfaomega, 2015</div>
+          </div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.9rem 1rem;display:flex;gap:0.75rem;align-items:flex-start;">
+          <span style="font-size:1.2rem;flex-shrink:0;">📗</span>
+          <div>
+            <div style="font-weight:600;font-size:0.85rem;">Elementos de Sistemas de Telecomunicaciones — Sergio Vázquez</div>
+            <div style="font-size:0.75rem;color:var(--muted);margin-top:0.2rem;">ebook · Editorial Paraninfo</div>
+          </div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.9rem 1rem;display:flex;gap:0.75rem;align-items:flex-start;">
+          <span style="font-size:1.2rem;flex-shrink:0;">📙</span>
+          <div>
+            <div style="font-weight:600;font-size:0.85rem;">Redes de Ordenadores — Andrew Tanenbaum</div>
+            <div style="font-size:0.75rem;color:var(--muted);margin-top:0.2rem;">Prentice Hall · Referencia clásica de redes</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────── TAB: CONTENIDOS ─────────────── -->
+  <div class="tab-panel" id="tab-contenidos">
+
+    <div class="alert-box" style="margin-bottom:1.5rem;">
+      <strong>🗂️ Programa de la materia:</strong> Teleinformática, Modelo OSI, TCP/IP, Internet, señales analógicas y digitales, transmisión de datos, conmutación y topologías de red.
+    </div>
+
+    <div class="two-col">
+      <div>
+        <!-- Modelo OSI interactivo -->
+        <div class="card" style="margin-bottom:1rem;">
+          <div class="section-title">🔬 Modelo OSI — 7 Capas</div>
+          <div class="osi-grid">
+            <div class="osi-row osi-app">
+              <div class="osi-num">7</div>
+              <div class="osi-name">Aplicación</div>
+              <div class="osi-desc">Interfaz con las aplicaciones del usuario</div>
+              <div class="osi-proto">HTTP · FTP · DNS · SMTP</div>
+            </div>
+            <div class="osi-row osi-pres">
+              <div class="osi-num">6</div>
+              <div class="osi-name">Presentación</div>
+              <div class="osi-desc">Formato, encriptación, compresión</div>
+              <div class="osi-proto">TLS · ASCII · JPEG · JSON</div>
+            </div>
+            <div class="osi-row osi-ses">
+              <div class="osi-num">5</div>
+              <div class="osi-name">Sesión</div>
+              <div class="osi-desc">Aislación de datos entre aplicaciones</div>
+              <div class="osi-proto">SIP · NetBIOS</div>
+            </div>
+            <div class="osi-row osi-trans">
+              <div class="osi-num">4</div>
+              <div class="osi-name">Transporte</div>
+              <div class="osi-desc">Comunicación extremo a extremo · PDU: Segmento</div>
+              <div class="osi-proto">TCP · UDP · QUIC</div>
+            </div>
+            <div class="osi-row osi-net">
+              <div class="osi-num">3</div>
+              <div class="osi-name">Red</div>
+              <div class="osi-desc">Direccionamiento lógico y ruteo · PDU: Paquete</div>
+              <div class="osi-proto">IP · ICMP · OSPF · BGP</div>
+            </div>
+            <div class="osi-row osi-link">
+              <div class="osi-num">2</div>
+              <div class="osi-name">Enlace de Datos</div>
+              <div class="osi-desc">Control de acceso al medio · PDU: Trama/Frame</div>
+              <div class="osi-proto">Ethernet · 802.11 · PPP</div>
+            </div>
+            <div class="osi-row osi-phys">
+              <div class="osi-num">1</div>
+              <div class="osi-name">Física</div>
+              <div class="osi-desc">Transmisión de bits · tensiones · conectores</div>
+              <div class="osi-proto">EIA/TIA · Fibra · Wi-Fi</div>
+            </div>
+          </div>
+          <div style="font-size:0.75rem;color:var(--muted);margin-top:0.5rem;">
+            💡 Mnemotécnico (abajo→arriba): <strong style="color:var(--text);">F</strong>ísica · <strong style="color:var(--text);">E</strong>nlace · <strong style="color:var(--text);">R</strong>ed · <strong style="color:var(--text);">T</strong>ransporte · <strong style="color:var(--text);">S</strong>esión · <strong style="color:var(--text);">P</strong>resentación · <strong style="color:var(--text);">A</strong>plicación → <em>"Fui En Red, Transporté Sin Preocupación Alguna"</em>
+          </div>
+        </div>
+
+        <!-- Señales -->
+        <div class="card" style="margin-bottom:1rem;">
+          <div class="section-title">📶 Señales y Transmisión</div>
+          <div class="note-section">
+            <h3>Señales Analógicas vs Digitales</h3>
+            <ul class="note-list">
+              <li><strong>Analógica:</strong> Toma infinitos valores continuos. La información está en la "forma de la onda". Ejemplo: voz, audio.</li>
+              <li><strong>Digital:</strong> Toma un número finito de valores (ej: 0 y 1). La información está en la "codificación" (secuencia binaria).</li>
+              <li><strong>MODEM:</strong> MODulador/DEModulador — convierte digital→analógico para redes analógicas.</li>
+              <li><strong>CODEC:</strong> COdificador/DECodificador — convierte analógico→digital para redes digitales.</li>
+              <li><strong>Repetidor regenerativo:</strong> Recrea la señal digital limpia, eliminando ruido acumulado. Ventaja clave sobre el amplificador analógico.</li>
+            </ul>
+          </div>
+          <div class="note-section" style="margin-bottom:0;">
+            <h3>Problemas de transmisión</h3>
+            <ul class="note-list">
+              <li><strong>Atenuación:</strong> Pérdida de energía de la señal con la distancia.</li>
+              <li><strong>Ruido:</strong> Señales no deseadas que se mezclan con la señal útil.</li>
+              <li><strong>Distorsión:</strong> Cambio en la forma de la onda durante la transmisión.</li>
+              <li><strong>Retardo (Delay):</strong> Tiempo de propagación + procesamiento.</li>
+              <li><strong>Jitter:</strong> Variación de retardo en conmutación de paquetes.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <!-- Comparación OSI vs TCP/IP -->
+        <div class="card" style="margin-bottom:1rem;">
+          <div class="section-title">⚖️ OSI vs TCP/IP</div>
+          <div style="font-size:0.8rem;line-height:1.6;">
+            <div style="background:var(--surface);border-radius:8px;padding:0.75rem;margin-bottom:0.5rem;border:1px solid var(--border);">
+              <div style="font-weight:600;color:var(--accent);margin-bottom:0.3rem;">Modelo OSI (7 capas)</div>
+              <div style="color:var(--muted);font-size:0.75rem;">Modelo de referencia teórico de ISO/UIT-T. Universal pero no el estándar de facto en Internet.</div>
+            </div>
+            <div style="background:var(--surface);border-radius:8px;padding:0.75rem;border:1px solid var(--border);">
+              <div style="font-weight:600;color:var(--accent2);margin-bottom:0.3rem;">Modelo TCP/IP (4 capas)</div>
+              <div style="color:var(--muted);font-size:0.75rem;margin-bottom:0.5rem;">Estándar de facto de Internet. Desarrollado por DARPA → base de toda Internet actual.</div>
+              <div style="font-size:0.72rem;font-family:'DM Mono',monospace;">
+                <div style="padding:0.2rem 0;border-bottom:1px solid var(--border);color:#a78bfa;">Aplicación (capas 5,6,7 OSI)</div>
+                <div style="padding:0.2rem 0;border-bottom:1px solid var(--border);color:var(--accent3);">Transporte → TCP / UDP</div>
+                <div style="padding:0.2rem 0;border-bottom:1px solid var(--border);color:#22d3ee;">Internet → IP</div>
+                <div style="padding:0.2rem 0;color:#94a3b8;">Acceso a la red (capas 1,2 OSI)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Topologías -->
+        <div class="card" style="margin-bottom:1rem;">
+          <div class="section-title">🌐 Topologías de Red</div>
+          <ul class="note-list">
+            <li><strong>Estrella:</strong> Nodo central concentra todo el tráfico. Ej: LAN con switch.</li>
+            <li><strong>Malla:</strong> Todos conectados entre sí. Alta disponibilidad. Sin nodo central.</li>
+            <li><strong>Anillo:</strong> Cada nodo conectado a los dos adyacentes. Hoy: redes industriales / ópticos.</li>
+            <li><strong>Bus/Barra:</strong> Todos al mismo canal. Requiere protocolo de acceso. Ej: Ethernet 802.3.</li>
+            <li><strong>Híbrida:</strong> Combinación de las anteriores para superar limitaciones.</li>
+          </ul>
+        </div>
+
+        <!-- Conmutación -->
+        <div class="card">
+          <div class="section-title">🔀 Tipos de Conmutación</div>
+          <ul class="note-list">
+            <li><strong>Circuitos:</strong> Camino dedicado extremo a extremo. Recursos fijos. Latencia constante. Ej: telefonía analógica.</li>
+            <li><strong>Mensajes:</strong> Mensaje completo se almacena y reenvía en cada nodo.</li>
+            <li><strong>Paquetes:</strong> Información dividida en paquetes independientes. Rutas variables. Puede haber jitter, pérdida y reordenamiento. Sólo funciona con señales digitales. Ej: Internet.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Organismos y estándares -->
+    <div class="card">
+      <div class="section-title">🏛️ Organismos de Normalización</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:0.75rem;font-size:0.8rem;">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.85rem;">
+          <div style="font-weight:700;color:var(--accent);margin-bottom:0.3rem;">ISO / IEC</div>
+          <div style="color:var(--muted);">Define el modelo OSI (ISO/IEC 7498-1). Seguridad: ISO 27001.</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.85rem;">
+          <div style="font-weight:700;color:var(--accent);margin-bottom:0.3rem;">ITU-T / UIT</div>
+          <div style="color:var(--muted);">Telecom internacional. G.652 (fibra óptica), H.264/265 (video), G.711 (voz).</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.85rem;">
+          <div style="font-weight:700;color:var(--accent);margin-bottom:0.3rem;">IEEE</div>
+          <div style="color:var(--muted);">802.3 Ethernet · 802.11 Wi-Fi · 802.1Q VLAN · Gigabit Ethernet.</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.85rem;">
+          <div style="font-weight:700;color:var(--accent);margin-bottom:0.3rem;">IETF</div>
+          <div style="color:var(--muted);">Protocolos de Internet mediante RFC. RFC 791 (IP), 793 (TCP), 7540 (HTTP/2).</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.85rem;">
+          <div style="font-weight:700;color:var(--accent);margin-bottom:0.3rem;">ICANN / IANA</div>
+          <div style="color:var(--muted);">Coordinan DNS global y asignación de direcciones IP. Delegación a RIR regionales (LACNIC para Latinoamérica).</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.85rem;">
+          <div style="font-weight:700;color:var(--accent);margin-bottom:0.3rem;">TIA / EIA</div>
+          <div style="color:var(--muted);">Cableado estructurado: TIA/EIA-568 (Ethernet). RS-485 (TIA-485).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────── TAB: NOTAS DE CLASE ─────────────── -->
+  <div class="tab-panel" id="tab-notas">
+
+    <div class="two-col">
+      <div>
+        <!-- Clase 1 -->
+        <div class="card" style="margin-bottom:1rem;">
+          <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1rem;">
+            <span style="font-family:'DM Mono',monospace;font-size:0.68rem;background:var(--accent);color:#000;padding:0.2rem 0.5rem;border-radius:4px;">CLASE 1</span>
+            <span style="font-size:0.8rem;color:var(--muted);">27/03/2026 · Presencial · OSI, Telecomunicaciones, Internet</span>
+          </div>
+          <div class="note-section">
+            <h3>1. Introducción a Telecomunicaciones</h3>
+            <ul class="note-list">
+              <li><strong>Telecomunicaciones:</strong> Comunicación a distancia que supera la presencia física. Tele (lejano) + communicatio.</li>
+              <li>Evolución: Telégrafo → Telefonía → Televisión → Transmisión de datos → Internet → IoT → 5G + AI.</li>
+              <li><strong>Teleinformática:</strong> Convergencia de telecomunicaciones e informática. Permite procesamiento distribuido y servicios de valor agregado.</li>
+              <li><strong>Ley de Moore:</strong> El número de transistores en un chip se duplica ~cada 2 años. Efecto parcialmente mantenido hoy con integración 3D y chiplets.</li>
+              <li>Clasificación de redes por alcance: <strong>LAN</strong> (local), <strong>MAN</strong> (metropolitana), <strong>WAN</strong> (amplia).</li>
+            </ul>
+          </div>
+          <div class="note-section">
+            <h3>2. Modelo OSI — Conceptos Clave</h3>
+            <ul class="note-list">
+              <li>7 capas: Física, Enlace, Red, Transporte, Sesión, Presentación, Aplicación.</li>
+              <li>Comunicación <strong>horizontal</strong> (peer-to-peer entre capas iguales) mediante protocolos. Comunicación <strong>vertical</strong> mediante primitivas.</li>
+              <li><strong>Encapsulamiento:</strong> Cada capa agrega un header al PDU recibido de la capa superior. Física transmite bits; Enlace tramas; Red paquetes; Transporte segmentos.</li>
+              <li>Dispositivos por capa: Hub/Repeater (capa 1) · Switch/Bridge (capa 2) · Router (capa 3).</li>
+              <li>Un <strong>socket</strong> = dirección IP + número de puerto + protocolo de transporte. Ej: 192.168.1.10:80/TCP.</li>
+            </ul>
+          </div>
+          <div class="note-section" style="margin-bottom:0;">
+            <h3>3. Internet</h3>
+            <ul class="note-list">
+              <li>Red de redes independientes interconectadas con protocolo IP (estándar de facto: TCP/IP).</li>
+              <li>Historia: ARPANET 1969 → TCP/IP 1974 → WWW 1990 → uso comercial masivo 1995.</li>
+              <li><strong>DNS:</strong> Sistema jerárquico de nombres de dominio. 13 root servers (A a M). ICANN coordina. IANA asigna IPs globales. LACNIC para Latinoamérica.</li>
+              <li>IPv4: 32 bits (ej: 192.168.0.1). IPv6: 128 bits (ej: 2001:0db8:...). Protocolo IP permite conmutación y enrutamiento.</li>
+              <li>Nuevas tecnologías: FTTH, GPON, MPLS, SDH-NG, DWDM.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Clase 2 -->
+        <div class="card">
+          <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1rem;">
+            <span style="font-family:'DM Mono',monospace;font-size:0.68rem;background:rgba(0,201,167,0.2);color:var(--accent2);padding:0.2rem 0.5rem;border-radius:4px;border:1px solid var(--accent2);">CLASE 2</span>
+            <span style="font-size:0.8rem;color:var(--muted);">31/03/2026 · Virtual · Redes, Señales, Conmutación</span>
+          </div>
+          <div class="note-section">
+            <h3>4. Comunicación de Datos</h3>
+            <ul class="note-list">
+              <li>Estructura física: <strong>ETD</strong> (Equipo Terminal de Datos) ↔ <strong>ECD</strong> (Equipo de Comunicaciones de Datos) ↔ canal.</li>
+              <li>Requisitos: confiable, sin errores, en tiempo real, flexible, segura.</li>
+              <li>En red analógica se usa MODEM. En red digital se usa CODEC (COdificador/DECodificador).</li>
+              <li><strong>Ventajas de la transmisión digital:</strong> mayor alcance, calidad ajustable, integración con PCs, empleo de fibra óptica, costos más económicos.</li>
+              <li><strong>Repetidor regenerativo</strong> (digital): recrea la señal limpia — elimina ruido. Vs amplificador (analógico): amplifica también el ruido.</li>
+            </ul>
+          </div>
+          <div class="note-section">
+            <h3>5. Elementos y Topologías de Red</h3>
+            <ul class="note-list">
+              <li><strong>Nodo:</strong> punto con 2+ vínculos y facilidades de conmutación. <strong>Vínculo:</strong> medio físico entre nodos. <strong>Terminal:</strong> equipo que genera/extrae señales.</li>
+              <li>Sin conmutación, links necesarios para n nodos = n(n-1)/2. Los conmutadores reducen dramáticamente la cantidad de enlaces.</li>
+              <li><strong>Topología estrella:</strong> nodo central concentra tráfico. Punto único de fallo. Ej: LAN con switch.</li>
+              <li><strong>Topología malla:</strong> todos conectados entre sí. Alta disponibilidad. Para sistemas críticos.</li>
+              <li><strong>Topología anillo:</strong> cada nodo a sus adyacentes. Hoy: redes industriales y anillos ópticos.</li>
+              <li><strong>Topología bus:</strong> todos al mismo canal. Requiere protocolo de acceso. Ej: 802.3/Ethernet clásico.</li>
+              <li><strong>Híbrida:</strong> combinación de anteriores. Industria: estrella/bus para sensores con PLC, malla entre PLCs.</li>
+            </ul>
+          </div>
+          <div class="note-section" style="margin-bottom:0;">
+            <h3>6. Conmutación</h3>
+            <ul class="note-list">
+              <li><strong>De circuitos:</strong> camino dedicado E2E antes de transmitir. 3 fases: establecimiento → transferencia → desconexión. Latencia constante. Ej: telefonía.</li>
+              <li><strong>De mensajes:</strong> cada mensaje completo se almacena en un nodo y se reenvía.</li>
+              <li><strong>De paquetes:</strong> info dividida en paquetes independientes. Rutas variables. Puede haber jitter, pérdida y reordenamiento. <em>Solo funciona con señales digitales.</em></li>
+              <li>Funciones básicas de una red: <strong>Conmutación + Transmisión + Señalización</strong>.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <!-- Cátedra -->
+        <div class="card" style="margin-bottom:1rem;">
+          <div class="section-title">👨‍🏫 Cátedra</div>
+          <div style="display:flex;flex-direction:column;gap:0.75rem;">
+            <div class="docente-card">
+              <div class="docente-avatar" style="background:linear-gradient(135deg,#00b4d8,#0077b6)">RG</div>
+              <div class="docente-name">Mg. Ing. Raúl Gardella</div>
+              <div class="docente-role">Profesor Titular · Comunicaciones K3055</div>
+              <div class="docente-email"><a href="/cdn-cgi/l/email-protection#97e5f6e2fbf0f6e5f3f2fbfbf6d7f1e5f5f6b9e2e3f9b9f2f3e2b9f6e5"><span class="__cf_email__" data-cfemail="116370647d76706375747d7d7051776373703f64657f3f7475643f7063">[email&#160;protected]</span></a></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Checklist del día -->
+        <div class="card" style="margin-bottom:1rem;">
+          <div class="section-title">✅ Checklist del alumno</div>
+          <div class="alert-box warn" style="margin-bottom:1rem;font-size:0.78rem;">
+            <strong>⚠️ Recordá:</strong> Entregá los ejercicios semanales <strong>todos los viernes</strong> por el aula virtual.
+          </div>
+          <ul class="checklist" id="task-list">
+            <li>
+              <input type="checkbox" id="t1" onchange="saveChecks()">
+              <label for="t1">
+                <span class="check-label-main">Revisar el aula virtual</span>
+                <span class="check-label-sub">Verificar material nuevo, avisos y entregas</span>
+              </label>
+            </li>
+            <li>
+              <input type="checkbox" id="t2" onchange="saveChecks()">
+              <label for="t2">
+                <span class="check-label-main">Descargar apuntes del Drive</span>
+                <span class="check-label-sub">Apuntes de clase y material complementario</span>
+              </label>
+            </li>
+            <li>
+              <input type="checkbox" id="t3" onchange="saveChecks()">
+              <label for="t3">
+                <span class="check-label-main">Repasar tema de la clase anterior</span>
+                <span class="check-label-sub">Las clases se construyen sobre los temas anteriores</span>
+              </label>
+            </li>
+            <li>
+              <input type="checkbox" id="t4" onchange="saveChecks()">
+              <label for="t4">
+                <span class="check-label-main">Entregar ejercicio de la semana (viernes)</span>
+                <span class="check-label-sub">Via aula virtual antes del viernes</span>
+              </label>
+            </li>
+            <li>
+              <input type="checkbox" id="t5" onchange="saveChecks()">
+              <label for="t5">
+                <span class="check-label-main">Preparar dudas / consultas para clase</span>
+                <span class="check-label-sub">Anotar preguntas antes de la clase</span>
+              </label>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Recursos clave -->
+        <div class="card">
+          <div class="section-title">🔗 Recursos</div>
+          <ul class="links-list">
+            <li><a class="link-item" href="https://www.ietf.org/rfc/" target="_blank">
+              <span class="link-icon">📄</span>
+              <div><div>RFC Editor — IETF</div><div class="link-meta">Estándares de Internet · ietf.org/rfc</div></div>
+            </a></li>
+            <li><a class="link-item" href="https://www.internetsociety.org" target="_blank">
+              <span class="link-icon">🌐</span>
+              <div><div>Internet Society (ISOC)</div><div class="link-meta">Organización sin fines de lucro de Internet</div></div>
+            </a></li>
+            <li><a class="link-item" href="https://www.icann.org" target="_blank">
+              <span class="link-icon">🔑</span>
+              <div><div>ICANN</div><div class="link-meta">Coordinación DNS y nombres de dominio</div></div>
+            </a></li>
+            <li><a class="link-item" href="https://lacnic.net" target="_blank">
+              <span class="link-icon">🌎</span>
+              <div><div>LACNIC</div><div class="link-meta">RIR para América Latina y el Caribe</div></div>
+            </a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Comunicaciones K3055 · UTN FRBA · Turno Noche · Martes Teoría · Viernes TP · Ing. Gardella · Actualizado automáticamente al abrir
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ── SCHEDULE DATA ──────────────────────────────────────────────
+const TP_MEET     = 'https://meet.google.com/rzg-oeid-pck';
+const TEORIA_ZOOM = 'https://utn.zoom.us/j/98712015652?pwd%3DzbzQ3XQJrDPWYiaRCHzFAoQav0RPRk.1&sa=D&source=calendar&usd=2&usg=AOvVaw2Vcq7o9coyaGVrxdRGyt47';   // Link de Zoom para clases teóricas (Martes)
+
+const schedule = [
+  // ── SEMANA 1 ────────────────────────────────────────────────────
+  { date:'2026-03-27', label:'Clase 1', topic:'Introducción — Telecomunicaciones, OSI, Internet', detail:'Presentación de la materia. Evolución de las redes. Ley de Moore. Modelo OSI (7 capas). Arquitecturas OSI vs TCP/IP. Historia de Internet y ARPANET. DNS. Organismos de normalización (ISO, ITU, IEEE, IETF).', types:['presencial','teorico'] },
+  // ── SEMANA 2 ────────────────────────────────────────────────────
+  { date:'2026-03-31', label:'Clase 2', topic:'Redes y Señales — Transmisión de datos', detail:'Comunicación de datos. Señales analógicas vs digitales. MODEM y CODEC. Ventajas de la transmisión digital. Elementos de una red (nodo, vínculo, terminal). Topologías (estrella, malla, anillo, bus, híbrida). Conmutación de circuitos, mensajes y paquetes.', types:['virtual','teorico'], meetUrl: TEORIA_ZOOM },
+  { date:'2026-04-03', label:'Feriado', topic:'Viernes Santo — Sin clase TP', detail:'Feriado nacional (Semana Santa). No hay clase práctica esta semana.', types:['feriado'] },
+  // ── SEMANA 3 ────────────────────────────────────────────────────
+  { date:'2026-04-07', label:'Clase 3', topic:'Señales periódicas y ancho de banda', detail:'Señal sinusoidal. Período, frecuencia, longitud de onda, amplitud. Espectro de frecuencias. Ancho de banda. Señales digitales — tasa de bits, baud rate. Codificación de línea.', types:['virtual','teorico'], meetUrl: TEORIA_ZOOM },
+  { date:'2026-04-10', label:'TP 1', topic:'Electricidad, circuitos y conceptos básicos de redes', detail:'Primera clase práctica del año. Se trabaja el TP 1: Ley de Ohm (ej.1–3), circuitos serie y paralelo (ej.4–7), cálculo de potencia y energía (ej.8–11). Conceptos de teleinformática, organismos de normalización UIT-T/ISO/IEEE (ej.12–13). Historia de Internet, topologías WAN (ej.14–17). Transmisión de datos y señales (ej.18–20). 🖥️ Virtual · Meet exclusivo TP (Viernes).', types:['virtual','practico'], meetUrl: TP_MEET },
+  // ── SEMANA 4 ────────────────────────────────────────────────────
+  { date:'2026-04-14', label:'Clase 4', topic:'Medios de transmisión — par trenzado, coaxial, fibra óptica', detail:'Medios guiados vs no guiados. Par trenzado (UTP/STP). Cable coaxial. Fibra óptica (monomodo/multimodo). Características: atenuación, ancho de banda, inmunidad al ruido, costo.', types:['virtual','teorico'], meetUrl: TEORIA_ZOOM },
+  { date:'2026-04-17', label:'TP 2', topic:'Características de las señales de telecomunicaciones', detail:'Señales analógicas vs digitales: gráficos y características (ej.1–3). Serie de Fourier: función periódica, parámetros (ej.4). Longitud de onda en FM (ej.5). Tren de pulsos y parámetros (ej.6–7). Coeficientes de Fourier (ej.8). Espectro de amplitud y ancho de banda (ej.9–12). Transmisión en banda base y codificación AMI/Bipolar RZ/Manchester/Diferencial/Miller (ej.13–15). 🖥️ Virtual · Meet TP.', types:['virtual','practico'], meetUrl: TP_MEET },
+  // ── SEMANA 5 ────────────────────────────────────────────────────
+  { date:'2026-04-21', label:'Clase 5', topic:'Capa Física — Estándares Ethernet y cableado', detail:'Estándares IEEE 802.3. 10Base-T, 100Base-TX, 1000Base-T. Cableado estructurado TIA/EIA-568. Conectores RJ-45. Categorías de cable.', types:['virtual','teorico'], meetUrl: TEORIA_ZOOM },
+  { date:'2026-04-24', label:'TP 3', topic:'Medidas de velocidad, cálculo de enlaces y unidades', detail:'Velocidad de modulación y MODEM (ej.16–17). Tiempo de transmisión asincrónica Seudo-Baudot (ej.18). Velocidad bps vs baudios (ej.19). Rendimiento síncrono y asíncrono (ej.20–22). Factores que limitan la velocidad, ACCESS RATE (ej.23–25). Tiempo de transmisión síncrono con rendimiento (ej.26). Cálculo de enlaces coaxiales y fibra óptica con dBm y FD (ej.27–33). 🖥️ Virtual · Meet TP.', types:['virtual','practico'], meetUrl: TP_MEET },
+  // ── SEMANA 6 ────────────────────────────────────────────────────
+  { date:'2026-04-28', label:'Clase 6', topic:'Capa de Enlace — MAC, LLC, Ethernet', detail:'Control de acceso al medio (MAC). LLC. Trama Ethernet (IEEE 802.3). Direcciones MAC. CSMA/CD. VLANs (802.1Q). Switches y bridges.', types:['virtual','teorico'], meetUrl: TEORIA_ZOOM },
+  { date:'2026-05-01', label:'Feriado', topic:'Día del Trabajador — Sin clase TP', detail:'Feriado nacional. Día Internacional del Trabajador. No hay clase práctica.', types:['feriado'] },
+  // ── SEMANA 7 ────────────────────────────────────────────────────
+  { date:'2026-05-05', label:'Clase 7', topic:'Capa de Red — IP, IPv4, IPv6, subnetting', detail:'Protocolo IP. Estructura del paquete IPv4. Clases de direcciones. Máscara de subred. CIDR. Subnetting. IPv6 y diferencias con IPv4. Protocolo ICMP. Routing básico.', types:['virtual','teorico'], meetUrl: TEORIA_ZOOM },
+  { date:'2026-05-08', label:'TP 4', topic:'Modulación, multiplexación digital: PDH, SDH y SONET', detail:'PCM: muestreo, cuantificación y capacidad del vínculo (ej.1). Modulación PSK: 16-PSK, 8-PSK, desfasajes (ej.2–5). Modulación FM: ancho de banda de Carson (ej.6). Cuadro de tipos de modulación analógica y digital (ej.7–8). Multiplexación FDM, TDM y STDM: cuadro comparativo (ej.9–10). 🖥️ Virtual · Meet TP.', types:['virtual','practico'], meetUrl: TP_MEET },
+  // ── SEMANA 8 ────────────────────────────────────────────────────
+  { date:'2026-05-12', label:'Clase 8', topic:'Repaso integral previo al Primer Parcial', detail:'Repaso de todos los temas vistos: OSI, TCP/IP, señales, medios, Ethernet, IP. Resolución de ejercicios tipo parcial.', types:['virtual','teorico'], meetUrl: TEORIA_ZOOM },
+  { date:'2026-05-15', label:'📝 1er Parcial', topic:'PRIMER PARCIAL — Presencial', detail:'Examen presencial. Temas: OSI completo, TCP/IP, señales analógicas y digitales, medios de transmisión, Ethernet, IP básico, DNS, Internet, organismos de normalización.', types:['presencial','parcial'] },
+  // ── SEMANA 9 ────────────────────────────────────────────────────
+  { date:'2026-05-19', label:'Clase 9 (Mar)', topic:'Devolución 1er Parcial — inicio 2do período', detail:'Devolución y corrección del primer parcial. Inicio del segundo período. Introducción a capa de transporte.', types:['virtual','teorico'], meetUrl: TEORIA_ZOOM },
+  { date:'2026-05-22', label:'TP 5', topic:'Teoría de la información y codificación', detail:'Información y entropía: alfabeto equiprobable, información por símbolo (ej.1–4). Fuente con probabilidades no equiprobables: mensajes CABLE (ej.5). Una imagen vs 1000 palabras (ej.6). Entropía fuente binaria y curva H(p) (ej.7–8). Tasa de información fuente telegráfica (ej.9). TV: tasa y capacidad de canal (ej.10–11). Código 5-de-10 y redundancia (ej.12). Codificación PC-8: UTN, Red (ej.13). Diseño de código para 90 símbolos (ej.14). 🖥️ Virtual · Meet TP.', types:['virtual','practico'], meetUrl: TP_MEET },
+  // ── SEMANA 10 ───────────────────────────────────────────────────
+  { date:'2026-05-25', label:'Feriado', topic:'25 de Mayo — Sin clase teoría', detail:'Feriado nacional. Día de la Patria. No hay clase teórica.', types:['feriado'] },
+  { date:'2026-05-29', label:'TP 6', topic:'Capacidad de canales y tasa de información (Shannon)', detail:'Canal telefónico con S/N=30 dB y AB=3 kHz: límite de Shannon (ej.1). Cálculo de S/N en dB para distintos AB y capacidades (ej.2). Canal sin ruido: capacidad de Nyquist (ej.3). Duplicar capacidad: cuántas veces aumentar potencia (ej.4). Potencia de ruido al doble: caída de capacidad (ej.5). Tasa máxima en línea telefónica con señal/ruido real (ej.6). 🖥️ Virtual · Meet TP.', types:['virtual','practico'], meetUrl: TP_MEET },
+  // ── SEMANA 11 ───────────────────────────────────────────────────
+  { date:'2026-05-26', label:'Clase 10', topic:'Capa de Transporte — TCP y UDP', detail:'Protocolo TCP: segmentos, control de flujo, three-way handshake, retransmisión. Protocolo UDP: datagramas, ventajas para streaming. Puertos conocidos. Multiplexación de servicios. Protocolo QUIC.', types:['virtual','teorico'], meetUrl: TEORIA_ZOOM },
+  { date:'2026-06-05', label:'TP 6b', topic:'Tratamiento de errores en redes de datos', detail:'Causas de errores y políticas de tratamiento (ej.1–3). Cálculo de BER: 20 bits erróneos en 200.000 (ej.4–5). CRC: polinomio generador G(x)=x⁴+x+1, mensaje M(x)=10110101101 — cálculo y verificación en receptor (ej.6). Protocolos con CRC y con checksum (ej.7–8). Códigos correctores: Hamming, Reed-Solomon (ej.9). Manifestación y medición del error (ej.10). 🖥️ Virtual · Meet TP.', types:['virtual','practico'], meetUrl: TP_MEET },
+  // ── SEMANA 12 ───────────────────────────────────────────────────
+  { date:'2026-06-02', label:'Clase 11', topic:'DNS profundo — HTTP y protocolos de aplicación', detail:'Sistema DNS jerárquico. Tipos de registros (A, AAAA, MX, CNAME). HTTP/1.1 vs HTTP/2 vs HTTP/3. HTTPS y TLS. FTP, SMTP, SNMP. Evolución de protocolos de aplicación.', types:['virtual','teorico'], meetUrl: TEORIA_ZOOM },
+  { date:'2026-06-12', label:'TP 7', topic:'Medios físicos de comunicación', detail:'Enlace coaxial RG 213/U a 400 MHz, 30 m: potencia en antena (ej.1). Sensibilidad de receptor en enlace radioeléctrico con ganancia de antena (ej.2). Longitud de antena λ/2 a 300 MHz y 1 GHz (ej.3–4). Antena de FM 75 cm: tipo y banda (ej.5). Antena de media onda para voz humana (ej.6). Retardo satelital LEO/MEO/GEO (ej.7). Frecuencia de resonancia en línea telefónica con L y C distribuidos (ej.8). 🖥️ Virtual · Meet TP.', types:['virtual','practico'], meetUrl: TP_MEET },
+  // ── SEMANA 13 ───────────────────────────────────────────────────
+  { date:'2026-06-09', label:'Clase 12', topic:'Clase presencial — WAN, MPLS, fibra óptica', detail:'Clase presencial en sede FRBA. Redes WAN. MPLS. SDH-NG. DWDM. GPON y FTTH. Tecnologías de acceso a Internet: xDSL, HFC, fibra óptica, 4G/5G.', types:['presencial','teorico'] },
+  { date:'2026-06-19', label:'TP Extra', topic:'TP Adicional / Repaso — Fecha a confirmar', detail:'Clase práctica adicional o repaso integrador de TPs previos al segundo parcial. Fecha tentativa: confirmar con el docente. 🖥️ Virtual · Meet TP.', types:['virtual','practico'], meetUrl: TP_MEET },
+  // ── SEMANA 14 ───────────────────────────────────────────────────
+  { date:'2026-06-16', label:'Clase 13', topic:'Seguridad en redes — Fundamentos', detail:'Amenazas y vulnerabilidades. Cifrado simétrico y asimétrico. PKI y certificados. Firewalls y DMZ. Seguridad en capas OSI. VPN. Casos prácticos.', types:['virtual','teorico'], meetUrl: TEORIA_ZOOM },
+  { date:'2026-06-23', label:'Clase 14', topic:'Repaso integral previo al Segundo Parcial', detail:'Repaso de todos los temas del segundo período: TCP/UDP, DNS, HTTP, WAN, fibra, seguridad. Ejercicios tipo parcial.', types:['virtual','teorico'], meetUrl: TEORIA_ZOOM },
+  { date:'2026-06-26', label:'📝 2do Parcial', topic:'SEGUNDO PARCIAL — Presencial', detail:'Examen presencial. Temas: capas de Transporte y Aplicación, DNS, HTTP, WAN, MPLS, GPON, seguridad, topologías avanzadas, conmutación.', types:['presencial','parcial'] },
+  { date:'2026-06-30', label:'🔁 Recuperatorio', topic:'Recuperación Primer Parcial', detail:'Recuperatorio del primer parcial para alumnos que no aprobaron o quieran mejorar la nota.', types:['parcial','teorico'] },
+  { date:'2026-07-03', label:'🔁 Recuperatorio', topic:'Recuperación Segundo Parcial', detail:'Recuperatorio del segundo parcial.', types:['parcial'] },
+  { date:'2026-07-07', label:'🔁 Recuperatorio', topic:'Recuperación Final (1er o 2do)', detail:'Última instancia de recuperación de 1er o 2do parcial.', types:['parcial','teorico'] },
+];
+
+// sort chronologically
+schedule.sort((a, b) => a.date.localeCompare(b.date));
+
+// ── UTILS ──────────────────────────────────────────────────────
+function parseDate(str) {
+  const [y,m,d] = str.split('-').map(Number);
+  return new Date(y, m-1, d);
+}
+function formatDate(str) {
+  return parseDate(str).toLocaleDateString('es-AR', { weekday:'short', day:'numeric', month:'short' });
+}
+function diffDays(a, b) { return Math.round((b - a) / 86400000); }
+
+const TYPE_BADGE = {
+  virtual:    ['badge-virtual',    '🖥️ Virtual'],
+  presencial: ['badge-presencial', '🏛️ Presencial'],
+  feriado:    ['badge-sin-act',    '🚫 Feriado'],
+  ejercicio:  ['badge-ejercicio',  '✏️ Ejercicio'],
+  parcial:    ['badge-parcial',    '📝 Parcial'],
+  teorico:    ['badge-teorico',    '📚 Teórico'],
+  practico:   ['badge-practico',   '⚙️ TP'],
+};
+
+// ── BUILD SCHEDULE ─────────────────────────────────────────────
+function buildSchedule() {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const list = document.getElementById('schedule-list');
+  let nextIdx = -1;
+
+  schedule.forEach((item, i) => {
+    const d = parseDate(item.date);
+    const isPast    = d < today;
+    const isCurrent = d.getTime() === today.getTime();
+    const isFuture  = d > today;
+    if (nextIdx === -1 && (isCurrent || isFuture)) nextIdx = i;
+
+    const li = document.createElement('li');
+    li.className = 'schedule-item' + (isPast ? ' is-past' : '') + (isCurrent ? ' is-current' : '');
+
+    const inlineBadges = item.types.filter(t => t === 'teorico' || t === 'practico');
+    const regularBadges = item.types.filter(t => t !== 'teorico' && t !== 'practico');
+
+    const inlineBadgeHtml = inlineBadges.map(t => {
+      const [cls, label] = TYPE_BADGE[t] || ['badge-virtual', t];
+      return `<span class="badge badge-inline ${cls}">${label}</span>`;
+    }).join('');
+
+    const badgeHtml = regularBadges.map(t => {
+      const [cls, label] = TYPE_BADGE[t] || ['badge-virtual', t];
+      return `<span class="badge ${cls}">${label}</span>`;
+    }).join('');
+
+    // Determinar el texto del enlace según el tipo de clase
+    const meetLinkText = item.types.includes('teorico') ? '📹 Unirse a Zoom Teoría' : '📹 Unirse a Meet TP';
+    
+    li.innerHTML = `
+      <div class="sch-date">${formatDate(item.date)}</div>
+      <div class="sch-body">
+        <div class="sch-class-num"><span>${item.label}</span>${inlineBadgeHtml}</div>
+        <div class="sch-topic">${item.topic}</div>
+        <div class="sch-detail">${item.detail}${item.meetUrl ? `<br><a href="${item.meetUrl}" target="_blank" style="color:var(--accent2);font-size:0.78rem;display:inline-flex;align-items:center;gap:0.3rem;margin-top:0.4rem;text-decoration:none;">${meetLinkText}</a>` : ''}</div>
+      </div>
+      <div class="sch-badges">${badgeHtml}</div>`;
+
+    li.addEventListener('click', () => li.classList.toggle('expanded'));
+    list.appendChild(li);
+  });
+
+  // Progreso
+  const classDays = schedule.filter(s => !s.types.includes('feriado') && !s.types.includes('ejercicio')).length;
+  const passedDays = schedule.filter(s => !s.types.includes('feriado') && !s.types.includes('ejercicio') && parseDate(s.date) < today).length;
+  const pct = Math.round((passedDays / classDays) * 100);
+  document.getElementById('progress-val').textContent = `${passedDays} / ${classDays} clases cursadas`;
+  setTimeout(() => { document.getElementById('progress-fill').style.width = pct + '%'; }, 300);
+
+  // Hero — próxima clase (skip ejercicios y feriados para el hero)
+  const classItems = schedule.filter(s => !s.types.includes('feriado') && !s.types.includes('ejercicio'));
+  let ni = classItems.find(s => parseDate(s.date) >= today) || classItems[classItems.length - 1];
+  
+  const nd = parseDate(ni.date);
+  const days = diffDays(today, nd);
+  const isToday = days === 0;
+
+  // Determinar profesor según el día
+  const dayOfWeek = nd.getDay(); // 0=domingo, 1=lunes, 2=martes, 3=miércoles, 4=jueves, 5=viernes, 6=sábado
+  let profesor = '';
+  if (dayOfWeek === 2) { // Martes
+    profesor = '👨‍🏫 Ing. Gardella';
+  } else if (dayOfWeek === 5) { // Viernes
+    profesor = '👨‍🏫 Ing. Tassano';
+  }
+
+  document.getElementById('next-label').textContent = isToday ? '🔴 CLASE HOY' : '📡 Próxima clase';
+  document.getElementById('next-title').textContent = `${ni.label} — ${ni.topic}`;
+  document.getElementById('next-detail').textContent = ni.detail;
+
+  const badgesDiv = document.getElementById('next-badges');
+  badgesDiv.innerHTML = `<span class="badge badge-date">📅 ${formatDate(ni.date)}</span>` +
+    ni.types.map(t => {
+      const [cls, label] = TYPE_BADGE[t] || ['badge-virtual', t];
+      return `<span class="badge ${cls}">${label}</span>`;
+    }).join('') +
+    (profesor ? `<span class="badge badge-presencial">${profesor}</span>` : '');
+
+  if (days > 0) {
+    document.getElementById('countdown-num').textContent = days;
+    document.getElementById('countdown-block').style.display = 'block';
+  } else {
+    document.getElementById('countdown-block').style.display = 'none';
+  }
+
+  // Botón de conexión inline si es hoy y virtual (usa meetUrl del entry si existe)
+  if (isToday && ni.types.includes('virtual') && ni.meetUrl) {
+    const meta = document.querySelector('.next-meta');
+    const mEl = document.createElement('a');
+    mEl.href = ni.meetUrl;
+    mEl.target = '_blank';
+    mEl.className = 'meet-btn';
+    mEl.style.marginTop = '0.5rem';
+    
+    const isTP = ni.types.includes('practico');
+    const isTeorico = ni.types.includes('teorico');
+    
+    // Determinar si es Zoom (martes) o Meet (viernes)
+    if (isTeorico && dayOfWeek === 2) {
+      // Martes → Zoom Teoría
+      mEl.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 10l4.553-2.069A1 1 0 0121 8.87v6.26a1 1 0 01-1.447.9L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg> ¡Unirse a Zoom Teoría!`;
+    } else if (isTP && dayOfWeek === 5) {
+      // Viernes → Meet TP
+      mEl.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 10l4.553-2.069A1 1 0 0121 8.87v6.26a1 1 0 01-1.447.9L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg> ¡Unirse a Meet TP!`;
+    } else {
+      // Fallback genérico
+      mEl.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 10l4.553-2.069A1 1 0 0121 8.87v6.26a1 1 0 01-1.447.9L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg> ¡Unirse a la clase virtual!`;
+    }
+    
+    meta.appendChild(mEl);
+  }
+
+  // Scroll al actual
+  const cur = list.querySelector('.is-current');
+  if (cur) setTimeout(() => cur.scrollIntoView({ behavior:'smooth', block:'nearest' }), 400);
+}
+
+// ── TABS ───────────────────────────────────────────────────────
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ── CHECKLIST PERSISTENCE ──────────────────────────────────────
+function saveChecks() {
+  const checks = {};
+  document.querySelectorAll('.checklist input[type=checkbox]').forEach(cb => {
+    checks[cb.id] = cb.checked;
+    cb.closest('label') && (cb.closest('li').querySelector('label').style.opacity = cb.checked ? '0.5' : '1');
+    const main = cb.closest('li').querySelector('.check-label-main');
+    if (main) main.classList.toggle('check-done', cb.checked);
+  });
+  try { localStorage.setItem('comms_checks', JSON.stringify(checks)); } catch(e){}
+}
+
+function loadChecks() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('comms_checks') || '{}')
+    Object.entries(saved).forEach(([id, checked]) => {
+      const cb = document.getElementById(id);
+      if (cb) {
+        cb.checked = checked;
+        const main = cb.closest('li') && cb.closest('li').querySelector('.check-label-main');
+        if (main) main.classList.toggle('check-done', checked);
+        const label = cb.closest('li') && cb.closest('li').querySelector('label');
+        if (label) label.style.opacity = checked ? '0.5' : '1';
+      }
+    });
+  } catch(e){}
+}
+
+document.querySelectorAll('.checklist input[type=checkbox]').forEach(cb => {
+  cb.addEventListener('change', saveChecks);
+});
+
+// ── INIT ───────────────────────────────────────────────────────
+buildSchedule();
+loadChecks();
+
+</script>
+</body>
+</html>

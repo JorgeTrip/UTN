@@ -1,0 +1,2024 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ISI · Jorge O. Tripodi · UTN FRBA</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:     #07090f;
+  --s1:     #0c1018;
+  --s2:     #111520;
+  --s3:     #171c2b;
+  --border: #1d2235;
+  --text:   #dce4f5;
+  --muted:  #4e5a7a;
+  --accent: #e04545;
+  --asi:    #22d3a4; --asi-bg:  rgba(34,211,164,.14);
+  --io:     #f472b6; --io-bg:   rgba(244,114,182,.14);
+  --leg:    #fb923c; --leg-bg:  rgba(251,146,60,.14);
+  --ics:    #818cf8; --ics-bg:  rgba(129,140,248,.14);
+  --ta:     #facc15; --ta-bg:   rgba(250,204,21,.14);
+  --si:     #a78bfa; --si-bg:   rgba(167,139,250,.14);
+  --cd:     #38bdf8; --cd-bg:   rgba(56,189,248,.14);
+  --pending-border:#2d3556; --pending-bg:rgba(29,34,53,.6);
+  --rd:   #0ea5e9; --rd-bg:  rgba(14,165,233,.14);
+  --sim:  #34d399; --sim-bg: rgba(52,211,153,.14);
+  --ai:   #c084fc; --ai-bg:  rgba(192,132,252,.14);
+  --cdat: #f59e0b; --cdat-bg:rgba(245,158,11,.14);
+  --seg:  #f87171; --seg-bg: rgba(248,113,113,.14);
+  --sge:  #2dd4bf; --sge-bg: rgba(45,212,191,.14);
+  --gge:  #fdba74; --gge-bg: rgba(253,186,116,.14);
+  --pf:   #e879f9; --pf-bg:  rgba(232,121,249,.14);
+  --cri:  #a3e635; --cri-bg: rgba(163,230,53,.14);
+  --iot:  #67e8f9; --iot-bg: rgba(103,232,249,.14);
+  --arc:  #86efac; --arc-bg: rgba(134,239,172,.14);
+  --aud:  #fca5a5; --aud-bg: rgba(252,165,165,.14);
+  --sgi:  #93c5fd; --sgi-bg: rgba(147,197,253,.14);
+  --cav:  #fde68a; --cav-bg: rgba(253,230,138,.14);
+  --bio:  #6ee7b7; --bio-bg: rgba(110,231,183,.14);
+  --green:  #22d3a4;
+  --blue:   #38bdf8;
+  --pink:   #f472b6;
+  --yellow: #facc15;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;min-height:100vh;}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");opacity:.5;}
+
+/* ───── GLOBAL HEADER ───── */
+.g-header{position:relative;z-index:2;background:var(--s1);border-bottom:2px solid var(--border);padding:18px 32px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.g-logo{display:flex;flex-direction:column;gap:3px;}
+.g-badge-row{display:flex;gap:6px;align-items:center;}
+.g-badge{font-size:10px;font-weight:800;letter-spacing:1.2px;padding:4px 10px;border-radius:5px;text-transform:uppercase;}
+.gb-utn{background:var(--accent);color:#fff;}
+.gb-k23{background:rgba(56,189,248,.2);color:var(--blue);border:1px solid rgba(56,189,248,.3);}
+.g-title{font-size:20px;font-weight:800;letter-spacing:-.3px;}
+.g-sub{font-size:12px;color:var(--muted);margin-top:2px;}
+.g-right{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
+.g-date{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);}
+
+/* ───── SUPER TABS ───── */
+.super-tab-bar{position:relative;z-index:2;background:var(--s1);border-bottom:1px solid var(--border);display:flex;gap:0;padding:0 24px;}
+.super-tab{padding:13px 22px;font-size:14px;font-weight:700;color:var(--muted);cursor:pointer;border:none;background:none;font-family:'Outfit',sans-serif;border-bottom:3px solid transparent;transition:color .15s;display:flex;align-items:center;gap:9px;}
+.super-tab:hover{color:var(--text);}
+.super-tab.active{color:var(--text);}
+.super-tab.sp1.active{border-bottom-color:var(--green);}
+.super-tab.sp2.active{border-bottom-color:var(--blue);}
+.super-panel{display:none;position:relative;z-index:1;}
+.super-panel.active{display:block;}
+
+/* ───── MAIN LAYOUT ───── */
+main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
+.sec{font-size:10.5px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:12px;margin:28px 0 14px;}
+.sec::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* ───── SUBTABS ───── */
+.sub-tab-bar{display:flex;gap:3px;border-bottom:1px solid var(--border);margin-bottom:22px;}
+.sub-tab{padding:9px 16px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;background:none;border-top:none;border-left:none;border-right:none;font-family:'Outfit',sans-serif;transition:color .15s;display:flex;align-items:center;gap:7px;}
+.sub-tab:hover{color:var(--text);}
+.sub-tab.active{color:var(--text);border-bottom-color:var(--green);}
+.sub-tab.blue.active{border-bottom-color:var(--blue);}
+.sbadge{font-size:10px;padding:2px 7px;border-radius:20px;background:var(--s3);color:var(--muted);}
+.sub-tab.active .sbadge{background:rgba(34,211,164,.1);color:#6ee7b7;}
+.sub-tab.blue.active .sbadge{background:rgba(56,189,248,.1);color:#7dd3fc;}
+.sub-panel{display:none;}
+.sub-panel.active{display:block;}
+
+/* ───── KPI CARDS ───── */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:24px;}
+.kpi-card{background:var(--s2);border:1px solid var(--border);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden;}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.kpi-card.k-green::before{background:var(--green);}
+.kpi-card.k-blue::before{background:var(--blue);}
+.kpi-card.k-pink::before{background:var(--pink);}
+.kpi-card.k-yellow::before{background:var(--yellow);}
+.kpi-card.k-purple::before{background:#a78bfa;}
+.kpi-val{font-size:32px;font-weight:800;line-height:1;margin-bottom:4px;}
+.kpi-card.k-green .kpi-val{color:var(--green);}
+.kpi-card.k-blue .kpi-val{color:var(--blue);}
+.kpi-card.k-pink .kpi-val{color:var(--pink);}
+.kpi-card.k-yellow .kpi-val{color:var(--yellow);}
+.kpi-card.k-purple .kpi-val{color:#a78bfa;}
+.kpi-lbl{font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.kpi-sub{font-size:12px;color:#6b7a99;line-height:1.55;}
+.kpi-sub strong{color:var(--text);}
+.prog-bar-bg{height:5px;background:var(--border);border-radius:3px;margin:8px 0 6px;overflow:hidden;}
+.prog-bar-fill{height:100%;border-radius:3px;background:var(--green);transition:width .4s;}
+
+/* ───── ALERT / INFO BOXES ───── */
+.alert{background:rgba(224,69,69,.08);border:1px solid rgba(224,69,69,.25);border-left:4px solid var(--accent);border-radius:8px;padding:14px 20px;font-size:13px;line-height:1.75;}
+.alert strong{color:#fca5a5;}
+.infobox{background:rgba(56,189,248,.06);border:1px solid rgba(56,189,248,.2);border-left:4px solid var(--cd);border-radius:8px;padding:13px 18px;font-size:13px;line-height:1.7;}
+.infobox strong{color:#7dd3fc;}
+.notebox{background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:14px 20px;font-size:13px;color:#6b7a99;line-height:1.7;margin-top:12px;}
+.notebox strong{color:var(--text);}
+.greenbox{background:rgba(34,211,164,.06);border:1px solid rgba(34,211,164,.2);border-left:4px solid var(--green);border-radius:8px;padding:13px 18px;font-size:13px;line-height:1.7;}
+.greenbox strong{color:#6ee7b7;}
+
+/* ───── CURRICULUM MAP ───── */
+.map-wrap{overflow-x:auto;padding-bottom:12px;}
+.map-grid{display:grid;grid-template-columns:repeat(5,minmax(220px,1fr));gap:14px;min-width:1100px;}
+.map-col{display:flex;flex-direction:column;gap:8px;}
+.map-lvl{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-align:center;background:var(--s2);border:1px solid var(--border);border-radius:6px;padding:6px 0;margin-bottom:2px;}
+.map-legend{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:14px;align-items:center;font-size:12px;color:var(--muted);}
+.ml-box{width:14px;height:14px;border-radius:3px;border:1.5px solid;flex-shrink:0;}
+.ml-item{display:flex;align-items:center;gap:5px;}
+
+/* ───── ACCORDION CARDS ───── */
+.acc-card{border-radius:8px;border:1px solid var(--border);overflow:hidden;transition:box-shadow .15s;}
+.acc-card:hover{box-shadow:0 0 0 1px rgba(255,255,255,.06);}
+.acc-card.s-ap{border-left:3px solid var(--green);}
+.acc-card.s-pl{border-left:3px solid var(--blue);}
+.acc-card.s-pe{border-left:3px solid var(--pending-border);}
+.acc-card.s-ti{border-left:3px solid var(--pink);}
+.acc-card.s-an{border-left:3px solid var(--green);border-top:1px solid rgba(34,211,164,.3);}
+.acc-header{display:flex;align-items:center;gap:8px;padding:9px 10px;cursor:pointer;background:var(--s2);user-select:none;min-height:44px;}
+.acc-header:hover{background:#131824;}
+.acc-chevron{font-size:10px;color:var(--muted);margin-top:2px;transition:transform .2s;flex-shrink:0;}
+.acc-card.open .acc-chevron{transform:rotate(90deg);}
+.acc-name{font-size:12.5px;font-weight:700;line-height:1.3;flex:1;}
+.acc-badges{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px;}
+.acc-badge{font-size:9px;font-weight:700;letter-spacing:.6px;padding:2px 6px;border-radius:3px;text-transform:uppercase;}
+.ab-promo{background:rgba(34,211,164,.15);color:#6ee7b7;}
+.ab-final{background:rgba(251,146,60,.12);color:#fed7aa;}
+.ab-equiv{background:rgba(167,139,250,.12);color:#c4b5fd;}
+.ab-plan{background:rgba(56,189,248,.12);color:#7dd3fc;}
+.ab-pend{background:rgba(29,34,53,.8);color:var(--muted);}
+.ab-int{background:rgba(244,114,182,.12);color:#f9a8d4;}
+.ab-anual{background:rgba(34,211,164,.15);color:var(--green);}
+.ab-tit{background:rgba(244,114,182,.12);color:#f9a8d4;font-size:8px;}
+.acc-grade{
+  font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:800;
+  flex-shrink:0;width:30px;height:30px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  line-height:1;text-align:center;
+}
+/* Aprobado con nota numérica: círculo verde relleno sólido */
+.ag-green{
+  background:var(--green);color:#060c14;
+  box-shadow:0 0 0 2.5px rgba(34,211,164,.3), 0 2px 8px rgba(34,211,164,.2);
+}
+/* Equivalencia sin nota (tilde): círculo verde semitransparente con borde */
+.ag-equiv{
+  background:rgba(34,211,164,.18);color:var(--green);
+  border:2px solid var(--green);
+  font-size:14px;
+}
+/* En curso / planificado: aro azul */
+.ag-blue{
+  background:rgba(56,189,248,.12);color:var(--blue);
+  border:2px solid var(--blue);
+  font-size:16px;
+}
+/* Pendiente: aro gris */
+.ag-muted{
+  background:var(--s3);color:var(--muted);
+  border:1px solid var(--border);
+  font-size:13px;
+}
+.acc-body{display:none;background:#0d1119;border-top:1px solid var(--border);padding:10px 12px;}
+.acc-card.open .acc-body{display:block;}
+.acc-row{display:flex;justify-content:space-between;align-items:flex-start;padding:4px 0;border-bottom:1px solid rgba(29,34,53,.6);font-size:12px;gap:8px;}
+.acc-row:last-child{border-bottom:none;}
+.acc-row-lbl{color:var(--muted);flex-shrink:0;min-width:90px;}
+.acc-row-val{color:var(--text);text-align:right;font-family:'JetBrains Mono',monospace;font-size:11px;}
+.acc-note{margin-top:8px;font-size:11px;color:#4e5a7a;line-height:1.6;font-style:italic;}
+.acc-note strong{color:#6b7a99;font-style:normal;}
+.acc-corr{margin-top:8px;font-size:11px;color:#4e5a7a;line-height:1.6;}
+.acc-corr span{color:#6b7a99;}
+
+/* ───── PESO ACADÉMICO ───── */
+.peso-formula{background:var(--s2);border:1px solid rgba(56,189,248,.25);border-radius:10px;padding:20px 24px;margin-bottom:20px;}
+.peso-formula h3{font-size:13px;font-weight:700;color:var(--blue);margin-bottom:12px;letter-spacing:.5px;}
+.formula-eq{font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--text);background:var(--s3);border:1px solid var(--border);border-radius:6px;padding:12px 16px;margin-bottom:14px;overflow-x:auto;white-space:nowrap;}
+.formula-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;}
+.fvar{background:var(--s3);border:1px solid var(--border);border-radius:6px;padding:10px 14px;}
+.fvar-name{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--blue);margin-bottom:3px;}
+.fvar-desc{font-size:12px;color:var(--muted);line-height:1.5;}
+.peso-calc{background:var(--s2);border:1px solid rgba(34,211,164,.2);border-radius:10px;padding:20px 24px;margin-bottom:16px;}
+.peso-calc h3{font-size:13px;font-weight:700;color:var(--green);margin-bottom:14px;}
+.calc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:16px;}
+.calc-item{background:var(--s3);border:1px solid var(--border);border-radius:7px;padding:10px 13px;}
+.calc-var{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:4px;}
+.calc-val{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:800;color:var(--text);}
+.calc-val.neg{color:#f87171;}
+.calc-val.pos{color:var(--green);}
+.calc-sub{font-size:10px;color:var(--muted);margin-top:3px;line-height:1.4;}
+.peso-result{background:linear-gradient(135deg,rgba(34,211,164,.1),rgba(56,189,248,.06));border:1px solid rgba(34,211,164,.3);border-radius:10px;padding:18px 24px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;}
+.peso-score{font-family:'JetBrains Mono',monospace;font-size:52px;font-weight:800;color:var(--green);}
+.peso-score-lbl{font-size:12px;color:var(--muted);margin-top:4px;}
+.peso-score-note{font-size:12px;color:#6b7a99;line-height:1.6;max-width:450px;}
+.peso-score-note strong{color:var(--text);}
+
+/* ───── STRATEGY SECTION ───── */
+.strat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-bottom:20px;}
+.strat-card{background:var(--s2);border:1px solid var(--border);border-radius:10px;padding:16px 18px;}
+.strat-card h4{font-size:13px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.strat-card p{font-size:12.5px;color:#6b7a99;line-height:1.65;}
+.strat-card p strong{color:var(--text);}
+.strat-card ul{padding-left:0;list-style:none;margin-top:6px;}
+.strat-card ul li{font-size:12px;color:#6b7a99;padding:4px 0;border-bottom:1px solid rgba(29,34,53,.7);display:flex;gap:8px;line-height:1.5;}
+.strat-card ul li::before{content:'→';color:var(--green);flex-shrink:0;}
+.strat-card ul li:last-child{border-bottom:none;}
+
+/* ───── PLANIFICADOR (legacy styles) ───── */
+.main-tabs{display:flex;gap:3px;border-bottom:1px solid var(--border);margin-top:6px;}
+.main-tab{padding:11px 20px;font-size:14px;font-weight:700;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;background:none;border-top:none;border-left:none;border-right:none;font-family:'Outfit',sans-serif;transition:color .15s;display:flex;align-items:center;gap:9px;}
+.main-tab:hover{color:var(--text);}
+.main-tab.active{color:var(--text);}
+.main-tab.mq1.active{border-bottom-color:#a78bfa;}
+.main-tab.mq2.active{border-bottom-color:#38bdf8;}
+.mbadge{font-size:10px;padding:2px 8px;border-radius:20px;background:var(--s3);color:var(--muted);font-weight:500;}
+.main-tab.mq1.active .mbadge{background:rgba(167,139,250,.12);color:#c4b5fd;}
+.main-tab.mq2.active .mbadge{background:rgba(56,189,248,.12);color:#7dd3fc;}
+.main-panel{display:none;padding-top:22px;}
+.main-panel.active{display:block;}
+.plan-sub-tab-bar{display:flex;gap:3px;border-bottom:1px solid var(--border);margin-bottom:20px;}
+.plan-sub-tab{padding:9px 16px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;background:none;border-top:none;border-left:none;border-right:none;font-family:'Outfit',sans-serif;transition:color .15s;display:flex;align-items:center;gap:7px;}
+.plan-sub-tab:hover{color:var(--text);}
+.plan-sub-tab.active{color:var(--text);border-bottom-color:#38bdf8;}
+.plan-sub-tab.rec.active{border-bottom-color:#22d3a4;}
+.plan-sbadge{font-size:10px;padding:2px 7px;border-radius:20px;background:var(--s3);color:var(--muted);}
+.plan-sub-tab.active .plan-sbadge{background:rgba(56,189,248,.1);color:#7dd3fc;}
+.plan-sub-tab.rec.active .plan-sbadge{background:rgba(34,211,164,.1);color:#6ee7b7;}
+.plan-sub-panel{display:none;}
+.plan-sub-panel.active{display:block;}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;align-items:center;}
+.leg-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);}
+.leg-dot{width:10px;height:10px;border-radius:3px;}
+.anual-legend{margin-left:auto;font-size:11px;font-family:'JetBrains Mono',monospace;background:rgba(34,211,164,.1);color:var(--asi);border:1px solid rgba(34,211,164,.25);padding:3px 10px;border-radius:20px;}
+.cal-outer{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--s1);}
+.cal-head{display:grid;background:var(--s2);border-bottom:1px solid var(--border);}
+.cal-head-cell{padding:10px 6px;text-align:center;font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);}
+.cal-head-cell:first-child{border-right:1px solid var(--border);}
+.cal-head-cell.lit{color:var(--text);}
+.cal-body{display:grid;position:relative;}
+.time-col{border-right:1px solid var(--border);position:relative;background:var(--s1);}
+.tlabel{position:absolute;left:0;right:0;padding-right:6px;text-align:right;font-size:9.5px;font-family:'JetBrains Mono',monospace;color:var(--muted);transform:translateY(-6px);pointer-events:none;z-index:2;}
+.day-col{position:relative;border-right:1px solid var(--border);background:var(--s1);}
+.day-col:last-child{border-right:none;}
+.day-col.sat{background:rgba(11,13,22,.8);}
+.hline{position:absolute;left:0;right:0;border-top:1px solid var(--border);z-index:1;}
+.hline-half{position:absolute;left:0;right:0;border-top:1px dashed rgba(29,34,53,.9);z-index:1;}
+.ev{position:absolute;left:3px;right:3px;border-radius:7px;padding:7px 9px;font-size:11px;z-index:10;overflow:hidden;border-left:3px solid transparent;cursor:default;transition:filter .15s;}
+.ev:has(a){cursor:pointer;}
+.ev:hover{filter:brightness(1.18);}
+.ev-name{font-weight:700;font-size:11.5px;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ev-time{font-size:9.5px;font-family:'JetBrains Mono',monospace;opacity:.75;margin-top:3px;}
+.ev-k{font-size:9px;font-family:'JetBrains Mono',monospace;opacity:.5;margin-top:1px;}
+.ev-anual{font-size:8px;font-weight:800;letter-spacing:1px;background:rgba(34,211,164,.2);color:var(--asi);padding:1px 5px;border-radius:3px;margin-top:3px;display:inline-block;}
+.ev-campus{font-size:8px;font-weight:800;letter-spacing:1px;background:rgba(250,204,21,.15);color:#fde68a;padding:1px 5px;border-radius:3px;margin-top:3px;display:inline-block;}
+.ev-asi{background:var(--asi-bg);border-color:var(--asi);color:#6ee7c7;}
+.ev-io {background:var(--io-bg); border-color:var(--io); color:#f9a8d4;}
+.ev-leg{background:var(--leg-bg);border-color:var(--leg);color:#fed7aa;}
+.ev-ics{background:var(--ics-bg);border-color:var(--ics);color:#c7d2fe;}
+.ev-ta {background:var(--ta-bg); border-color:var(--ta); color:#fef08a;}
+.ev-si {background:var(--si-bg); border-color:var(--si); color:#ddd6fe;}
+.ev-cd {background:var(--cd-bg); border-color:var(--cd); color:#bae6fd;}
+.ev-rd  {background:var(--rd-bg);  border-color:var(--rd);  color:#bae6fd;}
+.ev-sim {background:var(--sim-bg); border-color:var(--sim); color:#a7f3d0;}
+.ev-ai  {background:var(--ai-bg);  border-color:var(--ai);  color:#e9d5ff;}
+.ev-cdat{background:var(--cdat-bg);border-color:var(--cdat);color:#fde68a;}
+.ev-seg {background:var(--seg-bg); border-color:var(--seg); color:#fecaca;}
+.ev-sge {background:var(--sge-bg); border-color:var(--sge); color:#99f6e4;}
+.ev-gge {background:var(--gge-bg); border-color:var(--gge); color:#fed7aa;}
+.ev-pf  {background:var(--pf-bg);  border-color:var(--pf);  color:#f5d0fe;}
+.ev-cri {background:var(--cri-bg); border-color:var(--cri); color:#d9f99d;}
+.ev-iot {background:var(--iot-bg); border-color:var(--iot); color:#cffafe;}
+.ev-arc {background:var(--arc-bg); border-color:var(--arc); color:#bbf7d0;}
+.ev-aud {background:var(--aud-bg); border-color:var(--aud); color:#fecdd3;}
+.ev-sgi {background:var(--sgi-bg); border-color:var(--sgi); color:#bfdbfe;}
+.ev-cav {background:var(--cav-bg); border-color:var(--cav); color:#fef9c3;}
+.ev-bio {background:var(--bio-bg); border-color:var(--bio); color:#a7f3d0;}
+.gcal-btn{display:inline-flex;align-items:center;gap:5px;margin-top:7px;padding:4px 9px;background:rgba(66,133,244,.1);border:1px solid rgba(66,133,244,.3);border-radius:5px;color:#93c5fd;font-size:10px;text-decoration:none;font-family:'Outfit',sans-serif;font-weight:600;transition:background .15s,border-color .15s;cursor:pointer;white-space:nowrap;}
+.gcal-btn:hover{background:rgba(66,133,244,.22);border-color:rgba(66,133,244,.55);}
+.day-summary{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:10px;margin-top:16px;}
+.ds-card{background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:11px 14px;}
+.ds-day{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.ds-name{font-size:12px;font-weight:700;display:flex;align-items:flex-start;gap:7px;margin-bottom:4px;line-height:1.3;}
+.ds-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:3px;}
+.ds-det{font-size:10.5px;color:var(--muted);font-family:'JetBrains Mono',monospace;line-height:1.7;padding-left:15px;}
+.note{background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:14px 20px;font-size:13px;color:#6b7a99;line-height:1.7;margin-top:16px;}
+.note strong{color:var(--text);}
+.dropped-box{background:rgba(224,69,69,.06);border:1px solid rgba(224,69,69,.2);border-radius:8px;padding:13px 18px;display:flex;align-items:flex-start;gap:14px;font-size:13px;line-height:1.7;}
+.dropped-box .dx{font-size:18px;color:#f87171;font-weight:800;flex-shrink:0;}
+.dropped-box strong{color:#fca5a5;}
+.anual-tag{display:inline-block;font-size:9px;font-weight:700;letter-spacing:1px;background:rgba(34,211,164,.12);color:var(--asi);border:1px solid rgba(34,211,164,.25);padding:1px 6px;border-radius:3px;margin-left:5px;vertical-align:middle;}
+.campus-tag{display:inline-block;font-size:9px;font-weight:700;letter-spacing:1px;background:rgba(250,204,21,.1);color:#fde68a;border:1px solid rgba(250,204,21,.25);padding:1px 6px;border-radius:3px;margin-left:5px;vertical-align:middle;}
+.sat-tag{font-size:9.5px;color:var(--io);background:rgba(244,114,182,.1);border:1px solid rgba(244,114,182,.2);padding:1px 6px;border-radius:3px;margin-top:2px;display:inline-block;}
+@media(max-width:700px){main{padding:14px 12px 40px;}.g-header{padding:14px 12px;}}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ GLOBAL HEADER ═══════════ -->
+<header class="g-header">
+  <div class="g-logo">
+    <div class="g-badge-row">
+      <span class="g-badge gb-utn">UTN · FRBA</span>
+      <span class="g-badge gb-k23">Plan K23</span>
+    </div>
+  </div>
+  <div>
+    <div class="g-title">Ingeniería en Sistemas de Información</div>
+    <div class="g-sub">Jorge Osvaldo Tripodi · Leg. 172-060.0 · Sede Medrano · Turno Noche</div>
+  </div>
+  <div class="g-right">
+    <div class="g-date">Actualizado: 08/03/2026</div>
+    <div style="font-size:11px;color:var(--muted);">Transición K08 → K23 efectiva feb. 2026</div>
+  </div>
+</header>
+
+<!-- ═══════════ SUPER TAB BAR ═══════════ -->
+<div class="super-tab-bar">
+  <button class="super-tab sp1 active" onclick="superTab(0)">📊 Seguimiento de Carrera</button>
+  <button class="super-tab sp2" onclick="superTab(1)">🗓 Planificador 2026</button>
+  <button class="super-tab" onclick="superTab(2)">🗓 Planificador 2027</button>
+  <button class="super-tab" onclick="superTab(3)">🗓 Planificador 2028</button>
+  <button class="super-tab" onclick="superTab(4)">🗓 Planificador 2029</button>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SUPER PANEL 1 · SEGUIMIENTO DE CARRERA
+════════════════════════════════════════ -->
+<div class="super-panel active" id="sp0">
+<main>
+
+  <!-- SUB-TAB BAR -->
+  <div class="sub-tab-bar">
+    <button class="sub-tab active" onclick="sp1Tab(0)">📈 Dashboard <span class="sbadge">KPIs</span></button>
+    <button class="sub-tab blue" onclick="sp1Tab(1)">🗺 Mapa Curricular <span class="sbadge">K23</span></button>
+    <button class="sub-tab blue" onclick="sp1Tab(2)">⚖ Peso Académico <span class="sbadge">Res. 2902/25</span></button>
+    <button class="sub-tab blue" onclick="sp1Tab(3)">🧭 Estrategia <span class="sbadge">Correlativas</span></button>
+  </div>
+
+  <!-- ─── SUB-PANEL 0: DASHBOARD ─── -->
+  <div class="sub-panel active" id="sp1p0">
+
+    <div class="sec">KPIs Académicos · Estado al 08/03/2026</div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card k-green">
+        <div class="kpi-val">56%</div>
+        <div class="kpi-lbl">Avance Cerrado</div>
+        <div class="prog-bar-bg"><div class="prog-bar-fill" style="width:56%"></div></div>
+        <div class="kpi-sub"><strong>23 de 41 bloques</strong> curriculares definitivamente cerrados. Las 26 materias aprobadas = 23 bloques (las 4 electivas cuentan como 1 bloque de N3).</div>
+      </div>
+      <div class="kpi-card k-blue">
+        <div class="kpi-val">63%</div>
+        <div class="kpi-lbl">Avance Incluyendo 1C 2026</div>
+        <div class="prog-bar-bg"><div class="prog-bar-fill" style="width:63%;background:var(--blue)"></div></div>
+        <div class="kpi-sub">Sumando las <strong>3 materias en curso</strong> (Administración de Sistemas de Información, Comunicación de Datos, Seminario Integrador) = 26/41 bloques.</div>
+      </div>
+      <div class="kpi-card k-green">
+        <div class="kpi-val">0</div>
+        <div class="kpi-lbl">Finales Pendientes ("Mochila")</div>
+        <div class="kpi-sub" style="color:#6ee7b7;"><strong>¡Excelente!</strong> Todas las cursadas anteriores están cerradas con final o promoción.</div>
+      </div>
+      <div class="kpi-card k-blue">
+        <div class="kpi-val">8.7</div>
+        <div class="kpi-lbl">Promedio Ponderado</div>
+        <div class="kpi-sub">Calculado sobre <strong>22 de las 26 materias aprobadas</strong> que tienen nota numérica. Las otras 4 (Física I, Ingeniería y Sociedad, Química Ambiental, Desarrollo de Software) fueron acreditadas sin calificación.</div>
+      </div>
+      <div class="kpi-card k-pink">
+        <div class="kpi-val">1</div>
+        <div class="kpi-lbl">Para Título Intermedio</div>
+        <div class="kpi-sub">Solo resta aprobar el <strong>Seminario de Integración</strong> (en curso 1C 2026). Todos los demás 🎓 están cerrados.</div>
+      </div>
+      <div class="kpi-card k-yellow">
+        <div class="kpi-val">7</div>
+        <div class="kpi-lbl">Materias planificadas 2026</div>
+        <div class="kpi-sub"><strong>1C:</strong> Administración de Sistemas de Información (anual), Comunicación de Datos, Seminario Integrador · <strong>2C:</strong> Ingeniería y Calidad de Software, Investigación Operativa, Legislación, Tecnologías para la Automatización.</div>
+      </div>
+      <div class="kpi-card k-green">
+        <div class="kpi-val">128h ✓</div>
+        <div class="kpi-lbl">Electivas 3° Nivel</div>
+        <div class="kpi-sub"><strong>N3 cubierto</strong> con Gestión del Talento Humano + Transformación Digital (~128h vs. 96h req.). Química Ambiental y Comunicación Gráfica y Visual en consulta para N5.</div>
+      </div>
+      <div class="kpi-card k-green">
+        <div class="kpi-val">7 años</div>
+        <div class="kpi-lbl">Trayectoria Activa</div>
+        <div class="kpi-sub">Desde <strong>2019</strong> hasta hoy, con actividad continua. El historial refleja una carrera con múltiples ciclos activos.</div>
+      </div>
+    </div>
+
+    <div class="greenbox" style="margin-bottom:16px;">
+      <strong>✓ Título Intermedio al alcance:</strong> Estás cursando el <strong>Seminario de Integración</strong> en 1C 2026. Todos los requisitos de nivel 1 a 3 (marcados con 🎓 en el mapa) ya están aprobados. Al aprobarlo obtenés el título de <em>Analista Desarrollador Universitario de Sistemas de Información</em>.
+    </div>
+
+    <div class="sec">Distribución por Nivel · Plan K23</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-bottom:24px;">
+      <div style="background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:13px 16px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:1px;color:var(--green);margin-bottom:8px;text-transform:uppercase;">Nivel 1</div>
+        <div style="font-size:28px;font-weight:800;color:var(--green);">8/8</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:3px;">100% completo 🎓</div>
+        <div class="prog-bar-bg" style="margin-top:8px;"><div class="prog-bar-fill" style="width:100%"></div></div>
+      </div>
+      <div style="background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:13px 16px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:1px;color:var(--green);margin-bottom:8px;text-transform:uppercase;">Nivel 2</div>
+        <div style="font-size:28px;font-weight:800;color:var(--green);">8/8</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:3px;">100% completo 🎓</div>
+        <div class="prog-bar-bg" style="margin-top:8px;"><div class="prog-bar-fill" style="width:100%"></div></div>
+      </div>
+      <div style="background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:13px 16px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:1px;color:var(--blue);margin-bottom:8px;text-transform:uppercase;">Nivel 3</div>
+        <div style="font-size:28px;font-weight:800;color:var(--blue);">7/9</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:3px;">CD + Seminario en curso</div>
+        <div class="prog-bar-bg" style="margin-top:8px;"><div class="prog-bar-fill" style="width:78%;background:var(--blue)"></div></div>
+      </div>
+      <div style="background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:13px 16px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:1px;color:var(--yellow);margin-bottom:8px;text-transform:uppercase;">Nivel 4</div>
+        <div style="font-size:28px;font-weight:800;color:var(--yellow);">1/8</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:3px;">ASI en curso (anual)</div>
+        <div class="prog-bar-bg" style="margin-top:8px;"><div class="prog-bar-fill" style="width:12%;background:var(--yellow)"></div></div>
+      </div>
+      <div style="background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:13px 16px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:1px;color:var(--muted);margin-bottom:8px;text-transform:uppercase;">Nivel 5</div>
+        <div style="font-size:28px;font-weight:800;color:var(--muted);">0/8</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:3px;">Pendiente completo</div>
+        <div class="prog-bar-bg" style="margin-top:8px;"><div class="prog-bar-fill" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <div class="sec">Notas Sobresalientes</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;margin-bottom:20px;">
+      <div style="background:var(--s2);border:1px solid rgba(34,211,164,.2);border-radius:8px;padding:12px 15px;">
+        <div style="font-size:10px;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.8px;">🏆 10 · Promoción</div>
+        <div style="font-size:13px;font-weight:700;">Algoritmos y Estructura de Datos</div>
+        <div style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;">02/12/2019</div>
+      </div>
+      <div style="background:var(--s2);border:1px solid rgba(34,211,164,.2);border-radius:8px;padding:12px 15px;">
+        <div style="font-size:10px;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.8px;">🏆 10 · Promoción</div>
+        <div style="font-size:13px;font-weight:700;">Inglés Técnico Nivel I → Inglés I</div>
+        <div style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;">15/07/2022</div>
+      </div>
+      <div style="background:var(--s2);border:1px solid rgba(34,211,164,.2);border-radius:8px;padding:12px 15px;">
+        <div style="font-size:10px;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.8px;">🏆 10 · Promoción</div>
+        <div style="font-size:13px;font-weight:700;">Gestión de Datos → Bases de Datos</div>
+        <div style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;">28/11/2025</div>
+      </div>
+      <div style="background:var(--s2);border:1px solid rgba(34,211,164,.2);border-radius:8px;padding:12px 15px;">
+        <div style="font-size:10px;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.8px;">🏆 10 · Promoción</div>
+        <div style="font-size:13px;font-weight:700;">Gestión del Talento Humano (Electiva)</div>
+        <div style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;">28/11/2025</div>
+      </div>
+    </div>
+
+  </div><!-- end sp1p0 -->
+
+  <!-- ─── SUB-PANEL 1: MAPA CURRICULAR ─── -->
+  <div class="sub-panel" id="sp1p1">
+
+    <div class="infobox" style="margin-bottom:16px;">
+      <strong>Acordeón interactivo:</strong> Hacé clic en cualquier materia para expandir sus detalles (fechas, notas, correlativas). Las que tienen cursada y final distintos muestran ambas fechas. Las equivalencias muestran la materia de origen.
+    </div>
+
+    <div class="map-legend">
+      <div class="ml-item"><span style="font-size:13px">🎓</span> Req. Título Intermedio</div>
+      <div class="ml-item" style="margin-left:6px;"><div class="ml-box" style="border-color:var(--green);background:rgba(34,211,164,.05)"></div> Aprobada</div>
+      <div class="ml-item"><div class="ml-box" style="border-color:var(--blue);background:rgba(56,189,248,.05)"></div> En curso / Planificada 2026</div>
+      <div class="ml-item"><div class="ml-box" style="border-color:var(--pending-border);background:var(--pending-bg)"></div> Pendiente</div>
+      <div class="ml-item"><div class="ml-box" style="border-color:var(--pink);background:rgba(244,114,182,.05)"></div> Seminario / Título Intermedio</div>
+    </div>
+
+    <div class="map-wrap">
+    <div class="map-grid">
+
+      <!-- ══ NIVEL 1 ══ -->
+      <div class="map-col">
+        <div class="map-lvl">Nivel 1 · 8/8 🎓</div>
+
+        <!-- AM1 -->
+        <div class="acc-card s-ap" onclick="toggleAcc(this)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Análisis Matemático I 🎓</div>
+            <div class="acc-badges"><span class="acc-badge ab-promo">Promoción</span></div></div>
+            <span class="acc-grade ag-green">8</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Estado</span><span class="acc-row-val" style="color:var(--green)">Aprobado</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Modalidad</span><span class="acc-row-val">Promoción</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Nota</span><span class="acc-row-val">8</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Fecha aprobación</span><span class="acc-row-val">02/12/2019</span></div>
+            <div class="acc-note">Materia semestral. Requisito para Análisis Matemático II (Nivel 2).</div>
+          </div>
+        </div>
+
+        <!-- AGA -->
+        <div class="acc-card s-ap" onclick="toggleAcc(this)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Álgebra y Geometría Analítica 🎓</div>
+            <div class="acc-badges"><span class="acc-badge ab-final">Final</span></div></div>
+            <span class="acc-grade ag-green">9</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Estado</span><span class="acc-row-val" style="color:var(--green)">Aprobado</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Modalidad</span><span class="acc-row-val">Examen Final</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Nota final</span><span class="acc-row-val">9</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Fecha cursada</span><span class="acc-row-val">27/07/2020</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Fecha final</span><span class="acc-row-val">29/07/2025</span></div>
+            <div class="acc-note"><strong>Atención:</strong> Cursada en 2020, final aprobado en 2025 (5 años entre cursada y final). Se registran también 2 instancias ausente (25/02/2025 y 20/05/2025) antes de la aprobación final.</div>
+          </div>
+        </div>
+
+        <!-- Física I -->
+        <div class="acc-card s-ap" onclick="toggleAcc(this)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Física I 🎓</div>
+            <div class="acc-badges"><span class="acc-badge ab-final">Final</span></div></div>
+            <span class="acc-grade ag-equiv">✓</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Estado</span><span class="acc-row-val" style="color:var(--green)">Aprobado</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Modalidad</span><span class="acc-row-val">Examen Final</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Nota</span><span class="acc-row-val">Aprobada (s/n)</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Regularidad</span><span class="acc-row-val">05/06/2019 (equiv.)</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Fecha final</span><span class="acc-row-val">21/10/2019</span></div>
+            <div class="acc-note">La regularidad fue otorgada por equivalencia en junio 2019; el examen final se tomó en octubre del mismo año.</div>
+          </div>
+        </div>
+
+        <!-- Inglés I -->
+        <div class="acc-card s-ap" onclick="toggleAcc(this)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Inglés I 🎓</div>
+            <div class="acc-badges"><span class="acc-badge ab-equiv">Equivalencia</span></div></div>
+            <span class="acc-grade ag-green">10</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Estado</span><span class="acc-row-val" style="color:var(--green)">Equivalencia K08→K23</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Equiv. otorgada</span><span class="acc-row-val">24/02/2026</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Materia K08</span><span class="acc-row-val">Inglés Técnico Nivel I</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Nota origen</span><span class="acc-row-val">10 (Promoción)</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Fecha origen</span><span class="acc-row-val">15/07/2022</span></div>
+          </div>
+        </div>
+
+        <!-- LED -->
+        <div class="acc-card s-ap" onclick="toggleAcc(this)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Lógica y Estructuras Discretas 🎓</div>
+            <div class="acc-badges"><span class="acc-badge ab-equiv">Equivalencia</span></div></div>
+            <span class="acc-grade ag-green">9</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Estado</span><span class="acc-row-val" style="color:var(--green)">Equivalencia K08→K23</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Equiv. otorgada</span><span class="acc-row-val">24/02/2026</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Materia K08</span><span class="acc-row-val">Matemática Discreta</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Nota origen</span><span class="acc-row-val">9 (Promoción)</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Fecha origen</span><span class="acc-row-val">30/11/2022</span></div>
+            <div class="acc-note">Cursada: 21/12/2022. Promocionada en la instancia del 30/11/2022.</div>
+          </div>
+        </div>
+
+        <!-- AED -->
+        <div class="acc-card s-ap" onclick="toggleAcc(this)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Algoritmos y Estructura de Datos 🎓</div>
+            <div class="acc-badges"><span class="acc-badge ab-promo">Promoción</span></div></div>
+            <span class="acc-grade ag-green">10</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Estado</span><span class="acc-row-val" style="color:var(--green)">Aprobado</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Modalidad</span><span class="acc-row-val">Promoción</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Nota</span><span class="acc-row-val">10 🏆</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Fecha aprobación</span><span class="acc-row-val">02/12/2019</span></div>
+          </div>
+        </div>
+
+        <!-- Arq. Comp. -->
+        <div class="acc-card s-ap" onclick="toggleAcc(this)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Arquitectura de Computadores 🎓</div>
+            <div class="acc-badges"><span class="acc-badge ab-promo">Promoción</span></div></div>
+            <span class="acc-grade ag-green">8</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Estado</span><span class="acc-row-val" style="color:var(--green)">Aprobado</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Modalidad</span><span class="acc-row-val">Promoción</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Nota</span><span class="acc-row-val">8</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Fecha aprobación</span><span class="acc-row-val">03/12/2021</span></div>
+            <div class="acc-corr"><span>Req. para cursar:</span> Comunicación de Datos, Tecnologías para la Automatización</div>
+          </div>
+        </div>
+
+        <!-- SPN -->
+        <div class="acc-card s-ap" onclick="toggleAcc(this)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Sistemas y Procesos de Negocio 🎓</div>
+            <div class="acc-badges"><span class="acc-badge ab-equiv">Equivalencia</span></div></div>
+            <span class="acc-grade ag-green">8</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Estado</span><span class="acc-row-val" style="color:var(--green)">Equivalencia K08→K23</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Equiv. otorgada</span><span class="acc-row-val">24/02/2026</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Materia K08</span><span class="acc-row-val">Sistemas y Organizaciones</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Nota origen</span><span class="acc-row-val">8 (Promoción)</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Fecha origen</span><span class="acc-row-val">02/12/2019</span></div>
+          </div>
+        </div>
+      </div><!-- /N1 -->
+
+      <!-- ══ NIVEL 2 ══ -->
+      <div class="map-col">
+        <div class="map-lvl">Nivel 2 · 8/8 🎓</div>
+
+        <!-- AM2 -->
+        <div class="acc-card s-ap" onclick="toggleAcc(this)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Análisis Matemático II 🎓</div>
+            <div class="acc-badges"><span class="acc-badge ab-promo">Promoción</span></div></div>
+            <span class="acc-grade ag-green">9</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Estado</span><span class="acc-row-val" style="color:var(--green)">Aprobado</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Modalidad</span><span class="acc-row-val">Promoción</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Nota</span><span class="acc-row-val">9</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Fecha aprobación</span><span class="acc-row-val">11/07/2025</span></div>
+            <div class="acc-note">Tenía un intento previo en 07/2023 (regularidad ausente). Aprobado en el segundo intento.</div>
+          </div>
+        </div>
+
+        <!-- Física II -->
+        <div class="acc-card s-ap" onclick="toggleAcc(this)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Física II 🎓</div>
+            <div class="acc-badges"><span class="acc-badge ab-promo">Promoción</span></div></div>
+            <span class="acc-grade ag-green">9</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Estado</span><span class="acc-row-val" style="color:var(--green)">Aprobado</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Modalidad</span><span class="acc-row-val">Promoción</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Nota</span><span class="acc-row-val">9</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Fecha aprobación</span><span class="acc-row-val">11/07/2025</span></div>
+            <div class="acc-note">Intento previo fallido en 2020 (No aprobada). Aprobada finalmente en 2025.</div>
+            <div class="acc-corr"><span>Req. para cursar:</span> Tecnologías para la Automatización (Nivel 4)</div>
+          </div>
+        </div>
+
+        <!-- Ing y Soc -->
+        <div class="acc-card s-ap" onclick="toggleAcc(this)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Ingeniería y Sociedad 🎓</div>
+            <div class="acc-badges"><span class="acc-badge ab-equiv">Equivalencia</span></div></div>
+            <span class="acc-grade ag-equiv">✓</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Estado</span><span class="acc-row-val" style="color:var(--green)">Aprobado</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Modalidad</span><span class="acc-row-val">Equivalencia</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Fecha</span><span class="acc-row-val">05/06/2019</span></div>
+            <div class="acc-corr"><span>Req. para cursar:</span> Legislación (Nivel 4)</div>
+          </div>
+        </div>
+
+        <!-- Inglés II -->
+        <div class="acc-card s-ap" onclick="toggleAcc(this)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Inglés II 🎓</div>
+            <div class="acc-badges"><span class="acc-badge ab-promo">Promoción</span></div></div>
+            <span class="acc-grade ag-green">9</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Estado</span><span class="acc-row-val" style="color:var(--green)">Aprobado</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Materia K08</span><span class="acc-row-val">Inglés Técnico Nivel II</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Nota</span><span class="acc-row-val">9 (Promoción)</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Fecha aprobación</span><span class="acc-row-val">30/11/2022</span></div>
+          </div>
+        </div>
+
+        <!-- Sint&Sem -->
+        <div class="acc-card s-ap" onclick="toggleAcc(this)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Sintaxis y Semántica 🎓</div>
+            <div class="acc-badges"><span class="acc-badge ab-promo">Promoción</span></div></div>
+            <span class="acc-grade ag-green">8</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Estado</span><span class="acc-row-val" style="color:var(--green)">Aprobado</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Modalidad</span><span class="acc-row-val">Promoción</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Nota</span><span class="acc-row-val">8</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Fecha cursada</span><span class="acc-row-val">30/11/2023</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Fecha aprobación</span><span class="acc-row-val">30/11/2023</span></div>
+          </div>
+        </div>
+
+        <!-- Paradigmas -->
+        <div class="acc-card s-ap" onclick="toggleAcc(this)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Paradigmas de Programación 🎓</div>
+            <div class="acc-badges"><span class="acc-badge ab-promo">Promoción</span></div></div>
+            <span class="acc-grade ag-green">8</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Estado</span><span class="acc-row-val" style="color:var(--green)">Aprobado</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Modalidad</span><span class="acc-row-val">Promoción</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Nota</span><span class="acc-row-val">8</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Fecha cursada</span><span class="acc-row-val">30/11/2023</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Fecha aprobación</span><span class="acc-row-val">14/02/2024</span></div>
+            <div class="acc-note">Cursada aprobada en noviembre 2023; la instancia final de promoción fue en febrero 2024.</div>
+          </div>
+        </div>
+
+        <!-- SSOO -->
+        <div class="acc-card s-ap" onclick="toggleAcc(this)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Sistemas Operativos 🎓</div>
+            <div class="acc-badges"><span class="acc-badge ab-final">Final</span></div></div>
+            <span class="acc-grade ag-green">7</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Estado</span><span class="acc-row-val" style="color:var(--green)">Aprobado</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Modalidad</span><span class="acc-row-val">Examen Final</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Nota final</span><span class="acc-row-val">7</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Fecha cursada</span><span class="acc-row-val">12/07/2024</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Fecha final</span><span class="acc-row-val">10/12/2024</span></div>
+            <div class="acc-note">Instancia ausente el 09/10/2024 antes de la aprobación en diciembre.</div>
+            <div class="acc-corr"><span>Req. para cursar:</span> Comunicación de Datos, Redes de Datos (N4), Tec. Automatización (N4)</div>
+          </div>
+        </div>
+
+        <!-- Análisis SI -->
+        <div class="acc-card s-ap" onclick="toggleAcc(this)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Análisis de Sistemas de Inf. 🎓</div>
+            <div class="acc-badges"><span class="acc-badge ab-equiv">Equivalencia</span><span class="acc-badge ab-int">Integradora</span></div></div>
+            <span class="acc-grade ag-green">9</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Estado</span><span class="acc-row-val" style="color:var(--green)">Equivalencia K08→K23</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Equiv. otorgada</span><span class="acc-row-val">24/02/2026</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Materia K08</span><span class="acc-row-val">Análisis de Sistemas</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Nota origen</span><span class="acc-row-val">9 (Promoción)</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Fecha origen</span><span class="acc-row-val">09/12/2020</span></div>
+            <div class="acc-corr"><span>Req. para cursar:</span> Ing. y Calidad de SW (N4)</div>
+          </div>
+        </div>
+      </div><!-- /N2 -->
+
+      <!-- ══ NIVEL 3 ══ -->
+      <div class="map-col">
+        <div class="map-lvl">Nivel 3 · 7/9 (+ en curso)</div>
+
+        <!-- PyE -->
+        <div class="acc-card s-ap" onclick="toggleAcc(this)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Probabilidad y Estadística 🎓</div>
+            <div class="acc-badges"><span class="acc-badge ab-promo">Promoción</span></div></div>
+            <span class="acc-grade ag-green">9</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Estado</span><span class="acc-row-val" style="color:var(--green)">Aprobado</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Modalidad</span><span class="acc-row-val">Promoción</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Nota</span><span class="acc-row-val">9</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Fecha aprobación</span><span class="acc-row-val">09/12/2020</span></div>
+            <div class="acc-corr"><span>Req. para cursar:</span> Investigación Operativa (N4), Simulación (N4), IA (N5), Ciencia de Datos (N5)</div>
+          </div>
+        </div>
+
+        <!-- Economía -->
+        <div class="acc-card s-ap" onclick="toggleAcc(this)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Economía 🎓</div>
+            <div class="acc-badges"><span class="acc-badge ab-final">Final</span></div></div>
+            <span class="acc-grade ag-green">7</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Estado</span><span class="acc-row-val" style="color:var(--green)">Aprobado</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Modalidad</span><span class="acc-row-val">Examen Final</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Nota final</span><span class="acc-row-val">7</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Fecha cursada</span><span class="acc-row-val">07/12/2022</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Fecha final</span><span class="acc-row-val">09/12/2025</span></div>
+            <div class="acc-note">Cursada en 2022, final aprobado 3 años después en dic. 2025. Hubo un intento reprobado (4 puntos) en ago. 2024 y otro en sept. 2025 antes de la aprobación.</div>
+            <div class="acc-corr"><span>Req. para cursar:</span> Gestión Gerencial (N5), Sistemas de Gestión (N5)</div>
+          </div>
+        </div>
+
+        <!-- Bases de Datos -->
+        <div class="acc-card s-ap" onclick="toggleAcc(this)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Bases de Datos 🎓</div>
+            <div class="acc-badges"><span class="acc-badge ab-equiv">Equivalencia</span></div></div>
+            <span class="acc-grade ag-green">10</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Estado</span><span class="acc-row-val" style="color:var(--green)">Equivalencia K08→K23</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Equiv. otorgada</span><span class="acc-row-val">24/02/2026</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Materia K08</span><span class="acc-row-val">Gestión de Datos</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Nota origen</span><span class="acc-row-val">10 (Promoción) 🏆</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Fecha origen</span><span class="acc-row-val">28/11/2025</span></div>
+            <div class="acc-corr"><span>Req. para cursar:</span> Ciencia de Datos (N5)</div>
+          </div>
+        </div>
+
+        <!-- Desarrollo de SW -->
+        <div class="acc-card s-ap" onclick="toggleAcc(this)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Desarrollo de Software 🎓</div>
+            <div class="acc-badges"><span class="acc-badge ab-equiv">Equivalencia</span></div></div>
+            <span class="acc-grade ag-equiv">✓</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Estado</span><span class="acc-row-val" style="color:var(--green)">Aprobado</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Modalidad</span><span class="acc-row-val">Equivalencia (plan transición)</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Fecha</span><span class="acc-row-val">02/03/2026</span></div>
+          </div>
+        </div>
+
+        <!-- Comunicación de Datos -->
+        <div class="acc-card s-pl" onclick="toggleAcc(this)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name"><a href="Comunicaciones_K3055_2026.html" style="color:inherit;text-decoration:none;border-bottom:1px dashed rgba(56,189,248,.4);transition:border-color .2s;" onmouseover="this.style.borderBottomColor='var(--cd)'" onmouseout="this.style.borderBottomColor='rgba(56,189,248,.4)'">Comunicación de Datos</a> 🎓</div>
+            <div class="acc-badges"><span class="acc-badge ab-plan">1C 2026</span></div></div>
+            <span class="acc-grade ag-blue">–</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Estado</span><span class="acc-row-val" style="color:var(--blue)">En Curso (1C 2026)</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Código</span><span class="acc-row-val">232032 · K3055</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Horario</span><span class="acc-row-val">Ma 19–21:30 · Vi 19–23:00</span></div>
+            <div class="acc-note"><strong>¿K08 tenía esta materia?</strong> En el plan K08 no figura ninguna materia de redes/comunicaciones en el historial de Jorge. En K23 el tema se divide en dos asignaturas: <em>Comunicación de Datos</em> (Nivel 3, req. 🎓) y <em>Redes de Datos</em> (Nivel 4, no req. 🎓). Ambas son nuevas en la trayectoria.</div>
+            <div class="acc-corr"><span>Req. para cursar:</span> Arquitectura de Computadores ✓, Sistemas Operativos ✓<br><span>Desbloquea:</span> Redes de Datos (N4) → Seguridad en Sistemas (N5)</div>
+          </div>
+        </div>
+
+        <!-- Análisis Numérico -->
+        <div class="acc-card s-ap" onclick="toggleAcc(this)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Análisis Numérico 🎓</div>
+            <div class="acc-badges"><span class="acc-badge ab-equiv">Equivalencia</span></div></div>
+            <span class="acc-grade ag-green">8</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Estado</span><span class="acc-row-val" style="color:var(--green)">Equivalencia K08→K23</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Equiv. otorgada</span><span class="acc-row-val">24/02/2026</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Materia K08</span><span class="acc-row-val">Matemática Superior</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Nota original</span><span class="acc-row-val">8 (Examen Final)</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Fecha cursada</span><span class="acc-row-val">28/11/2025</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Fecha final</span><span class="acc-row-val">16/12/2025</span></div>
+            <div class="acc-corr"><span>Req. para cursar:</span> Simulación (N4)</div>
+          </div>
+        </div>
+
+        <!-- Diseño SI -->
+        <div class="acc-card s-ap" onclick="toggleAcc(this)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Diseño de Sistemas de Inf. 🎓</div>
+            <div class="acc-badges"><span class="acc-badge ab-equiv">Equivalencia</span><span class="acc-badge ab-int">Integradora</span></div></div>
+            <span class="acc-grade ag-green">8</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Estado</span><span class="acc-row-val" style="color:var(--green)">Equivalencia K08→K23</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Equiv. otorgada</span><span class="acc-row-val">24/02/2026</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Materia K08</span><span class="acc-row-val">Diseño de Sistemas</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Nota origen</span><span class="acc-row-val">8 (Promoción)</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Fecha origen</span><span class="acc-row-val">02/12/2024</span></div>
+            <div class="acc-corr"><span>Req. para cursar:</span> Administración de Sistemas de Información (N4), IA (N5), Ciencia de Datos (N5), Sistemas de Gestión (N5)</div>
+          </div>
+        </div>
+
+        <!-- Electivas 3° -->
+        <div class="acc-card s-ap" onclick="toggleAcc(this)" style="border-left-color:var(--green)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Electivas 3° Nivel 🎓</div>
+            <div class="acc-badges"><span class="acc-badge" style="background:rgba(34,211,164,.12);color:var(--green);">96h req. · CUBIERTO ✓</span></div></div>
+            <span class="acc-grade" style="width:28px;height:28px;border-radius:50%;background:var(--green);color:#050810;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;font-family:'JetBrains Mono',monospace;">✓</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Requerimiento N3</span><span class="acc-row-val">96 horas reloj</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Total cubierto</span><span class="acc-row-val" style="color:var(--green)">~128h ✓ (supera los 96h requeridos)</span></div>
+            <div style="margin-top:10px;font-size:11px;">
+              <div style="display:grid;grid-template-columns:1fr auto auto;gap:5px 10px;font-family:'JetBrains Mono',monospace;align-items:baseline;">
+                <span style="color:#6b7a99;font-family:'Outfit',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:.5px;">Materia</span>
+                <span style="color:#6b7a99;font-family:'Outfit',sans-serif;font-size:10px;">Nota</span>
+                <span style="color:#6b7a99;font-family:'Outfit',sans-serif;font-size:10px;">Hs</span>
+                <span style="color:#dce4f5;">Gestión del Talento Humano</span><span style="color:var(--green)">10</span><span style="color:var(--green)">~64h</span>
+                <span style="color:#dce4f5;">Transformación Digital</span><span style="color:var(--green)">9</span><span style="color:var(--green)">~64h</span>
+                <span style="color:#aaa;font-style:italic;">Total N3 confirmado</span><span></span><span style="color:var(--green);">~128h ✓</span>
+              </div>
+            </div>
+            <div style="margin-top:10px;background:rgba(34,211,164,.05);border:1px solid rgba(34,211,164,.2);border-radius:6px;padding:9px 11px;font-size:11.5px;line-height:1.7;color:#6b7a99;">
+              <strong style="color:var(--green);">N3 cerrado con estas dos materias.</strong> Química Ambiental y Comunicación Gráfica y Visual (= Sistemas de Representación en K08) son dos materias aprobadas adicionales cuya asignación de nivel definitiva se está consultando — ambas ya cubiertas y en consulta para N5.
+            </div>
+          </div>
+        </div>
+
+        <!-- Seminario -->
+        <div class="acc-card s-ti" onclick="toggleAcc(this)" style="border-top:1px solid rgba(244,114,182,.2)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name"><a href="Seminario_Integrador_2026.html" style="color:inherit;text-decoration:none;border-bottom:1px dashed rgba(167,139,250,.4);transition:border-color .2s;" onmouseover="this.style.borderBottomColor='var(--si)'" onmouseout="this.style.borderBottomColor='rgba(167,139,250,.4)'">Seminario de Integración</a> 🎓</div>
+            <div class="acc-badges"><span class="acc-badge ab-plan">1C 2026</span><span class="acc-badge ab-tit">TÍTULO INTERMEDIO</span></div></div>
+            <span class="acc-grade ag-blue">–</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Estado</span><span class="acc-row-val" style="color:var(--pink)">En Curso (1C 2026)</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Código</span><span class="acc-row-val">232035 · K4061</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Horario</span><span class="acc-row-val">Lu 19–22:15 · Mi 19–22:15</span></div>
+            <div class="acc-note">Materia extracurricular obligatoria para el título intermedio de <strong>Analista Desarrollador Universitario de Sistemas de Información</strong>. ¡Es la única barrera que queda para ese título!</div>
+          </div>
+        </div>
+      </div><!-- /N3 -->
+
+      <!-- ══ NIVEL 4 ══ -->
+      <div class="map-col">
+        <div class="map-lvl">Nivel 4 · En progreso 2026</div>
+
+        <!-- Legislación -->
+        <div class="acc-card s-pl" onclick="toggleAcc(this)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Legislación</div>
+            <div class="acc-badges"><span class="acc-badge ab-plan">2C 2026</span></div></div>
+            <span class="acc-grade ag-muted">–</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Estado</span><span class="acc-row-val" style="color:var(--blue)">Planificada 2C 2026</span></div>
+            <div class="acc-corr"><span>Req. para cursar:</span> Ingeniería y Sociedad ✓<br><span>Desbloquea:</span> Gestión Gerencial (N5)</div>
+          </div>
+        </div>
+
+        <!-- ICS -->
+        <div class="acc-card s-pl" onclick="toggleAcc(this)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Ingeniería y Calidad de Software</div>
+            <div class="acc-badges"><span class="acc-badge ab-plan">2C 2026</span></div></div>
+            <span class="acc-grade ag-muted">–</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Estado</span><span class="acc-row-val" style="color:var(--blue)">Planificada 2C 2026</span></div>
+            <div class="acc-corr"><span>Req. para cursar:</span> Análisis de Sistemas de Información ✓<br><span>Desbloquea:</span> (cadena de SW)</div>
+          </div>
+        </div>
+
+        <!-- Redes de Datos -->
+        <div class="acc-card s-pe" onclick="toggleAcc(this)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Redes de Datos</div>
+            <div class="acc-badges"><span class="acc-badge ab-pend">Req: Comunicación de Datos</span></div></div>
+            <span class="acc-grade ag-muted">–</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Estado</span><span class="acc-row-val" style="color:var(--muted)">Pendiente</span></div>
+            <div class="acc-note"><strong>¿Requerida para título intermedio?</strong> <span style="color:var(--green)">NO.</span> El título intermedio (Analista Desarrollador) requiere solo los contenidos de Nivel 1 a 3 más el Seminario. Redes de Datos es Nivel 4 y no tiene marcador 🎓. Es continuación natural de Comunicación de Datos.</div>
+            <div class="acc-corr"><span>Req. para cursar:</span> Comunicación de Datos (cursada) + Sistemas Operativos ✓<br><span>Req. para final:</span> Comunicación de Datos (final aprobado)<br><span>Desbloquea:</span> Seguridad en Sistemas de Información (N5)</div>
+          </div>
+        </div>
+
+        <!-- IO -->
+        <div class="acc-card s-pl" onclick="toggleAcc(this)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Investigación Operativa</div>
+            <div class="acc-badges"><span class="acc-badge ab-plan">2C 2026</span></div></div>
+            <span class="acc-grade ag-muted">–</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Estado</span><span class="acc-row-val" style="color:var(--blue)">Planificada 2C 2026</span></div>
+            <div class="acc-note">Tiene encuentro el Sábado 13:30–15:00 además de la noche.</div>
+            <div class="acc-corr"><span>Req. para cursar:</span> Análisis Matemático II ✓, Probabilidad y Estadística ✓</div>
+          </div>
+        </div>
+
+        <!-- Simulación -->
+        <div class="acc-card s-pe" onclick="toggleAcc(this)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Simulación</div>
+            <div class="acc-badges"><span class="acc-badge ab-pend">Postergada 2027</span></div></div>
+            <span class="acc-grade ag-muted">–</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Estado</span><span class="acc-row-val" style="color:var(--muted)">Pendiente · Plan: 2027</span></div>
+            <div class="acc-note">Postergada por falta de horario compatible en 2026. Todos los bloques noche disponibles en 2026 están ocupados por otras materias.</div>
+            <div class="acc-corr"><span>Req. para cursar:</span> Probabilidad y Estadística ✓, Análisis Numérico ✓<br><span>Req. para final:</span> Probabilidad y Estadística (final) ✓</div>
+          </div>
+        </div>
+
+        <!-- TA -->
+        <div class="acc-card s-pl" onclick="toggleAcc(this)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Tecnologías para la Automatización</div>
+            <div class="acc-badges"><span class="acc-badge ab-plan">2C 2026</span></div></div>
+            <span class="acc-grade ag-muted">–</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Estado</span><span class="acc-row-val" style="color:var(--blue)">Planificada 2C 2026</span></div>
+            <div class="acc-corr"><span>Req. para cursar:</span> Física II ✓, Sistemas Operativos ✓</div>
+          </div>
+        </div>
+
+        <!-- ASI -->
+        <div class="acc-card s-pl" onclick="toggleAcc(this)" style="border-left-color:var(--green);border-top:1px solid rgba(34,211,164,.2);">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name"><a href="AdSI_Dashboard.html" style="color:inherit;text-decoration:none;border-bottom:1px dashed rgba(34,211,164,.4);transition:border-color .2s;" onmouseover="this.style.borderBottomColor='var(--asi)'" onmouseout="this.style.borderBottomColor='rgba(34,211,164,.4)'">Administración de Sistemas de Información</a></div>
+            <div class="acc-badges"><span class="acc-badge ab-anual">ANUAL 2026</span><span class="acc-badge ab-int">Integradora</span></div></div>
+            <span class="acc-grade ag-blue">◉</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Estado</span><span class="acc-row-val" style="color:var(--green)">En Curso · Anual 2026</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Código</span><span class="acc-row-val">232045 · K4053</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Horario</span><span class="acc-row-val">Ju 18:15–23:00 (todo el año)</span></div>
+            <div class="acc-note"><strong>Materia clave:</strong> Al ser anual, su cursada ya comenzó en 1C y continúa en 2C 2026. Es correlativa directa de Proyecto Final y Seguridad en Sistemas (N5).</div>
+            <div class="acc-corr"><span>Req. para cursar:</span> Diseño de Sistemas de Información ✓<br><span>Desbloquea:</span> Proyecto Final (N5), Seguridad en Sistemas (N5)</div>
+          </div>
+        </div>
+
+        <!-- Electivas 4° -->
+        <div class="acc-card s-pe" onclick="toggleAcc(this)" style="border-left-color:var(--yellow)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Electivas 4° Nivel</div>
+            <div class="acc-badges"><span class="acc-badge ab-pend">144h requeridas · 0h cubierto</span></div></div>
+            <span class="acc-grade ag-muted">–</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Requerimiento N4</span><span class="acc-row-val">144 horas reloj</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Cubierto</span><span class="acc-row-val" style="color:#f87171;">0h confirmadas (Química Ambiental y Com. Gráfica y Visual en consulta para N5)</span></div>
+            <div style="margin-top:10px;font-size:11px;">
+              <div style="color:#6b7a99;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Electivas K23 disponibles para N4</div>
+              <div style="display:grid;grid-template-columns:1fr auto auto;gap:5px 10px;font-family:'JetBrains Mono',monospace;align-items:baseline;">
+                <span style="color:#6b7a99;font-family:'Outfit',sans-serif;font-size:10px;">Materia</span>
+                <span style="color:#6b7a99;font-family:'Outfit',sans-serif;font-size:10px;">Hs aprox.</span>
+                <span style="color:#6b7a99;font-family:'Outfit',sans-serif;font-size:10px;">Acum.</span>
+                <span style="color:#dce4f5;">Criptografía</span><span>~64h</span><span style="color:#aaa">64h</span>
+                <span style="color:#dce4f5;">Internet de las Cosas (IoT)</span><span>~64h</span><span style="color:#aaa">128h</span>
+                <span style="color:#dce4f5;">Arquitecturas Concurrentes</span><span>~64h</span><span style="color:var(--green)">192h ✓</span>
+                <span style="color:#dce4f5;">Desarrollo Emprendedor</span><span>~32h</span><span style="color:#aaa">–</span>
+              </div>
+            </div>
+            <div style="margin-top:8px;background:rgba(56,189,248,.05);border:1px solid rgba(56,189,248,.15);border-radius:5px;padding:8px 10px;font-size:11px;color:#6b7a99;line-height:1.6;">
+              Con <strong style="color:#dce4f5;">3 electivas de ~64h</strong> cubrís los 144h requeridos holgadamente. Si Secretaría asigna Química Ambiental o Comunicación Gráfica y Visual a N4 (en vez de N5), la cantidad de electivas adicionales necesarias se reduce.
+            </div>
+          </div>
+        </div>
+      </div><!-- /N4 -->
+
+      <!-- ══ NIVEL 5 ══ -->
+      <div class="map-col">
+        <div class="map-lvl">Nivel 5 · Pendiente</div>
+
+        <div class="acc-card s-pe" onclick="toggleAcc(this)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Inteligencia Artificial</div>
+            <div class="acc-badges"><span class="acc-badge ab-pend">Pendiente</span></div></div>
+            <span class="acc-grade ag-muted">–</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-corr"><span>Req. para cursar:</span> Diseño de Sistemas de Información ✓, Probabilidad y Estadística ✓</div>
+          </div>
+        </div>
+
+        <div class="acc-card s-pe" onclick="toggleAcc(this)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Ciencia de Datos</div>
+            <div class="acc-badges"><span class="acc-badge ab-pend">Pendiente</span></div></div>
+            <span class="acc-grade ag-muted">–</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-corr"><span>Req. para cursar:</span> Bases de Datos ✓, Diseño de Sistemas de Información ✓, Probabilidad y Estadística ✓</div>
+          </div>
+        </div>
+
+        <div class="acc-card s-pe" onclick="toggleAcc(this)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Sistemas de Gestión</div>
+            <div class="acc-badges"><span class="acc-badge ab-pend">Pendiente</span></div></div>
+            <span class="acc-grade ag-muted">–</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-corr"><span>Req. para cursar:</span> Diseño de Sistemas de Información ✓, Economía ✓</div>
+          </div>
+        </div>
+
+        <div class="acc-card s-pe" onclick="toggleAcc(this)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Gestión Gerencial</div>
+            <div class="acc-badges"><span class="acc-badge ab-pend">Pendiente</span></div></div>
+            <span class="acc-grade ag-muted">–</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-corr"><span>Req. para cursar:</span> Legislación (N4, plan 2C 2026), Economía ✓</div>
+          </div>
+        </div>
+
+        <div class="acc-card s-pe" onclick="toggleAcc(this)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Seguridad en Sistemas de Inf.</div>
+            <div class="acc-badges"><span class="acc-badge ab-pend">Req: Redes de Datos + Adm. Sist. Inf.</span></div></div>
+            <span class="acc-grade ag-muted">–</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-corr"><span>Req. para cursar:</span> Redes de Datos (N4, bloqueada por Comunicación de Datos), Administración de Sistemas de Información (en curso) ✓<br>Solo disponible a partir de 2027 mínimo.</div>
+          </div>
+        </div>
+
+        <div class="acc-card s-pe" onclick="toggleAcc(this)" style="border-left-color:var(--pink)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Proyecto Final</div>
+            <div class="acc-badges"><span class="acc-badge ab-int">Integradora</span><span class="acc-badge ab-anual">Anual</span></div></div>
+            <span class="acc-grade ag-muted">–</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-corr"><span>Req. para cursar:</span> Administración de Sistemas de Información (cursada en 2026) + todo N3 aprobado con finales.<br>Materia anual de 5to año. El capítulo más importante de la carrera.</div>
+          </div>
+        </div>
+
+        <div class="acc-card s-pe" onclick="toggleAcc(this)" style="border-left-color:var(--yellow)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Electivas 5° Nivel</div>
+            <div class="acc-badges"><span class="acc-badge ab-pend">240h requeridas</span><span class="acc-badge" style="background:rgba(250,204,21,.12);color:#fde68a;">~128h en consulta</span></div></div>
+            <span class="acc-grade ag-muted">–</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Requerimiento N5</span><span class="acc-row-val">240 horas reloj</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">En consulta</span><span class="acc-row-val" style="color:#fde68a;">~128h (si Secretaría asigna ambas K08 a N5)</span></div>
+            <div style="margin-top:10px;font-size:11px;">
+              <div style="color:#6b7a99;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Materias aprobadas pendientes de asignación de nivel (en consulta)</div>
+              <div style="display:grid;grid-template-columns:1fr auto auto;gap:5px 10px;font-family:'JetBrains Mono',monospace;align-items:baseline;">
+                <span style="color:#6b7a99;font-family:'Outfit',sans-serif;font-size:10px;">Materia K23 (origen K08)</span>
+                <span style="color:#6b7a99;font-family:'Outfit',sans-serif;font-size:10px;">Nota</span>
+                <span style="color:#6b7a99;font-family:'Outfit',sans-serif;font-size:10px;">Hs</span>
+                <span style="color:#fde68a;">Química Ambiental (← Química K08)</span><span style="color:#c4b5fd">Equiv.</span><span style="color:#fde68a;">~64h</span>
+                <span style="color:#fde68a;">Comunicación Gráfica y Visual (← Sistemas de Representación K08)</span><span style="color:#c4b5fd">9</span><span style="color:#fde68a;">~64h</span>
+                <span style="color:#aaa;font-style:italic;">Subtotal si aplican a N5</span><span></span><span style="color:#fde68a;">~128h</span>
+              </div>
+            </div>
+            <div style="margin-top:8px;background:rgba(250,204,21,.06);border:1px solid rgba(250,204,21,.25);border-radius:5px;padding:8px 10px;font-size:11px;color:#6b7a99;line-height:1.6;">
+              <strong style="color:#fde68a;">⚠ Pendiente de confirmación con Secretaría.</strong> Si ambas aplican a N5: cubrirían ~128h de las 240h requeridas y solo necesitarías <strong style="color:#dce4f5;">2 electivas adicionales</strong> para cerrar N5 (~128h más). Si aplica solo una, necesitarías <strong style="color:#dce4f5;">3 electivas</strong>.
+            </div>
+            <div style="margin-top:10px;font-size:11px;">
+              <div style="color:#6b7a99;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Electivas K23 sugeridas para N5</div>
+              <div style="display:grid;grid-template-columns:1fr auto auto;gap:5px 10px;font-family:'JetBrains Mono',monospace;align-items:baseline;">
+                <span style="color:#6b7a99;font-family:'Outfit',sans-serif;font-size:10px;">Materia</span>
+                <span style="color:#6b7a99;font-family:'Outfit',sans-serif;font-size:10px;">Hs aprox.</span>
+                <span style="color:#6b7a99;font-family:'Outfit',sans-serif;font-size:10px;">Acum. (sin K08)</span>
+                <span style="color:#dce4f5;">Auditoría de Sistemas</span><span>~64h</span><span style="color:#aaa">64h</span>
+                <span style="color:#dce4f5;">Internet de las Cosas (IoT)</span><span>~64h</span><span style="color:#aaa">128h</span>
+                <span style="color:#dce4f5;">Sistemas de Información Geográfica</span><span>~64h</span><span style="color:#aaa">192h</span>
+                <span style="color:#dce4f5;">Calidad Avanzada</span><span>~64h</span><span style="color:var(--green)">256h ✓</span>
+                <span style="color:#dce4f5;">Bioinformática</span><span>~64h</span><span style="color:#aaa">–</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-card s-pe" onclick="toggleAcc(this)" style="border-left-color:var(--io)">
+          <div class="acc-header">
+            <span class="acc-chevron">▶</span>
+            <div style="flex:1"><div class="acc-name">Práctica Profesional (PPS)</div>
+            <div class="acc-badges"><span class="acc-badge" style="background:rgba(244,114,182,.1);color:#f9a8d4;">200 Horas</span></div></div>
+            <span class="acc-grade ag-muted">–</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-row-lbl">Requerimiento</span><span class="acc-row-val">200h en industria</span></div>
+            <div class="acc-note">200 horas de práctica supervisada vinculada al perfil ISI, certificada por UTN. Puede realizarse en paralelo con materias de 4to/5to año.</div>
+          </div>
+        </div>
+      </div><!-- /N5 -->
+
+    </div><!-- /map-grid -->
+    </div><!-- /map-wrap -->
+  </div><!-- end sp1p1 -->
+
+  <!-- ─── SUB-PANEL 2: PESO ACADÉMICO ─── -->
+  <div class="sub-panel" id="sp1p2">
+
+    <div class="peso-formula">
+      <h3>MODELO TÉCNICO DE PESO ACADÉMICO · Resolución Nº 2902/25 – FRBA</h3>
+      <div class="formula-eq">P = 11·MAp_total − 7·FAd_total − 19·FAu_ciclo − 17·MAb_ciclo + 5·MR_ciclo</div>
+      <div class="formula-grid">
+        <div class="fvar"><div class="fvar-name">MAp_total</div><div class="fvar-desc">Materias aprobadas (con final, promocionadas o acreditadas) desde el inicio de la carrera.</div></div>
+        <div class="fvar"><div class="fvar-name">FAd_total</div><div class="fvar-desc">Cantidad de finales adeudados acumulados históricamente desde el inicio de la actividad académica.</div></div>
+        <div class="fvar"><div class="fvar-name">FAu_ciclo</div><div class="fvar-desc">Finales ausentes en el último ciclo (inscripto, no se presentó, y no se dio de baja en tiempo).</div></div>
+        <div class="fvar"><div class="fvar-name">MAb_ciclo</div><div class="fvar-desc">Materias abandonadas en el último ciclo (sin presentarse en ninguna evaluación de la cursada).</div></div>
+        <div class="fvar"><div class="fvar-name">MR_ciclo</div><div class="fvar-desc">Materias regularizadas (cursadas aprobadas) en el último ciclo lectivo.</div></div>
+      </div>
+    </div>
+
+    <div class="infobox" style="margin-bottom:20px;">
+      <strong>Vigencia:</strong> Según Art. 2° de la Res. 2902/25, el modelo se implementa <strong>a partir del Ciclo Lectivo 2027</strong>. El cálculo a continuación es estimativo con datos del ciclo 2025 (último ciclo completo), para anticipar cuál sería el puntaje de Jorge en el primer ciclo de implementación.
+    </div>
+
+    <div class="peso-calc">
+      <h3>Estimación · Ciclo de referencia: 2025</h3>
+      <div class="calc-grid">
+        <div class="calc-item">
+          <div class="calc-var">MAp_total</div>
+          <div class="calc-val pos">26</div>
+          <div class="calc-sub">26 materias aprobadas al inicio 2026: 22 obligatorias + 4 electivas (Gestión del Talento Humano, Transformación Digital, Química Ambiental, Comunicación Gráfica y Visual). Nota: Comunicación Gráfica y Visual es el nombre K23 de Sistemas de Representación (K08) — son la misma materia y cuentan una sola vez.</div>
+        </div>
+        <div class="calc-item">
+          <div class="calc-var">FAd_total × 7</div>
+          <div class="calc-val neg">−35</div>
+          <div class="calc-sub">5 finales adeudados históricos: Álgebra y Geometría Analítica (2020→2025), Economía (2022→2025), Física I (2019), Sistemas Operativos (2024), Mat. Superior (2025). Todos resueltos.</div>
+        </div>
+        <div class="calc-item">
+          <div class="calc-var">FAu_ciclo × 19</div>
+          <div class="calc-val neg">−38</div>
+          <div class="calc-sub">2 finales ausentes en 2025: Álgebra (feb. 2025 y may. 2025, antes de aprobar en jul.).</div>
+        </div>
+        <div class="calc-item">
+          <div class="calc-var">MAb_ciclo × 17</div>
+          <div class="calc-val">0</div>
+          <div class="calc-sub">0 materias abandonadas en 2025.</div>
+        </div>
+        <div class="calc-item">
+          <div class="calc-var">MR_ciclo × 5</div>
+          <div class="calc-val pos">+25</div>
+          <div class="calc-sub">5 materias regularizadas en 2025: Análisis Matemático II, Física II, Gestión de Datos, Gestión del Talento Humano, Matemática Superior.</div>
+        </div>
+      </div>
+
+      <div class="peso-result">
+        <div>
+          <div class="peso-score">238</div>
+          <div class="peso-score-lbl">Peso Académico estimado (ciclo 2025)</div>
+        </div>
+        <div class="peso-score-note">
+          <strong>Desglose:</strong> 11×26 (286) − 7×5 (35) − 19×2 (38) − 17×0 + 5×5 (25) = <strong>238 puntos</strong>.<br><br>
+          Este puntaje alto refleja un perfil con muchas materias aprobadas, mochila cero, y alta productividad en el último ciclo. Los factores que lo reducen levemente son los 2 ausentes en finales (Álgebra y Geometría Analítica en feb y may 2025) y los 5 finales adeudados históricos (todos ya resueltos).<br><br>
+          <strong>Proyección 2026:</strong> Si en 2026 se regularizan las 7 materias planificadas (Comunicación de Datos, Seminario Integrador, Administración de Sistemas de Información, Ingeniería y Calidad de Software, Investigación Operativa, Legislación, Tecnologías para la Automatización), el MAp pasaría a ~33 y MR_ciclo a 7. Con FAu=0 y MAb=0 el puntaje estimado sería 11×33−7×5+5×7 = 363−35+35 = <strong>~363 puntos</strong>.
+        </div>
+      </div>
+    </div>
+
+    <div class="notebox">
+      <strong>Nota metodológica:</strong> FAd_total cuenta el número de materias que en algún momento de la carrera estuvieron en estado "regularidad aprobada + final pendiente". Se penaliza la acumulación histórica de deuda, no el hecho de tomar finales (que es lo esperable). El modelo usa primos para evitar empates entre estudiantes con perfiles similares.
+    </div>
+  </div><!-- end sp1p2 -->
+
+  <!-- ─── SUB-PANEL 3: ESTRATEGIA ─── -->
+  <div class="sub-panel" id="sp1p3">
+
+    <div class="sec">Materias Anuales · Las más críticas</div>
+    <div class="alert" style="margin-bottom:20px;">
+      <strong>⚠ Las materias anuales son el cuello de botella más importante.</strong> Si no las cursás en el año, perdés 12 meses. En K23 hay dos materias anuales: <strong>Administración de Sistemas de Información</strong> (Nivel 4, ya en curso 2026) y <strong>Proyecto Final</strong> (Nivel 5). La decisión de inscribirte a Administración de Sistemas de Información este año fue acertada y crítica para no retrasar la carrera.
+    </div>
+
+    <div class="sec">Cadenas de Correlatividades Clave</div>
+    <div class="strat-grid">
+
+      <div class="strat-card">
+        <h4 style="color:var(--blue);">🔗 Cadena de Redes</h4>
+        <p>Comunicación de Datos es el paso crítico para desbloquear Redes de Datos y, en cascada, Seguridad en Sistemas (N5). Al cursarla ahora en 1C, podés inscribir Redes de Datos en 2027.</p>
+        <ul>
+          <li>Comunicación de Datos (N3, 1C 2026) → final</li>
+          <li>Redes de Datos (N4, 2027) → final</li>
+          <li>Seguridad en Sistemas (N5, ~2028)</li>
+        </ul>
+      </div>
+
+      <div class="strat-card">
+        <h4 style="color:var(--pink);">🎓 Cadena Título Intermedio</h4>
+        <p>Solo falta aprobar el Seminario de Integración para obtener el título de Analista Desarrollador. Todo N1, N2 y N3 (excepto Comunicación de Datos) ya está cerrado.</p>
+        <ul>
+          <li>Seminario (1C 2026) → aprobar</li>
+          <li>¡Título Intermedio 2026!</li>
+        </ul>
+      </div>
+
+      <div class="strat-card">
+        <h4 style="color:var(--green);">🚀 Cadena ASI → Proyecto Final</h4>
+        <p>Administración de Sistemas de Información (anual 2026) es correlativa directa de Proyecto Final. Al cursarla ahora, podés inscribir Proyecto Final en 2028 (que también requiere todo N3 con finales aprobados).</p>
+        <ul>
+          <li>Administración de Sistemas de Información (anual 2026) → regularidad + final</li>
+          <li>Todo N3 con finales ✓ (ya cumplido)</li>
+          <li>Proyecto Final (N5, anual ~2028)</li>
+        </ul>
+      </div>
+
+      <div class="strat-card">
+        <h4 style="color:var(--yellow);">⏳ Materia para no demorar: Legislación</h4>
+        <p>Legislación (plan 2C 2026) desbloquea Gestión Gerencial en N5. No es urgente pero evita una demora innecesaria. Dentro de la planificación 2C ya está incluida.</p>
+        <ul>
+          <li>Legislación (2C 2026)</li>
+          <li>Gestión Gerencial (N5, desde 2027)</li>
+        </ul>
+      </div>
+
+      <div class="strat-card">
+        <h4 style="color:#a78bfa;">📌 Finales que no hay que demorar</h4>
+        <p>Las materias que se cursen en 2026 deben rendir su final lo antes posible para no generar "mochila" y no frenar las correlativas de Nivel 5.</p>
+        <ul>
+          <li>Final de Comunicación de Datos (antes de cursar Redes)</li>
+          <li>Final de Administración de Sistemas de Información (req. para Seg. en Sistemas)</li>
+          <li>Finales de Ingeniería y Calidad de Software, Investigación Operativa, Tecnologías para la Automatización, Legislación (N5 depende de ellos)</li>
+        </ul>
+      </div>
+
+      <div class="strat-card">
+        <h4 style="color:var(--io);">🗓 Simulación · Planificar 2027</h4>
+        <p>No hay lugar en 2026 para Simulación. Sus horarios noche (Lu, Ma o Mi) colisionan con todas las otras materias. La decisión de postergarlo a 2027 es correcta. Correlativas ya cubiertas.</p>
+        <ul>
+          <li>Probabilidad y Estadística ✓ y Análisis Numérico ✓ ya cumplidos</li>
+          <li>Cursar en 1C 2027 junto con materias N5</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="sec">Checklist Inscripciones 2C 2026</div>
+    <div class="greenbox">
+      <strong>Materias confirmadas para 2do cuatrimestre 2026:</strong> Legislación · Ingeniería y Calidad de Software · Investigación Operativa · Tecnologías para la Automatización · (Administración de Sistemas de Información continúa anual los Jueves). Verificar que la cursada de Comunicación de Datos (1C) esté aprobada antes de registrarse a Redes de Datos para 2027.
+    </div>
+
+    <div class="notebox" style="margin-top:14px;">
+      <strong>Sobre la dualidad Comunicación de Datos / Redes de Datos:</strong> En el plan K08 no aparece ninguna materia de redes en el historial de Jorge, lo que sugiere que en K08 posiblemente existía la asignatura bajo otro nombre (ej. "Comunicaciones") o que simplemente nunca fue cursada. En K23 el área de comunicaciones se articuló en dos materias separadas: Comunicación de Datos (Nivel 3, obligatoria para título intermedio) y Redes de Datos (Nivel 4, solo obligatoria para el título de grado). Ambas son nuevas en la trayectoria de Jorge.
+    </div>
+
+  </div><!-- end sp1p3 -->
+
+</main>
+</div><!-- end sp0 -->
+
+<!-- ═══════════════════════════════════
+     SUPER PANEL 2 · PLANIFICADOR 2026
+════════════════════════════════════ -->
+<div class="super-panel" id="sp1-plan">
+<main>
+
+<div class="sec">Vista por cuatrimestre · 2026</div>
+
+<div class="main-tabs">
+  <button class="main-tab mq1 active" onclick="mainTabIn('sp1-plan',0)">
+    1er Cuatrimestre <span class="mbadge">Seminario Integrador · Comunicación de Datos · Adm. Sistemas de Información — única combinación posible</span>
+  </button>
+  <button class="main-tab mq2" onclick="mainTabIn('sp1-plan',1)">
+    2do Cuatrimestre <span class="mbadge">Ingeniería y Calidad de Software · Investigación Operativa · Legislación · Tecnologías para la Automatización · Adm. Sistemas de Información — 3 alternativas</span>
+  </button>
+</div>
+
+<!-- Q1 -->
+<div class="main-panel active" id="mp0">
+  <div class="infobox" style="margin-top:6px;">
+    <strong>ℹ Solo existe una combinación válida para el 1er cuatrimestre en turno noche.</strong><br>
+    El <strong>Seminario Integrador</strong> ancla Lunes y Miércoles. <strong>Comunicación de Datos</strong> toma Martes + Viernes (K3055). <strong>Administración de Sistemas de Información</strong>, siendo anual, ocupa Jueves (el único día restante). No hay margen para reordenar ninguna.
+  </div>
+  <div class="legend" style="margin-top:16px;">
+    <div class="leg-item"><div class="leg-dot" style="background:var(--si)"></div>Seminario Integrador</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--cd)"></div>Comunicación de Datos</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--asi)"></div>Administración de Sistemas de Información</div>
+    <div class="anual-legend">● ANUAL → persiste todo el año en Jue</div>
+  </div>
+  <div class="cal-outer">
+    <div class="cal-head" style="grid-template-columns:48px repeat(5,1fr)">
+      <div class="cal-head-cell"></div>
+      <div class="cal-head-cell lit" style="color:var(--si)">LUNES</div>
+      <div class="cal-head-cell lit" style="color:var(--cd)">MARTES</div>
+      <div class="cal-head-cell lit" style="color:var(--si)">MIÉRCOLES</div>
+      <div class="cal-head-cell lit" style="color:var(--asi)">JUEVES</div>
+      <div class="cal-head-cell lit" style="color:var(--cd)">VIERNES</div>
+    </div>
+    <div class="cal-body" id="q1body" style="grid-template-columns:48px repeat(5,1fr)"></div>
+  </div>
+  <div class="day-summary">
+    <div class="ds-card"><div class="ds-day">Lunes</div><div class="ds-name"><span class="ds-dot" style="background:var(--si)"></span>Seminario Integrador</div><div class="ds-det">19:00 – 22:15<br>K4061</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Seminario%20Integrador&dates=20260316T190000/20260316T221500&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DMO%2CWE%3BUNTIL%3D20260703T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Seminario%20Integrador%0AComisi%C3%B3n%3A%20K4061%0ACursada%201C%202026%20%C2%B7%20Lu%2019-22%3A15%20%2B%20Mi%2019-22%3A15" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a><a href="Seminario_Integrador_2026.html" class="gcal-btn" style="background:rgba(167,139,250,.1);border-color:rgba(167,139,250,.3);color:#ddd6fe;margin-top:5px;" title="Ver detalles de la materia"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><path d="M9 18l6-6-6-6"/></svg> Ver detalles</a></div>
+    <div class="ds-card"><div class="ds-day">Martes</div><div class="ds-name"><span class="ds-dot" style="background:var(--cd)"></span>Comunicación de Datos</div><div class="ds-det">19:00 – 21:30<br>K3055</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Comunicaci%C3%B3n%20de%20Datos&dates=20260317T190000/20260317T213000&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DTU%3BUNTIL%3D20260703T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Comunicaci%C3%B3n%20de%20Datos%0AComisi%C3%B3n%3A%20K3055%0ACursada%201C%202026%20%C2%B7%20Ma%2019-21%3A30" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a><a href="Comunicaciones_K3055_2026.html" class="gcal-btn" style="background:rgba(56,189,248,.1);border-color:rgba(56,189,248,.3);color:#bae6fd;margin-top:5px;" title="Ver detalles de la materia"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><path d="M9 18l6-6-6-6"/></svg> Ver detalles</a></div>
+    <div class="ds-card"><div class="ds-day">Miércoles</div><div class="ds-name"><span class="ds-dot" style="background:var(--si)"></span>Seminario Integrador</div><div class="ds-det">19:00 – 22:15<br>K4061</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Seminario%20Integrador&dates=20260316T190000/20260316T221500&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DMO%2CWE%3BUNTIL%3D20260703T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Seminario%20Integrador%0AComisi%C3%B3n%3A%20K4061%0ACursada%201C%202026%20%C2%B7%20Lu%2019-22%3A15%20%2B%20Mi%2019-22%3A15" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a><a href="Seminario_Integrador_2026.html" class="gcal-btn" style="background:rgba(167,139,250,.1);border-color:rgba(167,139,250,.3);color:#ddd6fe;margin-top:5px;" title="Ver detalles de la materia"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><path d="M9 18l6-6-6-6"/></svg> Ver detalles</a></div>
+    <div class="ds-card"><div class="ds-day">Jueves</div><div class="ds-name"><span class="ds-dot" style="background:var(--asi)"></span>Administración de Sistemas de Información</div><div class="ds-det">18:15 – 23:00<br>K4053 · ANUAL</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Administraci%C3%B3n%20de%20Sistemas%20de%20Informaci%C3%B3n&dates=20260319T181500/20260319T230000&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DTH%3BUNTIL%3D20261127T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Administraci%C3%B3n%20de%20Sistemas%20de%20Informaci%C3%B3n%0AComisi%C3%B3n%3A%20K4053%0AMateria%20ANUAL%202026%20%C2%B7%20Ju%2018%3A15-23%3A00" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a><a href="AdSI_Dashboard.html" class="gcal-btn" style="background:rgba(34,211,164,.1);border-color:rgba(34,211,164,.3);color:#6ee7c7;margin-top:5px;" title="Ver detalles de la materia"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><path d="M9 18l6-6-6-6"/></svg> Ver detalles</a></div>
+    <div class="ds-card"><div class="ds-day">Viernes</div><div class="ds-name"><span class="ds-dot" style="background:var(--cd)"></span>Comunicación de Datos</div><div class="ds-det">19:00 – 23:00<br>K3055</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Comunicaci%C3%B3n%20de%20Datos&dates=20260320T190000/20260320T230000&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DFR%3BUNTIL%3D20260703T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Comunicaci%C3%B3n%20de%20Datos%0AComisi%C3%B3n%3A%20K3055%0ACursada%201C%202026%20%C2%B7%20Vi%2019-23%3A00" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a><a href="Comunicaciones_K3055_2026.html" class="gcal-btn" style="background:rgba(56,189,248,.1);border-color:rgba(56,189,248,.3);color:#bae6fd;margin-top:5px;" title="Ver detalles de la materia"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><path d="M9 18l6-6-6-6"/></svg> Ver detalles</a></div>
+  </div>
+</div>
+
+<!-- Q2 -->
+<div class="main-panel" id="mp1">
+  <div class="alert" style="margin-bottom:18px;">
+    <strong>⚠ Las alternativas 2 y 3 requieren cursar Legislación en Sede Campus.</strong><br>
+    En Medrano, Legislación solo tiene una opción noche: Miércoles. Eso bloquea el Mi para Investigación Operativa. Las alternativas 2 y 3 usan comisiones de Campus en Viernes o Lunes, liberando el Miércoles para Investigación Operativa.
+  </div>
+
+  <div class="plan-sub-tab-bar">
+    <button class="plan-sub-tab rec active" onclick="planSubTabIn('sp1-plan',0)">★ Alternativa 1 <span class="plan-sbadge">Todo Medrano</span></button>
+    <button class="plan-sub-tab" onclick="planSubTabIn('sp1-plan',1)">Alternativa 2 <span class="plan-sbadge">Leg. Viernes · Campus</span></button>
+    <button class="plan-sub-tab" onclick="planSubTabIn('sp1-plan',2)">Alternativa 3 <span class="plan-sbadge">Leg. Lunes · Campus</span></button>
+  </div>
+
+  <!-- Q2 Alt 1 -->
+  <div class="plan-sub-panel active" id="psq0">
+    <div class="legend">
+      <div class="leg-item"><div class="leg-dot" style="background:var(--ics)"></div>Ingeniería y Calidad de Software</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--io)"></div>Investigación Operativa</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--leg)"></div>Legislación</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--asi)"></div>Administración de Sistemas de Información</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--ta)"></div>Tecnologías para la Automatización</div>
+      <div class="anual-legend">● ANUAL continúa de Q1</div>
+    </div>
+    <div class="cal-outer">
+      <div class="cal-head" style="grid-template-columns:48px repeat(6,1fr)">
+        <div class="cal-head-cell"></div>
+        <div class="cal-head-cell lit" style="color:var(--ics)">LUNES</div>
+        <div class="cal-head-cell lit" style="color:var(--io)">MARTES</div>
+        <div class="cal-head-cell lit" style="color:var(--leg)">MIÉRCOLES</div>
+        <div class="cal-head-cell lit" style="color:var(--asi)">JUEVES</div>
+        <div class="cal-head-cell lit" style="color:var(--ta)">VIERNES</div>
+        <div class="cal-head-cell lit" style="color:var(--io)">SÁB <span style="font-size:9px;opacity:.6">IO</span></div>
+      </div>
+      <div class="cal-body" id="q2a1body" style="grid-template-columns:48px repeat(6,1fr)"></div>
+    </div>
+    <div class="day-summary">
+      <div class="ds-card"><div class="ds-day">Lunes</div><div class="ds-name"><span class="ds-dot" style="background:var(--ics)"></span>Ingeniería y Calidad de Software</div><div class="ds-det">18:15 – 23:00<br>K4052 · Medrano</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Ingenier%C3%ADa%20y%20Calidad%20de%20Software&dates=20260810T181500/20260810T230000&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DMO%3BUNTIL%3D20261127T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Ingenier%C3%ADa%20y%20Calidad%20de%20Software%0AComisi%C3%B3n%3A%20K4052%0ACursada%202C%202026%20%C2%B7%20Lu%2018%3A15-23%3A00" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a></div>
+      <div class="ds-card"><div class="ds-day">Martes</div><div class="ds-name"><span class="ds-dot" style="background:var(--io)"></span>Investigación Operativa</div><div class="ds-det">18:15 – 23:00<br>K4051 · Medrano<br><span class="sat-tag">+ Sáb 13:30–15:00</span></div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Investigaci%C3%B3n%20Operativa&dates=20260811T181500/20260811T230000&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DTU%3BUNTIL%3D20261127T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Investigaci%C3%B3n%20Operativa%0AComisi%C3%B3n%3A%20K4051%0ACursada%202C%202026%20%C2%B7%20Ma%2018%3A15-23%3A00%20%2B%20S%C3%A1b%2013%3A30-15%3A00%20%28encuentro%20semanal%29" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a></div>
+      <div class="ds-card"><div class="ds-day">Miércoles</div><div class="ds-name"><span class="ds-dot" style="background:var(--leg)"></span>Legislación</div><div class="ds-det">19:00 – 22:15<br>Z4055 · Medrano</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Legislaci%C3%B3n&dates=20260812T190000/20260812T221500&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DWE%3BUNTIL%3D20261127T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Legislaci%C3%B3n%0AComisi%C3%B3n%3A%20Z4055%0ACursada%202C%202026%20%C2%B7%20Mi%2019-22%3A15%20%28Alt1%20Medrano%29" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a></div>
+      <div class="ds-card"><div class="ds-day">Jueves</div><div class="ds-name"><span class="ds-dot" style="background:var(--asi)"></span>Administración de Sistemas de Información</div><div class="ds-det">18:15 – 23:00<br>K4053 · ANUAL</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Administraci%C3%B3n%20de%20Sistemas%20de%20Informaci%C3%B3n&dates=20260319T181500/20260319T230000&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DTH%3BUNTIL%3D20261127T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Administraci%C3%B3n%20de%20Sistemas%20de%20Informaci%C3%B3n%0AComisi%C3%B3n%3A%20K4053%0AMateria%20ANUAL%202026%20%C2%B7%20Ju%2018%3A15-23%3A00" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a></div>
+      <div class="ds-card"><div class="ds-day">Viernes</div><div class="ds-name"><span class="ds-dot" style="background:var(--ta)"></span>Tecnologías para la Automatización</div><div class="ds-det">18:15 – 23:00<br>K4055 · Medrano</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Tecnolog%C3%ADas%20para%20la%20Automatizaci%C3%B3n&dates=20260814T181500/20260814T230000&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DFR%3BUNTIL%3D20261127T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Tecnolog%C3%ADas%20para%20la%20Automatizaci%C3%B3n%0AComisi%C3%B3n%3A%20K4055%0ACursada%202C%202026%20%C2%B7%20Vi%2018%3A15-23%3A00" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a></div>
+    </div>
+    <div class="note"><strong>Todo en Sede Medrano.</strong> Legislación ancla el Miércoles, empujando Investigación Operativa al Martes. ICS va Lunes y TA cierra el Viernes. Una materia por noche, de lunes a viernes.</div>
+  </div>
+
+  <!-- Q2 Alt 2 -->
+  <div class="plan-sub-panel" id="psq1">
+    <div class="legend">
+      <div class="leg-item"><div class="leg-dot" style="background:var(--ics)"></div>Ingeniería y Calidad de Software</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--ta)"></div>Tecnologías para la Automatización</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--io)"></div>Investigación Operativa</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--asi)"></div>Administración de Sistemas de Información</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--leg)"></div>Legislación <span class="campus-tag">CAMPUS · Vi</span></div>
+      <div class="anual-legend">● ANUAL continúa de Q1</div>
+    </div>
+    <div class="cal-outer">
+      <div class="cal-head" style="grid-template-columns:48px repeat(6,1fr)">
+        <div class="cal-head-cell"></div>
+        <div class="cal-head-cell lit" style="color:var(--ics)">LUNES</div>
+        <div class="cal-head-cell lit" style="color:var(--ta)">MARTES</div>
+        <div class="cal-head-cell lit" style="color:var(--io)">MIÉRCOLES</div>
+        <div class="cal-head-cell lit" style="color:var(--asi)">JUEVES</div>
+        <div class="cal-head-cell lit" style="color:var(--leg)">VIERNES</div>
+        <div class="cal-head-cell lit" style="color:var(--io)">SÁB <span style="font-size:9px;opacity:.6">IO</span></div>
+      </div>
+      <div class="cal-body" id="q2a2body" style="grid-template-columns:48px repeat(6,1fr)"></div>
+    </div>
+    <div class="day-summary">
+      <div class="ds-card"><div class="ds-day">Lunes</div><div class="ds-name"><span class="ds-dot" style="background:var(--ics)"></span>Ingeniería y Calidad de Software</div><div class="ds-det">18:15 – 23:00<br>K4052 · Medrano</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Ingenier%C3%ADa%20y%20Calidad%20de%20Software&dates=20260810T181500/20260810T230000&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DMO%3BUNTIL%3D20261127T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Ingenier%C3%ADa%20y%20Calidad%20de%20Software%0AComisi%C3%B3n%3A%20K4052%0ACursada%202C%202026%20%C2%B7%20Lu%2018%3A15-23%3A00" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a></div>
+      <div class="ds-card"><div class="ds-day">Martes</div><div class="ds-name"><span class="ds-dot" style="background:var(--ta)"></span>Tecnologías para la Automatización</div><div class="ds-det">18:15 – 23:00<br>K4051 · Medrano</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Tecnolog%C3%ADas%20para%20la%20Automatizaci%C3%B3n&dates=20260811T181500/20260811T230000&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DTU%3BUNTIL%3D20261127T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Tecnolog%C3%ADas%20para%20la%20Automatizaci%C3%B3n%0AComisi%C3%B3n%3A%20K4051%0ACursada%202C%202026%20%C2%B7%20Ma%2018%3A15-23%3A00%20%28Alt2%20Medrano%29" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a></div>
+      <div class="ds-card"><div class="ds-day">Miércoles</div><div class="ds-name"><span class="ds-dot" style="background:var(--io)"></span>Investigación Operativa</div><div class="ds-det">18:15 – 23:00<br>K4052 · Medrano<br><span class="sat-tag">+ Sáb 13:30–15:00</span></div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Investigaci%C3%B3n%20Operativa&dates=20260812T181500/20260812T230000&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DWE%3BUNTIL%3D20261127T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Investigaci%C3%B3n%20Operativa%0AComisi%C3%B3n%3A%20K4052%0ACursada%202C%202026%20%C2%B7%20Mi%2018%3A15-23%3A00%20%2B%20S%C3%A1b%2013%3A30-15%3A00%20%28Alt2/3%29" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a></div>
+      <div class="ds-card"><div class="ds-day">Jueves</div><div class="ds-name"><span class="ds-dot" style="background:var(--asi)"></span>Administración de Sistemas de Información</div><div class="ds-det">18:15 – 23:00<br>K4053 · ANUAL</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Administraci%C3%B3n%20de%20Sistemas%20de%20Informaci%C3%B3n&dates=20260319T181500/20260319T230000&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DTH%3BUNTIL%3D20261127T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Administraci%C3%B3n%20de%20Sistemas%20de%20Informaci%C3%B3n%0AComisi%C3%B3n%3A%20K4053%0AMateria%20ANUAL%202026%20%C2%B7%20Ju%2018%3A15-23%3A00" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a></div>
+      <div class="ds-card"><div class="ds-day">Viernes</div><div class="ds-name"><span class="ds-dot" style="background:var(--leg)"></span>Legislación</div><div class="ds-det">19:00 – 22:15<br>Z4053 · Campus</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Legislaci%C3%B3n&dates=20260814T190000/20260814T221500&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DFR%3BUNTIL%3D20261127T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Campus%2C%20Mozart%202300%2C%20Villa%20del%20Parque%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Legislaci%C3%B3n%0AComisi%C3%B3n%3A%20Z4053%0ACursada%202C%202026%20%C2%B7%20Vi%2019-22%3A15%20%28Alt2%20Campus%29" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a></div>
+    </div>
+    <div class="note"><strong>Legislación en Sede Campus los Viernes.</strong> Libera el Miércoles para Investigación Operativa (K4052). Tecnologías para la Automatización pasa al Martes, Ingeniería y Calidad de Software queda los Lunes.</div>
+  </div>
+
+  <!-- Q2 Alt 3 -->
+  <div class="plan-sub-panel" id="psq2">
+    <div class="legend">
+      <div class="leg-item"><div class="leg-dot" style="background:var(--leg)"></div>Legislación <span class="campus-tag">CAMPUS · Lu</span></div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--ics)"></div>Ingeniería y Calidad de Software</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--io)"></div>Investigación Operativa</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--asi)"></div>Administración de Sistemas de Información</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--ta)"></div>Tecnologías para la Automatización</div>
+      <div class="anual-legend">● ANUAL continúa de Q1</div>
+    </div>
+    <div class="cal-outer">
+      <div class="cal-head" style="grid-template-columns:48px repeat(6,1fr)">
+        <div class="cal-head-cell"></div>
+        <div class="cal-head-cell lit" style="color:var(--leg)">LUNES</div>
+        <div class="cal-head-cell lit" style="color:var(--ics)">MARTES</div>
+        <div class="cal-head-cell lit" style="color:var(--io)">MIÉRCOLES</div>
+        <div class="cal-head-cell lit" style="color:var(--asi)">JUEVES</div>
+        <div class="cal-head-cell lit" style="color:var(--ta)">VIERNES</div>
+        <div class="cal-head-cell lit" style="color:var(--io)">SÁB <span style="font-size:9px;opacity:.6">IO</span></div>
+      </div>
+      <div class="cal-body" id="q2a3body" style="grid-template-columns:48px repeat(6,1fr)"></div>
+    </div>
+    <div class="day-summary">
+      <div class="ds-card"><div class="ds-day">Lunes</div><div class="ds-name"><span class="ds-dot" style="background:var(--leg)"></span>Legislación</div><div class="ds-det">19:00 – 22:15<br>Z4051 · Campus</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Legislaci%C3%B3n&dates=20260810T190000/20260810T221500&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DMO%3BUNTIL%3D20261127T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Campus%2C%20Mozart%202300%2C%20Villa%20del%20Parque%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Legislaci%C3%B3n%0AComisi%C3%B3n%3A%20Z4051%0ACursada%202C%202026%20%C2%B7%20Lu%2019-22%3A15%20%28Alt3%20Campus%29" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a></div>
+      <div class="ds-card"><div class="ds-day">Martes</div><div class="ds-name"><span class="ds-dot" style="background:var(--ics)"></span>Ingeniería y Calidad de Software</div><div class="ds-det">18:15 – 23:00<br>K4153 · Medrano</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Ingenier%C3%ADa%20y%20Calidad%20de%20Software&dates=20260811T181500/20260811T230000&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DTU%3BUNTIL%3D20261127T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Ingenier%C3%ADa%20y%20Calidad%20de%20Software%0AComisi%C3%B3n%3A%20K4153%0ACursada%202C%202026%20%C2%B7%20Ma%2018%3A15-23%3A00%20%28Alt3%29" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a></div>
+      <div class="ds-card"><div class="ds-day">Miércoles</div><div class="ds-name"><span class="ds-dot" style="background:var(--io)"></span>Investigación Operativa</div><div class="ds-det">18:15 – 23:00<br>K4052 · Medrano<br><span class="sat-tag">+ Sáb 13:30–15:00</span></div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Investigaci%C3%B3n%20Operativa&dates=20260812T181500/20260812T230000&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DWE%3BUNTIL%3D20261127T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Investigaci%C3%B3n%20Operativa%0AComisi%C3%B3n%3A%20K4052%0ACursada%202C%202026%20%C2%B7%20Mi%2018%3A15-23%3A00%20%2B%20S%C3%A1b%2013%3A30-15%3A00%20%28Alt2/3%29" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a></div>
+      <div class="ds-card"><div class="ds-day">Jueves</div><div class="ds-name"><span class="ds-dot" style="background:var(--asi)"></span>Administración de Sistemas de Información</div><div class="ds-det">18:15 – 23:00<br>K4053 · ANUAL</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Administraci%C3%B3n%20de%20Sistemas%20de%20Informaci%C3%B3n&dates=20260319T181500/20260319T230000&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DTH%3BUNTIL%3D20261127T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Administraci%C3%B3n%20de%20Sistemas%20de%20Informaci%C3%B3n%0AComisi%C3%B3n%3A%20K4053%0AMateria%20ANUAL%202026%20%C2%B7%20Ju%2018%3A15-23%3A00" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a></div>
+      <div class="ds-card"><div class="ds-day">Viernes</div><div class="ds-name"><span class="ds-dot" style="background:var(--ta)"></span>Tecnologías para la Automatización</div><div class="ds-det">18:15 – 23:00<br>K4055 · Medrano</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Tecnolog%C3%ADas%20para%20la%20Automatizaci%C3%B3n&dates=20260814T181500/20260814T230000&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DFR%3BUNTIL%3D20261127T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Tecnolog%C3%ADas%20para%20la%20Automatizaci%C3%B3n%0AComisi%C3%B3n%3A%20K4055%0ACursada%202C%202026%20%C2%B7%20Vi%2018%3A15-23%3A00" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a></div>
+    </div>
+    <div class="note"><strong>Legislación en Sede Campus los Lunes.</strong> Ingeniería y Calidad de Software pasa al Martes (K4153). Miércoles queda para Investigación Operativa. Tecnologías para la Automatización en Viernes, igual que Alt. 1.</div>
+  </div>
+
+</div><!-- end Q2 -->
+
+<div class="dropped-box" style="margin-top:28px;">
+  <div class="dx">✕</div>
+  <div><strong>Simulación — postergada para 2027.</strong> Sus únicos horarios noche en Medrano son Lunes, Martes y Miércoles. En Q1 esos días los ocupan Seminario Integrador (Lu+Mi) y Comunicación de Datos (Ma). En Q2, en las tres alternativas, Lu/Ma/Mi siempre tienen otra materia. Recomendación: cursarla en 1C 2027 junto con materias de 5to año. Correlativas ya cumplidas (Probabilidad y Estadística ✓, Análisis Numérico ✓).</div>
+</div>
+
+</main>
+</div><!-- end sp1-plan -->
+
+<!-- ═══════════════════════════════════════
+     SUPER PANEL 3 · PLANIFICADOR 2027
+════════════════════════════════════════ -->
+<div class="super-panel" id="sp2-plan">
+<main>
+
+<div class="sec">Vista por cuatrimestre · 2027</div>
+
+<div class="infobox" style="margin-bottom:14px;">
+  <strong>⚠ Horarios estimados.</strong> Las comisiones exactas se confirman al inicio de cada ciclo. Este diagrama se basa en patrones históricos de UTN FRBA Medrano turno noche. Se asume que todas las materias de 2026 fueron aprobadas (cursada y final).
+</div>
+
+<div class="main-tabs">
+  <button class="main-tab mq1 active" onclick="mainTabIn('sp2-plan',0)">
+    1er Cuatrimestre <span class="mbadge">Simulación · Redes de Datos · Inteligencia Artificial · Criptografía (Electiva N4)</span>
+  </button>
+  <button class="main-tab mq2" onclick="mainTabIn('sp2-plan',1)">
+    2do Cuatrimestre <span class="mbadge">Ciencia de Datos · Sistemas de Gestión · Gestión Gerencial · IoT · Arquitecturas Concurrentes (Electivas N4)</span>
+  </button>
+</div>
+
+<!-- 2027 Q1 -->
+<div class="main-panel active" id="mp27-0">
+  <div class="infobox" style="margin-top:6px;">
+    <strong>ℹ 4 materias en 1C 2027.</strong> Simulación (postergada de 2026) finalmente entra. Redes de Datos desbloquea la cadena hacia Seguridad en Sistemas. Inteligencia Artificial y Criptografía ocupan Miércoles y Viernes respectivamente. Una materia por noche.
+  </div>
+  <div class="legend" style="margin-top:16px;">
+    <div class="leg-item"><div class="leg-dot" style="background:var(--sim)"></div>Simulación</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--rd)"></div>Redes de Datos</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--ai)"></div>Inteligencia Artificial</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--cri)"></div>Criptografía (Electiva N4)</div>
+  </div>
+  <div class="cal-outer">
+    <div class="cal-head" style="grid-template-columns:48px repeat(5,1fr)">
+      <div class="cal-head-cell"></div>
+      <div class="cal-head-cell lit" style="color:var(--sim)">LUNES</div>
+      <div class="cal-head-cell lit" style="color:var(--rd)">MARTES</div>
+      <div class="cal-head-cell lit" style="color:var(--ai)">MIÉRCOLES</div>
+      <div class="cal-head-cell lit" style="color:var(--rd)">JUEVES</div>
+      <div class="cal-head-cell lit" style="color:var(--cri)">VIERNES</div>
+    </div>
+    <div class="cal-body" id="y27q1body" style="grid-template-columns:48px repeat(5,1fr)"></div>
+  </div>
+  <div class="day-summary">
+    <div class="ds-card"><div class="ds-day">Lunes</div><div class="ds-name"><span class="ds-dot" style="background:var(--sim)"></span>Simulación</div><div class="ds-det">18:15 – 23:00<br>N4 · Medrano</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Simulaci%C3%B3n&dates=20270315T181500/20270315T230000&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DMO%3BUNTIL%3D20270702T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Simulaci%C3%B3n%0AComisi%C3%B3n%3A%20N4%0ACursada%201C%202027%20%C2%B7%20Lu%2018%3A15-23%3A00" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a></div>
+    <div class="ds-card"><div class="ds-day">Martes</div><div class="ds-name"><span class="ds-dot" style="background:var(--rd)"></span>Redes de Datos</div><div class="ds-det">19:00 – 22:15<br>N4 · Medrano</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Redes%20de%20Datos&dates=20270316T190000/20270316T221500&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DTU%2CTH%3BUNTIL%3D20270702T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Redes%20de%20Datos%0AComisi%C3%B3n%3A%20N4%0ACursada%201C%202027%20%C2%B7%20Ma%2BJu%2019-22%3A15" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a></div>
+    <div class="ds-card"><div class="ds-day">Miércoles</div><div class="ds-name"><span class="ds-dot" style="background:var(--ai)"></span>Inteligencia Artificial</div><div class="ds-det">18:15 – 23:00<br>N5 · Medrano</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Inteligencia%20Artificial&dates=20270317T181500/20270317T230000&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DWE%3BUNTIL%3D20270702T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Inteligencia%20Artificial%0AComisi%C3%B3n%3A%20N5%0ACursada%201C%202027%20%C2%B7%20Mi%2018%3A15-23%3A00" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a></div>
+    <div class="ds-card"><div class="ds-day">Jueves</div><div class="ds-name"><span class="ds-dot" style="background:var(--rd)"></span>Redes de Datos</div><div class="ds-det">19:00 – 22:15<br>N4 · Medrano</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Redes%20de%20Datos&dates=20270316T190000/20270316T221500&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DTU%2CTH%3BUNTIL%3D20270702T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Redes%20de%20Datos%0AComisi%C3%B3n%3A%20N4%0ACursada%201C%202027%20%C2%B7%20Ma%2BJu%2019-22%3A15" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a></div>
+    <div class="ds-card"><div class="ds-day">Viernes</div><div class="ds-name"><span class="ds-dot" style="background:var(--cri)"></span>Criptografía</div><div class="ds-det">18:15 – 23:00<br>Electiva N4 · Medrano</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Criptograf%C3%ADa&dates=20270319T181500/20270319T230000&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DFR%3BUNTIL%3D20270702T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Criptograf%C3%ADa%0AComisi%C3%B3n%3A%20Electiva%20N4%0ACursada%201C%202027%20%C2%B7%20Vi%2018%3A15-23%3A00" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a></div>
+  </div>
+  <div class="note"><strong>Correlativas cubiertas:</strong> Simulación (Probabilidad y Estadística ✓ · Análisis Numérico ✓) · Redes de Datos (Comunicación de Datos ✓ · Sistemas Operativos ✓) · Inteligencia Artificial (Diseño de SI ✓ · Probabilidad y Estadística ✓) · Criptografía (electiva libre).</div>
+</div>
+
+<!-- 2027 Q2 -->
+<div class="main-panel" id="mp27-1">
+  <div class="infobox" style="margin-top:6px;">
+    <strong>ℹ 5 materias en 2C 2027.</strong> Máximo aprovechamiento del año: se cierran tres materias de N5 con correlativas ya disponibles (Ciencia de Datos, Sistemas de Gestión, Gestión Gerencial) más dos electivas de N4 para cerrar ese bloque. Una materia por noche de Lunes a Viernes.
+  </div>
+  <div class="legend" style="margin-top:16px;">
+    <div class="leg-item"><div class="leg-dot" style="background:var(--cdat)"></div>Ciencia de Datos</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--sge)"></div>Sistemas de Gestión</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--gge)"></div>Gestión Gerencial</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--iot)"></div>IoT (Electiva N4)</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--arc)"></div>Arquitecturas Concurrentes (Electiva N4)</div>
+  </div>
+  <div class="cal-outer">
+    <div class="cal-head" style="grid-template-columns:48px repeat(5,1fr)">
+      <div class="cal-head-cell"></div>
+      <div class="cal-head-cell lit" style="color:var(--cdat)">LUNES</div>
+      <div class="cal-head-cell lit" style="color:var(--sge)">MARTES</div>
+      <div class="cal-head-cell lit" style="color:var(--gge)">MIÉRCOLES</div>
+      <div class="cal-head-cell lit" style="color:var(--iot)">JUEVES</div>
+      <div class="cal-head-cell lit" style="color:var(--arc)">VIERNES</div>
+    </div>
+    <div class="cal-body" id="y27q2body" style="grid-template-columns:48px repeat(5,1fr)"></div>
+  </div>
+  <div class="day-summary">
+    <div class="ds-card"><div class="ds-day">Lunes</div><div class="ds-name"><span class="ds-dot" style="background:var(--cdat)"></span>Ciencia de Datos</div><div class="ds-det">18:15 – 23:00<br>N5 · Medrano</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Ciencia%20de%20Datos&dates=20270809T181500/20270809T230000&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DMO%3BUNTIL%3D20271126T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Ciencia%20de%20Datos%0AComisi%C3%B3n%3A%20N5%0ACursada%202C%202027%20%C2%B7%20Lu%2018%3A15-23%3A00" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a></div>
+    <div class="ds-card"><div class="ds-day">Martes</div><div class="ds-name"><span class="ds-dot" style="background:var(--sge)"></span>Sistemas de Gestión</div><div class="ds-det">18:15 – 23:00<br>N5 · Medrano</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Sistemas%20de%20Gesti%C3%B3n&dates=20270810T181500/20270810T230000&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DTU%3BUNTIL%3D20271126T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Sistemas%20de%20Gesti%C3%B3n%0AComisi%C3%B3n%3A%20N5%0ACursada%202C%202027%20%C2%B7%20Ma%2018%3A15-23%3A00" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a></div>
+    <div class="ds-card"><div class="ds-day">Miércoles</div><div class="ds-name"><span class="ds-dot" style="background:var(--gge)"></span>Gestión Gerencial</div><div class="ds-det">19:00 – 22:15<br>N5 · Medrano</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Gesti%C3%B3n%20Gerencial&dates=20270811T190000/20270811T221500&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DWE%3BUNTIL%3D20271126T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Gesti%C3%B3n%20Gerencial%0AComisi%C3%B3n%3A%20N5%0ACursada%202C%202027%20%C2%B7%20Mi%2019-22%3A15" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a></div>
+    <div class="ds-card"><div class="ds-day">Jueves</div><div class="ds-name"><span class="ds-dot" style="background:var(--iot)"></span>IoT</div><div class="ds-det">18:15 – 23:00<br>Electiva N4 · Medrano</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Internet%20de%20las%20Cosas%20%28IoT%29&dates=20270812T181500/20270812T230000&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DTH%3BUNTIL%3D20271126T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Internet%20de%20las%20Cosas%20%28IoT%29%0AComisi%C3%B3n%3A%20Electiva%20N4%0ACursada%202C%202027%20%C2%B7%20Ju%2018%3A15-23%3A00" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a></div>
+    <div class="ds-card"><div class="ds-day">Viernes</div><div class="ds-name"><span class="ds-dot" style="background:var(--arc)"></span>Arquitecturas Concurrentes</div><div class="ds-det">18:15 – 23:00<br>Electiva N4 · Medrano</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Arquitecturas%20Concurrentes&dates=20270813T181500/20270813T230000&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DFR%3BUNTIL%3D20271126T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Arquitecturas%20Concurrentes%0AComisi%C3%B3n%3A%20Electiva%20N4%0ACursada%202C%202027%20%C2%B7%20Vi%2018%3A15-23%3A00" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a></div>
+  </div>
+  <div class="note"><strong>Correlativas cubiertas:</strong> Ciencia de Datos (Bases de Datos ✓ · Diseño de SI ✓ · Probabilidad y Estadística ✓) · Sistemas de Gestión (Diseño de SI ✓ · Economía ✓) · Gestión Gerencial (Legislación ✓ desde 2026 2C) · IoT y Arquitecturas Concurrentes (electivas libres).</div>
+  <div class="dropped-box" style="margin-top:20px;">
+    <div class="dx">★</div>
+    <div><strong>Fin de 2027:</strong> Con este plan se completan los 3 bloques de Electivas N4 (Criptografía + IoT + Arquitecturas Concurrentes = ~192h > 144h requeridos) y quedan desbloqueadas las 5 materias obligatorias de N5 para 2028.</div>
+  </div>
+</div>
+
+</main>
+</div><!-- end sp2-plan -->
+
+<!-- ═══════════════════════════════════════
+     SUPER PANEL 4 · PLANIFICADOR 2028
+════════════════════════════════════════ -->
+<div class="super-panel" id="sp3-plan">
+<main>
+
+<div class="sec">Vista por cuatrimestre · 2028</div>
+
+<div class="infobox" style="margin-bottom:14px;">
+  <strong>⚠ Horarios estimados.</strong> Depende de aprobar Redes de Datos (final) y Administración de Sistemas de Información (final) antes de inicio 2028. Proyecto Final es anual — ocupa dos noches todo el año. La PPS (200h) puede hacerse en paralelo desde 2028.
+</div>
+
+<div class="main-tabs">
+  <button class="main-tab mq1 active" onclick="mainTabIn('sp3-plan',0)">
+    1er Cuatrimestre <span class="mbadge">Proyecto Final (ANUAL) · Seguridad en Sistemas · Auditoría de Sistemas · Sistemas de Info. Geográfica (Electivas N5)</span>
+  </button>
+  <button class="main-tab mq2" onclick="mainTabIn('sp3-plan',1)">
+    2do Cuatrimestre <span class="mbadge">Proyecto Final continúa (ANUAL) · Calidad Avanzada · Bioinformática (Electivas N5)</span>
+  </button>
+</div>
+
+<!-- 2028 Q1 -->
+<div class="main-panel active" id="mp28-0">
+  <div class="infobox" style="margin-top:6px;">
+    <strong>ℹ Proyecto Final ancla el año.</strong> Al ser anual, ocupa Lunes y Miércoles durante todo 2028. Seguridad en Sistemas entra en Martes (req: Redes de Datos final ✓ y ASI final ✓ desde 2027). Auditoría y Sistemas de Información Geográfica cubren las dos primeras Electivas N5.
+  </div>
+  <div class="legend" style="margin-top:16px;">
+    <div class="leg-item"><div class="leg-dot" style="background:var(--pf)"></div>Proyecto Final <span style="font-size:10px;color:var(--muted)">ANUAL</span></div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--seg)"></div>Seguridad en Sistemas de Información</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--aud)"></div>Auditoría de Sistemas (Electiva N5)</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--sgi)"></div>Sist. de Información Geográfica (Electiva N5)</div>
+    <div class="anual-legend">● ANUAL → Proyecto Final persiste todo el año en Lu + Mi</div>
+  </div>
+  <div class="cal-outer">
+    <div class="cal-head" style="grid-template-columns:48px repeat(5,1fr)">
+      <div class="cal-head-cell"></div>
+      <div class="cal-head-cell lit" style="color:var(--pf)">LUNES</div>
+      <div class="cal-head-cell lit" style="color:var(--seg)">MARTES</div>
+      <div class="cal-head-cell lit" style="color:var(--pf)">MIÉRCOLES</div>
+      <div class="cal-head-cell lit" style="color:var(--aud)">JUEVES</div>
+      <div class="cal-head-cell lit" style="color:var(--sgi)">VIERNES</div>
+    </div>
+    <div class="cal-body" id="y28q1body" style="grid-template-columns:48px repeat(5,1fr)"></div>
+  </div>
+  <div class="day-summary">
+    <div class="ds-card"><div class="ds-day">Lunes</div><div class="ds-name"><span class="ds-dot" style="background:var(--pf)"></span>Proyecto Final</div><div class="ds-det">19:00 – 22:15<br>N5 ANUAL · Medrano</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Proyecto%20Final&dates=20280313T190000/20280313T221500&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DMO%2CWE%3BUNTIL%3D20281128T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Proyecto%20Final%0AComisi%C3%B3n%3A%20N5%20ANUAL%0AMateria%20ANUAL%202028%20%C2%B7%20Lu%2BMi%2019-22%3A15" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a></div>
+    <div class="ds-card"><div class="ds-day">Martes</div><div class="ds-name"><span class="ds-dot" style="background:var(--seg)"></span>Seguridad en Sistemas de Información</div><div class="ds-det">18:15 – 23:00<br>N5 · Medrano</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Seguridad%20en%20Sistemas%20de%20Informaci%C3%B3n&dates=20280314T181500/20280314T230000&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DTU%3BUNTIL%3D20280704T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Seguridad%20en%20Sistemas%20de%20Informaci%C3%B3n%0AComisi%C3%B3n%3A%20N5%0ACursada%201C%202028%20%C2%B7%20Ma%2018%3A15-23%3A00" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a></div>
+    <div class="ds-card"><div class="ds-day">Miércoles</div><div class="ds-name"><span class="ds-dot" style="background:var(--pf)"></span>Proyecto Final</div><div class="ds-det">19:00 – 22:15<br>N5 ANUAL · Medrano</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Proyecto%20Final&dates=20280313T190000/20280313T221500&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DMO%2CWE%3BUNTIL%3D20281128T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Proyecto%20Final%0AComisi%C3%B3n%3A%20N5%20ANUAL%0AMateria%20ANUAL%202028%20%C2%B7%20Lu%2BMi%2019-22%3A15" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a></div>
+    <div class="ds-card"><div class="ds-day">Jueves</div><div class="ds-name"><span class="ds-dot" style="background:var(--aud)"></span>Auditoría de Sistemas</div><div class="ds-det">18:15 – 23:00<br>Electiva N5 · Medrano</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Auditor%C3%ADa%20de%20Sistemas&dates=20280316T181500/20280316T230000&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DTH%3BUNTIL%3D20280704T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Auditor%C3%ADa%20de%20Sistemas%0AComisi%C3%B3n%3A%20Electiva%20N5%0ACursada%201C%202028%20%C2%B7%20Ju%2018%3A15-23%3A00" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a></div>
+    <div class="ds-card"><div class="ds-day">Viernes</div><div class="ds-name"><span class="ds-dot" style="background:var(--sgi)"></span>Sistemas de Información Geográfica</div><div class="ds-det">18:15 – 23:00<br>Electiva N5 · Medrano</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Sistemas%20de%20Informaci%C3%B3n%20Geogr%C3%A1fica&dates=20280317T181500/20280317T230000&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DFR%3BUNTIL%3D20280704T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Sistemas%20de%20Informaci%C3%B3n%20Geogr%C3%A1fica%0AComisi%C3%B3n%3A%20Electiva%20N5%0ACursada%201C%202028%20%C2%B7%20Vi%2018%3A15-23%3A00" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a></div>
+  </div>
+  <div class="note"><strong>Correlativas cubiertas:</strong> Proyecto Final (ASI final ✓ · todo N3 aprobado con finales ✓) · Seguridad en SI (Redes de Datos final ✓ · ASI final ✓) · Electivas N5 son libres.</div>
+</div>
+
+<!-- 2028 Q2 -->
+<div class="main-panel" id="mp28-1">
+  <div class="infobox" style="margin-top:6px;">
+    <strong>ℹ Proyecto Final continúa en 2C.</strong> Se agregan las dos Electivas N5 restantes (Calidad Avanzada y Bioinformática). El jueves queda libre para concentrarse en el Proyecto Final o avanzar en la PPS. Viernes se puede usar para una quinta electiva opcional si queda tiempo.
+  </div>
+  <div class="legend" style="margin-top:16px;">
+    <div class="leg-item"><div class="leg-dot" style="background:var(--pf)"></div>Proyecto Final <span style="font-size:10px;color:var(--muted)">ANUAL · continúa</span></div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--cav)"></div>Calidad Avanzada (Electiva N5)</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--bio)"></div>Bioinformática (Electiva N5)</div>
+    <div class="anual-legend">● ANUAL continúa de Q1</div>
+  </div>
+  <div class="cal-outer">
+    <div class="cal-head" style="grid-template-columns:48px repeat(5,1fr)">
+      <div class="cal-head-cell"></div>
+      <div class="cal-head-cell lit" style="color:var(--pf)">LUNES</div>
+      <div class="cal-head-cell lit" style="color:var(--cav)">MARTES</div>
+      <div class="cal-head-cell lit" style="color:var(--pf)">MIÉRCOLES</div>
+      <div class="cal-head-cell lit" style="color:var(--bio)">JUEVES</div>
+      <div class="cal-head-cell" style="color:var(--muted)">VIERNES</div>
+    </div>
+    <div class="cal-body" id="y28q2body" style="grid-template-columns:48px repeat(5,1fr)"></div>
+  </div>
+  <div class="day-summary">
+    <div class="ds-card"><div class="ds-day">Lunes</div><div class="ds-name"><span class="ds-dot" style="background:var(--pf)"></span>Proyecto Final</div><div class="ds-det">19:00 – 22:15<br>N5 ANUAL · Medrano</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Proyecto%20Final&dates=20280313T190000/20280313T221500&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DMO%2CWE%3BUNTIL%3D20281128T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Proyecto%20Final%0AComisi%C3%B3n%3A%20N5%20ANUAL%0AMateria%20ANUAL%202028%20%C2%B7%20Lu%2BMi%2019-22%3A15" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a></div>
+    <div class="ds-card"><div class="ds-day">Martes</div><div class="ds-name"><span class="ds-dot" style="background:var(--cav)"></span>Calidad Avanzada</div><div class="ds-det">18:15 – 23:00<br>Electiva N5 · Medrano</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Calidad%20Avanzada&dates=20280813T181500/20280813T230000&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DTU%3BUNTIL%3D20281128T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Calidad%20Avanzada%0AComisi%C3%B3n%3A%20Electiva%20N5%0ACursada%202C%202028%20%C2%B7%20Ma%2018%3A15-23%3A00" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a></div>
+    <div class="ds-card"><div class="ds-day">Miércoles</div><div class="ds-name"><span class="ds-dot" style="background:var(--pf)"></span>Proyecto Final</div><div class="ds-det">19:00 – 22:15<br>N5 ANUAL · Medrano</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Proyecto%20Final&dates=20280313T190000/20280313T221500&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DMO%2CWE%3BUNTIL%3D20281128T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Proyecto%20Final%0AComisi%C3%B3n%3A%20N5%20ANUAL%0AMateria%20ANUAL%202028%20%C2%B7%20Lu%2BMi%2019-22%3A15" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a></div>
+    <div class="ds-card"><div class="ds-day">Jueves</div><div class="ds-name"><span class="ds-dot" style="background:var(--bio)"></span>Bioinformática</div><div class="ds-det">18:15 – 23:00<br>Electiva N5 · Medrano</div><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Bioinform%C3%A1tica&dates=20280815T181500/20280815T230000&recur=RRULE%3AFREQ%3DWEEKLY%3BBYDAY%3DTH%3BUNTIL%3D20281128T235959Z&location=UTN%20FRBA%20%C2%B7%20Sede%20Medrano%2C%20Av.%20Medrano%20951%2C%20CABA&details=UTN%20FRBA%20%C2%B7%20ISI%20%C2%B7%20Plan%20K23%20%C2%B7%20Bioinform%C3%A1tica%0AComisi%C3%B3n%3A%20Electiva%20N5%0ACursada%202C%202028%20%C2%B7%20Ju%2018%3A15-23%3A00" target="_blank" rel="noopener" class="gcal-btn" title="Agregar a Google Calendar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agregar al calendario</a></div>
+    <div class="ds-card" style="opacity:.4"><div class="ds-day">Viernes</div><div class="ds-name">Libre</div><div class="ds-det">PPS / Estudio PF</div></div>
+  </div>
+  <div class="dropped-box" style="margin-top:20px;">
+    <div class="dx">★</div>
+    <div><strong>Fin de 2028 — potencial año de graduación:</strong> Con este plan se cierran las 4 Electivas N5 (~256h > 240h req.) y se aprueba Proyecto Final. Solo quedaría validar la PPS (200h). Si la PPS se hizo en paralelo durante 2027–2028, <strong>la graduación sería posible en dic. 2028 o feb. 2029</strong>.</div>
+  </div>
+</div>
+
+</main>
+</div><!-- end sp3-plan -->
+
+<!-- ═══════════════════════════════════════
+     SUPER PANEL 5 · PLANIFICADOR 2029
+════════════════════════════════════════ -->
+<div class="super-panel" id="sp4-plan">
+<main>
+
+<div class="sec">Vista por cuatrimestre · 2029 · Año de Graduación</div>
+
+<div class="greenbox" style="margin-bottom:16px;">
+  <strong>🎓 2029 es el año de graduación en el escenario óptimo.</strong> Si el Proyecto Final se aprueba en diciembre 2028 y la PPS está completa, la graduación puede tramitarse a principios de 2029. Esta solapa contempla el escenario de que alguna materia haya quedado pendiente de 2028.
+</div>
+
+<div class="infobox" style="margin-bottom:14px;">
+  <strong>Escenario base:</strong> Solo resta la PPS (200h) y eventualmente alguna materia electiva adicional o un recurso de Proyecto Final. El año 2029 debería ser muy liviano comparado con los anteriores.
+</div>
+
+<div class="main-tabs">
+  <button class="main-tab mq1 active" onclick="mainTabIn('sp4-plan',0)">
+    1er Cuatrimestre <span class="mbadge">Graduación / PPS / Pendientes opcionales</span>
+  </button>
+  <button class="main-tab mq2" onclick="mainTabIn('sp4-plan',1)">
+    2do Cuatrimestre <span class="mbadge">Colación · Cierre de carrera</span>
+  </button>
+</div>
+
+<!-- 2029 Q1 -->
+<div class="main-panel active" id="mp29-0">
+  <div style="background:var(--s2);border:1px solid rgba(232,121,249,.25);border-radius:10px;padding:24px 28px;margin-top:8px;">
+    <div style="font-size:13px;font-weight:700;color:var(--pf);margin-bottom:16px;letter-spacing:.5px;">CHECKLIST DE CIERRE</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div style="background:rgba(34,211,164,.06);border:1px solid rgba(34,211,164,.2);border-radius:8px;padding:14px 16px;">
+        <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">✓ Completados (escenario ideal)</div>
+        <div style="font-size:12px;color:#6b7a99;line-height:1.9;">
+          Todos los N1–N3 ✓<br>
+          Redes de Datos ✓<br>
+          Simulación ✓<br>
+          Electivas N4 (3 × ~64h = ~192h) ✓<br>
+          Inteligencia Artificial ✓<br>
+          Ciencia de Datos ✓<br>
+          Sistemas de Gestión ✓<br>
+          Gestión Gerencial ✓<br>
+          Seguridad en Sistemas ✓<br>
+          Proyecto Final ✓<br>
+          Electivas N5 (4 × ~64h = ~256h) ✓<br>
+        </div>
+      </div>
+      <div style="background:rgba(232,121,249,.05);border:1px solid rgba(232,121,249,.2);border-radius:8px;padding:14px 16px;">
+        <div style="font-size:11px;font-weight:700;color:var(--pf);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">⏳ Tramitar en 2029</div>
+        <div style="font-size:12px;color:#6b7a99;line-height:1.9;">
+          PPS — 200h certificadas ⏳<br>
+          <span style="font-size:11px;color:var(--muted);">Puede haberse hecho en paralelo desde 2027.</span><br><br>
+          Presentar documentación de título ⏳<br>
+          Aprobación de Depto. ⏳<br>
+          Colación de grado ⏳<br>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:16px;background:rgba(250,204,21,.06);border:1px solid rgba(250,204,21,.2);border-radius:8px;padding:13px 16px;font-size:12px;color:#6b7a99;line-height:1.7;">
+      <strong style="color:#fde68a;">Plan de contingencia:</strong> Si alguna materia de 2028 requirió reordenamiento (por ejemplo Proyecto Final pasó al primer recurso de 2029), usar 1C 2029 para finalizarla. La estructura de 5 noches por semana permite absorber cualquier demora sin comprometer el año lectivo completo.
+    </div>
+  </div>
+  <div class="note" style="margin-top:16px;"><strong>Resumen de carrera completada:</strong> 2019–2029 · ~10 años · 26 materias aprobadas al arrancar 2026 + 15 planificadas 2026–2028 = 41 bloques totales + Electivas + PPS = Ingeniería en Sistemas de Información (K23).</div>
+</div>
+
+<!-- 2029 Q2 -->
+<div class="main-panel" id="mp29-1">
+  <div style="background:linear-gradient(135deg,rgba(232,121,249,.08),rgba(34,211,164,.06));border:1px solid rgba(232,121,249,.3);border-radius:12px;padding:32px 36px;text-align:center;margin-top:12px;">
+    <div style="font-size:48px;margin-bottom:16px;">🎓</div>
+    <div style="font-size:22px;font-weight:800;color:var(--text);margin-bottom:8px;">Ingeniería en Sistemas de Información</div>
+    <div style="font-size:14px;color:var(--muted);margin-bottom:4px;">Plan K23 · UTN FRBA · Sede Medrano</div>
+    <div style="font-size:13px;color:var(--pf);font-weight:600;margin-bottom:20px;">Jorge Osvaldo Tripodi · Legajo 172-060.0</div>
+    <div style="background:rgba(34,211,164,.08);border:1px solid rgba(34,211,164,.2);border-radius:8px;padding:14px 20px;display:inline-block;margin:0 auto;">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:4px;">Trayectoria estimada</div>
+      <div style="font-size:18px;font-weight:700;color:var(--green);">2019 → 2029 · ~10 años activos</div>
+    </div>
+    <div style="margin-top:20px;font-size:12px;color:#6b7a99;line-height:1.8;max-width:480px;margin-left:auto;margin-right:auto;">
+      De los cuales los primeros 3 años (2019–2022) fueron los más intensos en materias del ciclo básico. La transición K08→K23 en feb. 2026 fue transparente, acreditando equivalencias sin perder tiempo. La recta final 2026–2029 avanza a ritmo óptimo de 5 materias/año.
+    </div>
+  </div>
+</div>
+
+</main>
+</div><!-- end sp4-plan -->
+
+<script>
+/* ───── SUPER TABS ───── */
+function superTab(i) {
+  document.querySelectorAll('.super-tab').forEach(function(t,j){ t.classList.toggle('active', i===j); });
+  document.querySelectorAll('.super-panel').forEach(function(p,j){ p.classList.toggle('active', i===j); });
+  localStorage.setItem('dashboardSuperTab', i);
+}
+
+/* ───── SP1 SUB-TABS ───── */
+function sp1Tab(i) {
+  document.querySelectorAll('.sub-tab').forEach(function(t,j){ t.classList.toggle('active', i===j); });
+  document.querySelectorAll('.sub-panel').forEach(function(p,j){ p.classList.toggle('active', i===j); });
+  localStorage.setItem('dashboardSp1Tab', i);
+}
+
+
+/* ───── SCOPED PLANNER TABS ───── */
+function mainTabIn(containerId, i) {
+  var c = document.getElementById(containerId);
+  if (!c) return;
+  c.querySelectorAll('.main-tab').forEach(function(t,j){ t.classList.toggle('active', i===j); });
+  c.querySelectorAll('.main-panel').forEach(function(p,j){ p.classList.toggle('active', i===j); });
+  localStorage.setItem('dashboardMainTab_' + containerId, i);
+}
+function planSubTabIn(containerId, i) {
+  var c = document.getElementById(containerId);
+  if (!c) return;
+  c.querySelectorAll('.plan-sub-tab').forEach(function(t,j){ t.classList.toggle('active', i===j); });
+  c.querySelectorAll('.plan-sub-panel').forEach(function(p,j){ p.classList.toggle('active', i===j); });
+  localStorage.setItem('dashboardPlanSubTab_' + containerId, i);
+}
+
+/* ───── ACCORDION ───── */
+function toggleAcc(card) {
+  card.classList.toggle('open');
+}
+
+/* ───── CALENDAR BUILDER ───── */
+var START = 18 * 60;
+var END   = 23 * 60 + 30;
+var PPM   = 1.75;
+var HTOTAL = (END - START) * PPM;
+var SAT_START = 13 * 60;
+
+function pad(n) { return String(n).padStart(2,'0'); }
+function topPx(h, m) { return (h*60+m - START) * PPM; }
+function htPx(h1,m1,h2,m2) { return (h2*60+m2 - h1*60-m1) * PPM; }
+
+function buildCal(bodyId, numDays, events, hasSat) {
+  var body = document.getElementById(bodyId);
+  if (!body) return;
+  body.style.height = HTOTAL + 'px';
+  var tc = document.createElement('div');
+  tc.className = 'time-col';
+  tc.style.height = HTOTAL + 'px';
+  for (var h = 18; h <= 23; h++) {
+    var lbl = document.createElement('div');
+    lbl.className = 'tlabel';
+    lbl.style.top = ((h-18)*60*PPM) + 'px';
+    lbl.textContent = h + ':00';
+    tc.appendChild(lbl);
+  }
+  body.appendChild(tc);
+  for (var d = 0; d < numDays; d++) {
+    var isSat = hasSat && (d === numDays - 1);
+    var col = document.createElement('div');
+    col.className = 'day-col' + (isSat ? ' sat' : '');
+    col.style.height = HTOTAL + 'px';
+    if (!isSat) {
+      for (var hh = 18; hh <= 23; hh++) {
+        var hl = document.createElement('div');
+        hl.className = 'hline';
+        hl.style.top = ((hh-18)*60*PPM) + 'px';
+        col.appendChild(hl);
+        if (hh < 23) {
+          var hf = document.createElement('div');
+          hf.className = 'hline-half';
+          hf.style.top = ((hh-18)*60*PPM + 30*PPM) + 'px';
+          col.appendChild(hf);
+        }
+      }
+    } else {
+      var satH = (15*60 - 13*60) * PPM;
+      var satTop = HTOTAL * 0.18;
+      var zone = document.createElement('div');
+      zone.style.cssText = 'position:absolute;top:' + satTop + 'px;left:4px;right:4px;height:' + satH + 'px;border:1px dashed #1d2235;border-radius:6px;';
+      col.appendChild(zone);
+      var zlbl = document.createElement('div');
+      zlbl.style.cssText = 'position:absolute;top:' + (satTop-16) + 'px;left:0;right:0;text-align:center;font-size:9px;font-family:JetBrains Mono,monospace;color:#4e5a7a;';
+      zlbl.textContent = '13:00 – 15:00';
+      col.appendChild(zlbl);
+    }
+    events.filter(function(e){ return e.day === d; }).forEach(function(ev) {
+      var blk = document.createElement('div');
+      blk.className = 'ev ev-' + ev.cls;
+      if (isSat) {
+        var satTopV = HTOTAL * 0.18;
+        blk.style.top = (satTopV + (ev.h1*60+ev.m1 - SAT_START)*PPM) + 'px';
+      } else {
+        blk.style.top = topPx(ev.h1, ev.m1) + 'px';
+      }
+      blk.style.height = htPx(ev.h1,ev.m1,ev.h2,ev.m2) + 'px';
+      var nameHtml = ev.url 
+        ? '<a href="' + ev.url + '" style="color:inherit;text-decoration:none;border-bottom:1px dashed rgba(255,255,255,.3);transition:border-color .2s;" onmouseover="this.style.borderBottomColor=\'rgba(255,255,255,.7)\'" onmouseout="this.style.borderBottomColor=\'rgba(255,255,255,.3)\'">' + ev.name + '</a>'
+        : ev.name;
+      blk.innerHTML =
+        '<div class="ev-name">' + nameHtml + '</div>' +
+        '<div class="ev-time">' + pad(ev.h1) + ':' + pad(ev.m1) + ' – ' + pad(ev.h2) + ':' + pad(ev.m2) + '</div>' +
+        '<div class="ev-k">' + ev.k + '</div>' +
+        (ev.anual  ? '<div class="ev-anual">ANUAL</div>' : '') +
+        (ev.campus ? '<div class="ev-campus">CAMPUS</div>' : '');
+      col.appendChild(blk);
+    });
+    body.appendChild(col);
+  }
+}
+
+buildCal('q1body', 5, [
+  {day:0, cls:'si',  name:'Seminario Integrador',             h1:19,m1:0, h2:22,m2:15, k:'K4061', url:'Seminario_Integrador_2026.html'},
+  {day:1, cls:'cd',  name:'Comunicación de Datos',            h1:19,m1:0, h2:21,m2:30, k:'K3055', url:'Comunicaciones_K3055_2026.html'},
+  {day:2, cls:'si',  name:'Seminario Integrador',             h1:19,m1:0, h2:22,m2:15, k:'K4061', url:'Seminario_Integrador_2026.html'},
+  {day:3, cls:'asi', name:'Administración de Sistemas de Información',  h1:18,m1:15,h2:23,m2:0,  k:'K4053', anual:true, url:'AdSI_Dashboard.html'},
+  {day:4, cls:'cd',  name:'Comunicación de Datos',            h1:19,m1:0, h2:23,m2:0,  k:'K3055', url:'Comunicaciones_K3055_2026.html'}
+], false);
+
+buildCal('q2a1body', 6, [
+  {day:0, cls:'ics', name:'Ingeniería y Calidad de Software',   h1:18,m1:15,h2:23,m2:0,  k:'K4052 · Medrano'},
+  {day:1, cls:'io',  name:'Investigación Operativa',            h1:18,m1:15,h2:23,m2:0,  k:'K4051 · Medrano'},
+  {day:5, cls:'io',  name:'Investigación Operativa',            h1:13,m1:30,h2:15,m2:0,  k:'K4051 · Sáb'},
+  {day:2, cls:'leg', name:'Legislación',                        h1:19,m1:0, h2:22,m2:15, k:'Z4055 · Medrano'},
+  {day:3, cls:'asi', name:'Administración de Sistemas de Información',    h1:18,m1:15,h2:23,m2:0,  k:'K4053', anual:true, url:'AdSI_Dashboard.html'},
+  {day:4, cls:'ta',  name:'Tecnologías para la Automatización', h1:18,m1:15,h2:23,m2:0,  k:'K4055 · Medrano'}
+], true);
+
+buildCal('q2a2body', 6, [
+  {day:0, cls:'ics', name:'Ingeniería y Calidad de Software',   h1:18,m1:15,h2:23,m2:0,  k:'K4052 · Medrano'},
+  {day:1, cls:'ta',  name:'Tecnologías para la Automatización', h1:18,m1:15,h2:23,m2:0,  k:'K4051 · Medrano'},
+  {day:2, cls:'io',  name:'Investigación Operativa',            h1:18,m1:15,h2:23,m2:0,  k:'K4052 · Medrano'},
+  {day:5, cls:'io',  name:'Investigación Operativa',            h1:13,m1:30,h2:15,m2:0,  k:'K4052 · Sáb'},
+  {day:3, cls:'asi', name:'Administración de Sistemas de Información',    h1:18,m1:15,h2:23,m2:0,  k:'K4053', anual:true, url:'AdSI_Dashboard.html'},
+  {day:4, cls:'leg', name:'Legislación',                        h1:19,m1:0, h2:22,m2:15, k:'Z4053 · Campus', campus:true}
+], true);
+
+buildCal('q2a3body', 6, [
+  {day:0, cls:'leg', name:'Legislación',                        h1:19,m1:0, h2:22,m2:15, k:'Z4051 · Campus', campus:true},
+  {day:1, cls:'ics', name:'Ingeniería y Calidad de Software',   h1:18,m1:15,h2:23,m2:0,  k:'K4153 · Medrano'},
+  {day:2, cls:'io',  name:'Investigación Operativa',            h1:18,m1:15,h2:23,m2:0,  k:'K4052 · Medrano'},
+  {day:5, cls:'io',  name:'Investigación Operativa',            h1:13,m1:30,h2:15,m2:0,  k:'K4052 · Sáb'},
+  {day:3, cls:'asi', name:'Administración de Sistemas de Información',    h1:18,m1:15,h2:23,m2:0,  k:'K4053', anual:true, url:'AdSI_Dashboard.html'},
+  {day:4, cls:'ta',  name:'Tecnologías para la Automatización', h1:18,m1:15,h2:23,m2:0,  k:'K4055 · Medrano'}
+], true);
+
+/* ───── CALENDAR DATA 2027–2028 ───── */
+buildCal('y27q1body', 5, [
+  {day:0, cls:'sim',  name:'Simulación',                        h1:18,m1:15,h2:23,m2:0,  k:'N4'},
+  {day:1, cls:'rd',   name:'Redes de Datos',                    h1:19,m1:0, h2:22,m2:15, k:'N4'},
+  {day:2, cls:'ai',   name:'Inteligencia Artificial',           h1:18,m1:15,h2:23,m2:0,  k:'N5'},
+  {day:3, cls:'rd',   name:'Redes de Datos',                    h1:19,m1:0, h2:22,m2:15, k:'N4'},
+  {day:4, cls:'cri',  name:'Criptografía',                      h1:18,m1:15,h2:23,m2:0,  k:'Elect. N4'}
+], false);
+
+buildCal('y27q2body', 5, [
+  {day:0, cls:'cdat', name:'Ciencia de Datos',                  h1:18,m1:15,h2:23,m2:0,  k:'N5'},
+  {day:1, cls:'sge',  name:'Sistemas de Gestión',               h1:18,m1:15,h2:23,m2:0,  k:'N5'},
+  {day:2, cls:'gge',  name:'Gestión Gerencial',                 h1:19,m1:0, h2:22,m2:15, k:'N5'},
+  {day:3, cls:'iot',  name:'IoT',                               h1:18,m1:15,h2:23,m2:0,  k:'Elect. N4'},
+  {day:4, cls:'arc',  name:'Arq. Concurrentes',                 h1:18,m1:15,h2:23,m2:0,  k:'Elect. N4'}
+], false);
+
+buildCal('y28q1body', 5, [
+  {day:0, cls:'pf',   name:'Proyecto Final',                    h1:19,m1:0, h2:22,m2:15, k:'N5 ANUAL', anual:true},
+  {day:1, cls:'seg',  name:'Seguridad en Sistemas',             h1:18,m1:15,h2:23,m2:0,  k:'N5'},
+  {day:2, cls:'pf',   name:'Proyecto Final',                    h1:19,m1:0, h2:22,m2:15, k:'N5 ANUAL', anual:true},
+  {day:3, cls:'aud',  name:'Auditoría de Sistemas',             h1:18,m1:15,h2:23,m2:0,  k:'Elect. N5'},
+  {day:4, cls:'sgi',  name:'Sist. Info. Geográfica',            h1:18,m1:15,h2:23,m2:0,  k:'Elect. N5'}
+], false);
+
+buildCal('y28q2body', 5, [
+  {day:0, cls:'pf',   name:'Proyecto Final',                    h1:19,m1:0, h2:22,m2:15, k:'N5 ANUAL', anual:true},
+  {day:1, cls:'cav',  name:'Calidad Avanzada',                  h1:18,m1:15,h2:23,m2:0,  k:'Elect. N5'},
+  {day:2, cls:'pf',   name:'Proyecto Final',                    h1:19,m1:0, h2:22,m2:15, k:'N5 ANUAL', anual:true},
+  {day:3, cls:'bio',  name:'Bioinformática',                    h1:18,m1:15,h2:23,m2:0,  k:'Elect. N5'}
+], false);
+
+/* ───── RESTORE TAB STATE ON PAGE LOAD ───── */
+(function() {
+  // Restaurar Super Tab
+  var savedSuperTab = localStorage.getItem('dashboardSuperTab');
+  if (savedSuperTab !== null) {
+    superTab(parseInt(savedSuperTab));
+  }
+  
+  // Restaurar SP1 Sub-Tab
+  var savedSp1Tab = localStorage.getItem('dashboardSp1Tab');
+  if (savedSp1Tab !== null) {
+    sp1Tab(parseInt(savedSp1Tab));
+  }
+  
+  // Restaurar Main Tabs para cada contenedor
+  ['sp1-plan', 'sp2-plan', 'sp3-plan', 'sp4-plan'].forEach(function(containerId) {
+    var savedMainTab = localStorage.getItem('dashboardMainTab_' + containerId);
+    if (savedMainTab !== null) {
+      mainTabIn(containerId, parseInt(savedMainTab));
+    }
+  });
+  
+  // Restaurar Plan Sub-Tabs para cada contenedor
+  ['sp1-plan', 'sp2-plan', 'sp3-plan', 'sp4-plan'].forEach(function(containerId) {
+    var savedPlanSubTab = localStorage.getItem('dashboardPlanSubTab_' + containerId);
+    if (savedPlanSubTab !== null) {
+      planSubTabIn(containerId, parseInt(savedPlanSubTab));
+    }
+  });
+})();
+
+</script>
+</body>
+</html>
