@@ -66,6 +66,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;back
 .super-tab{padding:13px 18px;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;border:none;background:none;font-family:'Outfit',sans-serif;border-bottom:3px solid transparent;transition:color .15s;display:flex;align-items:center;gap:6px;white-space:nowrap;}
 .super-tab:hover{color:var(--text);}
 .super-tab.active{color:var(--text);}
+.super-tab.sp0.active{border-bottom-color:var(--yellow);}
 .super-tab.sp1.active{border-bottom-color:var(--green);}
 .super-tab.sp2.active{border-bottom-color:var(--blue);}
 .super-panel{display:none;position:relative;z-index:1;}
@@ -228,13 +229,13 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
 
 /* ───── PLANIFICADOR (legacy styles) ───── */
 .main-tabs{border-bottom:1px solid var(--border);margin-top:6px;padding:0;}
-.main-tabs-inner{max-width:1440px;margin:0 auto;display:flex;gap:3px;flex-wrap:wrap;}
-.main-tab{padding:11px 16px;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;background:none;border-top:none;border-left:none;border-right:none;font-family:'Outfit',sans-serif;transition:color .15s;display:flex;align-items:center;gap:6px;white-space:nowrap;}
+.main-tabs-inner{max-width:1440px;margin:0 auto;display:flex;gap:3px;}
+.main-tab{padding:11px 16px;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;background:none;border-top:none;border-left:none;border-right:none;font-family:'Outfit',sans-serif;transition:color .15s;display:flex;align-items:center;gap:6px;white-space:nowrap;flex:1;min-width:0;}
 .main-tab:hover{color:var(--text);}
 .main-tab.active{color:var(--text);}
 .main-tab.mq1.active{border-bottom-color:#a78bfa;}
 .main-tab.mq2.active{border-bottom-color:#38bdf8;}
-.mbadge{font-size:10px;padding:2px 8px;border-radius:20px;background:var(--s3);color:var(--muted);font-weight:500;}
+.mbadge{font-size:10px;padding:2px 8px;border-radius:20px;background:var(--s3);color:var(--muted);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:300px;}
 .main-tab.mq1.active .mbadge{background:rgba(167,139,250,.12);color:#c4b5fd;}
 .main-tab.mq2.active .mbadge{background:rgba(56,189,248,.12);color:#7dd3fc;}
 .main-panel{display:none;padding-top:22px;}
@@ -250,6 +251,18 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
 .plan-sub-tab.rec.active .plan-sbadge{background:rgba(34,211,164,.1);color:#6ee7b7;}
 .plan-sub-panel{display:none;}
 .plan-sub-panel.active{display:block;}
+
+/* ───── LINKS ÚTILES ───── */
+.links-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;margin-top:16px;}
+.link-card{display:flex;align-items:center;gap:14px;background:var(--s2);border:1px solid var(--border);border-radius:10px;padding:16px 18px;text-decoration:none;transition:all .2s;cursor:pointer;}
+.link-card:hover{background:var(--s3);border-color:rgba(255,255,255,0.15);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.3);}
+.link-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.link-content{flex:1;min-width:0;}
+.link-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.link-desc{font-size:11.5px;color:var(--muted);line-height:1.5;}
+.link-arrow{font-size:18px;color:var(--muted);transition:color .2s;}
+.link-card:hover .link-arrow{color:var(--text);}
+
 .legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;align-items:center;}
 .leg-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);}
 .leg-dot{width:10px;height:10px;border-radius:3px;}
@@ -345,18 +358,90 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
 <!-- ═══════════ SUPER TAB BAR ═══════════ -->
 <div class="super-tab-bar">
   <div class="super-tab-inner">
-    <button class="super-tab sp1 active" onclick="superTab(0)">📊 Seguimiento de Carrera</button>
-    <button class="super-tab sp2" onclick="superTab(1)">🗓 Planificador 2026</button>
-    <button class="super-tab" onclick="superTab(2)">🗓 Planificador 2027</button>
-    <button class="super-tab" onclick="superTab(3)">🗓 Planificador 2028</button>
-    <button class="super-tab" onclick="superTab(4)">🗓 Planificador 2029</button>
+    <button class="super-tab sp0 active" onclick="superTab(0)">🔗 Links útiles</button>
+    <button class="super-tab sp1" onclick="superTab(1)">📊 Seguimiento de Carrera</button>
+    <button class="super-tab sp2" onclick="superTab(2)">🗓 Planificador 2026</button>
+    <button class="super-tab" onclick="superTab(3)">🗓 Planificador 2027</button>
+    <button class="super-tab" onclick="superTab(4)">🗓 Planificador 2028</button>
+    <button class="super-tab" onclick="superTab(5)">🗓 Planificador 2029</button>
   </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SUPER PANEL 0 · LINKS ÚTILES
+════════════════════════════════════════ -->
+<div class="super-panel active" id="sp0">
+<main>
+
+  <div class="sec">Accesos directos · Plataformas UTN</div>
+
+  <div class="links-grid">
+    <a href="https://ceitfmt.ar/dashboard" target="_blank" rel="noopener" class="link-card">
+      <div class="link-icon" style="background:rgba(56,189,248,.15);color:var(--blue);">📊</div>
+      <div class="link-content">
+        <div class="link-title">CEIT-FMyT</div>
+        <div class="link-desc">Dashboard del Centro de Estudiantes. Acceso a noticias, eventos y recursos estudiantiles de la Facultad de Ingeniería.</div>
+      </div>
+      <div class="link-arrow">→</div>
+    </a>
+
+    <a href="https://guarani.frba.utn.edu.ar/autogestion/grado/" target="_blank" rel="noopener" class="link-card">
+      <div class="link-icon" style="background:rgba(34,211,164,.15);color:var(--green);">🎓</div>
+      <div class="link-content">
+        <div class="link-title">SIU Guaraní</div>
+        <div class="link-desc">Sistema de autogestión para estudiantes. Consulta de materias, inscripciones, finales, historia académica y constancias.</div>
+      </div>
+      <div class="link-arrow">→</div>
+    </a>
+
+    <a href="https://ventanilladisi.cpci.org.ar/" target="_blank" rel="noopener" class="link-card">
+      <div class="link-icon" style="background:rgba(244,114,182,.15);color:var(--pink);">📋</div>
+      <div class="link-content">
+        <div class="link-title">Ventanilla DISI</div>
+        <div class="link-desc">Trámites del Departamento de Ingeniería en Sistemas de Información. Constancias, certificados y gestión de mesas de examen.</div>
+      </div>
+      <div class="link-arrow">→</div>
+    </a>
+
+    <a href="https://biblioteca.frba.utn.edu.ar/opac_login.php" target="_blank" rel="noopener" class="link-card">
+      <div class="link-icon" style="background:rgba(250,204,21,.15);color:var(--yellow);">📚</div>
+      <div class="link-content">
+        <div class="link-title">Biblioteca UTN</div>
+        <div class="link-desc">Catálogo online de la biblioteca. Búsqueda de libros, revistas, reservas y acceso a recursos digitales y papers académicos.</div>
+      </div>
+      <div class="link-arrow">→</div>
+    </a>
+
+    <a href="https://frba.utn.edu.ar/" target="_blank" rel="noopener" class="link-card">
+      <div class="link-icon" style="background:rgba(129,140,248,.15);color:#818cf8;">🏛️</div>
+      <div class="link-content">
+        <div class="link-title">Web UTN FRBA</div>
+        <div class="link-desc">Portal oficial de la Facultad Regional Buenos Aires. Información institucional, autoridades, calendarios académicos y novedades.</div>
+      </div>
+      <div class="link-arrow">→</div>
+    </a>
+
+    <a href="https://aulasvirtuales.frba.utn.edu.ar/" target="_blank" rel="noopener" class="link-card">
+      <div class="link-icon" style="background:rgba(232,121,249,.15);color:#e879f9;">💻</div>
+      <div class="link-content">
+        <div class="link-title">Aulas Virtuales</div>
+        <div class="link-desc">Plataforma Moodle de la facultad. Acceso a materiales de cursada, foros, entrega de trabajos y comunicación con docentes.</div>
+      </div>
+      <div class="link-arrow">→</div>
+    </a>
+  </div>
+
+  <div class="note" style="margin-top:24px;">
+    <strong>ℹ Consejo:</strong> Guarda estos enlaces en tus favoritos o marcadores para acceder rápidamente. Algunas plataformas requieren autenticación con las credenciales institucionales (legajo y contraseña del SIU Guaraní).
+  </div>
+
+</main>
 </div>
 
 <!-- ═══════════════════════════════════════
      SUPER PANEL 1 · SEGUIMIENTO DE CARRERA
 ════════════════════════════════════════ -->
-<div class="super-panel active" id="sp0">
+<div class="super-panel" id="sp1">
 <main>
 
   <!-- SUB-TAB BAR -->
