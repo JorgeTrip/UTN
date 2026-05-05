@@ -330,7 +330,219 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
 .anual-tag{display:inline-block;font-size:9px;font-weight:700;letter-spacing:1px;background:rgba(34,211,164,.12);color:var(--asi);border:1px solid rgba(34,211,164,.25);padding:1px 6px;border-radius:3px;margin-left:5px;vertical-align:middle;}
 .campus-tag{display:inline-block;font-size:9px;font-weight:700;letter-spacing:1px;background:rgba(250,204,21,.1);color:#fde68a;border:1px solid rgba(250,204,21,.25);padding:1px 6px;border-radius:3px;margin-left:5px;vertical-align:middle;}
 .sat-tag{font-size:9.5px;color:var(--io);background:rgba(244,114,182,.1);border:1px solid rgba(244,114,182,.2);padding:1px 6px;border-radius:3px;margin-top:2px;display:inline-block;}
-@media(max-width:700px){main{padding:14px 12px 40px;}.g-header{padding:14px 12px;}}
+/* ───── CHEVRONS INDICADORES DE SCROLL EN PESTAÑAS ───── */
+/* Aparecen cuando hay contenido oculto a izquierda o derecha y pulsan
+   con brillo intermitente para invitar al usuario a deslizar. */
+.tab-chevron{
+  position:absolute;
+  top:0;bottom:0;
+  width:38px;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  border:none;
+  background:none;
+  color:var(--blue);
+  font-family:'Outfit',sans-serif;
+  font-size:26px;
+  font-weight:700;
+  line-height:1;
+  cursor:pointer;
+  z-index:5;
+  padding:0 0 4px 0;
+  opacity:0;
+  transition:opacity .25s;
+  pointer-events:none;
+}
+.tab-chevron.left{
+  left:0;
+  background:linear-gradient(to right, var(--s1) 35%, rgba(12,16,24,.7) 70%, transparent);
+}
+.tab-chevron.right{
+  right:0;
+  background:linear-gradient(to left, var(--s1) 35%, rgba(12,16,24,.7) 70%, transparent);
+}
+.tab-chevron.visible{
+  display:flex;
+  opacity:1;
+  pointer-events:auto;
+  animation:chevronPulse 1.6s ease-in-out infinite;
+}
+.tab-chevron:hover{filter:brightness(1.3);}
+.tab-chevron:active{transform:scale(.92);}
+@keyframes chevronPulse{
+  0%,100%{
+    text-shadow:0 0 4px rgba(56,189,248,.4), inset 0 0 0 rgba(56,189,248,0);
+    filter:brightness(1);
+  }
+  50%{
+    text-shadow:0 0 14px rgba(56,189,248,.95), 0 0 24px rgba(56,189,248,.5);
+    filter:brightness(1.5);
+  }
+}
+/* Por defecto sólo ocultar visualmente en desktop si el bar no scrollea */
+.super-tab-bar,.sub-tab-bar,.main-tabs,.plan-sub-tab-bar{position:relative;}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE · TABLETS Y MÓVILES
+═══════════════════════════════════════ */
+
+/* ───── TABLET (≤ 900px) ───── */
+@media (max-width:900px){
+  /* Reducir paddings generales */
+  main{padding:18px 16px 50px;}
+  .g-header{padding:14px 16px;}
+  .super-tab-bar{padding:0 10px;}
+
+  /* Header: alinear a la izquierda y reducir tamaños */
+  .g-title{font-size:17px;}
+  .g-sub{font-size:11px;}
+  .g-right{font-size:10px;}
+
+  /* Tabs: scroll horizontal en lugar de wrap (mejor UX) */
+  .super-tab-inner,
+  .sub-tab-inner,
+  .main-tabs-inner,
+  .plan-sub-tab-inner{flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
+  .super-tab-inner::-webkit-scrollbar,
+  .sub-tab-inner::-webkit-scrollbar,
+  .main-tabs-inner::-webkit-scrollbar,
+  .plan-sub-tab-inner::-webkit-scrollbar{height:3px;}
+  .super-tab-inner::-webkit-scrollbar-thumb,
+  .sub-tab-inner::-webkit-scrollbar-thumb,
+  .main-tabs-inner::-webkit-scrollbar-thumb,
+  .plan-sub-tab-inner::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+
+  /* Main-tab badges: ocultar para no romper el ancho */
+  .mbadge{display:none;}
+  .main-tab{flex:0 0 auto;}
+
+  /* KPIs y grids: mínimos más chicos */
+  .kpi-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;}
+  .kpi-val{font-size:26px;}
+  .day-summary{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));}
+
+  /* Calendario: scroll horizontal cuando no entra */
+  .cal-outer{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .cal-head,.cal-body{min-width:600px;}
+
+  /* Peso académico */
+  .peso-formula,.peso-calc{padding:14px 16px;}
+  .peso-result{padding:14px 16px;gap:14px;}
+  .peso-score{font-size:42px;}
+  .formula-grid{grid-template-columns:1fr;}
+  .calc-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));}
+  .calc-val{font-size:18px;}
+
+  /* Links útiles: una columna */
+  .links-grid{grid-template-columns:1fr;}
+}
+
+/* ───── MÓVIL (≤ 700px) ───── */
+@media (max-width:700px){
+  /* Paddings aún más compactos */
+  main{padding:14px 12px 40px;}
+  .g-header{padding:12px 14px;}
+  .super-tab-bar{padding:0 6px;}
+
+  /* Header: stackear verticalmente */
+  .g-header-inner{flex-direction:column;align-items:flex-start;gap:10px;}
+  .g-right{margin-left:0;align-items:flex-start;}
+  .g-title{font-size:15px;line-height:1.25;}
+  .g-sub{font-size:10.5px;}
+
+  /* Tabs más compactos */
+  .super-tab{padding:11px 12px;font-size:12px;}
+  .sub-tab,.plan-sub-tab{font-size:11px;padding:8px 10px;}
+  .sbadge,.plan-sbadge{display:none;}
+
+  /* Sección headers más chicos */
+  .sec{font-size:9.5px;letter-spacing:2px;margin:22px 0 12px;}
+
+  /* KPIs y strategy: una columna en móvil */
+  .kpi-grid,.strat-grid{grid-template-columns:1fr;}
+  .kpi-val{font-size:24px;}
+
+  /* Peso: stackear el resultado */
+  .peso-result{flex-direction:column;align-items:flex-start;}
+  .peso-score{font-size:36px;}
+
+  /* ══════════════════════════════════
+     MAPA CURRICULAR · MODO SWIPE
+     Cada nivel ocupa el ancho completo
+     y se navega horizontalmente con
+     scroll-snap (gesto de deslizar).
+  ══════════════════════════════════ */
+  .map-wrap{
+    margin:0 -12px;                   /* compensa el padding de main */
+    padding:0 0 16px;
+    overflow-x:auto;
+    overflow-y:visible;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    scroll-behavior:smooth;
+    scrollbar-width:thin;
+  }
+  .map-grid{
+    grid-template-columns:repeat(5,100vw);
+    min-width:auto;
+    gap:0;
+  }
+  .map-col{
+    width:100vw;
+    padding:0 12px;
+    scroll-snap-align:start;
+    scroll-snap-stop:always;
+  }
+  /* Encabezado del nivel pegado arriba al hacer scroll vertical */
+  .map-lvl{
+    position:sticky;
+    top:0;
+    z-index:5;
+    font-size:12px;
+    padding:9px 0;
+    background:var(--s2);
+    box-shadow:0 2px 8px rgba(0,0,0,.4);
+  }
+  /* Hint visual de swipe debajo de la leyenda */
+  .map-legend::after{
+    content:'← Deslizá para ver otros niveles →';
+    width:100%;
+    text-align:center;
+    font-size:10px;
+    color:var(--muted);
+    letter-spacing:1px;
+    margin-top:4px;
+    padding:6px 0;
+    background:var(--s2);
+    border:1px solid var(--border);
+    border-radius:6px;
+  }
+
+  /* Map legend: tamaños chicos */
+  .map-legend{font-size:11px;gap:8px;}
+
+  /* Accordion: ajustes para texto largo */
+  .acc-name{font-size:12px;}
+  .acc-row-lbl{min-width:75px;font-size:11px;}
+  .acc-row-val{font-size:10.5px;}
+
+  /* Dropped box, peso-result: stackear */
+  .dropped-box{flex-direction:column;gap:8px;}
+
+  /* Calendario: aún más reducido pero scrollable */
+  .cal-head,.cal-body{min-width:540px;}
+  .ev-name{font-size:10.5px;}
+  .ev-time{font-size:9px;}
+}
+
+/* ───── MÓVIL CHICO (≤ 380px) ───── */
+@media (max-width:380px){
+  .g-title{font-size:14px;}
+  .super-tab{padding:10px 10px;font-size:11px;}
+  .kpi-val{font-size:22px;}
+  .peso-score{font-size:32px;}
+}
 </style>
 </head>
 <body>
@@ -360,10 +572,10 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
   <div class="super-tab-inner">
     <button class="super-tab sp0 active" onclick="superTab(0)">🔗 Links útiles</button>
     <button class="super-tab sp1" onclick="superTab(1)">📊 Seguimiento de Carrera</button>
-    <button class="super-tab sp2" onclick="superTab(2)">🗓 Planificador 2026</button>
-    <button class="super-tab" onclick="superTab(3)">🗓 Planificador 2027</button>
-    <button class="super-tab" onclick="superTab(4)">🗓 Planificador 2028</button>
-    <button class="super-tab" onclick="superTab(5)">🗓 Planificador 2029</button>
+    <button class="super-tab sp2" onclick="superTab(2)">📅 Planificador 2026</button>
+    <button class="super-tab" onclick="superTab(3)">📅 Planificador 2027</button>
+    <button class="super-tab" onclick="superTab(4)">📅 Planificador 2028</button>
+    <button class="super-tab" onclick="superTab(5)">📅 Planificador 2029</button>
   </div>
 </div>
 
@@ -2208,6 +2420,62 @@ planSubTabIn = function(containerId, i) {
 
 // Actualizar cada minuto (por si cambia el día)
 setInterval(highlightToday, 60000);
+
+/*  CHEVRONS INDICADORES DE SCROLL EN PESTAÑAS  */
+// Inyecta dinámicamente botones chevron izquierda/derecha en cada barra de
+// pestañas que tenga overflow horizontal y los muestra/oculta según la posición
+// del scroll. Al hacer click, desliza suavemente la barra.
+(function setupTabScrollChevrons(){
+  var SCROLL_AMOUNT = 200; // px que se desplaza al hacer click
+
+  var bars = [
+    {bar:'.super-tab-bar',    inner:'.super-tab-inner'},
+    {bar:'.sub-tab-bar',      inner:'.sub-tab-inner'},
+    {bar:'.main-tabs',        inner:'.main-tabs-inner'},
+    {bar:'.plan-sub-tab-bar', inner:'.plan-sub-tab-inner'}
+  ];
+
+  bars.forEach(function(cfg){
+    document.querySelectorAll(cfg.bar).forEach(function(barEl){
+      var inner = barEl.querySelector(cfg.inner);
+      if (!inner) return;
+
+      // Crear chevrons (botones reales para soportar click y accesibilidad)
+      var leftBtn  = document.createElement('button');
+      var rightBtn = document.createElement('button');
+      leftBtn.className  = 'tab-chevron left';
+      rightBtn.className = 'tab-chevron right';
+      leftBtn.innerHTML  = '‹';
+      rightBtn.innerHTML = '›';
+      leftBtn.setAttribute('aria-label',  'Desplazar pestañas a la izquierda');
+      rightBtn.setAttribute('aria-label', 'Desplazar pestañas a la derecha');
+      barEl.appendChild(leftBtn);
+      barEl.appendChild(rightBtn);
+
+      function updateVisibility(){
+        var canLeft  = inner.scrollLeft > 4;
+        var canRight = (inner.scrollWidth - inner.clientWidth - inner.scrollLeft) > 4;
+        leftBtn.classList.toggle('visible',  canLeft);
+        rightBtn.classList.toggle('visible', canRight);
+      }
+
+      leftBtn.addEventListener('click', function(){
+        inner.scrollBy({left:-SCROLL_AMOUNT, behavior:'smooth'});
+      });
+      rightBtn.addEventListener('click', function(){
+        inner.scrollBy({left: SCROLL_AMOUNT, behavior:'smooth'});
+      });
+
+      inner.addEventListener('scroll',  updateVisibility, {passive:true});
+      window.addEventListener('resize', updateVisibility);
+
+      // Ejecutar varias veces para asegurar layout correcto tras render
+      updateVisibility();
+      setTimeout(updateVisibility, 100);
+      setTimeout(updateVisibility, 500);
+    });
+  });
+})();
 
 </script>
 </body>
