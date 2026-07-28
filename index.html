@@ -895,14 +895,17 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
   letter-spacing: 1.5px;
   text-transform: uppercase;
   color: var(--muted);
+  margin-top: 16px;
   margin-bottom: 10px;
   padding-left: 8px;
+}
+.mobile-menu-divider:first-of-type {
+  margin-top: 0;
 }
 .mobile-menu-nav {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  flex: 1;
 }
 .mobile-menu-item {
   background: transparent;
@@ -1327,10 +1330,10 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
     <div class="sec">⏱ Tiempo y Carga Horaria</div>
 
     <div class="kpi-grid">
-      <div class="kpi-card k-green">
-        <div class="kpi-val">128h ✓</div>
-        <div class="kpi-lbl">Electivas 3° Nivel</div>
-        <div class="kpi-sub"><strong>N3 cubierto</strong> con Gestión del Talento Humano + Transformación Digital (~128h vs. 96h req.). Química Ambiental y Comunicación Gráfica y Visual en consulta para N5.</div>
+      <div class="kpi-card k-blue">
+        <div class="kpi-val">2/3</div>
+        <div class="kpi-lbl">Electivas Bloque 3°/4°</div>
+        <div class="kpi-sub"><strong>Bloque combinado:</strong> 2 de 3 materias aprobadas (~128h de 240h req.). Falta <strong>1 materia electiva más</strong> para cerrar el bloque. Las horas no se fiscalizan por nivel individual.</div>
       </div>
       <div class="kpi-card k-green">
         <div class="kpi-val">7 años</div>
@@ -1845,13 +1848,15 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
         <div class="acc-card s-ap" onclick="toggleAcc(this)" style="border-left-color:var(--green)">
           <div class="acc-header">
             <span class="acc-chevron">▶</span>
-            <div style="flex:1"><div class="acc-name">Electivas 3° Nivel 🎓</div>
-            <div class="acc-badges"><span class="acc-badge" style="background:rgba(34,211,164,.12);color:var(--green);">96h req. · CUBIERTO ✓</span></div></div>
-            <span class="acc-grade" style="width:28px;height:28px;border-radius:50%;background:var(--green);color:#050810;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;font-family:'JetBrains Mono',monospace;">✓</span>
+            <div style="flex:1"><div class="acc-name">Electivas 3°/4° Nivel (Bloque Combinado) 🎓</div>
+            <div class="acc-badges"><span class="acc-badge" style="background:rgba(34,211,164,.12);color:var(--green);">3 materias req. · 2/3 APROBADAS</span></div></div>
+            <span class="acc-grade" style="width:28px;height:28px;border-radius:50%;background:var(--blue);color:#050810;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;font-family:'JetBrains Mono',monospace;">⅔</span>
           </div>
           <div class="acc-body">
-            <div class="acc-row"><span class="acc-row-lbl">Requerimiento N3</span><span class="acc-row-val">96 horas reloj</span></div>
-            <div class="acc-row"><span class="acc-row-lbl">Total cubierto</span><span class="acc-row-val" style="color:var(--green)">~128h ✓ (supera los 96h requeridos)</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Bloque combinado</span><span class="acc-row-val">3° y 4° Nivel (no se fiscaliza por nivel individual)</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Exigencia total</span><span class="acc-row-val">3 materias electivas = 240 horas reloj</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Aprobadas</span><span class="acc-row-val" style="color:var(--green)">2 de 3 · ~128h de 240h (Gestión del Talento Humano + Transformación Digital)</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Faltante</span><span class="acc-row-val" style="color:var(--yellow)">1 materia electiva más (~64–96h) para cerrar el bloque</span></div>
             <div style="margin-top:10px;font-size:11px;">
               <div style="display:grid;grid-template-columns:1fr auto auto;gap:5px 10px;font-family:'JetBrains Mono',monospace;align-items:baseline;">
                 <span style="color:#6b7a99;font-family:'Outfit',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:.5px;">Materia</span>
@@ -1859,11 +1864,68 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
                 <span style="color:#6b7a99;font-family:'Outfit',sans-serif;font-size:10px;">Hs</span>
                 <span style="color:#dce4f5;">Gestión del Talento Humano</span><span style="color:var(--green)">10</span><span style="color:var(--green)">~64h</span>
                 <span style="color:#dce4f5;">Transformación Digital</span><span style="color:var(--green)">9</span><span style="color:var(--green)">~64h</span>
-                <span style="color:#aaa;font-style:italic;">Total N3 confirmado</span><span></span><span style="color:var(--green);">~128h ✓</span>
+                <span style="color:#aaa;font-style:italic;">Total bloque 3°/4°</span><span></span><span style="color:var(--blue);">~128h (2/3 materias)</span>
               </div>
             </div>
-            <div style="margin-top:10px;background:rgba(34,211,164,.05);border:1px solid rgba(34,211,164,.2);border-radius:6px;padding:9px 11px;font-size:11.5px;line-height:1.7;color:#6b7a99;">
-              <strong style="color:var(--green);">N3 cerrado con estas dos materias.</strong> Química Ambiental y Comunicación Gráfica y Visual (= Sistemas de Representación en K08) son dos materias aprobadas adicionales cuya asignación de nivel definitiva se está consultando — ambas ya cubiertas y en consulta para N5.
+            <div style="margin-top:10px;background:rgba(56,189,248,.06);border:1px solid rgba(56,189,248,.25);border-radius:6px;padding:9px 11px;font-size:12px;line-height:1.7;color:#6b7a99;">
+              <strong style="color:var(--blue);">ℹ Cómo funciona el bloque combinado:</strong> En el Plan K23, <strong style="color:#dce4f5;">las horas de electivas NO se fiscalizan año por año</strong> de manera aislada, sino por cumplimiento total de cada bloque. Los niveles 3° y 4° comparten un único cupo de <strong style="color:#dce4f5;">3 materias electivas (240h)</strong>. Tenés la libertad de cursarlas en el orden o año que prefieras a lo largo de este tramo.<br><br>
+              <strong style="color:var(--yellow);">⚠ Requisito para título intermedio:</strong> Se necesita acreditar <strong style="color:#dce4f5;">al menos 1 materia electiva</strong> del bloque intermedio (ya cumplido con 2 aprobadas). Para la carrera de grado, solo importa completar las 3 materias del bloque.<br><br>
+              <strong style="color:var(--green);">Estado actual:</strong> 2 de 3 materias aprobadas. Falta elegir y aprobar <strong style="color:#dce4f5;">1 materia electiva más</strong> de la oferta 3°/4° nivel (ej. Criptografía, UX, Ingeniería de Requisitos, etc.) para cerrar este bloque.
+            </div>
+            <!-- Botón interactivo para desplegar resto de materias -->
+            <button type="button" onclick="toggleCatalogoElectivas(event, this, 'cat-electivas-n34')" data-label-closed="Ver resto de materias electivas disponibles (10 opciones)" data-label-open="Ocultar materias electivas disponibles" style="width:100%;margin-top:12px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);border-radius:8px;padding:10px 14px;color:#dce4f5;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(56,189,248,.16)'" onmouseout="this.style.background='rgba(56,189,248,.08)'">
+              <span style="display:flex;align-items:center;gap:8px;">📋 <span class="cat-txt">Ver resto de materias electivas disponibles (10 opciones)</span></span>
+              <span class="cat-arrow" style="font-size:11px;color:var(--blue);">▼</span>
+            </button>
+
+            <!-- Catálogo Completo de Electivas 3°/4° Nivel (Oculto por defecto) -->
+            <div id="cat-electivas-n34" style="display:none;margin-top:10px;background:rgba(56,189,248,.04);border:1px solid rgba(56,189,248,.15);border-radius:8px;padding:12px 14px;">
+              <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;">📋 Catálogo de Oferta Electiva · 3° y 4° Nivel</div>
+              <div style="font-size:12.5px;color:#6b7a99;line-height:1.6;margin-bottom:10px;">
+                Materias optativas pertenecientes al bloque combinado 3°/4° nivel disponibles para cursar:
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px;">
+                  <div style="font-size:12.5px;font-weight:700;color:#dce4f5;">🔐 Ciberseguridad</div>
+                  <div style="font-size:12px;color:#6b7a99;line-height:1.6;margin-top:3px;">Principios de seguridad de la información, amenazas, vulnerabilidades, controles de protección y buenas prácticas en la gestión de la seguridad informática.</div>
+                </div>
+                <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px;">
+                  <div style="font-size:12.5px;font-weight:700;color:#dce4f5;">⚙️ Técnicas Avanzadas de Programación</div>
+                  <div style="font-size:12px;color:#6b7a99;line-height:1.6;margin-top:3px;">Patrones de diseño avanzados, optimización de código, estructuras complejas y paradigmas modernos aplicados al desarrollo de software.</div>
+                </div>
+                <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px;">
+                  <div style="font-size:12.5px;font-weight:700;color:#dce4f5;">🎨 Experiencia de Usuario y Accesibilidad (UX)</div>
+                  <div style="font-size:12px;color:#6b7a99;line-height:1.6;margin-top:3px;">Diseño centrado en el usuario, usabilidad, prototipado, investigación de usuario y pautas internacionales de accesibilidad web/móvil.</div>
+                </div>
+                <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px;">
+                  <div style="font-size:12.5px;font-weight:700;color:#dce4f5;">📝 Ingeniería de Requisitos</div>
+                  <div style="font-size:12px;color:#6b7a99;line-height:1.6;margin-top:3px;">Métodos y técnicas avanzadas para la elicitación, especificación, validación, negociación y gestión de requerimientos de software en proyectos complejos.</div>
+                </div>
+                <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px;">
+                  <div style="font-size:12.5px;font-weight:700;color:#dce4f5;">🔮 Tendencias y Escenarios Tecnológicos</div>
+                  <div style="font-size:12px;color:#6b7a99;line-height:1.6;margin-top:3px;">Análisis prospectivo del impacto de tecnologías emergentes, innovación disruptiva y evaluación de nuevos escenarios tecnológicos en el mercado.</div>
+                </div>
+                <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px;">
+                  <div style="font-size:12.5px;font-weight:700;color:#dce4f5;">🤝 Metodología de la Conducción de Equipos de Trabajo</div>
+                  <div style="font-size:12px;color:#6b7a99;line-height:1.6;margin-top:3px;">Dirección, coordinación, motivación, resolución de conflictos y gestión del desempeño de equipos multidisciplinarios.</div>
+                </div>
+                <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px;">
+                  <div style="font-size:12.5px;font-weight:700;color:#dce4f5;">🎮 Técnicas Gráficas por Computadora</div>
+                  <div style="font-size:12px;color:#6b7a99;line-height:1.6;margin-top:3px;">Fundamentos de computación gráfica, procesamiento de gráficos 2D y 3D, renderizado y modelado para aplicaciones interactivas y animación.</div>
+                </div>
+                <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px;">
+                  <div style="font-size:12.5px;font-weight:700;color:#dce4f5;">📊 Administración Estratégica del Capital Humano</div>
+                  <div style="font-size:12px;color:#6b7a99;line-height:1.6;margin-top:3px;">Enfoque gerencial para la alineación del talento humano con los objetivos estratégicos corporativos y la retención del personal técnico.</div>
+                </div>
+                <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px;">
+                  <div style="font-size:12.5px;font-weight:700;color:#dce4f5;">🔑 Criptografía</div>
+                  <div style="font-size:12px;color:#6b7a99;line-height:1.6;margin-top:3px;">Algoritmos matemáticos y protocolos criptográficos para el cifrado de datos, firmas digitales, autenticación y protección de las comunicaciones.</div>
+                </div>
+                <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px;">
+                  <div style="font-size:12.5px;font-weight:700;color:#dce4f5;">🏗 Tecnologías Avanzadas en la Construcción de Software</div>
+                  <div style="font-size:12px;color:#6b7a99;line-height:1.6;margin-top:3px;">Herramientas, frameworks, arquitecturas modernas y entornos integrados aplicados al ciclo de vida del software.</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1995,33 +2057,9 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
           </div>
         </div>
 
-        <!-- Electivas 4° -->
-        <div class="acc-card s-pe" onclick="toggleAcc(this)" style="border-left-color:var(--yellow)">
-          <div class="acc-header">
-            <span class="acc-chevron">▶</span>
-            <div style="flex:1"><div class="acc-name">Electivas 4° Nivel</div>
-            <div class="acc-badges"><span class="acc-badge ab-pend">144h requeridas · 0h cubierto</span></div></div>
-            <span class="acc-grade ag-muted">–</span>
-          </div>
-          <div class="acc-body">
-            <div class="acc-row"><span class="acc-row-lbl">Requerimiento N4</span><span class="acc-row-val">144 horas reloj</span></div>
-            <div class="acc-row"><span class="acc-row-lbl">Cubierto</span><span class="acc-row-val" style="color:#f87171;">0h confirmadas (Química Ambiental y Com. Gráfica y Visual en consulta para N5)</span></div>
-            <div style="margin-top:10px;font-size:11px;">
-              <div style="color:#6b7a99;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Electivas K23 disponibles para N4</div>
-              <div style="display:grid;grid-template-columns:1fr auto auto;gap:5px 10px;font-family:'JetBrains Mono',monospace;align-items:baseline;">
-                <span style="color:#6b7a99;font-family:'Outfit',sans-serif;font-size:10px;">Materia</span>
-                <span style="color:#6b7a99;font-family:'Outfit',sans-serif;font-size:10px;">Hs aprox.</span>
-                <span style="color:#6b7a99;font-family:'Outfit',sans-serif;font-size:10px;">Acum.</span>
-                <span style="color:#dce4f5;">Criptografía</span><span>~64h</span><span style="color:#aaa">64h</span>
-                <span style="color:#dce4f5;">Internet de las Cosas (IoT)</span><span>~64h</span><span style="color:#aaa">128h</span>
-                <span style="color:#dce4f5;">Arquitecturas Concurrentes</span><span>~64h</span><span style="color:var(--green)">192h ✓</span>
-                <span style="color:#dce4f5;">Desarrollo Emprendedor</span><span>~32h</span><span style="color:#aaa">–</span>
-              </div>
-            </div>
-            <div style="margin-top:8px;background:rgba(56,189,248,.05);border:1px solid rgba(56,189,248,.15);border-radius:5px;padding:8px 10px;font-size:11px;color:#6b7a99;line-height:1.6;">
-              Con <strong style="color:#dce4f5;">3 electivas de ~64h</strong> cubrís los 144h requeridos holgadamente. Si Secretaría asigna Química Ambiental o Comunicación Gráfica y Visual a N4 (en vez de N5), la cantidad de electivas adicionales necesarias se reduce.
-            </div>
-          </div>
+        <!-- Nota: Electivas 4° están cubiertas en el bloque combinado 3°/4° (ver Nivel 3) -->
+        <div style="margin-top:8px;background:rgba(56,189,248,.04);border:1px solid rgba(56,189,248,.15);border-radius:8px;padding:10px 12px;font-size:12px;color:#6b7a99;line-height:1.6;">
+          <strong style="color:var(--blue);">ℹ Electivas de este nivel:</strong> Las electivas de 4° nivel forman parte del <strong style="color:#dce4f5;">bloque combinado 3°/4°</strong> (ver tarjeta "Electivas 3°/4° Nivel" en Nivel 3). No requieren un cupo separado. Falta aprobar <strong style="color:var(--yellow);">1 materia electiva más</strong> para cerrar el bloque completo.
         </div>
       </div><!-- /N4 -->
 
@@ -2104,13 +2142,17 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
         <div class="acc-card s-pe" onclick="toggleAcc(this)" style="border-left-color:var(--yellow)">
           <div class="acc-header">
             <span class="acc-chevron">▶</span>
-            <div style="flex:1"><div class="acc-name">Electivas 5° Nivel</div>
-            <div class="acc-badges"><span class="acc-badge ab-pend">240h requeridas</span><span class="acc-badge" style="background:rgba(250,204,21,.12);color:#fde68a;">~128h en consulta</span></div></div>
+            <div style="flex:1"><div class="acc-name">Electivas 5° Nivel (Bloque Final)</div>
+            <div class="acc-badges"><span class="acc-badge ab-pend">3 materias req. (240h) · Pendiente</span><span class="acc-badge" style="background:rgba(250,204,21,.12);color:#fde68a;">~128h en consulta</span></div></div>
             <span class="acc-grade ag-muted">–</span>
           </div>
           <div class="acc-body">
-            <div class="acc-row"><span class="acc-row-lbl">Requerimiento N5</span><span class="acc-row-val">240 horas reloj</span></div>
-            <div class="acc-row"><span class="acc-row-lbl">En consulta</span><span class="acc-row-val" style="color:#fde68a;">~128h (si Secretaría asigna ambas K08 a N5)</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Bloque</span><span class="acc-row-val">5° Nivel (independiente del bloque 3°/4°)</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">Exigencia total</span><span class="acc-row-val">3 materias electivas = 240 horas reloj</span></div>
+            <div class="acc-row"><span class="acc-row-lbl">En consulta</span><span class="acc-row-val" style="color:#fde68a;">~128h (si Secretaría asigna Química Ambiental + Com. Gráfica y Visual a N5)</span></div>
+            <div style="margin-top:8px;background:rgba(56,189,248,.06);border:1px solid rgba(56,189,248,.25);border-radius:6px;padding:8px 10px;font-size:12px;line-height:1.7;color:#6b7a99;">
+              <strong style="color:var(--blue);">ℹ Bloque de 5° Nivel:</strong> Las electivas cuatrimestrales de nivel superior suelen tener una carga de <strong style="color:#dce4f5;">72h o 96h</strong> según el programa específico, por lo que el bloque de 240h se cubre generalmente aprobando <strong style="color:#dce4f5;">3 materias electivas</strong>. Al igual que el bloque 3°/4°, las horas se fiscalizan por cumplimiento total del bloque, no por cuatrimestre individual.
+            </div>
             <div style="margin-top:10px;font-size:11px;">
               <div style="color:#6b7a99;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Materias aprobadas pendientes de asignación de nivel (en consulta)</div>
               <div style="display:grid;grid-template-columns:1fr auto auto;gap:5px 10px;font-family:'JetBrains Mono',monospace;align-items:baseline;">
@@ -2136,6 +2178,117 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
                 <span style="color:#dce4f5;">Sistemas de Información Geográfica</span><span>~64h</span><span style="color:#aaa">192h</span>
                 <span style="color:#dce4f5;">Calidad Avanzada</span><span>~64h</span><span style="color:var(--green)">256h ✓</span>
                 <span style="color:#dce4f5;">Bioinformática</span><span>~64h</span><span style="color:#aaa">–</span>
+              </div>
+            </div>
+            <!-- Botón interactivo para desplegar resto de materias -->
+            <button type="button" onclick="toggleCatalogoElectivas(event, this, 'cat-electivas-n5')" data-label-closed="Ver catálogo completo de electivas de 5° Nivel (24 opciones)" data-label-open="Ocultar catálogo de electivas de 5° Nivel" style="width:100%;margin-top:12px;background:rgba(232,121,249,.08);border:1px solid rgba(232,121,249,.25);border-radius:8px;padding:10px 14px;color:#dce4f5;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(232,121,249,.16)'" onmouseout="this.style.background='rgba(232,121,249,.08)'">
+              <span style="display:flex;align-items:center;gap:8px;">📋 <span class="cat-txt">Ver catálogo completo de electivas de 5° Nivel (24 opciones)</span></span>
+              <span class="cat-arrow" style="font-size:11px;color:#e879f9;">▼</span>
+            </button>
+
+            <!-- Catálogo Completo de Electivas 5° Nivel (K23) - Oculto por defecto -->
+            <div id="cat-electivas-n5" style="display:none;margin-top:10px;background:rgba(232,121,249,.04);border:1px solid rgba(232,121,249,.15);border-radius:8px;padding:12px 14px;">
+              <div style="font-size:11px;font-weight:700;color:#e879f9;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;">📋 Catálogo Completo · Electivas 5° Nivel</div>
+              <div style="font-size:12.5px;color:#6b7a99;line-height:1.6;margin-bottom:10px;">
+                En 5° nivel se deben completar <strong style="color:#e879f9;">240 horas reloj</strong> de asignaturas electivas (~3 materias cuatrimestrales).
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px;">
+                  <div style="font-size:12.5px;font-weight:700;color:#dce4f5;">🤖 IA Generativa</div>
+                  <div style="font-size:12px;color:#6b7a99;line-height:1.6;margin-top:3px;">Modelos de lenguaje a gran escala (LLMs), redes generativas, prompt engineering y aplicaciones de IA generativa en la industria.</div>
+                </div>
+                <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px;">
+                  <div style="font-size:12.5px;font-weight:700;color:#dce4f5;">📈 Desarrollo de Modelos Analíticos (Machine Learning)</div>
+                  <div style="font-size:12px;color:#6b7a99;line-height:1.6;margin-top:3px;">Algoritmos de aprendizaje supervisado y no supervisado, evaluación de modelos predictivos y flujo de trabajo en proyectos de datos.</div>
+                </div>
+                <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px;">
+                  <div style="font-size:12.5px;font-weight:700;color:#dce4f5;">🧠 Inteligencia Artificial Avanzada</div>
+                  <div style="font-size:12px;color:#6b7a99;line-height:1.6;margin-top:3px;">Deep Learning, redes neuronales avanzadas, visión por computadora y aprendizaje por refuerzo.</div>
+                </div>
+                <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px;">
+                  <div style="font-size:12.5px;font-weight:700;color:#dce4f5;">🗄 Bases de Datos NoSQL</div>
+                  <div style="font-size:12px;color:#6b7a99;line-height:1.6;margin-top:3px;">Arquitecturas, modelado y gestión de bases de datos no relacionales (documentos, clave-valor, columnas y grafos) para Big Data.</div>
+                </div>
+                <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px;">
+                  <div style="font-size:12.5px;font-weight:700;color:#dce4f5;">⚡ Arquitectura de Software Concurrente</div>
+                  <div style="font-size:12px;color:#6b7a99;line-height:1.6;margin-top:3px;">Sistemas distribuidos, programación paralela y concurrente, manejo de hilos, sincronización y patrones para alta disponibilidad.</div>
+                </div>
+                <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px;">
+                  <div style="font-size:12.5px;font-weight:700;color:#dce4f5;">📱 Desarrollo de Aplicaciones para Dispositivos Móviles</div>
+                  <div style="font-size:12px;color:#6b7a99;line-height:1.6;margin-top:3px;">Diseño y programación de aplicaciones nativas y multiplataforma para smartphones y tablets, ciclo de vida y consumo de APIs.</div>
+                </div>
+                <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px;">
+                  <div style="font-size:12.5px;font-weight:700;color:#dce4f5;">🏭 Ciberseguridad Industrial</div>
+                  <div style="font-size:12px;color:#6b7a99;line-height:1.6;margin-top:3px;">Protección de sistemas SCADA, redes OT/ICS y entornos industriales contra ciberataques e incidentes de seguridad operacional.</div>
+                </div>
+                <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px;">
+                  <div style="font-size:12.5px;font-weight:700;color:#dce4f5;">🌐 Seguridad en Aplicaciones Web</div>
+                  <div style="font-size:12px;color:#6b7a99;line-height:1.6;margin-top:3px;">Análisis de vulnerabilidades (OWASP Top 10), pruebas de penetración, desarrollo seguro y mecanismos de defensa en la web.</div>
+                </div>
+                <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px;">
+                  <div style="font-size:12.5px;font-weight:700;color:#dce4f5;">🔧 Tecnologías Aplicadas a Soluciones de Datos</div>
+                  <div style="font-size:12px;color:#6b7a99;line-height:1.6;margin-top:3px;">Ecosistemas y herramientas para procesamiento masivo de datos (pipelines ETL, almacenamiento en la nube y Big Data).</div>
+                </div>
+                <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px;">
+                  <div style="font-size:12.5px;font-weight:700;color:#dce4f5;">📡 Tecnologías Avanzadas en Redes</div>
+                  <div style="font-size:12px;color:#6b7a99;line-height:1.6;margin-top:3px;">Protocolos de última generación, redes definidas por software (SDN), virtualización de funciones de red (NFV) y arquitecturas avanzadas.</div>
+                </div>
+                <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px;">
+                  <div style="font-size:12.5px;font-weight:700;color:#dce4f5;">☁️ Plataformas de Virtualización</div>
+                  <div style="font-size:12px;color:#6b7a99;line-height:1.6;margin-top:3px;">IaaS, hypervisores, contenedores, orquestación (Kubernetes/Docker) y gestión de recursos en la nube.</div>
+                </div>
+                <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px;">
+                  <div style="font-size:12.5px;font-weight:700;color:#dce4f5;">📶 Sistemas Avanzados de Telecomunicaciones</div>
+                  <div style="font-size:12px;color:#6b7a99;line-height:1.6;margin-top:3px;">Redes móviles (5G/6G), comunicaciones por satélite, propagación de ondas y tecnologías de transmisión de datos.</div>
+                </div>
+                <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px;">
+                  <div style="font-size:12.5px;font-weight:700;color:#dce4f5;">🧬 Bioinformática</div>
+                  <div style="font-size:12px;color:#6b7a99;line-height:1.6;margin-top:3px;">Algoritmos, estructuras de datos y modelos computacionales para el análisis de secuencias de ADN, proteínas y datos biológicos.</div>
+                </div>
+                <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px;">
+                  <div style="font-size:12.5px;font-weight:700;color:#dce4f5;">🧪 Neurociencia Aplicada</div>
+                  <div style="font-size:12px;color:#6b7a99;line-height:1.6;margin-top:3px;">Intersección entre el sistema nervioso, interfaces cerebro-computadora (BCI) y modelos computacionales inspirados en la biología.</div>
+                </div>
+                <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px;">
+                  <div style="font-size:12.5px;font-weight:700;color:#dce4f5;">🖼 Procesamiento de Imágenes y Señales</div>
+                  <div style="font-size:12px;color:#6b7a99;line-height:1.6;margin-top:3px;">Algoritmos para filtrado, restauración, segmentación, compresión y análisis computacional de señales e imágenes.</div>
+                </div>
+                <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px;">
+                  <div style="font-size:12.5px;font-weight:700;color:#dce4f5;">📊 Inteligencia de Negocios</div>
+                  <div style="font-size:12px;color:#6b7a99;line-height:1.6;margin-top:3px;">Data Warehouse, modelado multidimensional, tableros de control (Dashboards) y reporte de KPIs para la toma de decisiones.</div>
+                </div>
+                <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px;">
+                  <div style="font-size:12.5px;font-weight:700;color:#dce4f5;">🎯 Dirección Estratégica</div>
+                  <div style="font-size:12px;color:#6b7a99;line-height:1.6;margin-top:3px;">Formulación, implementación y evaluación de estrategias corporativas, análisis del entorno competitivo y toma de decisiones a nivel directivo.</div>
+                </div>
+                <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px;">
+                  <div style="font-size:12.5px;font-weight:700;color:#dce4f5;">💼 Gestión de Empresas Digitales</div>
+                  <div style="font-size:12px;color:#6b7a99;line-height:1.6;margin-top:3px;">Modelos de negocio basados en plataformas, economía de plataformas, estrategia digital y gestión de organizaciones nativas digitales.</div>
+                </div>
+                <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px;">
+                  <div style="font-size:12.5px;font-weight:700;color:#dce4f5;">🔄 Gestión de la Transformación Organizacional</div>
+                  <div style="font-size:12px;color:#6b7a99;line-height:1.6;margin-top:3px;">Estrategias para gestionar el cambio cultural, la resistencia, la adaptabilidad y la reestructuración en procesos de evolución tecnológica.</div>
+                </div>
+                <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px;">
+                  <div style="font-size:12.5px;font-weight:700;color:#dce4f5;">🏙 Ciudades Digitales y Gobierno Electrónico</div>
+                  <div style="font-size:12px;color:#6b7a99;line-height:1.6;margin-top:3px;">Implementación de TIC en la administración pública, Smart Cities, datos abiertos, inclusión digital y servicios ciudadanos interactivos.</div>
+                </div>
+                <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px;">
+                  <div style="font-size:12.5px;font-weight:700;color:#dce4f5;">💡 Economía del Conocimiento</div>
+                  <div style="font-size:12px;color:#6b7a99;line-height:1.6;margin-top:3px;">Sectores basados en intangibles, innovación, propiedad intelectual y el valor económico de la información y tecnología.</div>
+                </div>
+                <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px;">
+                  <div style="font-size:12.5px;font-weight:700;color:#dce4f5;">🔍 Pericias Informáticas</div>
+                  <div style="font-size:12px;color:#6b7a99;line-height:1.6;margin-top:3px;">Metodologías forenses digitales, preservación y cadena de custodia de evidencia, aspectos legales y elaboración de dictámenes para tribunales.</div>
+                </div>
+                <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px;">
+                  <div style="font-size:12.5px;font-weight:700;color:#dce4f5;">💰 Sistemas de Costos y Presupuestos</div>
+                  <div style="font-size:12px;color:#6b7a99;line-height:1.6;margin-top:3px;">Determinación de costos de desarrollo/operación, confección de presupuestos financieros y control de gestión en proyectos de tecnología.</div>
+                </div>
+                <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px;">
+                  <div style="font-size:12.5px;font-weight:700;color:#dce4f5;">🤝 Gestión Comercial</div>
+                  <div style="font-size:12px;color:#6b7a99;line-height:1.6;margin-top:3px;">Estrategias de ventas, marketing B2B/B2C, negociación, gestión de clientes y comercialización de productos y servicios tecnológicos.</div>
+                </div>
               </div>
             </div>
           </div>
@@ -3010,6 +3163,22 @@ function selectMobileTab(i) {
 /* ───── ACCORDION ───── */
 function toggleAcc(card) {
   card.classList.toggle('open');
+}
+
+function toggleCatalogoElectivas(evt, btn, containerId) {
+  if (evt) evt.stopPropagation();
+  var container = document.getElementById(containerId);
+  if (!container) return;
+  var isHidden = container.style.display === 'none' || getComputedStyle(container).display === 'none';
+  if (isHidden) {
+    container.style.display = 'block';
+    btn.querySelector('.cat-arrow').textContent = '▲';
+    btn.querySelector('.cat-txt').textContent = btn.getAttribute('data-label-open') || 'Ocultar resto de opciones';
+  } else {
+    container.style.display = 'none';
+    btn.querySelector('.cat-arrow').textContent = '▼';
+    btn.querySelector('.cat-txt').textContent = btn.getAttribute('data-label-closed') || 'Ver resto de opciones';
+  }
 }
 
 /* ───── CALENDAR BUILDER ───── */
