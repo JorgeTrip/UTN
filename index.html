@@ -485,14 +485,20 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
     flex: 1;
     min-width: 0;
   }
-  /* Nombre de la App — línea protagonista */
+  /* Nombre de la App — Cápsula destacada de la marca */
   .g-app-name {
-    display: block !important;
-    font-size: 19px;
-    font-weight: 800;
-    color: var(--text);
-    letter-spacing: -0.3px;
-    line-height: 1.2;
+    display: inline-block !important;
+    font-size: 20.5px;
+    font-weight: 900;
+    color: var(--blue);
+    letter-spacing: 1.2px;
+    line-height: 1;
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.18) 0%, rgba(99, 102, 241, 0.12) 100%);
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    padding: 7px 14px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(56, 189, 248, 0.1);
+    margin-bottom: 5px;
   }
   /* Nombre de la Carrera en Móvil */
   .g-carrera-sub {
@@ -672,6 +678,7 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
     width: 100vw;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
+    scroll-padding-left: 52px;
     -webkit-overflow-scrolling: touch;
     border-radius: 0;
     border-left: none;
@@ -740,6 +747,30 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
     font-size: 15px;
     padding: 12px 14px;
   }
+
+  /* Banner de hint swipe perfectamente centrado según el viewport */
+  .swipe-hint {
+    display: block !important;
+    width: 100vw !important;
+    margin-left: -12px !important;
+    margin-right: -12px !important;
+    text-align: center !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    color: var(--blue) !important;
+    letter-spacing: 0.5px !important;
+    padding: 8px 12px !important;
+    background: rgba(12, 16, 24, 0.75) !important;
+    border-top: 1px solid var(--border) !important;
+    border-bottom: 1px solid var(--border) !important;
+    margin-bottom: 10px !important;
+    box-sizing: border-box !important;
+  }
+}
+
+/* Hint oculto en pantallas desktop */
+.swipe-hint {
+  display: none;
 }
 
 /* ───── MÓVIL CHICO (≤ 380px) ───── */
@@ -751,20 +782,23 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
 
 /* ───── MENÚ HAMBURGUESA Y DRAWER (ESTILO APPLE) ───── */
 .menu-toggle {
-  display: none;
+  display: flex !important;
   flex-direction: column;
   justify-content: space-between;
-  width: 22px;
-  height: 16px;
+  width: 26px;
+  height: 18px;
   background: transparent;
   border: none;
   cursor: pointer;
   z-index: 110;
   padding: 0;
+  margin-left: auto !important;
+  flex-shrink: 0;
+  align-self: center;
 }
 .menu-toggle .bar {
   width: 100%;
-  height: 2px;
+  height: 2.5px;
   background-color: var(--text);
   border-radius: 2px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -881,6 +915,11 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
   color: var(--muted);
   border-radius: 8px;
   cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 .mobile-menu-item:hover {
   color: var(--text);
   background: rgba(255, 255, 255, 0.05);
@@ -891,33 +930,58 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
   border-left: 3px solid var(--blue);
 }
 
+.mobile-menu-accordion {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100%;
+}
+.acc-chevron-menu {
+  font-size: 10.5px;
+  color: var(--muted);
+  transition: transform 0.25s ease;
+  margin-left: auto;
+}
+.mobile-menu-accordion.open .acc-chevron-menu {
+  transform: rotate(90deg);
+  color: var(--blue);
+}
+
 .mobile-menu-subgroup {
-  margin-left: 20px;
-  padding-left: 8px;
-  border-left: 2px solid rgba(56, 189, 248, 0.35);
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  margin-top: 4px;
-  margin-bottom: 10px;
+  display: none;
+  margin: 4px 0 10px 18px !important;
+  padding-left: 14px !important;
+  border-left: 3px solid rgba(56, 189, 248, 0.4) !important;
+  flex-direction: column !important;
+  gap: 5px !important;
+  overflow: hidden;
+  transition: all 0.25s ease;
+}
+.mobile-menu-subgroup.open {
+  display: flex !important;
 }
 .mobile-menu-subitem {
-  font-size: 13.5px !important;
+  background: transparent !important;
+  border: none !important;
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 14px !important;
   font-weight: 500 !important;
-  padding: 8px 10px !important;
+  padding: 9px 12px !important;
   color: var(--muted) !important;
   border-radius: 6px !important;
   border-left: none !important;
+  cursor: pointer !important;
   display: flex !important;
   align-items: center !important;
+  text-align: left !important;
 }
 .mobile-menu-subitem::before {
   content: "└─";
   font-family: monospace;
   font-weight: 700;
-  color: rgba(56, 189, 248, 0.55);
-  margin-right: 6px;
-  font-size: 12px;
+  color: rgba(56, 189, 248, 0.6);
+  margin-right: 8px;
+  font-size: 13px;
   flex-shrink: 0;
 }
 .mobile-menu-subitem:hover {
@@ -926,7 +990,7 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
 }
 .mobile-menu-subitem.active {
   color: var(--blue) !important;
-  background: rgba(56, 189, 248, 0.14) !important;
+  background: rgba(56, 189, 248, 0.15) !important;
   font-weight: 700 !important;
 }
 .mobile-menu-subitem.active::before {
@@ -1014,21 +1078,37 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
     <div class="mobile-menu-divider">Navegación</div>
     
     <nav class="mobile-menu-nav">
-      <button class="mobile-menu-item active" onclick="selectMobileTab(0)">🔗 Links útiles</button>
-      <button class="mobile-menu-item" onclick="selectMobileTab(1)">📊 Seguimiento de Carrera</button>
+      <button class="mobile-menu-item" data-tab="0" onclick="selectMobileTab(0)">
+        <span>🔗 Links útiles</span>
+      </button>
+
+      <!-- Opción Acordeón Seguimiento de Carrera -->
+      <button class="mobile-menu-item mobile-menu-accordion" data-tab="1" onclick="toggleMenuSubgroup(1)">
+        <span>📊 Seguimiento de Carrera</span>
+        <span class="acc-chevron-menu" id="menuChevron1">▶</span>
+      </button>
       
       <!-- Sub-opciones Indentadas de Seguimiento de Carrera -->
-      <div class="mobile-menu-subgroup">
+      <div class="mobile-menu-subgroup" id="menuSubgroup1">
         <button class="mobile-menu-item mobile-menu-subitem" onclick="selectSubTab(1, 0, '🏆 Hitos de Carrera')">🏆 Hitos de Carrera</button>
         <button class="mobile-menu-item mobile-menu-subitem" onclick="selectSubTab(1, 1, '🗺 Mapa Curricular')">🗺 Mapa Curricular</button>
         <button class="mobile-menu-item mobile-menu-subitem" onclick="selectSubTab(1, 2, '⚖️ Peso Académico')">⚖️ Peso Académico</button>
         <button class="mobile-menu-item mobile-menu-subitem" onclick="selectSubTab(1, 3, '🚀 Estrategia K08 → K23')">🚀 Estrategia K08 → K23</button>
       </div>
 
-      <button class="mobile-menu-item" onclick="selectMobileTab(2)">📅 Planificador 2026</button>
-      <button class="mobile-menu-item" onclick="selectMobileTab(3)">📅 Planificador 2027</button>
-      <button class="mobile-menu-item" onclick="selectMobileTab(4)">📅 Planificador 2028</button>
-      <button class="mobile-menu-item" onclick="selectMobileTab(5)">📅 Planificador 2029</button>
+      <!-- Opción Acordeón Planificador Académico -->
+      <button class="mobile-menu-item mobile-menu-accordion" data-tab="2" onclick="toggleMenuSubgroup(2)">
+        <span>📅 Planificador Académico</span>
+        <span class="acc-chevron-menu" id="menuChevron2">▶</span>
+      </button>
+
+      <!-- Sub-opciones Indentadas de Planificador Académico (Sin la palabra Plan) -->
+      <div class="mobile-menu-subgroup" id="menuSubgroup2">
+        <button class="mobile-menu-item mobile-menu-subitem" onclick="selectPlanYearSubTab(0, '📅 2026')">📅 2026</button>
+        <button class="mobile-menu-item mobile-menu-subitem" onclick="selectPlanYearSubTab(1, '📅 2027')">📅 2027</button>
+        <button class="mobile-menu-item mobile-menu-subitem" onclick="selectPlanYearSubTab(2, '📅 2028')">📅 2028</button>
+        <button class="mobile-menu-item mobile-menu-subitem" onclick="selectPlanYearSubTab(3, '📅 2029')">📅 2029</button>
+      </div>
     </nav>
 
     <div class="mobile-menu-divider">Materias 2026</div>
@@ -1050,10 +1130,7 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
   <div class="super-tab-inner">
     <button class="super-tab sp0 active" onclick="superTab(0)">🔗 Links útiles</button>
     <button class="super-tab sp1" onclick="superTab(1)">📊 Seguimiento de Carrera</button>
-    <button class="super-tab sp2" onclick="superTab(2)">📅 Planificador 2026</button>
-    <button class="super-tab" onclick="superTab(3)">📅 Planificador 2027</button>
-    <button class="super-tab" onclick="superTab(4)">📅 Planificador 2028</button>
-    <button class="super-tab" onclick="superTab(5)">📅 Planificador 2029</button>
+    <button class="super-tab sp2" onclick="superTab(2)">📅 Planificador Académico</button>
   </div>
 </div>
 
@@ -1142,7 +1219,7 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
   <!-- SUB-TAB BAR -->
   <div class="sub-tab-bar">
     <div class="sub-tab-inner">
-      <button class="sub-tab active" onclick="sp1Tab(0)">📈 Dashboard <span class="sbadge">KPIs</span></button>
+      <button class="sub-tab active" onclick="sp1Tab(0)">🏆 Hitos de Carrera <span class="sbadge">KPIs</span></button>
       <button class="sub-tab blue" onclick="sp1Tab(1)">🗺 Mapa Curricular <span class="sbadge">K23</span></button>
       <button class="sub-tab blue" onclick="sp1Tab(2)">⚖ Peso Académico <span class="sbadge">Res. 2902/25</span></button>
       <button class="sub-tab blue" onclick="sp1Tab(3)">🧭 Estrategia <span class="sbadge">Correlativas</span></button>
@@ -2234,10 +2311,23 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
 </div><!-- end sp0 -->
 
 <!-- ═══════════════════════════════════
-     SUPER PANEL 2 · PLANIFICADOR 2026
+     SUPER PANEL 2 · PLANIFICADOR ACADÉMICO
 ════════════════════════════════════ -->
-<div class="super-panel" id="sp1-plan">
+<div class="super-panel" id="sp2">
 <main>
+
+  <!-- Sub-tab Bar Secundaria para Planificadores Anuales -->
+  <div class="sub-tab-bar">
+    <div class="sub-tab-inner">
+      <button class="sub-tab py-tab active" onclick="planYearTab(0)">2026 · Nivel 4 (En Curso)</button>
+      <button class="sub-tab py-tab" onclick="planYearTab(1)">2027 · Nivel 4/5</button>
+      <button class="sub-tab py-tab" onclick="planYearTab(2)">2028 · Nivel 5 (Proyecto Final)</button>
+      <button class="sub-tab py-tab" onclick="planYearTab(3)">2029 · Recta Final & Graduación</button>
+    </div>
+  </div>
+
+  <!-- SUB-PANEL 0: 2026 -->
+  <div class="sub-panel active" id="sp2p0">
 
 <div class="sec">Vista por cuatrimestre · 2026</div>
 
@@ -2399,14 +2489,10 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
   <div><strong>Simulación — postergada para 2027.</strong> Sus únicos horarios noche en Medrano son Lunes, Martes y Miércoles. En Q1 esos días los ocupan Comunicación de Datos (Ma). En Q2, en las tres alternativas, Lu/Ma/Mi siempre tienen otra materia. Recomendación: cursarla en 1C 2027 junto con materias de 5to año. Correlativas ya cumplidas (Probabilidad y Estadística ✓, Análisis Numérico ✓).</div>
 </div>
 
-</main>
-</div><!-- end sp1-plan -->
+</div><!-- end sp2p0 -->
 
-<!-- ═══════════════════════════════════════
-     SUPER PANEL 3 · PLANIFICADOR 2027
-════════════════════════════════════════ -->
-<div class="super-panel" id="sp2-plan">
-<main>
+<!-- SUB-PANEL 1: 2027 -->
+<div class="sub-panel" id="sp2p1">
 
 <div class="sec">Vista por cuatrimestre · 2027</div>
 
@@ -2494,14 +2580,10 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
   </div>
 </div>
 
-</main>
-</div><!-- end sp2-plan -->
+</div><!-- end sp2p1 -->
 
-<!-- ═══════════════════════════════════════
-     SUPER PANEL 4 · PLANIFICADOR 2028
-════════════════════════════════════════ -->
-<div class="super-panel" id="sp3-plan">
-<main>
+<!-- SUB-PANEL 2: 2028 -->
+<div class="sub-panel" id="sp2p2">
 
 <div class="sec">Vista por cuatrimestre · 2028</div>
 
@@ -2588,14 +2670,10 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
   </div>
 </div>
 
-</main>
-</div><!-- end sp3-plan -->
+</div><!-- end sp2p2 -->
 
-<!-- ═══════════════════════════════════════
-     SUPER PANEL 5 · PLANIFICADOR 2029
-════════════════════════════════════════ -->
-<div class="super-panel" id="sp4-plan">
-<main>
+<!-- SUB-PANEL 3: 2029 -->
+<div class="sub-panel" id="sp2p3">
 
 <div class="sec">Vista por cuatrimestre · 2029 · Año de Graduación</div>
 
@@ -2674,8 +2752,10 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
   </div>
 </div>
 
+</div><!-- end sp2p3 -->
+
 </main>
-</div><!-- end sp4-plan -->
+</div><!-- end sp2 -->
 
 <script>
 /* ───── SUPER TABS ───── */
@@ -2687,9 +2767,7 @@ function superTab(i) {
   localStorage.setItem('activeViewType', 'tab');
   localStorage.setItem('dashboardSuperTab', i);
   if (typeof updateMobileHeaderTitle === 'function') updateMobileHeaderTitle(i);
-  document.querySelectorAll('.mobile-menu-item').forEach(function(item, idx) {
-    item.classList.toggle('active', i === idx);
-  });
+  if (typeof updateMobileMenuSelection === 'function') updateMobileMenuSelection(i);
 }
 
 /* ───── Cargar Vistas de Materias en iframe ───── */
@@ -2723,9 +2801,7 @@ function sp1Tab(i) {
   document.querySelectorAll('.sub-tab').forEach(function(t,j){ t.classList.toggle('active', i===j); });
   document.querySelectorAll('.sub-panel').forEach(function(p,j){ p.classList.toggle('active', i===j); });
   localStorage.setItem('dashboardSp1Tab', i);
-  document.querySelectorAll('.mobile-menu-subitem').forEach(function(item, idx) {
-    item.classList.toggle('active', i === idx);
-  });
+  if (typeof updateMobileMenuSelection === 'function') updateMobileMenuSelection(1);
 }
 
 function selectSubTab(superIndex, subIndex, titleOverride) {
@@ -2740,22 +2816,196 @@ function selectSubTab(superIndex, subIndex, titleOverride) {
   closeMenu();
 }
 
+/* ───── PLANIFICADOR YEAR SUB-TABS ───── */
+function planYearTab(i) {
+  var sp2 = document.getElementById('sp2');
+  if (sp2) {
+    sp2.querySelectorAll('.py-tab').forEach(function(t, j) { t.classList.toggle('active', i === j); });
+    sp2.querySelectorAll('.sub-panel').forEach(function(p, j) { p.classList.toggle('active', i === j); });
+  }
+  localStorage.setItem('dashboardPlanYearTab', i);
+  if (typeof updateMobileMenuSelection === 'function') updateMobileMenuSelection(2);
+}
 
-/* ───── SCOPED PLANNER TABS ───── */
+function selectPlanYearSubTab(yearIndex, titleOverride) {
+  superTab(2);
+  planYearTab(yearIndex);
+  if (titleOverride) {
+    var titleEl = document.getElementById('gMobileTitle');
+    if (titleEl) titleEl.textContent = titleOverride;
+  }
+  closeMenu();
+}
+
+/* ───── MAIN TABS & PLAN SUB TABS ───── */
 function mainTabIn(containerId, i) {
-  var c = document.getElementById(containerId);
-  if (!c) return;
-  c.querySelectorAll('.main-tab').forEach(function(t,j){ t.classList.toggle('active', i===j); });
-  c.querySelectorAll('.main-panel').forEach(function(p,j){ p.classList.toggle('active', i===j); });
+  var container = document.getElementById(containerId);
+  if (!container) return;
+  container.querySelectorAll('.main-tab').forEach(function(t, j) { t.classList.toggle('active', i === j); });
+  container.querySelectorAll('.main-panel').forEach(function(p, j) { p.classList.toggle('active', i === j); });
   localStorage.setItem('dashboardMainTab_' + containerId, i);
 }
+
 function planSubTabIn(containerId, i) {
-  var c = document.getElementById(containerId);
-  if (!c) return;
-  c.querySelectorAll('.plan-sub-tab').forEach(function(t,j){ t.classList.toggle('active', i===j); });
-  c.querySelectorAll('.plan-sub-panel').forEach(function(p,j){ p.classList.toggle('active', i===j); });
+  var container = document.getElementById(containerId);
+  if (!container) return;
+  container.querySelectorAll('.plan-sub-tab').forEach(function(t, j) { t.classList.toggle('active', i === j); });
+  container.querySelectorAll('.plan-sub-panel').forEach(function(p, j) { p.classList.toggle('active', i === j); });
   localStorage.setItem('dashboardPlanSubTab_' + containerId, i);
 }
+
+/* ───── MENÚ HAMBURGUESA Y NAVEGACIÓN MÓVIL ───── */
+var tabNames = [
+  "🔗 Links útiles",
+  "📊 Seguimiento de Carrera",
+  "📅 Planificador Académico"
+];
+
+function updateMobileHeaderTitle(index) {
+  var titleEl = document.getElementById('gMobileTitle');
+  if (titleEl && tabNames[index]) {
+    titleEl.textContent = tabNames[index];
+  }
+}
+
+function toggleMenuSubgroup(superIndex) {
+  var sg = document.getElementById('menuSubgroup' + superIndex);
+  var btn = document.querySelector('.mobile-menu-nav button[data-tab="' + superIndex + '"]');
+  var isExpanded = sg && sg.classList.contains('open');
+
+  if (isExpanded) {
+    if (sg) sg.classList.remove('open');
+    if (btn) btn.classList.remove('open');
+  } else {
+    document.querySelectorAll('.mobile-menu-subgroup').forEach(function(s) { s.classList.remove('open'); });
+    document.querySelectorAll('.mobile-menu-accordion').forEach(function(b) { b.classList.remove('open'); });
+
+    if (sg) sg.classList.add('open');
+    if (btn) btn.classList.add('open');
+    superTab(superIndex);
+  }
+}
+
+function updateMobileMenuSelection(superTabIdx) {
+  // Sincronizar items de navegación principal en el Menú Hamburguesa por atributo data-tab
+  document.querySelectorAll('.mobile-menu-nav button[data-tab]').forEach(function(btn) {
+    var tabIdx = parseInt(btn.getAttribute('data-tab'));
+    btn.classList.toggle('active', tabIdx === superTabIdx);
+  });
+
+  // Limpiar clases active de todas las sub-opciones
+  document.querySelectorAll('.mobile-menu-subitem').forEach(function(subBtn) {
+    subBtn.classList.remove('active');
+  });
+
+  // Colapsar todos los subgrupos por defecto al sincronizar
+  document.querySelectorAll('.mobile-menu-subgroup').forEach(function(s) { s.classList.remove('open'); });
+  document.querySelectorAll('.mobile-menu-accordion').forEach(function(b) { b.classList.remove('open'); });
+
+  // Si estamos en Seguimiento de Carrera (tab 1), MANTENER EXPANDIDA su sección y marcar su sub-opción activa
+  if (superTabIdx === 1) {
+    var sg1 = document.getElementById('menuSubgroup1');
+    var btn1 = document.querySelector('.mobile-menu-nav button[data-tab="1"]');
+    if (sg1) sg1.classList.add('open');
+    if (btn1) btn1.classList.add('open');
+
+    var savedSp1 = localStorage.getItem('dashboardSp1Tab');
+    var subIdx = savedSp1 !== null ? parseInt(savedSp1) : 0;
+    var sp1SubItems = document.querySelectorAll('#menuSubgroup1 .mobile-menu-subitem');
+    if (sp1SubItems[subIdx]) sp1SubItems[subIdx].classList.add('active');
+  } 
+  // Si estamos en Planificador Académico (tab 2), MANTENER EXPANDIDA su sección y marcar el año activo
+  else if (superTabIdx === 2) {
+    var sg2 = document.getElementById('menuSubgroup2');
+    var btn2 = document.querySelector('.mobile-menu-nav button[data-tab="2"]');
+    if (sg2) sg2.classList.add('open');
+    if (btn2) btn2.classList.add('open');
+
+    var savedYear = localStorage.getItem('dashboardPlanYearTab');
+    var yearIdx = savedYear !== null ? parseInt(savedYear) : 0;
+    var planSubItems = document.querySelectorAll('#menuSubgroup2 .mobile-menu-subitem');
+    if (planSubItems[yearIdx]) planSubItems[yearIdx].classList.add('active');
+  }
+}
+
+function toggleMenu() {
+  var overlay = document.getElementById('mobileMenuOverlay');
+  var toggle = document.getElementById('menuToggle');
+  var isOpen = overlay.classList.contains('open');
+  
+  if (isOpen) {
+    closeMenu();
+  } else {
+    var viewType = localStorage.getItem('activeViewType');
+    if (viewType === 'tab') {
+      var savedSuperTab = localStorage.getItem('dashboardSuperTab');
+      var currentTab = savedSuperTab !== null ? parseInt(savedSuperTab) : 0;
+      updateMobileMenuSelection(currentTab);
+    }
+    overlay.classList.add('open');
+    toggle.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeMenu() {
+  var overlay = document.getElementById('mobileMenuOverlay');
+  var toggle = document.getElementById('menuToggle');
+  overlay.classList.remove('open');
+  toggle.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function selectMobileTab(i) {
+  superTab(i);
+  closeMenu();
+}
+
+/* ───── INYECCIÓN DINÁMICA DE HINTS DE SWIPE EN MÓVIL ───── */
+(function setupMobileSwipeHints() {
+  document.querySelectorAll('.cal-outer').forEach(function(cal) {
+    var hint = document.createElement('div');
+    hint.className = 'swipe-hint';
+    hint.textContent = '← Deslizá horizontalmente para ver otros días →';
+    cal.parentNode.insertBefore(hint, cal);
+  });
+})();
+
+// Sincronizar el estado inicial tras la carga (F5 / refrescar)
+(function syncInitialAppState() {
+  var viewType = localStorage.getItem('activeViewType');
+  
+  // 1. Si el usuario estaba viendo una materia incrustada
+  if (viewType === 'materia') {
+    var url = localStorage.getItem('activeMateriaUrl');
+    var titulo = localStorage.getItem('activeMateriaTitulo');
+    if (url) {
+      abrirMateria(url, titulo || '');
+      return;
+    }
+  }
+
+  // 2. Restaurar Super Tab principal
+  var savedSuperTab = localStorage.getItem('dashboardSuperTab');
+  var initialTab = savedSuperTab !== null ? parseInt(savedSuperTab) : 0;
+  superTab(initialTab);
+
+  // 3. Restaurar sub-pestañas según la Super Tab activa
+  if (initialTab === 1) {
+    var savedSp1Tab = localStorage.getItem('dashboardSp1Tab');
+    if (savedSp1Tab !== null) {
+      sp1Tab(parseInt(savedSp1Tab));
+    }
+  } else if (initialTab === 2) {
+    var savedPlanYear = localStorage.getItem('dashboardPlanYearTab');
+    if (savedPlanYear !== null) {
+      planYearTab(parseInt(savedPlanYear));
+    }
+  }
+})();
+
+
+
 
 /* ───── ACCORDION ───── */
 function toggleAcc(card) {
@@ -2957,10 +3207,30 @@ function highlightToday() {
       }
     });
   });
+
+  scrollToCurrentDayInActiveCal();
+}
+
+// Desplazar automáticamente la vista móvil al día actual perfectamente centrado
+function scrollToCurrentDayInActiveCal() {
+  if (window.innerWidth > 700) return;
+  var hoy = new Date();
+  var dayOfWeek = hoy.getDay(); // 0 = Dom, 1 = Lun, 2 = Mar, 3 = Mié, 4 = Jue, 5 = Vie, 6 = Sáb
+  var dayIndex = (dayOfWeek >= 1 && dayOfWeek <= 6) ? dayOfWeek - 1 : 0; // 0 = Lun ... 5 = Sáb
+
+  var activeCals = document.querySelectorAll('.main-panel.active .cal-outer, .plan-sub-panel.active .cal-outer');
+  activeCals.forEach(function(cal) {
+    var dayCols = cal.querySelectorAll('.day-col');
+    if (dayIndex < dayCols.length) {
+      var colWidth = window.innerWidth - 52;
+      cal.scrollTo({ left: dayIndex * colWidth, behavior: 'smooth' });
+    }
+  });
 }
 
 // Ejecutar al cargar la página
 highlightToday();
+setTimeout(scrollToCurrentDayInActiveCal, 150);
 
 // Ejecutar cada vez que se cambia de tab
 var originalSuperTab = superTab;
@@ -2970,25 +3240,25 @@ superTab = function(i) {
   document.querySelectorAll('.mobile-menu-item').forEach(function(item, idx) {
     item.classList.toggle('active', i === idx);
   });
-  setTimeout(highlightToday, 50);
+  setTimeout(highlightToday, 80);
 };
 
 var originalSp1Tab = sp1Tab;
 sp1Tab = function(i) {
   originalSp1Tab(i);
-  setTimeout(highlightToday, 50);
+  setTimeout(highlightToday, 80);
 };
 
 var originalMainTabIn = mainTabIn;
 mainTabIn = function(containerId, i) {
   originalMainTabIn(containerId, i);
-  setTimeout(highlightToday, 50);
+  setTimeout(highlightToday, 80);
 };
 
 var originalPlanSubTabIn = planSubTabIn;
 planSubTabIn = function(containerId, i) {
   originalPlanSubTabIn(containerId, i);
-  setTimeout(highlightToday, 50);
+  setTimeout(highlightToday, 80);
 };
 
 // Actualizar cada minuto (por si cambia el día)
@@ -3067,6 +3337,28 @@ function updateMobileHeaderTitle(index) {
   }
 }
 
+function updateMobileMenuSelection(superTabIdx) {
+  // Sincronizar items de navegación principal en el Menú Hamburguesa por atributo data-tab
+  document.querySelectorAll('.mobile-menu-nav button[data-tab]').forEach(function(btn) {
+    var tabIdx = parseInt(btn.getAttribute('data-tab'));
+    btn.classList.toggle('active', tabIdx === superTabIdx);
+  });
+
+  // Si estamos en Seguimiento de Carrera (tab 1), sincronizar su sub-opción activa
+  if (superTabIdx === 1) {
+    var savedSp1 = localStorage.getItem('dashboardSp1Tab');
+    var subIdx = savedSp1 !== null ? parseInt(savedSp1) : 0;
+    document.querySelectorAll('.mobile-menu-subitem').forEach(function(subBtn, idx) {
+      subBtn.classList.toggle('active', idx === subIdx);
+    });
+  } else {
+    // Si estamos en otra pestaña (ej. Planificador 2026), desmarcar sub-opciones de Seguimiento
+    document.querySelectorAll('.mobile-menu-subitem').forEach(function(subBtn) {
+      subBtn.classList.remove('active');
+    });
+  }
+}
+
 function toggleMenu() {
   var overlay = document.getElementById('mobileMenuOverlay');
   var toggle = document.getElementById('menuToggle');
@@ -3075,6 +3367,12 @@ function toggleMenu() {
   if (isOpen) {
     closeMenu();
   } else {
+    var viewType = localStorage.getItem('activeViewType');
+    if (viewType === 'tab') {
+      var savedSuperTab = localStorage.getItem('dashboardSuperTab');
+      var currentTab = savedSuperTab !== null ? parseInt(savedSuperTab) : 0;
+      updateMobileMenuSelection(currentTab);
+    }
     overlay.classList.add('open');
     toggle.classList.add('open');
     document.body.style.overflow = 'hidden'; // Evita scroll de fondo
