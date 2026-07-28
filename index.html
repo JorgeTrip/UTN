@@ -881,22 +881,57 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
   color: var(--muted);
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.mobile-menu-item:hover, .mobile-menu-item.active {
+.mobile-menu-item:hover {
   color: var(--text);
-  background: var(--s2);
+  background: rgba(255, 255, 255, 0.05);
 }
 .mobile-menu-item.active {
+  color: var(--blue);
+  background: rgba(56, 189, 248, 0.1);
   border-left: 3px solid var(--blue);
-  background: rgba(56, 189, 248, 0.08);
 }
-.mobile-menu-item.active:nth-child(1) { border-left-color: var(--yellow); background: rgba(250, 204, 21, 0.05); }
-.mobile-menu-item.active:nth-child(2) { border-left-color: var(--green); background: rgba(34, 211, 164, 0.05); }
-.mobile-menu-item.active:nth-child(n+3) { border-left-color: var(--blue); background: rgba(56, 189, 248, 0.05); }
+
+.mobile-menu-subgroup {
+  margin-left: 20px;
+  padding-left: 8px;
+  border-left: 2px solid rgba(56, 189, 248, 0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px;
+  margin-bottom: 10px;
+}
+.mobile-menu-subitem {
+  font-size: 13.5px !important;
+  font-weight: 500 !important;
+  padding: 8px 10px !important;
+  color: var(--muted) !important;
+  border-radius: 6px !important;
+  border-left: none !important;
+  display: flex !important;
+  align-items: center !important;
+}
+.mobile-menu-subitem::before {
+  content: "└─";
+  font-family: monospace;
+  font-weight: 700;
+  color: rgba(56, 189, 248, 0.55);
+  margin-right: 6px;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.mobile-menu-subitem:hover {
+  color: var(--text) !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+}
+.mobile-menu-subitem.active {
+  color: var(--blue) !important;
+  background: rgba(56, 189, 248, 0.14) !important;
+  font-weight: 700 !important;
+}
+.mobile-menu-subitem.active::before {
+  color: var(--blue);
+}
 
 .mobile-menu-footer {
   border-top: 1px solid var(--border);
@@ -981,6 +1016,15 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
     <nav class="mobile-menu-nav">
       <button class="mobile-menu-item active" onclick="selectMobileTab(0)">🔗 Links útiles</button>
       <button class="mobile-menu-item" onclick="selectMobileTab(1)">📊 Seguimiento de Carrera</button>
+      
+      <!-- Sub-opciones Indentadas de Seguimiento de Carrera -->
+      <div class="mobile-menu-subgroup">
+        <button class="mobile-menu-item mobile-menu-subitem" onclick="selectSubTab(1, 0, '🏆 Hitos de Carrera')">🏆 Hitos de Carrera</button>
+        <button class="mobile-menu-item mobile-menu-subitem" onclick="selectSubTab(1, 1, '🗺 Mapa Curricular')">🗺 Mapa Curricular</button>
+        <button class="mobile-menu-item mobile-menu-subitem" onclick="selectSubTab(1, 2, '⚖️ Peso Académico')">⚖️ Peso Académico</button>
+        <button class="mobile-menu-item mobile-menu-subitem" onclick="selectSubTab(1, 3, '🚀 Estrategia K08 → K23')">🚀 Estrategia K08 → K23</button>
+      </div>
+
       <button class="mobile-menu-item" onclick="selectMobileTab(2)">📅 Planificador 2026</button>
       <button class="mobile-menu-item" onclick="selectMobileTab(3)">📅 Planificador 2027</button>
       <button class="mobile-menu-item" onclick="selectMobileTab(4)">📅 Planificador 2028</button>
@@ -2679,6 +2723,21 @@ function sp1Tab(i) {
   document.querySelectorAll('.sub-tab').forEach(function(t,j){ t.classList.toggle('active', i===j); });
   document.querySelectorAll('.sub-panel').forEach(function(p,j){ p.classList.toggle('active', i===j); });
   localStorage.setItem('dashboardSp1Tab', i);
+  document.querySelectorAll('.mobile-menu-subitem').forEach(function(item, idx) {
+    item.classList.toggle('active', i === idx);
+  });
+}
+
+function selectSubTab(superIndex, subIndex, titleOverride) {
+  superTab(superIndex);
+  if (superIndex === 1) {
+    sp1Tab(subIndex);
+  }
+  if (titleOverride) {
+    var titleEl = document.getElementById('gMobileTitle');
+    if (titleEl) titleEl.textContent = titleOverride;
+  }
+  closeMenu();
 }
 
 
