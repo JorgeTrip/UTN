@@ -2486,10 +2486,10 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
 
 <div class="main-tabs">
   <div class="main-tabs-inner">
-    <button class="main-tab mq1 active" onclick="mainTabIn('sp1-plan',0)">
+    <button class="main-tab mq1 active" onclick="mainTabIn('sp2p0',0)">
       1er Cuatrimestre <span class="mbadge">Comunicación de Datos · Adm. Sistemas de Información — única combinación posible</span>
     </button>
-    <button class="main-tab mq2" onclick="mainTabIn('sp1-plan',1)">
+    <button class="main-tab mq2" onclick="mainTabIn('sp2p0',1)">
       2do Cuatrimestre <span class="mbadge">Ingeniería y Calidad de Software · Investigación Operativa · Legislación · Tecnologías para la Automatización · Adm. Sistemas de Información — 3 alternativas</span>
     </button>
   </div>
@@ -2533,9 +2533,9 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
 
   <div class="plan-sub-tab-bar">
     <div class="plan-sub-tab-inner">
-      <button class="plan-sub-tab rec active" onclick="planSubTabIn('sp1-plan',0)">★ Alternativa 1 <span class="plan-sbadge">Todo Medrano</span></button>
-      <button class="plan-sub-tab" onclick="planSubTabIn('sp1-plan',1)">Alternativa 2 <span class="plan-sbadge">Leg. Viernes · Campus</span></button>
-      <button class="plan-sub-tab" onclick="planSubTabIn('sp1-plan',2)">Alternativa 3 <span class="plan-sbadge">Leg. Lunes · Campus</span></button>
+      <button class="plan-sub-tab rec active" onclick="planSubTabIn('mp1',0)">★ Alternativa 1 <span class="plan-sbadge">Todo Medrano</span></button>
+      <button class="plan-sub-tab" onclick="planSubTabIn('mp1',1)">Alternativa 2 <span class="plan-sbadge">Leg. Viernes · Campus</span></button>
+      <button class="plan-sub-tab" onclick="planSubTabIn('mp1',2)">Alternativa 3 <span class="plan-sbadge">Leg. Lunes · Campus</span></button>
     </div>
   </div>
 
@@ -2655,10 +2655,10 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
 
 <div class="main-tabs">
   <div class="main-tabs-inner">
-    <button class="main-tab mq1 active" onclick="mainTabIn('sp2-plan',0)">
+    <button class="main-tab mq1 active" onclick="mainTabIn('sp2p1',0)">
       1er Cuatrimestre <span class="mbadge">Simulación · Redes de Datos · Inteligencia Artificial · Criptografía (Electiva N4)</span>
     </button>
-    <button class="main-tab mq2" onclick="mainTabIn('sp2-plan',1)">
+    <button class="main-tab mq2" onclick="mainTabIn('sp2p1',1)">
       2do Cuatrimestre <span class="mbadge">Ciencia de Datos · Sistemas de Gestión · Gestión Gerencial · IoT · Arquitecturas Concurrentes (Electivas N4)</span>
     </button>
   </div>
@@ -2746,10 +2746,10 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
 
 <div class="main-tabs">
   <div class="main-tabs-inner">
-    <button class="main-tab mq1 active" onclick="mainTabIn('sp3-plan',0)">
+    <button class="main-tab mq1 active" onclick="mainTabIn('sp2p2',0)">
       1er Cuatrimestre <span class="mbadge">Proyecto Final (ANUAL) · Seguridad en Sistemas · Auditoría de Sistemas · Sistemas de Info. Geográfica (Electivas N5)</span>
     </button>
-    <button class="main-tab mq2" onclick="mainTabIn('sp3-plan',1)">
+    <button class="main-tab mq2" onclick="mainTabIn('sp2p2',1)">
       2do Cuatrimestre <span class="mbadge">Proyecto Final continúa (ANUAL) · Calidad Avanzada · Bioinformática (Electivas N5)</span>
     </button>
   </div>
@@ -2840,10 +2840,10 @@ main{padding:24px 32px 60px;max-width:1440px;margin:0 auto;}
 
 <div class="main-tabs">
   <div class="main-tabs-inner">
-    <button class="main-tab mq1 active" onclick="mainTabIn('sp4-plan',0)">
+    <button class="main-tab mq1 active" onclick="mainTabIn('sp2p3',0)">
       1er Cuatrimestre <span class="mbadge">Graduación / PPS / Pendientes opcionales</span>
     </button>
-    <button class="main-tab mq2" onclick="mainTabIn('sp4-plan',1)">
+    <button class="main-tab mq2" onclick="mainTabIn('sp2p3',1)">
       2do Cuatrimestre <span class="mbadge">Colación · Cierre de carrera</span>
     </button>
   </div>
@@ -3113,49 +3113,6 @@ function selectMobileTab(i) {
   superTab(i);
   closeMenu();
 }
-
-/* ───── INYECCIÓN DINÁMICA DE HINTS DE SWIPE EN MÓVIL ───── */
-(function setupMobileSwipeHints() {
-  document.querySelectorAll('.cal-outer').forEach(function(cal) {
-    var hint = document.createElement('div');
-    hint.className = 'swipe-hint';
-    hint.textContent = '← Deslizá horizontalmente para ver otros días →';
-    cal.parentNode.insertBefore(hint, cal);
-  });
-})();
-
-// Sincronizar el estado inicial tras la carga (F5 / refrescar)
-(function syncInitialAppState() {
-  var viewType = localStorage.getItem('activeViewType');
-  
-  // 1. Si el usuario estaba viendo una materia incrustada
-  if (viewType === 'materia') {
-    var url = localStorage.getItem('activeMateriaUrl');
-    var titulo = localStorage.getItem('activeMateriaTitulo');
-    if (url) {
-      abrirMateria(url, titulo || '');
-      return;
-    }
-  }
-
-  // 2. Restaurar Super Tab principal
-  var savedSuperTab = localStorage.getItem('dashboardSuperTab');
-  var initialTab = savedSuperTab !== null ? parseInt(savedSuperTab) : 0;
-  superTab(initialTab);
-
-  // 3. Restaurar sub-pestañas según la Super Tab activa
-  if (initialTab === 1) {
-    var savedSp1Tab = localStorage.getItem('dashboardSp1Tab');
-    if (savedSp1Tab !== null) {
-      sp1Tab(parseInt(savedSp1Tab));
-    }
-  } else if (initialTab === 2) {
-    var savedPlanYear = localStorage.getItem('dashboardPlanYearTab');
-    if (savedPlanYear !== null) {
-      planYearTab(parseInt(savedPlanYear));
-    }
-  }
-})();
 
 
 
@@ -3599,7 +3556,7 @@ function selectMobileTab(i) {
   }
 
   // 4. Restaurar Main Tabs para cada contenedor planificador
-  ['sp1-plan', 'sp2-plan', 'sp3-plan', 'sp4-plan'].forEach(function(containerId) {
+  ['sp2p0', 'sp2p1', 'sp2p2', 'sp2p3'].forEach(function(containerId) {
     var savedMainTab = localStorage.getItem('dashboardMainTab_' + containerId);
     var defaultTab = 0;
     
@@ -3616,7 +3573,7 @@ function selectMobileTab(i) {
   });
 
   // 5. Restaurar Plan Sub-Tabs
-  ['sp1-plan', 'sp2-plan', 'sp3-plan', 'sp4-plan'].forEach(function(containerId) {
+  ['mp1'].forEach(function(containerId) {
     var savedPlanSubTab = localStorage.getItem('dashboardPlanSubTab_' + containerId);
     if (savedPlanSubTab !== null) {
       planSubTabIn(containerId, parseInt(savedPlanSubTab));
