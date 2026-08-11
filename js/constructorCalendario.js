@@ -80,13 +80,20 @@ function construirCalendario(idCuerpo, cantidadDias, eventos, tieneSabado, conte
         ? `<a href="#" onclick="abrirMateria('${ev.url}', '${ev.name}'); return false;" style="color:inherit;text-decoration:none;border-bottom:1px dashed rgba(255,255,255,.3);">${ev.name}</a>`
         : ev.name;
 
+      const jsonEv = JSON.stringify(ev).replace(/"/g, '&quot;');
+      const jsonCtx = contexto ? JSON.stringify(contexto).replace(/"/g, '&quot;') : 'null';
+      const btnGcal = `<button class="ev-action-btn ev-gcal-btn" title="Agregar a Google Calendar" onclick="event.stopPropagation(); abrirModalGoogleCalendar(${jsonEv}, ${jsonCtx})">📅</button>`;
+
       let btnBorrar = '';
       if (contexto && ev.id) {
-        btnBorrar = `<button class="ev-delete-btn" title="Eliminar materia del planificador" onclick="event.stopPropagation(); eliminarEventoPlanificador('${contexto.anio}', '${contexto.cuatrimestre}', ${contexto.alternativa}, '${ev.id}')">🗑️</button>`;
+        btnBorrar = `<button class="ev-action-btn ev-delete-btn" title="Eliminar materia del planificador" onclick="event.stopPropagation(); eliminarEventoPlanificador('${contexto.anio}', '${contexto.cuatrimestre}', ${contexto.alternativa}, '${ev.id}')">🗑️</button>`;
       }
 
       bloque.innerHTML = `
-        ${btnBorrar}
+        <div class="ev-actions">
+          ${btnGcal}
+          ${btnBorrar}
+        </div>
         <div class="ev-name">${htmlNombre}</div>
         <div class="ev-time">${rellenarCero(ev.h1)}:${rellenarCero(ev.m1)} – ${rellenarCero(ev.h2)}:${rellenarCero(ev.m2)}</div>
         <div class="ev-k">${ev.k}</div>
