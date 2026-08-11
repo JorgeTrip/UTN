@@ -1,0 +1,53 @@
+/* ═══════════════════════════════════════════════════════════════
+   ESTILOS ESPECÍFICOS PARA PANTALLAS ESCRITORIO (≥ 901px)
+   ═══════════════════════════════════════════════════════════════ */
+
+@media (min-width: 901px) {
+  .menu-toggle {
+    display: none !important;
+  }
+  
+  .swipe-hint {
+    display: none !important;
+  }
+
+  .g-app-name,
+  .g-carrera-sub,
+  .g-mobile-context {
+    display: none !important;
+  }
+
+  .g-badge-row {
+    display: flex !important;
+  }
+
+  .g-header-titles,
+  .g-right {
+    display: flex !important;
+  }
+}
+
+@media (max-width: 900px) and (min-width: 701px) {
+  main { padding: 18px 16px 50px; }
+  .g-header { padding: 14px 16px; }
+  .super-tab-bar { padding: 0 10px; }
+  .g-title { font-size: 21px; }
+  .g-sub { font-size: 14.5px; }
+
+  .super-tab-inner, .sub-tab-inner, .main-tabs-inner, .plan-sub-tab-inner {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+  
+  .mbadge { display: none; }
+  .main-tab { flex: 0 0 auto; }
+
+  .kpi-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+  .kpi-val { font-size: 26px; }
+  .day-summary { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+  .cal-outer { overflow-x: auto; }
+  .cal-head, .cal-body { min-width: 600px; }
+}

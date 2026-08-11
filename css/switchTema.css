@@ -1,0 +1,36 @@
+/* ═══════════════════════════════════════════════════════════════
+   SWITCH MODO CLARO / OSCURO (THEME TOGGLE)
+   ═══════════════════════════════════════════════════════════════ */
+
+.switch-tema-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 12px;
+}
+
+.switch-tema-btn {
+  background: var(--s2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 4px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  transition: all 0.2s ease;
+}
+
+.switch-tema-btn:hover {
+  background: var(--s3);
+  border-color: var(--blue);
+}
+
+.switch-icono {
+  font-size: 14px;
+  line-height: 1;
+}

@@ -1,0 +1,182 @@
+/* ═══════════════════════════════════════════════════════════════
+   ESTILOS EXCLUSIVOS Y OPTIMIZACIÓN UX PARA MÓVIL (≤ 700px)
+   ═══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 700px) {
+  body {
+    font-size: 16px;
+  }
+
+  main { padding: 14px 12px 40px; }
+
+  /* Header Sticky Móvil con Blur Glassmorphism (Estilo Apple) */
+  .g-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 10px 14px;
+    height: auto;
+    min-height: 62px;
+    background: rgba(7, 9, 15, 0.90);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  [data-tema="claro"] .g-header {
+    background: rgba(245, 245, 247, 0.90);
+  }
+
+  .g-header-inner {
+    display: flex;
+    flex-direction: row !important;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+    width: 100%;
+    margin: 0;
+    gap: 0;
+  }
+
+  .g-header-titles, .g-right, .g-badge-row {
+    display: none !important;
+  }
+
+  .g-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .g-app-name {
+    display: inline-block !important;
+    font-size: 20.5px;
+    font-weight: 900;
+    color: var(--blue);
+    letter-spacing: 1.2px;
+    line-height: 1;
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.18) 0%, rgba(99, 102, 241, 0.12) 100%);
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    padding: 7px 14px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(56, 189, 248, 0.1);
+    margin-bottom: 5px;
+  }
+
+  .g-carrera-sub {
+    display: block !important;
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(232, 237, 245, 0.9);
+    margin-top: 1px;
+    line-height: 1.25;
+  }
+
+  [data-tema="claro"] .g-carrera-sub {
+    color: #334155;
+  }
+
+  .g-mobile-context {
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+    margin-top: 2px;
+    line-height: 1.25;
+    min-width: 0;
+  }
+
+  .g-mobile-title {
+    display: inline !important;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--blue);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 1;
+    min-width: 0;
+  }
+
+  .super-tab-bar { display: none !important; }
+
+  .kpi-grid { grid-template-columns: 1fr; gap: 12px; }
+  .kpi-val { font-size: 32px; font-weight: 800; }
+  .kpi-lbl, .kpi-sub { font-size: 15px; }
+
+  /* Modo Swipe Mapa Curricular */
+  .map-wrap {
+    margin: 0 -12px;
+    padding: 0 0 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .map-grid {
+    grid-template-columns: repeat(5, 100vw);
+    min-width: auto;
+    gap: 0;
+  }
+
+  .map-col {
+    width: 100vw;
+    padding: 0 12px;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  /* Modo Swipe Calendario por Día */
+  .cal-outer {
+    margin: 0 -12px;
+    width: 100vw;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 52px;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
+
+  .cal-head, .cal-body {
+    display: flex !important;
+    flex-direction: row !important;
+    min-width: auto !important;
+    width: max-content;
+  }
+
+  .cal-head-cell:first-child, .time-col {
+    width: 52px !important;
+    flex-shrink: 0;
+    position: sticky;
+    left: 0;
+    background: var(--s1);
+    z-index: 15;
+    border-right: 1px solid var(--border);
+  }
+
+  .cal-head-cell:not(:first-child), .day-col {
+    width: calc(100vw - 52px) !important;
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .swipe-hint {
+    display: block !important;
+    width: 100vw !important;
+    margin-left: -12px !important;
+    margin-right: -12px !important;
+    text-align: center !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    color: var(--blue) !important;
+    padding: 8px 12px !important;
+    background: rgba(12, 16, 24, 0.75) !important;
+    border-top: 1px solid var(--border) !important;
+    border-bottom: 1px solid var(--border) !important;
+    margin-bottom: 10px !important;
+  }
+}

@@ -1,0 +1,101 @@
+/* ═══════════════════════════════════════════════════════════════
+   ESTILOS PARA UBICAR Y BORRAR MATERIAS EN EL PLANIFICADOR
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Botón de eliminación directa en la tarjeta de evento (.ev) */
+.ev {
+  position: absolute;
+}
+
+.ev-delete-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid rgba(248, 113, 113, 0.4);
+  background: rgba(224, 69, 69, 0.25);
+  color: #fca5a5;
+  font-size: 11px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.2s ease, transform 0.2s ease, background 0.15s ease;
+  z-index: 15;
+}
+
+.ev:hover .ev-delete-btn {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.ev-delete-btn:hover {
+  background: rgba(224, 69, 69, 0.9);
+  color: #ffffff;
+  border-color: var(--accent);
+}
+
+/* Botón de acción para ubicar materia en la barra de controles */
+.btn-ubicar-materia {
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  color: var(--blue);
+  font-family: 'Outfit', sans-serif;
+  font-size: 12.5px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-ubicar-materia:hover {
+  background: rgba(56, 189, 248, 0.22);
+  border-color: var(--blue);
+  color: #ffffff;
+  box-shadow: 0 2px 10px rgba(56, 189, 248, 0.2);
+}
+
+/* Indicador de columna interactiva */
+.day-col {
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.day-col:hover {
+  background: rgba(255, 255, 255, 0.015);
+}
+
+/* Toast de notificación reactiva */
+.toast-planificador {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--s2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--asi);
+  border-radius: 8px;
+  padding: 12px 18px;
+  font-size: 13.5px;
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.toast-planificador.visible {
+  transform: translateY(0);
+  opacity: 1;
+}

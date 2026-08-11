@@ -1,0 +1,52 @@
+/* ═══════════════════════════════════════════════════════════════
+   DISPOSICIÓN GENERAL Y NAVEGACIÓN PRINCIPAL (LAYOUT & TABS)
+   ═══════════════════════════════════════════════════════════════ */
+
+.g-header { position: relative; z-index: 999; background: var(--s1); border-bottom: 2px solid var(--border); padding: 18px 32px; }
+.g-header-inner { max-width: 1440px; margin: 0 auto; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; justify-content: space-between; }
+.g-logo { display: flex; flex-direction: column; gap: 3px; }
+.g-badge-row { display: flex; gap: 6px; align-items: center; }
+.g-badge { font-size: 12px; font-weight: 800; letter-spacing: 1.2px; padding: 4px 10px; border-radius: 5px; text-transform: uppercase; }
+.gb-utn { background: var(--accent); color: #fff; }
+.gb-k23 { background: rgba(56,189,248,.2); color: var(--blue); border: 1px solid rgba(56,189,248,.3); }
+
+.g-header-titles { display: flex; flex-direction: column; gap: 2px; }
+.g-title { font-size: 24px; font-weight: 800; letter-spacing: -.3px; line-height: 1.2; }
+.g-sub { font-size: 15px; color: var(--muted); margin-top: 2px; line-height: 1.2; }
+
+.g-right { margin-left: auto; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.g-date { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); }
+
+/* Solapas Principales (Super Tabs) */
+.super-tab-bar { position: relative; z-index: 1; background: var(--s1); border-bottom: 1px solid var(--border); padding: 0 32px; }
+.super-tab-inner { max-width: 1440px; margin: 0 auto; display: flex; flex-direction: row; align-items: center; gap: 0; flex-wrap: wrap; }
+.super-tab { padding: 13px 18px; font-size: 14.5px; font-weight: 700; color: var(--muted); cursor: pointer; border: none; background: none; font-family: 'Outfit', sans-serif; border-bottom: 3px solid transparent; transition: color .15s; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+.super-tab:hover, .super-tab.active { color: var(--text); }
+.super-tab.sp0.active { border-bottom-color: var(--yellow); }
+.super-tab.sp1.active { border-bottom-color: var(--green); }
+.super-tab.sp2.active { border-bottom-color: var(--blue); }
+
+.super-panel { display: none; position: relative; z-index: 1; }
+.super-panel.active { display: block; }
+
+/* Layout Principal */
+main { padding: 24px 32px 60px; max-width: 1440px; margin: 0 auto; }
+.sec { font-size: 11.5px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 12px; margin: 28px 0 14px; }
+.sec::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* Sub-Solapas */
+.sub-tab-bar, .plan-sub-tab-bar, .main-tabs { border-bottom: 1px solid var(--border); margin-bottom: 22px; padding: 0; position: relative; }
+.sub-tab-inner, .plan-sub-tab-inner, .main-tabs-inner { max-width: 1440px; margin: 0 auto; display: flex; flex-direction: row; align-items: center; gap: 8px; flex-wrap: wrap; }
+.sub-tab, .plan-sub-tab, .main-tab { padding: 9px 12px; font-size: 13.5px; font-weight: 600; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; background: none; border-top: none; border-left: none; border-right: none; font-family: 'Outfit', sans-serif; transition: color .15s; display: flex; align-items: center; gap: 5px; white-space: nowrap; }
+.sub-tab:hover, .sub-tab.active, .plan-sub-tab:hover, .plan-sub-tab.active, .main-tab:hover, .main-tab.active { color: var(--text); }
+
+.sub-tab.active { border-bottom-color: var(--green); }
+.sub-tab.blue.active { border-bottom-color: var(--blue); }
+.plan-sub-tab.active { border-bottom-color: #38bdf8; }
+.plan-sub-tab.rec.active { border-bottom-color: #22d3a4; }
+.main-tab.mq1.active { border-bottom-color: #a78bfa; }
+.main-tab.mq2.active { border-bottom-color: #38bdf8; }
+
+.sub-panel, .plan-sub-panel, .main-panel { display: none; }
+.sub-panel.active, .plan-sub-panel.active, .main-panel.active { display: block; }
+.sbadge, .plan-sbadge, .mbadge { font-size: 10px; padding: 2px 7px; border-radius: 20px; background: var(--s3); color: var(--muted); }

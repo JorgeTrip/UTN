@@ -1,0 +1,120 @@
+/* ═══════════════════════════════════════════════════════════════
+   MENÚ DE AVATAR Y MODAL DE PERFIL DEL ALUMNO (TABS & FORMULARIOS)
+   ═══════════════════════════════════════════════════════════════ */
+
+.avatar-btn-header {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--accent); color: #fff;
+  font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 14px;
+  border: 2px solid rgba(255,255,255,0.2);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: transform .15s, box-shadow .15s;
+}
+
+.avatar-btn-header:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(224, 69, 69, 0.4);
+}
+
+#avatarWrap {
+  position: relative;
+  z-index: 1000;
+}
+
+.avatar-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  width: 220px;
+  background: var(--s2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.65);
+  padding: 8px 0;
+  display: none;
+  z-index: 10000;
+}
+
+.avatar-dropdown.open { display: block; }
+
+.dropdown-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 16px; color: var(--text); font-size: 13.5px;
+  font-weight: 500; cursor: pointer; transition: background .15s;
+  border: none; background: none; width: 100%; text-align: left;
+  font-family: 'Outfit', sans-serif;
+}
+
+.dropdown-item:hover { background: var(--s3); color: var(--blue); }
+.dropdown-divider { height: 1px; background: var(--border); margin: 6px 0; }
+
+/* Modal Overlay & Modal Window */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(4, 5, 9, 0.75);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  z-index: 20000; display: none;
+  align-items: center; justify-content: center; padding: 16px;
+}
+
+.modal-overlay.open { display: flex; }
+
+.modal-card {
+  background: var(--s1); border: 1px solid var(--border);
+  border-radius: 16px; width: 100%; max-width: 580px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.7); overflow: hidden;
+  display: flex; flex-direction: column; max-height: 90vh;
+}
+
+.modal-header {
+  padding: 18px 24px; background: var(--s2);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+
+.modal-title { font-size: 17px; font-weight: 800; color: var(--text); }
+.modal-close { background: none; border: none; color: var(--muted); font-size: 20px; cursor: pointer; }
+.modal-close:hover { color: var(--text); }
+
+.modal-tabs {
+  display: flex; border-bottom: 1px solid var(--border);
+  background: var(--s2); padding: 0 16px;
+}
+
+.modal-tab {
+  padding: 10px 16px; font-size: 13.5px; font-weight: 600;
+  color: var(--muted); border: none; background: none; cursor: pointer;
+  border-bottom: 2.5px solid transparent; font-family: 'Outfit', sans-serif;
+}
+
+.modal-tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+
+.modal-body { padding: 24px; overflow-y: auto; flex: 1; }
+.modal-panel { display: none; }
+.modal-panel.active { display: block; }
+
+.form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-label { font-size: 11.5px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; color: var(--muted); }
+.form-input {
+  background: var(--s2); border: 1px solid var(--border); border-radius: 8px;
+  padding: 9px 12px; color: var(--text); font-family: 'Outfit', sans-serif;
+  font-size: 14px; outline: none;
+}
+.form-input:focus { border-color: var(--blue); }
+
+.modal-footer {
+  padding: 16px 24px; background: var(--s2);
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: flex-end; gap: 10px;
+}
+
+.btn-sec {
+  background: var(--s3); border: 1px solid var(--border); color: var(--text);
+  padding: 9px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; font-family: 'Outfit', sans-serif;
+}
+
+.btn-prim {
+  background: var(--blue); border: 1px solid var(--blue); color: #060c14;
+  padding: 9px 18px; border-radius: 8px; font-weight: 800; cursor: pointer; font-family: 'Outfit', sans-serif;
+}

@@ -1,0 +1,138 @@
+/* ═══════════════════════════════════════════════════════════════
+   ENLACES ÚTILES Y BOTÓN GOOGLE CALENDAR
+   ═══════════════════════════════════════════════════════════════ */
+
+.links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.link-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--s2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 18px;
+  text-decoration: none;
+  transition: all .2s;
+  cursor: pointer;
+}
+
+.link-card:hover {
+  background: var(--s3);
+  border-color: rgba(255,255,255,0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+.link-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.link-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.link-title {
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.link-desc {
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.link-arrow {
+  font-size: 18px;
+  color: var(--muted);
+  transition: color .2s;
+}
+
+.link-card:hover .link-arrow {
+  color: var(--text);
+}
+
+.gcal-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 7px;
+  padding: 4px 9px;
+  background: rgba(66,133,244,.1);
+  border: 1px solid rgba(66,133,244,.3);
+  border-radius: 5px;
+  color: #93c5fd;
+  font-size: 10px;
+  text-decoration: none;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  transition: background .15s, border-color .15s;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.gcal-btn:hover {
+  background: rgba(66,133,244,.22);
+  border-color: rgba(66,133,244,.55);
+}
+
+/* Indicadores de Scroll en Pestañas */
+.tab-chevron {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 38px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  color: var(--blue);
+  font-family: 'Outfit', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 5;
+  padding: 0 0 4px 0;
+  opacity: 0;
+  transition: opacity .25s;
+  pointer-events: none;
+}
+
+.tab-chevron.left {
+  left: 0;
+  background: linear-gradient(to right, var(--s1) 35%, rgba(12,16,24,.7) 70%, transparent);
+}
+
+.tab-chevron.right {
+  right: 0;
+  background: linear-gradient(to left, var(--s1) 35%, rgba(12,16,24,.7) 70%, transparent);
+}
+
+.tab-chevron.visible {
+  display: flex;
+  opacity: 1;
+  pointer-events: auto;
+  animation: chevronPulse 1.6s ease-in-out infinite;
+}
+
+@keyframes chevronPulse {
+  0%, 100% { text-shadow: 0 0 4px rgba(56,189,248,.4); filter: brightness(1); }
+  50% { text-shadow: 0 0 14px rgba(56,189,248,.95), 0 0 24px rgba(56,189,248,.5); filter: brightness(1.5); }
+}

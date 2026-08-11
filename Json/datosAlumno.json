@@ -1,0 +1,231 @@
+{
+  "perfil": {
+    "nombre": "Jorge",
+    "apellido": "Tripodi",
+    "nombreCompleto": "Jorge Osvaldo Tripodi",
+    "dni": "",
+    "legajo": "172-060.0",
+    "telefono": "",
+    "direccion": "",
+    "turno": "Noche",
+    "planActual": "K23",
+    "planOriginal": "K08",
+    "fechaIngreso": "2019",
+    "fechaTransicion": "2026-02-24"
+  },
+  "materiasAprobadas": [
+    { "id": "232001", "nombre": "Análisis Matemático I", "nota": 8, "modalidad": "promocion", "fechaAprobacion": "2019-12-02", "plan": "K08", "materiaOrigenK08": "Análisis Matemático I (950702)", "modalidadOriginalK08": "Promoción Directa (Nota 8 · 02/12/2019)" },
+    { "id": "232002", "nombre": "Álgebra y Geometría Analítica", "nota": 9, "modalidad": "final", "fechaAprobacion": "2025-07-29", "fechaCursada": "2020-07-27", "plan": "K08", "materiaOrigenK08": "Álgebra y Geometría Analítica (950701)", "modalidadOriginalK08": "Examen Final (Nota 9 · 29/07/2025)" },
+    { "id": "232003", "nombre": "Física I", "nota": null, "modalidad": "equivalencia_parcial_topicos", "fechaAprobacion": "2019-10-21", "plan": "K08", "origenCarreraAnterior": "Carrera Anterior", "descripcionEquivalencia": "Equivalencia Parcial (05/06/2019) + Examen Complementario de Tópicos (21/10/2019)" },
+    { "id": "232004", "nombre": "Inglés I", "nota": 10, "modalidad": "promocion", "fechaAprobacion": "2022-07-15", "plan": "K08", "materiaOrigenK08": "Inglés Técnico Nivel I (951602)", "modalidadOriginalK08": "Promoción Directa (Nota 10 · 15/07/2022)" },
+    { "id": "232010", "nombre": "Lógica y Estructuras Discretas", "nota": 9, "modalidad": "promocion", "fechaAprobacion": "2022-11-30", "plan": "K08", "materiaOrigenK08": "Matemática Discreta (082020)", "modalidadOriginalK08": "Promoción Directa (Nota 9 · 30/11/2022)" },
+    { "id": "082021", "nombre": "Algoritmos y Estructuras de Datos", "nota": 10, "modalidad": "promocion", "fechaAprobacion": "2019-12-02", "plan": "K08", "materiaOrigenK08": "Algoritmos y Estructura de Datos (082021)", "modalidadOriginalK08": "Promoción Directa (Nota 10 · 02/12/2019)" },
+    { "id": "082022", "nombre": "Arquitectura de Computadoras", "nota": 8, "modalidad": "promocion", "fechaAprobacion": "2021-12-03", "plan": "K08", "materiaOrigenK08": "Arquitectura de Computadores (082022)", "modalidadOriginalK08": "Promoción Directa (Nota 8 · 03/12/2021)" },
+    { "id": "232011", "nombre": "Sistemas y Procesos de Negocio", "nota": 8, "modalidad": "promocion", "fechaAprobacion": "2019-12-02", "plan": "K08", "materiaOrigenK08": "Sistemas y Organizaciones (082023)", "modalidadOriginalK08": "Promoción Directa (Nota 8 · 02/12/2019)" },
+    { "id": "232009", "nombre": "Análisis Matemático II", "nota": 9, "modalidad": "promocion", "fechaAprobacion": "2025-07-11", "plan": "K08", "materiaOrigenK08": "Análisis Matemático II (950703)", "modalidadOriginalK08": "Promoción Directa (Nota 9 · 11/07/2025)" },
+    { "id": "232010_f2", "nombre": "Física II", "nota": 9, "modalidad": "promocion", "fechaAprobacion": "2025-07-11", "plan": "K08", "materiaOrigenK08": "Física II (950606)", "modalidadOriginalK08": "Promoción Directa (Nota 9 · 11/07/2025)" },
+    { "id": "232011_is", "nombre": "Ingeniería y Sociedad", "nota": null, "modalidad": "equivalencia", "fechaAprobacion": "2019-06-05", "plan": "K08", "materiaOrigenK08": "Ingeniería y Sociedad (951604)", "modalidadOriginalK08": "Equivalencia Aprobada (05/06/2019)" },
+    { "id": "232012", "nombre": "Inglés II", "nota": 9, "modalidad": "promocion", "fechaAprobacion": "2022-11-30", "plan": "K08", "materiaOrigenK08": "Inglés Técnico Nivel II (951603)", "modalidadOriginalK08": "Promoción Directa (Nota 9 · 30/11/2022)" },
+    { "id": "082025", "nombre": "Sintaxis y Semántica de los Lenguajes", "nota": 8, "modalidad": "promocion", "fechaAprobacion": "2023-11-30", "plan": "K08", "materiaOrigenK08": "Sintaxis y Semántica de los Lenguajes (082025)", "modalidadOriginalK08": "Promoción Directa (Nota 8 · 30/11/2023)" },
+    { "id": "082026", "nombre": "Paradigmas de Programación", "nota": 8, "modalidad": "promocion", "fechaAprobacion": "2024-02-14", "plan": "K08", "materiaOrigenK08": "Paradigmas de Programación (082026)", "modalidadOriginalK08": "Promoción Directa (Nota 8 · 14/02/2024)" },
+    { "id": "082027", "nombre": "Sistemas Operativos", "nota": 7, "modalidad": "final", "fechaAprobacion": "2024-12-10", "plan": "K08", "materiaOrigenK08": "Sistemas Operativos (082027)", "modalidadOriginalK08": "Examen Final (Nota 7 · 10/12/2024)" },
+    { "id": "082024", "nombre": "Análisis de Sistemas de Información", "nota": 9, "modalidad": "promocion", "fechaAprobacion": "2020-12-09", "plan": "K08", "materiaOrigenK08": "Análisis de Sistemas (082024)", "modalidadOriginalK08": "Promoción Directa (Nota 9 · 09/12/2020)" },
+    { "id": "232017", "nombre": "Probabilidad y Estadística", "nota": 9, "modalidad": "promocion", "fechaAprobacion": "2020-12-09", "plan": "K08", "materiaOrigenK08": "Probabilidad y Estadística (950704)", "modalidadOriginalK08": "Promoción Directa (Nota 9 · 09/12/2020)" },
+    { "id": "232018", "nombre": "Economía", "nota": 7, "modalidad": "final", "fechaAprobacion": "2025-12-09", "plan": "K08", "materiaOrigenK08": "Economía (950309)", "modalidadOriginalK08": "Examen Final (Nota 7 · 09/12/2025)" },
+    { "id": "232030", "nombre": "Bases de Datos", "nota": 10, "modalidad": "promocion", "fechaAprobacion": "2025-11-28", "plan": "K08", "materiaOrigenK08": "Gestión de Datos (082030)", "modalidadOriginalK08": "Promoción Directa (Nota 10 · 28/11/2025)" },
+    { "id": "232020", "nombre": "Desarrollo de Software", "nota": null, "modalidad": "equivalencia_k08", "fechaAprobacion": "2026-03-02", "plan": "K08", "materiaOrigenK08": "Desarrollo de Software (232031)", "modalidadOriginalK08": "Equivalencia Aprobada (02/03/2026)" },
+    { "id": "232033", "nombre": "Análisis Numérico", "nota": 8, "modalidad": "equivalencia_k08", "fechaAprobacion": "2026-02-24", "plan": "K08", "materiaOrigenK08": "Matemática Superior (082032)", "modalidadOriginalK08": "Examen Final (Nota 8 · 16/12/2025)" },
+    { "id": "232034", "nombre": "Diseño de Sistemas de Información", "nota": 8, "modalidad": "promocion", "fechaAprobacion": "2024-12-02", "plan": "K08", "materiaOrigenK08": "Diseño de Sistemas (082028)", "modalidadOriginalK08": "Promoción Directa (Nota 8 · 02/12/2024)" },
+    { "id": "082117", "nombre": "Gestión del Talento Humano", "nota": 10, "modalidad": "promocion", "fechaAprobacion": "2025-11-28", "plan": "K08", "materiaOrigenK08": "Gestión del Talento Humano (082117)", "modalidadOriginalK08": "Promoción Directa (Nota 10 · 28/11/2025)" },
+    { "id": "082102", "nombre": "Transformación Digital", "nota": 9, "modalidad": "promocion", "fechaAprobacion": "2025-11-28", "plan": "K08", "materiaOrigenK08": "Transformación Digital (082102)", "modalidadOriginalK08": "Promoción Directa (Nota 9 · 28/11/2025)" },
+    { "id": "082091", "nombre": "Química Ambiental (← Química K08)", "nota": null, "modalidad": "equivalencia_k08", "fechaAprobacion": "2026-02-24", "origenK08": "Química (081420)", "plan": "K08", "descripcionEquivalencia": "Materia aprobada en Plan K08 reconocida como Optativa Electiva por Res. 3120/22." },
+    { "id": "082092", "nombre": "Comunicación Gráfica y Visual (← Sistemas de Representación K08)", "nota": 9, "modalidad": "equivalencia_k08", "fechaAprobacion": "2026-02-24", "origenK08": "Sistemas de Representación (951601)", "plan": "K08", "descripcionEquivalencia": "Promoción con Nota 9 (01/02/2021) reconocida como Optativa Electiva en Plan K23." }
+  ],
+  "materiasEnCurso": [
+    {
+      "id": "232032",
+      "nombre": "Comunicación de Datos",
+      "comision": "K3055",
+      "anual": false,
+      "cuatrimestre": "2026-1C",
+      "plan": "K23",
+      "configuracionEvaluacion": { "cantidadParciales": 2, "cantidadTPs": 0 },
+      "evaluaciones": {
+        "parciales": [
+          { "instancia": "1er Parcial", "nota": null, "fecha": null },
+          { "instancia": "2do Parcial", "nota": null, "fecha": null }
+        ],
+        "tps": [],
+        "final": { "nota": null, "fecha": null },
+        "estadoCalculado": "en_curso"
+      }
+    },
+    {
+      "id": "232045",
+      "nombre": "Administración de Sistemas de Información",
+      "comision": "K4053",
+      "anual": true,
+      "cuatrimestre": "2026-Anual",
+      "plan": "K23",
+      "configuracionEvaluacion": { "cantidadParciales": 2, "cantidadTPs": 0 },
+      "evaluaciones": {
+        "parciales": [
+          { "instancia": "1er Parcial", "nota": null, "fecha": null },
+          { "instancia": "2do Parcial", "nota": null, "fecha": null }
+        ],
+        "tps": [],
+        "final": { "nota": null, "fecha": null },
+        "estadoCalculado": "en_curso"
+      }
+    }
+  ],
+  "historialSIU": [
+    { "materiaId": "232002", "actividad": "Álgebra y Geometría Analítica (950701)", "fecha": "2019-04-12", "tipo": "Regularidad", "nota": null, "resultado": "Reprobado" },
+    { "materiaId": "232002", "actividad": "Álgebra y Geometría Analítica (950701)", "fecha": "2020-07-27", "tipo": "Regularidad", "nota": null, "resultado": "Aprobado" },
+    { "materiaId": "232002", "actividad": "Álgebra y Geometría Analítica (950701)", "fecha": "2021-02-09", "tipo": "Examen", "nota": 1, "resultado": "Reprobado" },
+    { "materiaId": "232002", "actividad": "Álgebra y Geometría Analítica (950701)", "fecha": "2021-02-23", "tipo": "Examen", "nota": null, "resultado": "Ausente" },
+    { "materiaId": "232002", "actividad": "Álgebra y Geometría Analítica (950701)", "fecha": "2021-08-03", "tipo": "Examen", "nota": 4, "resultado": "Reprobado" },
+    { "materiaId": "232002", "actividad": "Álgebra y Geometría Analítica (950701)", "fecha": "2025-02-25", "tipo": "Examen", "nota": null, "resultado": "Ausente" },
+    { "materiaId": "232002", "actividad": "Álgebra y Geometría Analítica (950701)", "fecha": "2025-05-20", "tipo": "Examen", "nota": null, "resultado": "Ausente" },
+    { "materiaId": "232002", "actividad": "Álgebra y Geometría Analítica (950701)", "fecha": "2025-07-29", "tipo": "Examen", "nota": 9, "resultado": "Aprobado" },
+    { "materiaId": "232018", "actividad": "Economía (950309)", "fecha": "2022-12-07", "tipo": "Regularidad", "nota": 6, "resultado": "Aprobado" },
+    { "materiaId": "232018", "actividad": "Economía (950309)", "fecha": "2024-08-01", "tipo": "Examen", "nota": 1, "resultado": "Reprobado" },
+    { "materiaId": "232018", "actividad": "Economía (950309)", "fecha": "2025-09-26", "tipo": "Examen", "nota": 4, "resultado": "Reprobado" },
+    { "materiaId": "232018", "actividad": "Economía (950309)", "fecha": "2025-12-09", "tipo": "Examen", "nota": 7, "resultado": "Aprobado" },
+    { "materiaId": "082027", "actividad": "Sistemas Operativos (082027)", "fecha": "2024-07-12", "tipo": "Regularidad", "nota": 6, "resultado": "Aprobado" },
+    { "materiaId": "082027", "actividad": "Sistemas Operativos (082027)", "fecha": "2024-10-09", "tipo": "Examen", "nota": null, "resultado": "Ausente" },
+    { "materiaId": "082027", "actividad": "Sistemas Operativos (082027)", "fecha": "2024-12-10", "tipo": "Examen", "nota": 7, "resultado": "Aprobado" }
+  ],
+  "planificacion": {
+    "2026": {
+      "1c": {
+        "alternativaElegida": 0,
+        "alternativas": [
+          {
+            "nombre": "Única",
+            "hasSat": false,
+            "eventos": [
+              { "day": 0, "cls": "si", "name": "Seminario Integrador", "h1": 19, "m1": 0, "h2": 22, "m2": 15, "k": "K4061", "url": "materias/seminario-integrador/index.html", "plan": "K23" },
+              { "day": 1, "cls": "cd", "name": "Comunicación de Datos", "h1": 19, "m1": 0, "h2": 21, "m2": 30, "k": "K3055", "url": "materias/comunicacion-datos/index.html", "plan": "K23" },
+              { "day": 2, "cls": "si", "name": "Seminario Integrador", "h1": 19, "m1": 0, "h2": 22, "m2": 15, "k": "K4061", "url": "materias/seminario-integrador/index.html", "plan": "K23" },
+              { "day": 3, "cls": "asi", "name": "Administración de Sistemas de Información", "h1": 18, "m1": 15, "h2": 23, "m2": 0, "k": "K4053", "anual": true, "url": "materias/administracion-sistemas/index.html", "plan": "K23" },
+              { "day": 4, "cls": "cd", "name": "Comunicación de Datos", "h1": 19, "m1": 0, "h2": 23, "m2": 0, "k": "K3055", "url": "materias/comunicacion-datos/index.html", "plan": "K23" }
+            ]
+          }
+        ]
+      },
+      "2c": {
+        "alternativaElegida": 0,
+        "alternativas": [
+          {
+            "nombre": "Alternativa 1 (Recomendada · Medrano)",
+            "hasSat": true,
+            "eventos": [
+              { "day": 0, "cls": "ics", "name": "Ingeniería y Calidad de Software", "h1": 18, "m1": 15, "h2": 23, "m2": 0, "k": "K4052 · Medrano", "plan": "K23" },
+              { "day": 1, "cls": "io", "name": "Investigación Operativa", "h1": 18, "m1": 15, "h2": 23, "m2": 0, "k": "K4051 · Medrano", "plan": "K23" },
+              { "day": 2, "cls": "leg", "name": "Legislación", "h1": 19, "m1": 0, "h2": 22, "m2": 15, "k": "Z4055 · Medrano", "plan": "K23" },
+              { "day": 3, "cls": "asi", "name": "Administración de Sistemas de Información", "h1": 18, "m1": 15, "h2": 23, "m2": 0, "k": "K4053", "anual": true, "url": "materias/administracion-sistemas/index.html", "plan": "K23" },
+              { "day": 4, "cls": "ta", "name": "Tecnologías para la Automatización", "h1": 18, "m1": 15, "h2": 23, "m2": 0, "k": "K4055 · Medrano", "plan": "K23" },
+              { "day": 5, "cls": "io", "name": "Investigación Operativa", "h1": 13, "m1": 30, "h2": 15, "m2": 0, "k": "K4051 · Sáb", "plan": "K23" }
+            ]
+          },
+          {
+            "nombre": "Alternativa 2 (Alternativa Medrano / Campus)",
+            "hasSat": true,
+            "eventos": [
+              { "day": 0, "cls": "ics", "name": "Ingeniería y Calidad de Software", "h1": 18, "m1": 15, "h2": 23, "m2": 0, "k": "K4052 · Medrano", "plan": "K23" },
+              { "day": 1, "cls": "ta", "name": "Tecnologías para la Automatización", "h1": 18, "m1": 15, "h2": 23, "m2": 0, "k": "K4051 · Medrano", "plan": "K23" },
+              { "day": 2, "cls": "io", "name": "Investigación Operativa", "h1": 18, "m1": 15, "h2": 23, "m2": 0, "k": "K4052 · Medrano", "plan": "K23" },
+              { "day": 3, "cls": "asi", "name": "Administración de Sistemas de Información", "h1": 18, "m1": 15, "h2": 23, "m2": 0, "k": "K4053", "anual": true, "url": "materias/administracion-sistemas/index.html", "plan": "K23" },
+              { "day": 4, "cls": "leg", "name": "Legislación", "h1": 19, "m1": 0, "h2": 22, "m2": 15, "k": "Z4053 · Campus", "campus": true, "plan": "K23" },
+              { "day": 5, "cls": "io", "name": "Investigación Operativa", "h1": 13, "m1": 30, "h2": 15, "m2": 0, "k": "K4052 · Sáb", "plan": "K23" }
+            ]
+          },
+          {
+            "nombre": "Alternativa 3 (Alternativa Campus / Medrano)",
+            "hasSat": true,
+            "eventos": [
+              { "day": 0, "cls": "leg", "name": "Legislación", "h1": 19, "m1": 0, "h2": 22, "m2": 15, "k": "Z4051 · Campus", "campus": true, "plan": "K23" },
+              { "day": 1, "cls": "ics", "name": "Ingeniería y Calidad de Software", "h1": 18, "m1": 15, "h2": 23, "m2": 0, "k": "K4153 · Medrano", "plan": "K23" },
+              { "day": 2, "cls": "io", "name": "Investigación Operativa", "h1": 18, "m1": 15, "h2": 23, "m2": 0, "k": "K4052 · Medrano", "plan": "K23" },
+              { "day": 3, "cls": "asi", "name": "Administración de Sistemas de Información", "h1": 18, "m1": 15, "h2": 23, "m2": 0, "k": "K4053", "anual": true, "url": "materias/administracion-sistemas/index.html", "plan": "K23" },
+              { "day": 4, "cls": "ta", "name": "Tecnologías para la Automatización", "h1": 18, "m1": 15, "h2": 23, "m2": 0, "k": "K4055 · Medrano", "plan": "K23" },
+              { "day": 5, "cls": "io", "name": "Investigación Operativa", "h1": 13, "m1": 30, "h2": 15, "m2": 0, "k": "K4052 · Sáb", "plan": "K23" }
+            ]
+          }
+        ]
+      }
+    },
+    "2027": {
+      "1c": {
+        "alternativaElegida": 0,
+        "alternativas": [
+          {
+            "nombre": "Plan 2027 · 1C",
+            "hasSat": false,
+            "eventos": [
+              { "day": 0, "cls": "sim", "name": "Simulación", "h1": 18, "m1": 15, "h2": 23, "m2": 0, "k": "N4", "plan": "K23" },
+              { "day": 1, "cls": "rd", "name": "Redes de Datos", "h1": 19, "m1": 0, "h2": 22, "m2": 15, "k": "N4", "plan": "K23" },
+              { "day": 2, "cls": "ai", "name": "Inteligencia Artificial", "h1": 18, "m1": 15, "h2": 23, "m2": 0, "k": "N5", "plan": "K23" },
+              { "day": 3, "cls": "rd", "name": "Redes de Datos", "h1": 19, "m1": 0, "h2": 22, "m2": 15, "k": "N4", "plan": "K23" },
+              { "day": 4, "cls": "cri", "name": "Criptografía", "h1": 18, "m1": 15, "h2": 23, "m2": 0, "k": "Elect. N4", "plan": "K23" }
+            ]
+          }
+        ]
+      },
+      "2c": {
+        "alternativaElegida": 0,
+        "alternativas": [
+          {
+            "nombre": "Plan 2027 · 2C",
+            "hasSat": false,
+            "eventos": [
+              { "day": 0, "cls": "cdat", "name": "Ciencia de Datos", "h1": 18, "m1": 15, "h2": 23, "m2": 0, "k": "N5", "plan": "K23" },
+              { "day": 1, "cls": "sge", "name": "Sistemas de Gestión", "h1": 18, "m1": 15, "h2": 23, "m2": 0, "k": "N5", "plan": "K23" },
+              { "day": 2, "cls": "gge", "name": "Gestión Gerencial", "h1": 19, "m1": 0, "h2": 22, "m2": 15, "k": "N5", "plan": "K23" },
+              { "day": 3, "cls": "iot", "name": "UX / Accesibilidad", "h1": 18, "m1": 15, "h2": 23, "m2": 0, "k": "Elect. N4", "plan": "K23" },
+              { "day": 4, "cls": "arc", "name": "Arq. Concurrentes", "h1": 18, "m1": 15, "h2": 23, "m2": 0, "k": "Elect. N5", "plan": "K23" }
+            ]
+          }
+        ]
+      }
+    },
+    "2028": {
+      "1c": {
+        "alternativaElegida": 0,
+        "alternativas": [
+          {
+            "nombre": "Plan 2028 · 1C",
+            "hasSat": false,
+            "eventos": [
+              { "day": 0, "cls": "pf", "name": "Proyecto Final", "h1": 19, "m1": 0, "h2": 22, "m2": 15, "k": "N5 ANUAL", "anual": true, "plan": "K23" },
+              { "day": 1, "cls": "seg", "name": "Seguridad en Sistemas", "h1": 18, "m1": 15, "h2": 23, "m2": 0, "k": "N5", "plan": "K23" },
+              { "day": 2, "cls": "pf", "name": "Proyecto Final", "h1": 19, "m1": 0, "h2": 22, "m2": 15, "k": "N5 ANUAL", "anual": true, "plan": "K23" },
+              { "day": 3, "cls": "aud", "name": "NoSQL / Big Data", "h1": 18, "m1": 15, "h2": 23, "m2": 0, "k": "Elect. N5", "plan": "K23" },
+              { "day": 4, "cls": "sgi", "name": "IA Generativa", "h1": 18, "m1": 15, "h2": 23, "m2": 0, "k": "Elect. N5", "plan": "K23" }
+            ]
+          }
+        ]
+      },
+      "2c": {
+        "alternativaElegida": 0,
+        "alternativas": [
+          {
+            "nombre": "Plan 2028 · 2C",
+            "hasSat": false,
+            "eventos": [
+              { "day": 0, "cls": "pf", "name": "Proyecto Final", "h1": 19, "m1": 0, "h2": 22, "m2": 15, "k": "N5 ANUAL", "anual": true, "plan": "K23" },
+              { "day": 1, "cls": "cav", "name": "Machine Learning", "h1": 18, "m1": 15, "h2": 23, "m2": 0, "k": "Elect. N5", "plan": "K23" },
+              { "day": 2, "cls": "pf", "name": "Proyecto Final", "h1": 19, "m1": 0, "h2": 22, "m2": 15, "k": "N5 ANUAL", "anual": true, "plan": "K23" },
+              { "day": 3, "cls": "bio", "name": "Bioinformática", "h1": 18, "m1": 15, "h2": 23, "m2": 0, "k": "Elect. N5", "plan": "K23" }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "configuracion": {
+    "temaOscuro": true,
+    "ultimaActualizacion": "2026-08-11"
+  }
+}
