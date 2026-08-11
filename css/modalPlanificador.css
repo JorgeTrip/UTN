@@ -84,6 +84,44 @@
   box-shadow: 0 2px 10px rgba(56, 189, 248, 0.2);
 }
 
+/* Insignia y botón de selección de alternativa elegida/definitiva */
+.badge-alt-elegida {
+  background: rgba(34, 211, 164, 0.15);
+  border: 1px solid rgba(34, 211, 164, 0.4);
+  color: var(--asi);
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-seleccionar-alt {
+  background: rgba(250, 204, 21, 0.1);
+  border: 1px solid rgba(250, 204, 21, 0.3);
+  color: #fde68a;
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-seleccionar-alt:hover {
+  background: rgba(250, 204, 21, 0.25);
+  border-color: #fde68a;
+  color: #ffffff;
+  box-shadow: 0 2px 10px rgba(250, 204, 21, 0.2);
+}
+
 /* Indicador de columna interactiva */
 .day-col {
   cursor: pointer;

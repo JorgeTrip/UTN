@@ -24,6 +24,7 @@ function renderizarPlanificadorCompleto() {
 
   const mesActual = new Date().getMonth() + 1;
   const esSegundoCuatrimestre = mesActual >= 7;
+  const altElegida2026q2 = (typeof obtenerAlternativaElegida === 'function') ? obtenerAlternativaElegida('2026', '2c') : 0;
 
   contenedor.innerHTML = `
     <div class="sub-tab-bar">
@@ -59,28 +60,31 @@ function renderizarPlanificadorCompleto() {
         <div class="main-panel ${esSegundoCuatrimestre ? 'active' : ''}">
           <div class="plan-sub-tab-bar" id="mp2026q2">
             <div class="plan-sub-tab-inner">
-              <button class="plan-sub-tab rec active" onclick="planSubTabIn('mp2026q2',0)">Alt 1 (Recomendada · N4)</button>
-              <button class="plan-sub-tab" onclick="planSubTabIn('mp2026q2',1)">Alt 2 (Balanceada · N4)</button>
-              <button class="plan-sub-tab" onclick="planSubTabIn('mp2026q2',2)">Alt 3 (Intensiva N4/N5)</button>
+              <button class="plan-sub-tab rec ${altElegida2026q2 === 0 ? 'active' : ''}" onclick="planSubTabIn('mp2026q2',0)">Alt 1 (Recomendada · N4)${altElegida2026q2 === 0 ? ' 🏆' : ''}</button>
+              <button class="plan-sub-tab ${altElegida2026q2 === 1 ? 'active' : ''}" onclick="planSubTabIn('mp2026q2',1)">Alt 2 (Balanceada · N4)${altElegida2026q2 === 1 ? ' 🏆' : ''}</button>
+              <button class="plan-sub-tab ${altElegida2026q2 === 2 ? 'active' : ''}" onclick="planSubTabIn('mp2026q2',2)">Alt 3 (Intensiva N4/N5)${altElegida2026q2 === 2 ? ' 🏆' : ''}</button>
             </div>
             <!-- Alt 1 -->
-            <div class="plan-sub-panel active">
-              <div style="display:flex;justify-content:flex-start;margin:10px 0 8px;">
+            <div class="plan-sub-panel ${altElegida2026q2 === 0 ? 'active' : ''}">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin:10px 0 8px;">
                 <button class="btn-ubicar-materia" onclick="abrirModalUbicarMateria('2026', '2c', 0)">📌 + Ubicar Materia</button>
+                ${altElegida2026q2 === 0 ? '<span class="badge-alt-elegida">🏆 Alternativa Asignada (Definitiva)</span>' : '<button class="btn-seleccionar-alt" onclick="seleccionarAlternativaDefinitiva(\'2026\', \'2c\', 0)">⭐ Definir como Asignada</button>'}
               </div>
               <div class="cal-outer"><div class="cal-head" style="grid-template-columns:48px repeat(6,1fr)"><div class="cal-head-cell"></div><div class="cal-head-cell lit">LUN</div><div class="cal-head-cell lit">MAR</div><div class="cal-head-cell lit">MIÉ</div><div class="cal-head-cell lit">JUE</div><div class="cal-head-cell lit">VIE</div><div class="cal-head-cell lit">SÁB</div></div><div class="cal-body" id="q2a1body" style="grid-template-columns:48px repeat(6,1fr)"></div></div>
             </div>
             <!-- Alt 2 -->
-            <div class="plan-sub-panel">
-              <div style="display:flex;justify-content:flex-start;margin:10px 0 8px;">
+            <div class="plan-sub-panel ${altElegida2026q2 === 1 ? 'active' : ''}">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin:10px 0 8px;">
                 <button class="btn-ubicar-materia" onclick="abrirModalUbicarMateria('2026', '2c', 1)">📌 + Ubicar Materia</button>
+                ${altElegida2026q2 === 1 ? '<span class="badge-alt-elegida">🏆 Alternativa Asignada (Definitiva)</span>' : '<button class="btn-seleccionar-alt" onclick="seleccionarAlternativaDefinitiva(\'2026\', \'2c\', 1)">⭐ Definir como Asignada</button>'}
               </div>
               <div class="cal-outer"><div class="cal-head" style="grid-template-columns:48px repeat(6,1fr)"><div class="cal-head-cell"></div><div class="cal-head-cell lit">LUN</div><div class="cal-head-cell lit">MAR</div><div class="cal-head-cell lit">MIÉ</div><div class="cal-head-cell lit">JUE</div><div class="cal-head-cell lit">VIE</div><div class="cal-head-cell lit">SÁB</div></div><div class="cal-body" id="q2a2body" style="grid-template-columns:48px repeat(6,1fr)"></div></div>
             </div>
             <!-- Alt 3 -->
-            <div class="plan-sub-panel">
-              <div style="display:flex;justify-content:flex-start;margin:10px 0 8px;">
+            <div class="plan-sub-panel ${altElegida2026q2 === 2 ? 'active' : ''}">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin:10px 0 8px;">
                 <button class="btn-ubicar-materia" onclick="abrirModalUbicarMateria('2026', '2c', 2)">📌 + Ubicar Materia</button>
+                ${altElegida2026q2 === 2 ? '<span class="badge-alt-elegida">🏆 Alternativa Asignada (Definitiva)</span>' : '<button class="btn-seleccionar-alt" onclick="seleccionarAlternativaDefinitiva(\'2026\', \'2c\', 2)">⭐ Definir como Asignada</button>'}
               </div>
               <div class="cal-outer"><div class="cal-head" style="grid-template-columns:48px repeat(6,1fr)"><div class="cal-head-cell"></div><div class="cal-head-cell lit">LUN</div><div class="cal-head-cell lit">MAR</div><div class="cal-head-cell lit">MIÉ</div><div class="cal-head-cell lit">JUE</div><div class="cal-head-cell lit">VIE</div><div class="cal-head-cell lit">SÁB</div></div><div class="cal-body" id="q2a3body" style="grid-template-columns:48px repeat(6,1fr)"></div></div>
             </div>

@@ -123,3 +123,42 @@ function mostrarToastPlanificador(mensaje, tipo = 'success') {
     toast.classList.remove('visible');
   }, 3200);
 }
+
+/**
+ * Obtiene el índice de la alternativa elegida para un año y cuatrimestre.
+ * @param {string} anio 
+ * @param {string} cuatrimestre 
+ * @returns {number} Índice de la alternativa elegida (0 por defecto).
+ */
+function obtenerAlternativaElegida(anio, cuatrimestre) {
+  const plan = obtenerPlanificacion();
+  return plan[anio]?.[cuatrimestre]?.alternativaElegida ?? 0;
+}
+
+/**
+ * Establece la alternativa elegida/asignada para un año y cuatrimestre.
+ * @param {string} anio - Ej. '2026'
+ * @param {string} cuatrimestre - Ej. '2c'
+ * @param {number} indiceAlternativa - Índice de la alternativa asignada
+ */
+function seleccionarAlternativaDefinitiva(anio, cuatrimestre, indiceAlternativa) {
+  const plan = obtenerPlanificacion();
+  if (!plan[anio]) plan[anio] = {};
+  if (!plan[anio][cuatrimestre]) {
+    plan[anio][cuatrimestre] = { alternativaElegida: 0, alternativas: [] };
+  }
+
+  plan[anio][cuatrimestre].alternativaElegida = Number(indiceAlternativa);
+
+  if (typeof guardarDatosAlumnoEnStorage === 'function') {
+    guardarDatosAlumnoEnStorage();
+  }
+
+  if (typeof renderizarPlanificadorCompleto === 'function') {
+    renderizarPlanificadorCompleto();
+  }
+
+  const alt = plan[anio][cuatrimestre].alternativas?.[indiceAlternativa];
+  const nombreAlt = alt?.nombre || `Alt ${indiceAlternativa + 1}`;
+  mostrarToastPlanificador(`🏆 Se seleccionó "${nombreAlt}" como la alternativa definitiva asignada.`);
+}
