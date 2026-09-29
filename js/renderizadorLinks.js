@@ -3,6 +3,9 @@
  * Pobla dinámicamente el panel de accesos directos e institucionales de la UTN FRBA directamente en sp0.
  */
 
+/**
+ * Renderiza la grilla de enlaces institucionales y herramientas clave de la UTN FRBA.
+ */
 function renderizarLinksUtiles() {
   const contenedor = document.getElementById('sp0');
   if (!contenedor) return;
@@ -87,5 +90,6 @@ function renderizarLinksUtiles() {
     </div>
   `;
 
-  contenedor.innerHTML = html;
+  contenedor.replaceChildren();
+  contenedor.insertAdjacentHTML('beforeend', html);
 }

@@ -1,8 +1,12 @@
 /**
- * Módulo de Gestión de Datos del Alumno (Importación / Exportación / Modificación)
- * Permite descargar y cargar la información personal y calificaciones en formato JSON.
+ * Módulo de Gestión de Datos del Alumno (Importación / Exportación / Soberanía de Datos)
+ * Garantiza la portabilidad completa permitiendo descargar y cargar toda la información
+ * personal, académica y de planificación en formato JSON estándar.
  */
 
+/**
+ * Genera un archivo JSON con todos los datos del alumno y dispara su descarga automática.
+ */
 function exportarDatosAlumno() {
   const datos = window.datosGlobales.datosAlumno;
   if (!datos) return;
@@ -16,6 +20,10 @@ function exportarDatosAlumno() {
   URL.revokeObjectURL(url);
 }
 
+/**
+ * Lee un archivo JSON cargado por el usuario, valida su esquema básico y restaura el estado.
+ * @param {Event} evento - Evento 'change' del input type="file".
+ */
 function importarDatosAlumno(evento) {
   const archivo = evento.target.files[0];
   if (!archivo) return;

@@ -1,0 +1,90 @@
+/* ═══════════════════════════════════════════════════════════════
+   ESTILOS DE GRILLA DEL CALENDARIO Y PLANIFICADOR ACADÉMICO
+   Estructura general, cabeceras, líneas horarias y columnas.
+   ═══════════════════════════════════════════════════════════════ */
+
+.cal-outer {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--s1);
+}
+
+.cal-head {
+  display: grid;
+  background: var(--s2);
+  border-bottom: 1px solid var(--border);
+}
+
+.cal-head-cell {
+  padding: 10px 6px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.cal-head-cell:first-child {
+  border-right: 1px solid var(--border);
+}
+
+.cal-head-cell.lit {
+  color: var(--text);
+}
+
+.cal-body {
+  display: grid;
+  position: relative;
+}
+
+.time-col {
+  border-right: 1px solid var(--border);
+  position: relative;
+  background: var(--s1);
+}
+
+.tlabel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding-right: 6px;
+  text-align: right;
+  font-size: 9.5px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--muted);
+  transform: translateY(-6px);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.day-col {
+  position: relative;
+  border-right: 1px solid var(--border);
+  background: var(--s1);
+}
+
+.day-col:last-child {
+  border-right: none;
+}
+
+.day-col.sat {
+  background: rgba(11, 13, 22, .8);
+}
+
+.hline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 1px solid var(--border);
+  z-index: 1;
+}
+
+.hline-half {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 1px dashed rgba(29, 34, 53, .9);
+  z-index: 1;
+}

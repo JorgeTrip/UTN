@@ -48,7 +48,7 @@
 .dropdown-item:hover { background: var(--s3); color: var(--blue); }
 .dropdown-divider { height: 1px; background: var(--border); margin: 6px 0; }
 
-/* Modal Overlay & Modal Window */
+/* Capa de fondo y ventana modal */
 .modal-overlay {
   position: fixed; inset: 0;
   background: rgba(4, 5, 9, 0.75);

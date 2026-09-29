@@ -1,11 +1,51 @@
 /**
  * Módulo Renderizador del Mapa Curricular (Super Panel 1 Sub Panel 1)
- * Renderiza dinámicamente el mapa de materias conectando las notas y el estado de cursada firmada.
+ * Renderiza dinámicamente la grilla curricular del Plan K23 evaluando en tiempo real
+ * las materias aprobadas, en curso o pendientes del estudiante (cero notas hardcodeadas).
  */
 
-function renderizadorMapaCurricular() {
-  renderizarMapaCurricular();
-}
+const CAT_MATERIAS_K23 = [
+  { nivel: 1, id: '232001', nombre: 'Análisis Matemático I', adusi: true },
+  { nivel: 1, id: '232002', nombre: 'Álgebra y Geometría Analítica', adusi: true },
+  { nivel: 1, id: '232003', nombre: 'Física I', adusi: true },
+  { nivel: 1, id: '232004', nombre: 'Inglés I', adusi: true },
+  { nivel: 1, id: '232010', nombre: 'Lógica y Estructuras Discretas', adusi: true },
+  { nivel: 1, id: '082021', nombre: 'Algoritmos y Estructuras de Datos', adusi: true },
+  { nivel: 1, id: '082022', nombre: 'Arquitectura de Computadoras', adusi: true },
+  { nivel: 1, id: '232011', nombre: 'Sistemas y Procesos de Negocio', adusi: true },
+
+  { nivel: 2, id: '232009', nombre: 'Análisis Matemático II', adusi: true },
+  { nivel: 2, id: '232010_f2', nombre: 'Física II', adusi: true },
+  { nivel: 2, id: '232011_is', nombre: 'Ingeniería y Sociedad', adusi: true },
+  { nivel: 2, id: '232012', nombre: 'Inglés II', adusi: true },
+  { nivel: 2, id: '082025', nombre: 'Sintaxis y Semántica de Lenguajes', adusi: true },
+  { nivel: 2, id: '082026', nombre: 'Paradigmas de Programación', adusi: true },
+  { nivel: 2, id: '082027', nombre: 'Sistemas Operativos', adusi: true },
+  { nivel: 2, id: '082024', nombre: 'Análisis de Sistemas de Info.', adusi: true },
+
+  { nivel: 3, id: '232017', nombre: 'Probabilidad y Estadística', adusi: true },
+  { nivel: 3, id: '232018', nombre: 'Economía', adusi: true },
+  { nivel: 3, id: '232030', nombre: 'Bases de Datos', adusi: true },
+  { nivel: 3, id: '232020', nombre: 'Desarrollo de Software', adusi: true },
+  { nivel: 3, id: '232032', nombre: 'Comunicación de Datos', adusi: true },
+  { nivel: 3, id: '232033', nombre: 'Análisis Numérico', adusi: true },
+  { nivel: 3, id: '232034', nombre: 'Diseño de Sistemas de Info.', adusi: true },
+  { nivel: 3, id: '082099', nombre: 'Seminario de Integración', adusi: true },
+
+  { nivel: 4, id: '232045', nombre: 'Adm. Sistemas de Información', adusi: false },
+  { nivel: 4, id: '232042', nombre: 'Legislación', adusi: false },
+  { nivel: 4, id: '232043', nombre: 'Ingeniería y Calidad de Software', adusi: false },
+  { nivel: 4, id: '232044', nombre: 'Tecnologías Automatización', adusi: false },
+  { nivel: 4, id: '232041', nombre: 'Redes de Datos', adusi: false },
+  { nivel: 4, id: '232040', nombre: 'Simulación', adusi: false },
+
+  { nivel: 5, id: '232051', nombre: 'Inteligencia Artificial', adusi: false },
+  { nivel: 5, id: '232052', nombre: 'Ciencia de Datos', adusi: false },
+  { nivel: 5, id: '232053', nombre: 'Sistemas de Gestión', adusi: false },
+  { nivel: 5, id: '232054', nombre: 'Gestión Gerencial', adusi: false },
+  { nivel: 5, id: '232055', nombre: 'Seguridad en los Sistemas', adusi: false },
+  { nivel: 5, id: '082037', nombre: 'Proyecto Final', adusi: false }
+];
 
 function renderizarMapaCurricular() {
   const contenedor = document.getElementById('sp1p1');
@@ -15,112 +55,73 @@ function renderizarMapaCurricular() {
   const aprobadas = datos.materiasAprobadas || [];
   const enCurso = datos.materiasEnCurso || [];
 
-  const getMateriaInfo = (id) => aprobadas.find(m => m.id === id) || enCurso.find(m => m.id === id);
+  const buscarMateria = (id) => aprobadas.find(m => m.id === id) || enCurso.find(m => m.id === id);
 
-  const getGradeBadge = (id, fallbackNota = '–', fallbackCls = 'ag-green') => {
-    const mat = getMateriaInfo(id);
-    if (!mat) return `<span class="acc-grade ag-muted">–</span>`;
-    if (mat.estado === 'firmada' || mat.modalidad === 'final_pendiente') {
-      return `<span class="acc-grade ag-blue" title="Cursada Firmada / Rinde Examen Final">✍️</span>`;
+  const renderizarTarjetaMateria = (matPlan) => {
+    const mat = buscarMateria(matPlan.id);
+    let claseEstado = 's-pe';
+    let insigniaNota = '<span class="acc-grade ag-muted">–</span>';
+    let badgeEstado = '<span class="acc-badge ab-pend">Pendiente</span>';
+    let detalle = 'Sin cursar';
+
+    if (mat) {
+      if (mat.estado === 'firmada') {
+        claseEstado = 's-pl';
+        insigniaNota = '<span class="acc-grade ag-blue">✍️</span>';
+        badgeEstado = '<span class="acc-badge ab-plan">Firmada / Rinde Final</span>';
+        detalle = 'Cursada regular aprobada';
+      } else if (enCurso.some(m => m.id === matPlan.id)) {
+        claseEstado = 's-pl';
+        insigniaNota = '<span class="acc-grade ag-blue">⏳</span>';
+        badgeEstado = '<span class="acc-badge ab-plan">En Curso</span>';
+        detalle = mat.cuatrimestre || 'Cursando ciclo actual';
+      } else {
+        claseEstado = 's-ap';
+        insigniaNota = `<span class="acc-grade ag-green">${mat.nota !== undefined && mat.nota !== null ? mat.nota : '✓'}</span>`;
+        badgeEstado = `<span class="acc-badge ab-promo">${mat.modalidad || 'Aprobada'}</span>`;
+        detalle = mat.materiaOrigenK08 ? `Equivalencia K08: ${mat.materiaOrigenK08}` : (mat.fechaAprobacion || 'Aprobada');
+      }
     }
-    if (mat.nota !== null && mat.nota !== undefined && mat.nota !== '') {
-      return `<span class="acc-grade ag-green">${mat.nota}</span>`;
-    }
-    if (mat.modalidad && (mat.modalidad.startsWith('equivalencia') || mat.modalidad === 'equivalencia')) {
-      return `<span class="acc-grade ag-equiv">✓</span>`;
-    }
-    if (enCurso.some(m => m.id === id)) {
-      return `<span class="acc-grade ag-blue">${fallbackNota}</span>`;
-    }
-    return `<span class="acc-grade ${fallbackCls}">${fallbackNota}</span>`;
-  };
 
-  contenedor.innerHTML = `
-    <div class="infobox" style="margin-bottom:16px;">
-      <strong>Mapa Curricular K23:</strong> Hacé clic en cualquier tarjeta para ver su desglose o presioná <strong>✏️ Editar</strong>.
-    </div>
-
-    <div class="map-legend">
-      <div class="ml-item"><span style="font-size:13px">🎓</span> Req. ADUSI</div>
-      <div class="ml-item"><div class="ml-box" style="border-color:var(--green);background:rgba(34,211,164,.05)"></div> Aprobada K23</div>
-      <div class="ml-item"><div class="ml-box" style="border-color:var(--blue);background:rgba(56,189,248,.05)"></div> En curso / Firmada (✍️)</div>
-      <div class="ml-item"><div class="ml-box" style="border-color:var(--yellow);background:rgba(250,204,21,.08)"></div> Homologada K08 → K23</div>
-      <div class="ml-item"><div class="ml-box" style="border-color:var(--pending-border);background:var(--pending-bg)"></div> Pendiente</div>
-    </div>
-
-    <div class="map-wrap">
-      <div class="map-grid">
-        <!-- NIVEL 1 -->
-        <div class="map-col">
-          <div class="map-lvl">Nivel 1 · 8/8 🎓</div>
-          <div class="acc-card s-ap" onclick="toggleAcc(this)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Análisis Matemático I <span class="badge-plan-k23">K23</span>🎓</div><div class="acc-badges"><span class="acc-badge ab-promo">Promoción K08</span></div></div>${getGradeBadge('232001', '8')}</div><div class="acc-body"><div class="acc-row"><span class="acc-row-lbl">Origen K08</span><span class="acc-row-val">AM I (950702)</span></div><div class="acc-row" style="border:none;justify-content:flex-end;margin-top:6px;"><button class="btn-sec" style="padding:3px 8px;font-size:11px;" onclick="abrirModalEditarMateria('232001', event)">✏️ Editar</button></div></div></div>
-          <div class="acc-card s-ap" onclick="toggleAcc(this)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Álgebra y Geometría Analítica <span class="badge-plan-k23">K23</span>🎓</div><div class="acc-badges"><span class="acc-badge ab-final">Final K08</span></div></div>${getGradeBadge('232002', '9')}</div><div class="acc-body"><div class="acc-row"><span class="acc-row-lbl">Origen K08</span><span class="acc-row-val">Álgebra (950701)</span></div><div class="acc-row" style="border:none;justify-content:flex-end;margin-top:6px;"><button class="btn-sec" style="padding:3px 8px;font-size:11px;" onclick="abrirModalEditarMateria('232002', event)">✏️ Editar</button></div></div></div>
-          <div class="acc-card s-ap" onclick="toggleAcc(this)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Física I <span class="badge-plan-k23">K23</span>🎓</div><div class="acc-badges"><span class="acc-badge ab-equiv">Equiv. Parcial + Tópicos</span></div></div>${getGradeBadge('232003', '✓')}</div><div class="acc-body"><div class="acc-row"><span class="acc-row-lbl">Origen</span><span class="acc-row-val">Pase Carrera Anterior + Tópicos</span></div><div class="acc-row" style="border:none;justify-content:flex-end;margin-top:6px;"><button class="btn-sec" style="padding:3px 8px;font-size:11px;" onclick="abrirModalEditarMateria('232003', event)">✏️ Editar</button></div></div></div>
-          <div class="acc-card s-ap" onclick="toggleAcc(this)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Inglés I <span class="badge-plan-k23">K23</span>🎓</div><div class="acc-badges"><span class="acc-badge ab-promo">Promoción K08</span></div></div>${getGradeBadge('232004', '10')}</div><div class="acc-body"><div class="acc-row"><span class="acc-row-lbl">Origen K08</span><span class="acc-row-val">Inglés Técnico I</span></div><div class="acc-row" style="border:none;justify-content:flex-end;margin-top:6px;"><button class="btn-sec" style="padding:3px 8px;font-size:11px;" onclick="abrirModalEditarMateria('232004', event)">✏️ Editar</button></div></div></div>
-          <div class="acc-card s-ap" onclick="toggleAcc(this)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Lógica y Estructuras Discretas <span class="badge-plan-k23">K23</span>🎓</div><div class="acc-badges"><span class="acc-badge ab-promo">Promoción K08</span></div></div>${getGradeBadge('232010', '9')}</div><div class="acc-body"><div class="acc-row"><span class="acc-row-lbl">Origen K08</span><span class="acc-row-val">Matemática Discreta</span></div><div class="acc-row" style="border:none;justify-content:flex-end;margin-top:6px;"><button class="btn-sec" style="padding:3px 8px;font-size:11px;" onclick="abrirModalEditarMateria('232010', event)">✏️ Editar</button></div></div></div>
-          <div class="acc-card s-ap" onclick="toggleAcc(this)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Algoritmos y Estructuras de Datos <span class="badge-plan-k23">K23</span>🎓</div><div class="acc-badges"><span class="acc-badge ab-promo">Promoción K08</span></div></div>${getGradeBadge('082021', '10')}</div><div class="acc-body"><div class="acc-row"><span class="acc-row-lbl">Origen K08</span><span class="acc-row-val">Algoritmos (082021)</span></div><div class="acc-row" style="border:none;justify-content:flex-end;margin-top:6px;"><button class="btn-sec" style="padding:3px 8px;font-size:11px;" onclick="abrirModalEditarMateria('082021', event)">✏️ Editar</button></div></div></div>
-          <div class="acc-card s-ap" onclick="toggleAcc(this)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Arquitectura de Computadoras <span class="badge-plan-k23">K23</span>🎓</div><div class="acc-badges"><span class="acc-badge ab-promo">Promoción K08</span></div></div>${getGradeBadge('082022', '8')}</div><div class="acc-body"><div class="acc-row"><span class="acc-row-lbl">Origen K08</span><span class="acc-row-val">Arquitectura de Computadores</span></div><div class="acc-row" style="border:none;justify-content:flex-end;margin-top:6px;"><button class="btn-sec" style="padding:3px 8px;font-size:11px;" onclick="abrirModalEditarMateria('082022', event)">✏️ Editar</button></div></div></div>
-          <div class="acc-card s-ap" onclick="toggleAcc(this)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Sistemas y Procesos de Negocio <span class="badge-plan-k23">K23</span>🎓</div><div class="acc-badges"><span class="acc-badge ab-promo">Promoción K08</span></div></div>${getGradeBadge('232011', '8')}</div><div class="acc-body"><div class="acc-row"><span class="acc-row-lbl">Origen K08</span><span class="acc-row-val">Sistemas y Orgs.</span></div><div class="acc-row" style="border:none;justify-content:flex-end;margin-top:6px;"><button class="btn-sec" style="padding:3px 8px;font-size:11px;" onclick="abrirModalEditarMateria('232011', event)">✏️ Editar</button></div></div></div>
+    return `
+      <div class="acc-card ${claseEstado}" onclick="toggleAcc(this)">
+        <div class="acc-header">
+          <span class="acc-chevron">▶</span>
+          <div style="flex:1">
+            <div class="acc-name">${matPlan.nombre} <span class="badge-plan-k23">K23</span> ${matPlan.adusi ? '🎓' : ''}</div>
+            <div class="acc-badges">${badgeEstado}</div>
+          </div>
+          ${insigniaNota}
         </div>
-
-        <!-- NIVEL 2 -->
-        <div class="map-col">
-          <div class="map-lvl">Nivel 2 · 8/8 🎓</div>
-          <div class="acc-card s-ap" onclick="toggleAcc(this)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Análisis Matemático II <span class="badge-plan-k23">K23</span></div><div class="acc-badges"><span class="acc-badge ab-promo">Promoción K08</span></div></div>${getGradeBadge('232009', '9')}</div><div class="acc-body"><div class="acc-row"><span class="acc-row-lbl">Origen K08</span><span class="acc-row-val">AM II</span></div><div class="acc-row" style="border:none;justify-content:flex-end;margin-top:6px;"><button class="btn-sec" style="padding:3px 8px;font-size:11px;" onclick="abrirModalEditarMateria('232009', event)">✏️ Editar</button></div></div></div>
-          <div class="acc-card s-ap" onclick="toggleAcc(this)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Física II <span class="badge-plan-k23">K23</span></div><div class="acc-badges"><span class="acc-badge ab-promo">Promoción K08</span></div></div>${getGradeBadge('232010_f2', '9')}</div><div class="acc-body"><div class="acc-row"><span class="acc-row-lbl">Origen K08</span><span class="acc-row-val">Física II</span></div><div class="acc-row" style="border:none;justify-content:flex-end;margin-top:6px;"><button class="btn-sec" style="padding:3px 8px;font-size:11px;" onclick="abrirModalEditarMateria('232010_f2', event)">✏️ Editar</button></div></div></div>
-          <div class="acc-card s-ap" onclick="toggleAcc(this)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Ingeniería y Sociedad <span class="badge-plan-k23">K23</span></div><div class="acc-badges"><span class="acc-badge ab-equiv">Homologada K08</span></div></div>${getGradeBadge('232011_is', '✓')}</div><div class="acc-body"><div class="acc-row"><span class="acc-row-lbl">Origen K08</span><span class="acc-row-val">Ingeniería y Sociedad</span></div><div class="acc-row" style="border:none;justify-content:flex-end;margin-top:6px;"><button class="btn-sec" style="padding:3px 8px;font-size:11px;" onclick="abrirModalEditarMateria('232011_is', event)">✏️ Editar</button></div></div></div>
-          <div class="acc-card s-ap" onclick="toggleAcc(this)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Inglés II <span class="badge-plan-k23">K23</span></div><div class="acc-badges"><span class="acc-badge ab-promo">Promoción K08</span></div></div>${getGradeBadge('232012', '9')}</div><div class="acc-body"><div class="acc-row"><span class="acc-row-lbl">Origen K08</span><span class="acc-row-val">Inglés Técnico II</span></div><div class="acc-row" style="border:none;justify-content:flex-end;margin-top:6px;"><button class="btn-sec" style="padding:3px 8px;font-size:11px;" onclick="abrirModalEditarMateria('232012', event)">✏️ Editar</button></div></div></div>
-          <div class="acc-card s-ap" onclick="toggleAcc(this)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Sintaxis y Semántica de Lenguajes <span class="badge-plan-k23">K23</span></div><div class="acc-badges"><span class="acc-badge ab-promo">Promoción K08</span></div></div>${getGradeBadge('082025', '8')}</div><div class="acc-body"><div class="acc-row"><span class="acc-row-lbl">Origen K08</span><span class="acc-row-val">Sintaxis y Semántica</span></div><div class="acc-row" style="border:none;justify-content:flex-end;margin-top:6px;"><button class="btn-sec" style="padding:3px 8px;font-size:11px;" onclick="abrirModalEditarMateria('082025', event)">✏️ Editar</button></div></div></div>
-          <div class="acc-card s-ap" onclick="toggleAcc(this)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Paradigmas de Programación <span class="badge-plan-k23">K23</span></div><div class="acc-badges"><span class="acc-badge ab-promo">Promoción K08</span></div></div>${getGradeBadge('082026', '8')}</div><div class="acc-body"><div class="acc-row"><span class="acc-row-lbl">Origen K08</span><span class="acc-row-val">Paradigmas de Programación</span></div><div class="acc-row" style="border:none;justify-content:flex-end;margin-top:6px;"><button class="btn-sec" style="padding:3px 8px;font-size:11px;" onclick="abrirModalEditarMateria('082026', event)">✏️ Editar</button></div></div></div>
-          <div class="acc-card s-ap" onclick="toggleAcc(this)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Sistemas Operativos <span class="badge-plan-k23">K23</span></div><div class="acc-badges"><span class="acc-badge ab-final">Final K08</span></div></div>${getGradeBadge('082027', '7')}</div><div class="acc-body"><div class="acc-row"><span class="acc-row-lbl">Origen K08</span><span class="acc-row-val">Sistemas Operativos</span></div><div class="acc-row" style="border:none;justify-content:flex-end;margin-top:6px;"><button class="btn-sec" style="padding:3px 8px;font-size:11px;" onclick="abrirModalEditarMateria('082027', event)">✏️ Editar</button></div></div></div>
-          <div class="acc-card s-ap" onclick="toggleAcc(this)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Análisis de Sistemas de Info. <span class="badge-plan-k23">K23</span>🎓</div><div class="acc-badges"><span class="acc-badge ab-promo">Promoción K08</span></div></div>${getGradeBadge('082024', '9')}</div><div class="acc-body"><div class="acc-row"><span class="acc-row-lbl">Origen K08</span><span class="acc-row-val">Análisis de Sistemas</span></div><div class="acc-row" style="border:none;justify-content:flex-end;margin-top:6px;"><button class="btn-sec" style="padding:3px 8px;font-size:11px;" onclick="abrirModalEditarMateria('082024', event)">✏️ Editar</button></div></div></div>
-        </div>
-
-        <!-- NIVEL 3 + BLOQUE COMBINADO 3er/4to NIVEL -->
-        <div class="map-col">
-          <div class="map-lvl">Nivel 3 · 8/8 🎓 + Electivas</div>
-          <div class="acc-card s-ap" onclick="toggleAcc(this)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Probabilidad y Estadística <span class="badge-plan-k23">K23</span></div><div class="acc-badges"><span class="acc-badge ab-promo">Promoción K08</span></div></div>${getGradeBadge('232017', '9')}</div><div class="acc-body"><div class="acc-row"><span class="acc-row-lbl">Origen K08</span><span class="acc-row-val">Probabilidades y Estadísticas</span></div><div class="acc-row" style="border:none;justify-content:flex-end;margin-top:6px;"><button class="btn-sec" style="padding:3px 8px;font-size:11px;" onclick="abrirModalEditarMateria('232017', event)">✏️ Editar</button></div></div></div>
-          <div class="acc-card s-ap" onclick="toggleAcc(this)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Economía <span class="badge-plan-k23">K23</span></div><div class="acc-badges"><span class="acc-badge ab-final">Final K08</span></div></div>${getGradeBadge('232018', '7')}</div><div class="acc-body"><div class="acc-row"><span class="acc-row-lbl">Origen K08</span><span class="acc-row-val">Economía</span></div><div class="acc-row" style="border:none;justify-content:flex-end;margin-top:6px;"><button class="btn-sec" style="padding:3px 8px;font-size:11px;" onclick="abrirModalEditarMateria('232018', event)">✏️ Editar</button></div></div></div>
-          <div class="acc-card s-ap" onclick="toggleAcc(this)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Bases de Datos <span class="badge-plan-k23">K23</span>🎓</div><div class="acc-badges"><span class="acc-badge ab-promo">Promoción K08</span></div></div>${getGradeBadge('232030', '10')}</div><div class="acc-body"><div class="acc-row"><span class="acc-row-lbl">Origen K08</span><span class="acc-row-val">Gestión de Datos</span></div><div class="acc-row" style="border:none;justify-content:flex-end;margin-top:6px;"><button class="btn-sec" style="padding:3px 8px;font-size:11px;" onclick="abrirModalEditarMateria('232030', event)">✏️ Editar</button></div></div></div>
-          <div class="acc-card s-ap" onclick="toggleAcc(this)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Desarrollo de Software <span class="badge-plan-k23">K23</span>🎓</div><div class="acc-badges"><span class="acc-badge ab-plan">Directo K23</span></div></div>${getGradeBadge('232020', '✓')}</div><div class="acc-body"><div class="acc-row"><span class="acc-row-lbl">Plan de Cursado</span><span class="acc-row-val">Plan K23 (Acreditada 02/03/2026)</span></div><div class="acc-row" style="border:none;justify-content:flex-end;margin-top:6px;"><button class="btn-sec" style="padding:3px 8px;font-size:11px;" onclick="abrirModalEditarMateria('232020', event)">✏️ Editar</button></div></div></div>
-          <div class="acc-card s-pl" onclick="toggleAcc(this)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Comunicación de Datos <span class="badge-plan-k23">K23</span>🎓</div><div class="acc-badges"><span class="acc-badge ab-plan">Directo K23</span></div></div>${getGradeBadge('232032', '1C', 'ag-blue')}</div><div class="acc-body"><div class="acc-row"><span class="acc-row-lbl">Plan de Cursado</span><span class="acc-row-val">Plan K23 (En curso 1C 2026)</span></div><div class="acc-row" style="border:none;justify-content:flex-end;margin-top:6px;"><button class="btn-pri" style="padding:3px 8px;font-size:11px;margin-right:6px;background:var(--blue);color:#000;border:none;border-radius:4px;cursor:pointer;font-weight:600;" onclick="abrirMateria('materias/comunicacion-datos/index.html', 'Comunicación de Datos'); event.stopPropagation();">🔗 Ver Página</button><button class="btn-sec" style="padding:3px 8px;font-size:11px;" onclick="abrirModalEditarMateria('232032', event)">✏️ Editar</button></div></div></div>
-          <div class="acc-card s-ap" onclick="toggleAcc(this)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Análisis Numérico <span class="badge-plan-k23">K23</span></div><div class="acc-badges"><span class="acc-badge ab-final">Final K08</span></div></div>${getGradeBadge('232033', '8')}</div><div class="acc-body"><div class="acc-row"><span class="acc-row-lbl">Origen K08</span><span class="acc-row-val">Matemática Superior</span></div><div class="acc-row" style="border:none;justify-content:flex-end;margin-top:6px;"><button class="btn-sec" style="padding:3px 8px;font-size:11px;" onclick="abrirModalEditarMateria('232033', event)">✏️ Editar</button></div></div></div>
-          <div class="acc-card s-ap" onclick="toggleAcc(this)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Diseño de Sistemas de Info. <span class="badge-plan-k23">K23</span>🎓</div><div class="acc-badges"><span class="acc-badge ab-promo">Promoción K08</span></div></div>${getGradeBadge('232034', '8')}</div><div class="acc-body"><div class="acc-row"><span class="acc-row-lbl">Origen K08</span><span class="acc-row-val">Diseño de Sistemas</span></div><div class="acc-row" style="border:none;justify-content:flex-end;margin-top:6px;"><button class="btn-sec" style="padding:3px 8px;font-size:11px;" onclick="abrirModalEditarMateria('232034', event)">✏️ Editar</button></div></div></div>
-          <div class="acc-card s-ap" onclick="toggleAcc(this)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Seminario de Integración <span class="badge-plan-k23">K23</span>🎓</div><div class="acc-badges"><span class="acc-badge ab-promo">Promoción K23</span></div></div>${getGradeBadge('082099', '9')}</div><div class="acc-body"><div class="acc-row"><span class="acc-row-lbl">Plan de Cursado</span><span class="acc-row-val">Plan K23 Directo</span></div><div class="acc-row" style="border:none;justify-content:flex-end;margin-top:6px;"><button class="btn-pri" style="padding:3px 8px;font-size:11px;margin-right:6px;background:var(--blue);color:#000;border:none;border-radius:4px;cursor:pointer;font-weight:600;" onclick="abrirMateria('materias/seminario-integrador/index.html', 'Seminario de Integración'); event.stopPropagation();">🔗 Ver Página</button><button class="btn-sec" style="padding:3px 8px;font-size:11px;" onclick="abrirModalEditarMateria('082099', event)">✏️ Editar</button></div></div></div>
-          
-          <!-- Electivas Imputadas al Bloque 3º/4º -->
-          <div class="acc-card s-ap" style="border-left-color:var(--yellow);" onclick="toggleAcc(this)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Gestión del Talento Humano <span class="badge-plan-k23">K23</span></div><div class="acc-badges"><span class="acc-badge ab-promo">Electiva K08 Promocionada</span></div></div>${getGradeBadge('082117', '10')}</div><div class="acc-body"><div class="acc-row"><span class="acc-row-lbl">Origen K08</span><span class="acc-row-val">Gestión del Talento Humano (082117)</span></div><div class="acc-row"><span class="acc-row-lbl">Acreditación</span><span class="acc-row-val">80hs Reloj · Bloque 3.º/4.º</span></div><div class="acc-row" style="border:none;justify-content:flex-end;margin-top:6px;"><button class="btn-sec" style="padding:3px 8px;font-size:11px;" onclick="abrirModalEditarMateria('082117', event)">✏️ Editar</button></div></div></div>
-          <div class="acc-card s-ap" style="border-left-color:var(--yellow);" onclick="toggleAcc(this)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Transformación Digital <span class="badge-plan-k23">K23</span></div><div class="acc-badges"><span class="acc-badge ab-promo">Electiva K08 Promocionada</span></div></div>${getGradeBadge('082102', '9')}</div><div class="acc-body"><div class="acc-row"><span class="acc-row-lbl">Origen K08</span><span class="acc-row-val">Transformación Digital (082102)</span></div><div class="acc-row"><span class="acc-row-lbl">Acreditación</span><span class="acc-row-val">80hs Reloj · Bloque 3.º/4.º</span></div><div class="acc-row" style="border:none;justify-content:flex-end;margin-top:6px;"><button class="btn-sec" style="padding:3px 8px;font-size:11px;" onclick="abrirModalEditarMateria('082102', event)">✏️ Editar</button></div></div></div>
-          <div class="acc-card s-ap" style="border-left-color:var(--yellow);" onclick="toggleAcc(this)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Química (Acred. K08 → K23) <span class="badge-plan-k23">K23</span></div><div class="acc-badges"><span class="acc-badge ab-equiv">Acreditación K08 (Res. 3120/22)</span></div></div>${getGradeBadge('082091', '✓')}</div><div class="acc-body"><div class="acc-row"><span class="acc-row-lbl">Origen K08</span><span class="acc-row-val">Química (081420)</span></div><div class="acc-row"><span class="acc-row-lbl">Acreditación</span><span class="acc-row-val">72hs Reloj al Bloque 3.º/4.º</span></div><div class="acc-row" style="border:none;justify-content:flex-end;margin-top:6px;"><button class="btn-sec" style="padding:3px 8px;font-size:11px;" onclick="abrirModalEditarMateria('082091', event)">✏️ Editar</button></div></div></div>
-          <div class="acc-card s-ap" style="border-left-color:var(--yellow);" onclick="toggleAcc(this)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Sistemas de Representación <span class="badge-plan-k23">K23</span></div><div class="acc-badges"><span class="acc-badge ab-equiv">Acreditación K08 (Res. 3120/22)</span></div></div>${getGradeBadge('082092', '9')}</div><div class="acc-body"><div class="acc-row"><span class="acc-row-lbl">Origen K08</span><span class="acc-row-val">Sistemas de Representación (951601)</span></div><div class="acc-row"><span class="acc-row-lbl">Acreditación</span><span class="acc-row-val">72hs Reloj al Bloque 3.º/4.º</span></div><div class="acc-row" style="border:none;justify-content:flex-end;margin-top:6px;"><button class="btn-sec" style="padding:3px 8px;font-size:11px;" onclick="abrirModalEditarMateria('082092', event)">✏️ Editar</button></div></div></div>
-        </div>
-
-        <!-- NIVEL 4 -->
-        <div class="map-col">
-          <div class="map-lvl">Nivel 4 · 1/6</div>
-          <div class="acc-card s-pl" onclick="toggleAcc(this)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Adm. Sistemas de Información <span class="badge-plan-k23">K23</span></div><div class="acc-badges"><span class="acc-badge ab-anual">Anual K23</span></div></div>${getGradeBadge('232045', '26', 'ag-blue')}</div><div class="acc-body"><div class="acc-row"><span class="acc-row-lbl">Plan de Cursado</span><span class="acc-row-val">Plan K23 (En curso Anual 2026)</span></div><div class="acc-row" style="border:none;justify-content:flex-end;margin-top:6px;"><button class="btn-pri" style="padding:3px 8px;font-size:11px;margin-right:6px;background:var(--blue);color:#000;border:none;border-radius:4px;cursor:pointer;font-weight:600;" onclick="abrirMateria('materias/administracion-sistemas/index.html', 'Adm. de Sistemas de Información'); event.stopPropagation();">🔗 Ver Página</button><button class="btn-sec" style="padding:3px 8px;font-size:11px;" onclick="abrirModalEditarMateria('232045', event)">✏️ Editar</button></div></div></div>
-          <div class="acc-card s-pe" onclick="abrirModalEditarMateria('232024', event)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Legislación <span class="badge-plan-k23">K23</span></div><div class="acc-badges"><span class="acc-badge ab-pend">2C 2026</span></div></div>${getGradeBadge('232024', '–')}</div></div>
-          <div class="acc-card s-pe" onclick="abrirModalEditarMateria('082038', event)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Ingeniería y Calidad de Software <span class="badge-plan-k23">K23</span></div><div class="acc-badges"><span class="acc-badge ab-pend">2C 2026</span></div></div>${getGradeBadge('082038', '–')}</div></div>
-          <div class="acc-card s-pe" onclick="abrirModalEditarMateria('232044', event)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Tecnologías Automatización <span class="badge-plan-k23">K23</span></div><div class="acc-badges"><span class="acc-badge ab-pend">2C 2026</span></div></div>${getGradeBadge('232044', '–')}</div></div>
-          <div class="acc-card s-pe" onclick="abrirModalEditarMateria('232041', event)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Redes de Datos <span class="badge-plan-k23">K23</span></div><div class="acc-badges"><span class="acc-badge ab-pend">1C 2027</span></div></div>${getGradeBadge('232041', '–')}</div></div>
-          <div class="acc-card s-pe" onclick="abrirModalEditarMateria('232043', event)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Simulación <span class="badge-plan-k23">K23</span></div><div class="acc-badges"><span class="acc-badge ab-pend">1C 2027</span></div></div>${getGradeBadge('232043', '–')}</div></div>
-          
-          <button class="btn-sec" style="width:100%;margin-top:10px;padding:6px;font-size:11.5px;border:1px dashed var(--blue);color:var(--blue);" onclick="abrirModalElectiva(4)">➕ Agregar Electiva (Bloque 3.º/4.º)</button>
-        </div>
-
-        <!-- NIVEL 5 & BLOQUE ESPECIALIZACIÓN -->
-        <div class="map-col">
-          <div class="map-lvl">Nivel 5 · Obligatorias + Electivas 5.º</div>
-          <div class="acc-card s-pe" onclick="abrirModalEditarMateria('232051', event)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Inteligencia Artificial <span class="badge-plan-k23">K23</span></div><div class="acc-badges"><span class="acc-badge ab-pend">1C 2027</span></div></div>${getGradeBadge('232051', '–')}</div></div>
-          <div class="acc-card s-pe" onclick="abrirModalEditarMateria('232052', event)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Ciencia de Datos <span class="badge-plan-k23">K23</span></div><div class="acc-badges"><span class="acc-badge ab-pend">2C 2027</span></div></div>${getGradeBadge('232052', '–')}</div></div>
-          <div class="acc-card s-pe" onclick="abrirModalEditarMateria('232053', event)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Sistemas de Gestión <span class="badge-plan-k23">K23</span></div><div class="acc-badges"><span class="acc-badge ab-pend">2C 2027</span></div></div>${getGradeBadge('232053', '–')}</div></div>
-          <div class="acc-card s-pe" onclick="abrirModalEditarMateria('232054', event)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Gestión Gerencial <span class="badge-plan-k23">K23</span></div><div class="acc-badges"><span class="acc-badge ab-pend">2C 2027</span></div></div>${getGradeBadge('232054', '–')}</div></div>
-          <div class="acc-card s-pe" onclick="abrirModalEditarMateria('232055', event)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Seguridad en los Sistemas <span class="badge-plan-k23">K23</span></div><div class="acc-badges"><span class="acc-badge ab-pend">1C 2028</span></div></div>${getGradeBadge('232055', '–')}</div></div>
-          <div class="acc-card s-pe" onclick="abrirModalEditarMateria('082037', event)"><div class="acc-header"><span class="acc-chevron">▶</span><div style="flex:1"><div class="acc-name">Proyecto Final <span class="badge-plan-k23">K23</span></div><div class="acc-badges"><span class="acc-badge ab-pend">2028-2029</span></div></div>${getGradeBadge('082037', '–')}</div></div>
-          
-          <button class="btn-sec" style="width:100%;margin-top:10px;padding:6px;font-size:11.5px;border:1px dashed var(--yellow);color:var(--yellow);" onclick="abrirModalElectiva(5)">➕ Agregar Electiva (Bloque 5.º Nivel)</button>
+        <div class="acc-body">
+          <div class="acc-row"><span class="acc-row-lbl">Detalle:</span><span class="acc-row-val">${detalle}</span></div>
+          <div class="acc-row" style="border:none;justify-content:flex-end;margin-top:6px;">
+            <button class="btn-sec" style="padding:3px 8px;font-size:11px;" onclick="abrirModalEditarMateria('${matPlan.id}', event)">✏️ Editar</button>
+          </div>
         </div>
       </div>
+    `;
+  };
+
+  const niveles = [1, 2, 3, 4, 5];
+  const columnasHtml = niveles.map(n => {
+    const matsNivel = CAT_MATERIAS_K23.filter(m => m.nivel === n);
+    const cantAprob = matsNivel.filter(m => aprobadas.some(a => a.id === m.id)).length;
+    return `
+      <div class="map-col">
+        <div class="map-lvl">Nivel ${n} · ${cantAprob}/${matsNivel.length} ${cantAprob === matsNivel.length && cantAprob > 0 ? '🎓' : ''}</div>
+        ${matsNivel.map(renderizarTarjetaMateria).join('')}
+        ${n === 3 || n === 4 ? '<button class="btn-sec" style="width:100%;margin-top:10px;padding:6px;font-size:11.5px;border:1px dashed var(--yellow);color:var(--yellow);" onclick="abrirModalElectiva(3)">➕ Agregar Electiva (Bloque 3.º/4.º)</button>' : ''}
+        ${n === 5 ? '<button class="btn-sec" style="width:100%;margin-top:10px;padding:6px;font-size:11.5px;border:1px dashed var(--yellow);color:var(--yellow);" onclick="abrirModalElectiva(5)">➕ Agregar Electiva (Bloque 5.º Nivel)</button>' : ''}
+      </div>
+    `;
+  }).join('');
+
+  contenedor.replaceChildren();
+  contenedor.insertAdjacentHTML('beforeend', `
+    <div class="infobox" style="margin-bottom:16px;">
+      <strong>Mapa Curricular K23:</strong> Hacé clic en cualquier tarjeta para ver su desglose o presioná <strong>✏️ Editar</strong> para registrar o modificar notas y cursadas.
     </div>
-  `;
+    <div class="map-wrap"><div class="map-grid">${columnasHtml}</div></div>
+  `);
 }

@@ -1,16 +1,27 @@
 /**
  * Módulo Constructor de Calendario Académico Visual
- * Renderiza la grilla de horarios de cursada a partir de los datos JSON del alumno.
+ * Renderiza la grilla de horarios de cursada a partir de los datos JSON del alumno,
+ * gestionando el cálculo adaptativo de alturas y posiciones top tanto para el turno noche
+ * como para las asignaturas especiales dictadas los días sábados.
  */
 
 const INICIO_HORA = 18 * 60;
 const FIN_HORA = 23 * 60 + 30;
+const INICIO_HORA_SABADO = 13 * 60;
 const PIXELES_POR_MINUTO = 1.75;
 const ALTO_TOTAL_PX = (FIN_HORA - INICIO_HORA) * PIXELES_POR_MINUTO;
 
+/** Formatea números agregando cero inicial si es menor a 10. */
 function rellenarCero(n) { return String(n).padStart(2, '0'); }
+
+/** Calcula la posición vertical (top en px) según hora y minuto para turno noche. */
 function posicionTopPx(h, m) { return (h * 60 + m - INICIO_HORA) * PIXELES_POR_MINUTO; }
-function altoPx(h1, m1, h2, m2) { return (h2 * 60 + m2 - h1 * 60 - m1) * PIXELES_POR_MINUTO; }
+
+/** Calcula la posición vertical adaptada para asignaturas de turno tarde en sábados. */
+function posicionTopSabadoPx(h, m) { return Math.max(8, (h * 60 + m - INICIO_HORA_SABADO) * PIXELES_POR_MINUTO); }
+
+/** Calcula la altura en píxeles de un bloque temporal de clase. */
+function altoPx(h1, m1, h2, m2) { return Math.max(30, (h2 * 60 + m2 - h1 * 60 - m1) * PIXELES_POR_MINUTO); }
 
 /**
  * Construye la grilla horaria del calendario y dibuja las materias.
@@ -23,7 +34,7 @@ function altoPx(h1, m1, h2, m2) { return (h2 * 60 + m2 - h1 * 60 - m1) * PIXELES
 function construirCalendario(idCuerpo, cantidadDias, eventos, tieneSabado, contexto = null) {
   const cuerpo = document.getElementById(idCuerpo);
   if (!cuerpo) return;
-  cuerpo.innerHTML = '';
+  cuerpo.replaceChildren();
   cuerpo.style.height = ALTO_TOTAL_PX + 'px';
 
   const colTiempo = document.createElement('div');
@@ -73,7 +84,13 @@ function construirCalendario(idCuerpo, cantidadDias, eventos, tieneSabado, conte
     eventos.filter(ev => ev.day === d).forEach(ev => {
       const bloque = document.createElement('div');
       bloque.className = 'ev ev-' + ev.cls;
-      bloque.style.top = posicionTopPx(ev.h1, ev.m1) + 'px';
+
+      const esHorarioTemprano = (ev.h1 * 60 + ev.m1) < INICIO_HORA;
+      const topCalculado = (esSabado && esHorarioTemprano)
+        ? posicionTopSabadoPx(ev.h1, ev.m1)
+        : Math.max(0, posicionTopPx(ev.h1, ev.m1));
+
+      bloque.style.top = topCalculado + 'px';
       bloque.style.height = altoPx(ev.h1, ev.m1, ev.h2, ev.m2) + 'px';
 
       const htmlNombre = ev.url
@@ -89,7 +106,7 @@ function construirCalendario(idCuerpo, cantidadDias, eventos, tieneSabado, conte
         btnBorrar = `<button class="ev-action-btn ev-delete-btn" title="Eliminar materia del planificador" onclick="event.stopPropagation(); eliminarEventoPlanificador('${contexto.anio}', '${contexto.cuatrimestre}', ${contexto.alternativa}, '${ev.id}')">🗑️</button>`;
       }
 
-      bloque.innerHTML = `
+      bloque.insertAdjacentHTML('beforeend', `
         <div class="ev-actions">
           ${btnGcal}
           ${btnBorrar}
@@ -99,13 +116,16 @@ function construirCalendario(idCuerpo, cantidadDias, eventos, tieneSabado, conte
         <div class="ev-k">${ev.k}</div>
         ${ev.anual ? '<div class="ev-anual">ANUAL</div>' : ''}
         ${ev.campus ? '<div class="ev-campus">CAMPUS</div>' : ''}
-      `;
+      `);
       colDia.appendChild(bloque);
     });
     cuerpo.appendChild(colDia);
   }
 }
 
+/**
+ * Resalta visualmente las materias que se cursan en el día de la semana actual con una animación pulsante.
+ */
 function resaltarDiaActual() {
   document.querySelectorAll('.ev.today, .ds-card.today').forEach(el => el.classList.remove('today'));
   const diaSemana = new Date().getDay();

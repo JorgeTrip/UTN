@@ -117,9 +117,15 @@ function calcularPromedioGeneral(materiasAprobadas) {
   return Number((conNota.reduce((acc, m) => acc + m.nota, 0) / conNota.length).toFixed(2));
 }
 
+/**
+ * Calcula el promedio general histórico con aplazos según normativa UTN FRBA (aplazos nota < 6 o Reprobado).
+ * @param {Array} materiasAprobadas - Lista de asignaturas aprobadas.
+ * @param {Array} historialSIU - Registro de exámenes y regularidades rendidos.
+ * @returns {number} Promedio con aplazos ponderado.
+ */
 function calcularPromedioConAplazos(materiasAprobadas, historialSIU) {
   const notasAprobadas = (materiasAprobadas || []).filter(m => typeof m.nota === 'number' && m.nota > 0).map(m => m.nota);
-  const notasAplazos = (historialSIU || []).filter(h => typeof h.nota === 'number' && h.nota > 0 && h.nota < 4).map(h => h.nota);
+  const notasAplazos = (historialSIU || []).filter(h => typeof h.nota === 'number' && h.nota > 0 && (h.nota < 6 || h.resultado === 'Reprobado')).map(h => h.nota);
   const todas = [...notasAprobadas, ...notasAplazos];
   if (todas.length === 0) return 0;
   return Number((todas.reduce((a, b) => a + b, 0) / todas.length).toFixed(2));

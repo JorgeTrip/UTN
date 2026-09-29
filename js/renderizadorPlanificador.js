@@ -3,7 +3,11 @@
  * Renderiza calendarios cuatrimestrales de 2026, 2027 y 2028 con soporte para ubicar y borrar materias.
  */
 
-function planYearTab(indice) {
+/**
+ * Conmuta entre los paneles anuales del planificador cuatrimestral (2026, 2027, 2028, 2029).
+ * @param {number} indice - Índice de la solapa anual.
+ */
+function seleccionarAnioPlanificador(indice) {
   document.querySelectorAll('#sp2 .sub-tab-bar .sub-tab').forEach((tab, i) => {
     tab.classList.toggle('active', i === indice);
   });
@@ -12,6 +16,7 @@ function planYearTab(indice) {
   });
   localStorage.setItem('dashboardPlanYearTab', indice);
 }
+const planYearTab = seleccionarAnioPlanificador;
 
 function renderizarPlanificadorCompleto() {
   const contenedor = document.getElementById('sp2');
@@ -26,7 +31,8 @@ function renderizarPlanificadorCompleto() {
   const esSegundoCuatrimestre = mesActual >= 7;
   const altElegida2026q2 = (typeof obtenerAlternativaElegida === 'function') ? obtenerAlternativaElegida('2026', '2c') : 0;
 
-  contenedor.innerHTML = `
+  contenedor.replaceChildren();
+  contenedor.insertAdjacentHTML('beforeend', `
     <div class="sub-tab-bar">
       <div class="sub-tab-inner">
         <button class="sub-tab active" onclick="planYearTab(0)">📅 2026 · Cursada Actual (${enCurso.length})</button>
@@ -146,7 +152,7 @@ function renderizarPlanificadorCompleto() {
         <strong>Estimación de Graduación:</strong> ${restantesCount > 0 ? 'Restan ' + restantesCount + ' materias en el plan. Manteniendo la proyección actual, la titulación de Grado se completará en 2029.' : '¡Plan de estudio 100% completado!'}
       </div>
     </div>
-  `;
+  `);
 
   renderizarGrillasPlanificador();
   if (typeof resaltarDiaActual === 'function') resaltarDiaActual();

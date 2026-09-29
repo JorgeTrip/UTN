@@ -12,13 +12,16 @@ function renderizarEstrategia() {
   const enCurso = datos.materiasEnCurso || [];
   const equivalencias = window.datosGlobales?.planEstudio?.tabla_equivalencias_oficial_ord_1878 || [];
 
-  const getEstadoMat = (id) => {
+  /** Evalúa el estado de avance (Aprobada, En curso o Pendiente) de una materia por ID. */
+  const obtenerEstadoMateria = (id) => {
     if (aprobadas.some(m => m.id === id)) return '<span style="color:var(--green);font-weight:700;">✓ Aprobada</span>';
     if (enCurso.some(m => m.id === id)) return '<span style="color:var(--blue);font-weight:700;">⏳ En curso</span>';
     return '<span style="color:var(--muted);">❌ Pendiente</span>';
   };
+  const getEstadoMat = obtenerEstadoMateria;
 
-  contenedor.innerHTML = `
+  contenedor.replaceChildren();
+  contenedor.insertAdjacentHTML('beforeend', `
     <div class="sec">🔄 Tabla Oficial de Nombres y Equivalencias · Plan K08 (Ord. 1150) → Plan K23 (Ord. 1877)</div>
     <div class="infobox" style="margin-bottom:14px;font-size:12px;">
       Basado en la <strong>Ordenanza N° 1878</strong> y la <strong>Resolución N° 3120/22 FRBA</strong>. Muestra la correspondencia directa entre el Plan K08 y el Plan K23.
@@ -67,5 +70,5 @@ function renderizarEstrategia() {
         </ul>
       </div>
     </div>
-  `;
+  `);
 }

@@ -5,6 +5,13 @@
 
 let contextUbicarMateria = { anio: '2026', cuatrimestre: '2c', alternativa: 0 };
 
+/**
+ * Abre la ventana modal para agendar y ubicar una asignatura en el planificador semanal.
+ * @param {string|number} anio - Ciclo lectivo.
+ * @param {string} cuatrimestre - '1c' o '2c'.
+ * @param {number} alternativa - Índice de alternativa activa.
+ * @param {number} [diaPredefinido=0] - Día de la semana (0: Lunes a 5: Sábado).
+ */
 function abrirModalUbicarMateria(anio, cuatrimestre, alternativa, diaPredefinido = 0) {
   contextUbicarMateria = { anio: String(anio), cuatrimestre: String(cuatrimestre), alternativa: Number(alternativa) };
   let overlay = document.getElementById('modalUbicarMateria');
@@ -18,11 +25,13 @@ function abrirModalUbicarMateria(anio, cuatrimestre, alternativa, diaPredefinido
   overlay.classList.add('open');
 }
 
+/** Cierra la ventana modal de ubicación de materias. */
 function cerrarModalUbicarMateria() {
   const overlay = document.getElementById('modalUbicarMateria');
   if (overlay) overlay.classList.remove('open');
 }
 
+/** Obtiene metadatos de nivel, anualidad e impacto correlativo a partir del nombre de la materia. */
 function obtenerMetadataMateria(nombre) {
   const n = nombre.toLowerCase().trim();
   let nivel = 4, esAnual = false, impacto = 0;
@@ -48,10 +57,11 @@ function obtenerMetadataMateria(nombre) {
   return { nivel, esAnual, impacto };
 }
 
+/** Filtra y carga en el select desplegable solo las materias no aprobadas ni ubicadas previamente. */
 function poblarSelectMateriasDisponibles() {
   const select = document.getElementById('planSelectMateria');
   if (!select) return;
-  select.innerHTML = '';
+  select.replaceChildren();
   const datos = window.datosGlobales?.datosAlumno || {};
   const aprobadas = (datos.materiasAprobadas || []).map(m => (m.nombre || '').toLowerCase().trim());
   const enCurso = datos.materiasEnCurso || [];
@@ -115,6 +125,7 @@ function poblarSelectMateriasDisponibles() {
   });
 }
 
+/** Guarda la materia en la alternativa del planificador y refresca la vista semanal. */
 function guardarMateriaPlanificador() {
   const selectMat = document.getElementById('planSelectMateria');
   const nombreMateria = selectMat.value;
@@ -136,6 +147,7 @@ function guardarMateriaPlanificador() {
   cerrarModalUbicarMateria();
 }
 
+/** Devuelve la clase semántica CSS asociada al color temático de la materia. */
 function obtenerClaseCssMateria(nombre) {
   const n = nombre.toLowerCase();
   if (n.includes('administración de sistemas')) return 'asi';
@@ -158,6 +170,7 @@ function obtenerClaseCssMateria(nombre) {
   return 'si';
 }
 
+/** Crea dinámicamente la estructura del formulario modal de ubicación de materias si no existe. */
 function crearEstructuraModalUbicarMateria() {
   const modalHTML = `<div class="modal-overlay" id="modalUbicarMateria"><div class="modal-card" style="max-width:540px;"><div class="modal-header"><div class="modal-title">📌 Ubicar Materia (<span id="planAnioCuatriTxt" style="color:var(--blue)">2026 · 2C</span>)</div><button class="modal-close" onclick="cerrarModalUbicarMateria()">&times;</button></div><div class="modal-body"><div class="form-group" style="margin-bottom:14px;"><label class="form-label">Asignatura Disponible (Por Nivel, Anuales e Impacto)</label><select id="planSelectMateria" class="form-input"></select></div><div class="form-grid" style="grid-template-columns:1fr 1fr;gap:12px;"><div class="form-group"><label class="form-label">Día de Cursada</label><select id="planSelectDia" class="form-input"><option value="0">Lunes</option><option value="1">Martes</option><option value="2">Miércoles</option><option value="3">Jueves</option><option value="4">Viernes</option><option value="5">Sábado</option></select></div><div class="form-group"><label class="form-label">Comisión / Sede</label><input type="text" id="planInputComision" class="form-input" placeholder="Ej: K4051 · Medrano"></div><div class="form-group"><label class="form-label">Hora Inicio</label><input type="time" id="planInputHoraInicio" class="form-input" value="18:15"></div><div class="form-group"><label class="form-label">Hora Fin</label><input type="time" id="planInputHoraFin" class="form-input" value="23:00"></div></div><div style="display:flex;gap:16px;margin-top:14px;"><label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;"><input type="checkbox" id="planCheckAnual"> Cursada Anual</label><label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;"><input type="checkbox" id="planCheckCampus"> Sede Campus</label></div></div><div class="modal-footer"><button class="btn-sec" onclick="cerrarModalUbicarMateria()">Cancelar</button><button class="btn-prim" onclick="guardarMateriaPlanificador()">📌 Ubicar Materia</button></div></div></div>`;
   document.body.insertAdjacentHTML('beforeend', modalHTML);

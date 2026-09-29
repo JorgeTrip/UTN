@@ -1,11 +1,11 @@
 @echo off
 chcp 65001 > nul
-title Roque 50 años - Servidor Local y Red Wi-Fi
+title Panel Académico UTN FRBA - Servidor Local
 
 cd /d "%~dp0"
 
 echo =======================================================
-echo    ROQUE 50 AÑOS - Servidor Web para Pruebas en Red
+echo    PANEL ACADÉMICO ISI · UTN FRBA - Servidor Local
 echo =======================================================
 echo.
 
@@ -49,8 +49,8 @@ if errorlevel 1 (
 
 echo.
 echo =======================================================
-echo   Abre la dirección [Red Wi-Fi] desde tu celular o tablet
-echo   conectado a la misma red Wi-Fi para probar la invitación.
+echo   Abre la dirección [Red Wi-Fi] desde tu dispositivo móvil
+echo   conectado a la misma red para visualizar el panel.
 echo =======================================================
 echo.
 

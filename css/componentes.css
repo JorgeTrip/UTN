@@ -2,7 +2,7 @@
    COMPONENTES UI (TARJETAS KPI, ACORDEÓN, ALERTAS, PESO & ESTRATEGIA)
    ═══════════════════════════════════════════════════════════════ */
 
-/* KPI Cards */
+/* Tarjetas de Indicadores Clave (KPIs) */
 .kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-bottom: 24px; }
 .kpi-card { background: var(--s2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; position: relative; overflow: hidden; }
 .kpi-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }

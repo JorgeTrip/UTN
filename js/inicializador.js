@@ -1,17 +1,34 @@
 /**
  * Módulo Inicializador de la Aplicación
- * Arranca la app, carga los datos JSON, inicializa componentes UI y restaura el estado.
+ * Arranca la app, inicializa Firebase Auth/Firestore, componentes UI y restaura el estado.
  */
 
 document.addEventListener('DOMContentLoaded', async () => {
   inicializarTema();
-  const cargado = await cargarDatosIniciales();
-  if (!cargado) {
-    console.warn('Iniciando en modo degradado sin datos dinámicos');
+  await cargarDatosIniciales();
+
+  // 1. Inicia escucha de autenticación y sincronización con Firestore
+  if (window.servicioAuth) {
+    window.servicioAuth.suscribirCambioAuth(async (usuario) => {
+      if (usuario) {
+        document.body.classList.remove('sin-sesion');
+        cerrarModalAuth(true);
+        await cargarDatosIniciales();
+        renderizarTodoElDashboard();
+      } else {
+        document.body.classList.add('sin-sesion');
+        window.datosGlobales.datosAlumno = null;
+        renderizarHeaderYPerfil();
+        abrirModalAuth(true);
+      }
+    });
+    window.servicioAuth.iniciarObservadorAuth();
+  } else {
+    await cargarDatosIniciales();
+    renderizarTodoElDashboard();
   }
 
-  renderizarTodoElDashboard();
-
+  // 2. Restaura vista activa guardada
   const vistaActiva = localStorage.getItem('activeViewType');
   if (vistaActiva === 'materia') {
     const url = localStorage.getItem('activeMateriaUrl');
@@ -28,6 +45,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  resaltarDiaActual();
-  setInterval(resaltarDiaActual, 60000);
+  // 3. Resaltado periódico del día actual
+  if (typeof resaltarDiaActual === 'function') {
+    resaltarDiaActual();
+    setInterval(resaltarDiaActual, 60000);
+  }
 });

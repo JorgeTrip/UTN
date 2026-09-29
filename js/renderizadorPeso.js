@@ -17,17 +17,17 @@ function renderizarPesoAcademico() {
   const anioActual = fechaHoy.getFullYear();
   const esNuevoModeloVigente = anioActual >= 2027;
 
-  const anioIngreso = parseInt(perfil.fechaIngreso) || 2019;
-  const aa = Math.max(1, anioActual - anioIngreso);
+  const anioIngreso = parseInt(perfil.fechaIngreso) || anioActual;
+  const aa = perfil.fechaIngreso ? Math.max(0, anioActual - anioIngreso) : 0;
   const cma = aprobadas.length;
-  const cmd = historial.filter(h => typeof h.nota === 'number' && h.nota > 0 && h.nota < 4).length;
+  const cmd = historial.filter(h => typeof h.nota === 'number' && h.nota > 0 && (h.nota < 6 || h.resultado === 'Reprobado')).length;
 
   const pesoHistorico = (11 * cma) - (5 * aa) - (3 * cmd);
 
   const mAp_total = cma;
-  const fAd_total = 0;
-  const fAu_ciclo = 0;
-  const mAb_ciclo = 0;
+  const fAd_total = historial.filter(h => h.tipo === 'Examen' && (h.resultado === 'Reprobado' || (typeof h.nota === 'number' && h.nota > 0 && h.nota < 6))).length;
+  const fAu_ciclo = historial.filter(h => h.tipo === 'Examen' && h.resultado === 'Ausente').length;
+  const mAb_ciclo = historial.filter(h => h.resultado === 'Baja' || h.resultado === 'Abandonada').length;
   const mR_ciclo = enCurso.length;
 
   const ppaNuevo = (11 * mAp_total) - (7 * fAd_total) - (19 * fAu_ciclo) - (17 * mAb_ciclo) + (5 * mR_ciclo);
@@ -82,7 +82,8 @@ function renderizarPesoAcademico() {
     </div>
   `;
 
-  contenedor.innerHTML = `
+  contenedor.replaceChildren();
+  contenedor.insertAdjacentHTML('beforeend', `
     ${esNuevoModeloVigente ? htmlNuevoPPA + htmlHistorico : htmlHistorico + htmlNuevoPPA}
 
     <!-- Glosario Completo de Referencias -->
@@ -103,5 +104,5 @@ function renderizarPesoAcademico() {
         </div>
       </div>
     </div>
-  `;
+  `);
 }
