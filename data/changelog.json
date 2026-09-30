@@ -1,9 +1,25 @@
 [
   {
-    "version": "v1.39.0",
+    "version": "v1.39.2",
     "fecha": "2026-09-30",
-    "totalCambios": 63,
+    "totalCambios": 65,
     "cambios": [
+      {
+        "hash": "d01c5bd",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "fix",
+        "insignia": "🔧 Corrección",
+        "mensaje": "Se corrige apertura del menu avatar al remover dependencia de menuToggle inexistente"
+      },
+      {
+        "hash": "3344836",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "docs",
+        "insignia": "📝 Documentación",
+        "mensaje": "Se actualiza changelog y version a v1.39.0 [skip ci]"
+      },
       {
         "hash": "4e465be",
         "autor": "Jorge O. Tripodi",
