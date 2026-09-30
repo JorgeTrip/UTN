@@ -1,9 +1,25 @@
 [
   {
-    "version": "v1.34.0",
+    "version": "v1.35.0",
     "fecha": "2026-09-30",
-    "totalCambios": 53,
+    "totalCambios": 55,
     "cambios": [
+      {
+        "hash": "1c1e638",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se posiciona titulo de modulo bajo los badges y se remueve menu sandwich"
+      },
+      {
+        "hash": "fe2f331",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "chore",
+        "insignia": "⚙️ Mantenimiento",
+        "mensaje": "Se actualiza changelog y version a v1.34.0 [skip ci]"
+      },
       {
         "hash": "97d620b",
         "autor": "Jorge O. Tripodi",
