@@ -11,13 +11,13 @@ test.describe('Estrategia con Selección y Planificador Separado', () => {
     await page.waitForFunction(() => window.datosGlobales?.datosAlumno !== null, { timeout: 15000 });
   });
 
-  test('el cliente resiliente de Gemini debe usar la terna 3.8, 3.7 y 3.6', async ({ page }) => {
+  test('el cliente resiliente de Gemini debe usar los modelos de alta disponibilidad', async ({ page }) => {
     const modelos = await page.evaluate(() => {
       return window.MODELOS_GEMINI_OFICIALES || null;
     });
 
     expect(modelos).not.toBeNull();
-    expect(modelos).toEqual(['gemini-3.8-flash', 'gemini-3.7-flash', 'gemini-3.6-flash']);
+    expect(modelos).toEqual(['gemini-flash-lite-latest', 'gemini-3.5-flash-lite', 'gemini-3.6-flash', 'gemini-3.8-flash']);
   });
 
   test('debe permitir seleccionar materias sugeridas en Estrategia y persistirlas', async ({ page }) => {

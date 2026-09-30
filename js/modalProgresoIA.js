@@ -30,7 +30,7 @@ function asegurarModalProgresoEnDOM() {
 
         <div id="contenedorEtapasIa" style="background:#252528; border-radius:10px; padding:12px; font-size:0.8rem; border:1px solid #323236; display:flex; flex-direction:column; gap:6px;">
           <div id="etapa1Ia" style="color:#636366;">⚪ Lectura de información académica</div>
-          <div id="etapa2Ia" style="color:#636366;">⚪ Consulta con modelos Gemini (3.8 / 3.7 / 3.6)</div>
+          <div id="etapa2Ia" style="color:#636366;">⚪ Consulta con modelos Gemini (Flash / 3.x)</div>
           <div id="etapa3Ia" style="color:#636366;">⚪ Validación de restricciones y correlatividades</div>
           <div id="etapa4Ia" style="color:#636366;">⚪ Construcción de estrategia y materias sugeridas</div>
         </div>
@@ -69,7 +69,7 @@ function actualizarProgresoIA(porcentaje, textoPaso = '', detalle = '') {
 function actualizarIndicadoresEtapa(porcentaje) {
   const etapas = [
     { id: 'etapa1Ia', umbral: 20, txt: 'Lectura de información académica' },
-    { id: 'etapa2Ia', umbral: 55, txt: 'Consulta con modelos Gemini (3.8 / 3.7 / 3.6)' },
+    { id: 'etapa2Ia', umbral: 55, txt: 'Consulta con modelos Gemini (Flash / 3.x)' },
     { id: 'etapa3Ia', umbral: 80, txt: 'Validación de restricciones y correlatividades' },
     { id: 'etapa4Ia', umbral: 100, txt: 'Construcción de resultados finales' }
   ];

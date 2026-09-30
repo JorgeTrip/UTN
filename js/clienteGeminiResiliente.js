@@ -4,7 +4,12 @@
  * reintentos automáticos ante 503 (alta demanda) y limpieza determinística de JSON.
  */
 
-const MODELOS_GEMINI_OFICIALES = ['gemini-3.8-flash', 'gemini-3.7-flash', 'gemini-3.6-flash'];
+const MODELOS_GEMINI_OFICIALES = [
+  'gemini-flash-lite-latest',
+  'gemini-3.5-flash-lite',
+  'gemini-3.6-flash',
+  'gemini-3.8-flash'
+];
 
 async function ejecutarConsultaGeminiResiliente({ prompt, inlineData = null, onProgreso = null }) {
   const apiKey = window.obtenerApiKeyGemini ? window.obtenerApiKeyGemini() : '';
