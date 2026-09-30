@@ -75,8 +75,11 @@ function parsearHistoriaAcademicaSIU(textoPlano) {
     if (evActual) {
       const comM = l.match(/Comisión:\s*([A-Za-z0-9]+)/i);
       if (comM) evActual.comision = comM[1];
-      const perM = l.match(/Período lectivo:\s*([^Comisión|Evaluaciones|No\s+hay]+)/i);
-      if (perM) evActual.periodoLectivo = perM[1].trim();
+      const perM = l.match(/Período lectivo:\s*(.+?)(?=(?:Comisión:|Evaluaciones|No\s+hay|$))/i);
+      if (perM) {
+        const perRaw = perM[1].trim();
+        evActual.periodoLectivo = window.normalizarPeriodoLectivo ? window.normalizarPeriodoLectivo(perRaw) : perRaw;
+      }
       const turM = l.match(/Turno:\s*([^Condición|Año]+)/i);
       if (turM) evActual.turno = turM[1].trim();
       if (l.includes('Evaluaciones parciales:')) {

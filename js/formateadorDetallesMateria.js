@@ -57,10 +57,13 @@ function formatearCuerpoTarjetaMateria(mat) {
   }
 
   if (mat.periodoLectivo || mat.comision) {
-    const perTxt = mat.periodoLectivo ? mat.periodoLectivo : '';
+    const perNorm = window.normalizarPeriodoLectivo ? window.normalizarPeriodoLectivo(mat.periodoLectivo) : mat.periodoLectivo;
+    const perTxt = perNorm || '';
     const comTxt = mat.comision ? `Comisión: ${mat.comision}` : '';
     const txt = [perTxt, comTxt].filter(Boolean).join(' · ');
-    html += `<div class="acc-row"><span class="acc-row-lbl">Período / Com.:</span><span class="acc-row-val">${txt}</span></div>`;
+    if (txt) {
+      html += `<div class="acc-row"><span class="acc-row-lbl">Período / Com.:</span><span class="acc-row-val">${txt}</span></div>`;
+    }
   }
 
   const finAp = Array.isArray(mat.finales) ? mat.finales.slice().reverse().find(f => f.resultado === 'aprobado' || (f.nota && f.nota >= 6)) : null;
