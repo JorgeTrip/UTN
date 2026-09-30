@@ -1,9 +1,25 @@
 [
   {
-    "version": "v1.36.0",
+    "version": "v1.37.0",
     "fecha": "2026-09-30",
-    "totalCambios": 57,
+    "totalCambios": 59,
     "cambios": [
+      {
+        "hash": "4a813fe",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se implementa sub-barra para guia con buscador integrado, chevrones y checks en electivas"
+      },
+      {
+        "hash": "e0c5c03",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "chore",
+        "insignia": "⚙️ Mantenimiento",
+        "mensaje": "Se actualiza changelog y version a v1.36.0 [skip ci]"
+      },
       {
         "hash": "451d406",
         "autor": "Jorge O. Tripodi",
