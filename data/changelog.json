@@ -1,9 +1,25 @@
 [
   {
-    "version": "v1.28.0",
+    "version": "v1.29.0",
     "fecha": "2026-09-30",
-    "totalCambios": 41,
+    "totalCambios": 43,
     "cambios": [
+      {
+        "hash": "0812f90",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se actualiza cadena resiliente con modelos de alta disponibilidad"
+      },
+      {
+        "hash": "caa09ca",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "chore",
+        "insignia": "⚙️ Mantenimiento",
+        "mensaje": "Se actualiza changelog y version automatica [skip ci]"
+      },
       {
         "hash": "6b40bb7",
         "autor": "Jorge O. Tripodi",
