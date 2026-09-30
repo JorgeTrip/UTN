@@ -1,6 +1,6 @@
 /**
  * Módulo Renderizador del Mapa Curricular (Super Panel 1 Sub Panel 1)
- * Renderiza la grilla del Plan K23 con badges estandarizados y desglose académico detallado.
+ * Renderiza la grilla del Plan K23 con barra de herramientas, badges estandarizados y desglose académico.
  */
 
 const CAT_MATERIAS_K23 = [
@@ -121,13 +121,24 @@ function renderizarMapaCurricular() {
 
   contenedor.replaceChildren();
   contenedor.insertAdjacentHTML('beforeend', `
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
-      <div class="infobox" style="flex:1;min-width:280px;margin-bottom:0;">
-        <strong>Mapa Curricular K23:</strong> Hacé clic en cualquier tarjeta para ver su acta, parciales y origen K08 o presioná <strong>✏️ Editar</strong>.
+    <div class="map-toolbar" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;background:var(--s2);border:1px solid var(--border);border-radius:10px;padding:12px 16px;">
+      <div style="display:flex;flex-direction:column;gap:3px;">
+        <div style="font-weight:800;font-size:14px;color:var(--text);display:flex;align-items:center;gap:8px;">
+          <span>🗺️ Mapa Curricular K23:</span>
+          <span class="acc-badge ab-promo" style="font-size:10px;">${aprobadas.length} Aprobadas</span>
+          <span class="acc-badge ab-plan" style="font-size:10px;">${enCurso.length} En Curso / Firmadas</span>
+        </div>
+        <div style="font-size:12px;color:var(--muted);">
+          Hacé clic en cualquier tarjeta para ver actas, parciales y origen K08 o presioná <strong>✏️ Editar</strong>.
+        </div>
       </div>
-      <div style="display:flex;gap:8px;align-items:center;">
-        <button class="btn-prim" style="font-size:11.5px;padding:6px 12px;background:var(--blue);color:#0f172a;" onclick="abrirModalImportadorSIU()">📥 Importar SIU</button>
-        <button class="btn-sec" style="font-size:11.5px;padding:6px 10px;color:var(--accent);border-color:rgba(244,63,94,.4);" onclick="abrirModalConfirmacionReinicio()">🗑️ Vaciar Mapa</button>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <button type="button" class="btn-prim" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:8px 14px;background:var(--blue);color:#0f172a;border-radius:6px;cursor:pointer;border:none;box-shadow:0 2px 8px rgba(56,189,248,.25);" onclick="abrirModalImportadorSIU()">
+          <span>📥</span> Importar SIU
+        </button>
+        <button type="button" class="btn-sec" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:8px 12px;color:var(--accent);border:1px solid rgba(244,63,94,.4);background:rgba(244,63,94,.08);border-radius:6px;cursor:pointer;" onclick="abrirModalConfirmacionReinicio()">
+          <span>🗑️</span> Vaciar Mapa
+        </button>
       </div>
     </div>
     <div class="map-wrap"><div class="map-grid">${columnasHtml}</div></div>

@@ -50,6 +50,11 @@ function seleccionarSubSolapaSeguimiento(indice) {
     panel.classList.toggle('active', i === indice);
   });
   localStorage.setItem('dashboardSp1Tab', indice);
+
+  if (indice === 0 && typeof renderizarHitosCarrera === 'function') renderizarHitosCarrera();
+  else if (indice === 1 && typeof renderizarMapaCurricular === 'function') renderizarMapaCurricular();
+  else if (indice === 2 && typeof renderizarPesoAcademico === 'function') renderizarPesoAcademico();
+  else if (indice === 3 && typeof renderizarEstrategia === 'function') renderizarEstrategia();
 }
 const sp1Tab = seleccionarSubSolapaSeguimiento;
 
