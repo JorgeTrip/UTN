@@ -1,9 +1,25 @@
 [
   {
-    "version": "v1.39.2",
+    "version": "v1.39.4",
     "fecha": "2026-09-30",
-    "totalCambios": 65,
+    "totalCambios": 67,
     "cambios": [
+      {
+        "hash": "1374062",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "chore",
+        "insignia": "⚙️ Mantenimiento",
+        "mensaje": "test: Se reemplaza mock de api key por dummy generico en pruebas e2e"
+      },
+      {
+        "hash": "c72f7cc",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "docs",
+        "insignia": "📝 Documentación",
+        "mensaje": "Se actualiza changelog y version a v1.39.2 [skip ci]"
+      },
       {
         "hash": "d01c5bd",
         "autor": "Jorge O. Tripodi",
