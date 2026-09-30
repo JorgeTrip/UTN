@@ -86,7 +86,7 @@ function renderizarHitosCarrera() {
       <div class="milestone-card" style="background:linear-gradient(135deg,rgba(244,114,182,.1) 0%,rgba(244,114,182,.03) 100%);border:1px solid rgba(244,114,182,.3);border-radius:12px;padding:18px;position:relative;">
         <div style="position:absolute;top:0;right:0;background:rgba(244,114,182,.2);color:#f472b6;font-size:10px;font-weight:700;padding:4px 10px;border-bottom-left-radius:8px;">Progreso ${pctAdusi}%</div>
         <div style="font-size:11px;font-weight:700;color:var(--pink);text-transform:uppercase;margin-bottom:4px;">Título Intermedio</div>
-        <div style="font-size:16px;font-weight:800;margin-bottom:6px;">Analista Desarrollador Univ. (ADUSI)</div>
+        <div style="font-size:15px;font-weight:800;margin-bottom:6px;line-height:1.3;">Analista Desarrollador Universitario de Sistemas de Información (ADUSI)</div>
         <div style="font-size:12px;color:var(--muted);line-height:1.5;">${textoFaltantesAdusi}</div>
       </div>
       <div class="milestone-card" style="background:linear-gradient(135deg,rgba(139,92,246,.08) 0%,rgba(139,92,246,.03) 100%);border:1px solid rgba(139,92,246,.3);border-radius:12px;padding:18px;position:relative;">
