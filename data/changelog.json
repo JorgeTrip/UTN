@@ -1,9 +1,25 @@
 [
   {
-    "version": "v1.31.0",
+    "version": "v1.32.0",
     "fecha": "2026-09-30",
-    "totalCambios": 47,
+    "totalCambios": 49,
     "cambios": [
+      {
+        "hash": "1003378",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se implementa sub-barra inferior con conector visual en cascada"
+      },
+      {
+        "hash": "6fe0422",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "chore",
+        "insignia": "⚙️ Mantenimiento",
+        "mensaje": "Se actualiza changelog y version automatica [skip ci]"
+      },
       {
         "hash": "13f520b",
         "autor": "Jorge O. Tripodi",
