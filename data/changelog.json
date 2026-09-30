@@ -1,9 +1,25 @@
 [
   {
-    "version": "v1.30.0",
+    "version": "v1.31.0",
     "fecha": "2026-09-30",
-    "totalCambios": 45,
+    "totalCambios": 47,
     "cambios": [
+      {
+        "hash": "13f520b",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se implementa experiencia movil con Bottom Tab Bar y bottom sheets"
+      },
+      {
+        "hash": "e5421a4",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "chore",
+        "insignia": "⚙️ Mantenimiento",
+        "mensaje": "Se actualiza changelog y version automatica [skip ci]"
+      },
       {
         "hash": "90a3b73",
         "autor": "Jorge O. Tripodi",
