@@ -77,25 +77,26 @@
     transform: scale(1.08);
   }
 
-  /* Conector Visual: Flecha indicadora superior que da origen a la sub-barra */
+  /* Conector Visual: Flecha indicadora que apunta hacia abajo (▼) marcando el origen */
   .bottom-tab-item .tab-connector-arrow {
     position: absolute;
-    top: -8px;
+    top: -7px;
     left: 50%;
     transform: translateX(-50%);
     width: 0;
     height: 0;
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
-    border-bottom: 7px solid #0A84FF;
-    filter: drop-shadow(0 -2px 4px rgba(10, 132, 255, 0.6));
+    border-top: 7px solid #0A84FF;
+    border-bottom: none;
+    filter: drop-shadow(0 2px 4px rgba(10, 132, 255, 0.6));
     pointer-events: none;
     animation: bounceConnector 1.2s infinite alternate ease-in-out;
   }
 
   @keyframes bounceConnector {
     from { transform: translate(-50%, 0); }
-    to { transform: translate(-50%, -2px); }
+    to { transform: translate(-50%, 2px); }
   }
 
   /* Sub-Barra Inferior Flotante (Apilada sobre la barra principal) */

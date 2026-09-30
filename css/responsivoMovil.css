@@ -76,6 +76,10 @@
     display: none !important;
   }
 
+  #saludoUsuarioHeader {
+    display: none !important;
+  }
+
   .super-tab-bar { display: none !important; }
 
   .kpi-grid { grid-template-columns: 1fr; gap: 12px; }

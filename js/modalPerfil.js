@@ -10,10 +10,21 @@
  */
 function alternarMenuAvatar(evento) {
   if (evento) evento.stopPropagation();
+  if (window.innerWidth <= 768 && typeof alternarMenu === 'function') {
+    alternarMenu();
+    return;
+  }
   const menu = document.getElementById('avatarDropdown');
   if (menu) menu.classList.toggle('open');
 }
 const toggleAvatarDropdown = alternarMenuAvatar;
+
+function cerrarSesionDesdeMovil() {
+  if (typeof cerrarMenu === 'function') cerrarMenu();
+  const btnAuth = document.getElementById('dropdownItemAuth');
+  if (btnAuth) btnAuth.click();
+}
+window.cerrarSesionDesdeMovil = cerrarSesionDesdeMovil;
 
 /**
  * Cierra el menú desplegable del avatar cuando se hace clic fuera o se selecciona una opción.

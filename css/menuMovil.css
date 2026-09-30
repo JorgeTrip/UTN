@@ -41,10 +41,10 @@
 .mobile-menu-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(4, 5, 9, 0.5);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  z-index: 105;
+  background: rgba(4, 5, 9, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 10005;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
@@ -56,27 +56,30 @@
 }
 
 .mobile-menu-drawer {
-  position: absolute;
+  position: fixed;
   top: 0;
-  right: -280px;
-  width: 280px;
+  right: -290px;
+  width: 290px;
   height: 100vh;
-  background: rgba(12, 16, 24, 0.96);
-  border-left: 1px solid var(--border);
-  box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+  background: rgba(28, 28, 30, 0.98);
+  border-left: 1px solid rgba(58, 58, 60, 0.85);
+  box-shadow: -10px 0 30px rgba(0,0,0,0.6);
   display: flex;
   flex-direction: column;
-  padding: 24px 20px;
+  padding: 16px 16px 30px;
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 106;
+  z-index: 10006;
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
 [data-tema="claro"] .mobile-menu-drawer {
-  background: rgba(255, 255, 255, 0.96);
+  background: rgba(245, 245, 247, 0.98);
+  border-left: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 .mobile-menu-overlay.open .mobile-menu-drawer {
-  transform: translateX(-280px);
+  transform: translateX(-290px);
 }
 
 .mobile-menu-profile {

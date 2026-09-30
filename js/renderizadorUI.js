@@ -46,8 +46,8 @@ function renderizarHeaderYPerfil() {
   }
 
   // Avatar con iniciales o marcador genérico
-  const avatar = document.querySelector('.profile-avatar');
-  if (avatar) {
+  const avatares = document.querySelectorAll('.profile-avatar');
+  avatares.forEach(avatar => {
     if (tienePerfil) {
       const i1 = (p.nombre || nombreMostrar).charAt(0);
       const i2 = (p.apellido || (nombreMostrar.includes(' ') ? nombreMostrar.split(' ')[1] : '')).charAt(0);
@@ -55,19 +55,21 @@ function renderizarHeaderYPerfil() {
     } else {
       avatar.textContent = usuario?.email ? usuario.email.charAt(0).toUpperCase() : '--';
     }
-  }
+  });
 
   const saludoEl = document.getElementById('saludoUsuarioHeader');
-  if (saludoEl) {
-    if (tienePerfil || usuario) {
-      const nombreCompleto = p.nombre || (nombreMostrar.includes(' · ') ? nombreMostrar.split(' · ')[0] : nombreMostrar);
-      const nombrePila = nombreCompleto.trim().split(' ')[0] || 'Estudiante';
+  const saludoMovilEl = document.getElementById('saludoUsuarioMenuMovil');
+  if (tienePerfil || usuario) {
+    const nombreCompleto = p.nombre || (nombreMostrar.includes(' · ') ? nombreMostrar.split(' · ')[0] : nombreMostrar);
+    const nombrePila = nombreCompleto.trim().split(' ')[0] || 'Estudiante';
+    if (saludoEl) {
       saludoEl.textContent = `Hola, ${nombrePila}!`;
       saludoEl.style.display = 'inline-block';
-    } else {
-      saludoEl.textContent = '';
-      saludoEl.style.display = 'none';
     }
+    if (saludoMovilEl) saludoMovilEl.textContent = `¡Hola, ${nombrePila}! 👋`;
+  } else {
+    if (saludoEl) { saludoEl.textContent = ''; saludoEl.style.display = 'none'; }
+    if (saludoMovilEl) saludoMovilEl.textContent = '¡Hola! 👋';
   }
 
   const nombreMovil = document.querySelector('.profile-name');

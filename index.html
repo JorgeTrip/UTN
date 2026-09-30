@@ -39,7 +39,20 @@
 
 <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="cerrarMenu()">
   <div class="mobile-menu-drawer" onclick="event.stopPropagation()">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+      <div id="saludoUsuarioMenuMovil" style="font-size:16px;font-weight:700;color:var(--text);">¡Hola! 👋</div>
+      <button class="mobile-menu-close-btn" onclick="cerrarMenu()" aria-label="Cerrar menú" style="background:none;border:none;font-size:18px;color:var(--muted);cursor:pointer;padding:4px;">✕</button>
+    </div>
     <div class="mobile-menu-profile"><div class="profile-avatar">--</div><div class="profile-info"><div class="profile-name">Estudiante</div><div class="profile-legajo" id="mobileProfileLegajo">Sin sesión activa</div><div class="profile-plan" id="mobileProfilePlan" style="display:none;"></div></div></div>
+    <div class="mobile-menu-divider">Cuenta & Configuración</div>
+    <div class="mobile-menu-nav">
+      <button class="mobile-menu-item" id="btnEditarPerfilMovil" onclick="abrirModalPerfil(); cerrarMenu();"><span>👤</span> Editar Perfil / Datos</button>
+      <button class="mobile-menu-item" id="btnTemaMovil" onclick="alternarTema();"><span id="switchTemaIconoMovil">🌙</span> <span id="switchTemaTextoMovil">Modo Oscuro</span></button>
+      <button class="mobile-menu-item" id="btnExportarBackupMovil" onclick="exportarDatosAlumno(); cerrarMenu();"><span>💾</span> Descargar Backup JSON</button>
+      <label class="mobile-menu-item" id="inputImportarBackupMovilWrap" style="cursor:pointer;margin:0;"><span>📥</span> Cargar Backup JSON<input type="file" accept=".json" onchange="importarDatosAlumno(event); cerrarMenu();" style="display:none;"></label>
+      <button class="mobile-menu-item item-acerca-de" id="btnAcercaDeMovil" onclick="abrirModalAcercaDe(); cerrarMenu();"><span>ℹ️</span> Acerca de</button>
+      <button class="mobile-menu-item" id="btnCerrarSesionMovil" onclick="cerrarSesionDesdeMovil();"><span>🚪</span> Cerrar Sesión</button>
+    </div>
     <div class="mobile-menu-divider">Navegación Principal</div>
     <div class="mobile-menu-nav">
       <button class="mobile-menu-item" onclick="seleccionarSolapaMovil(1)">🏆 Plan de Estudios & Seguimiento</button>
@@ -51,24 +64,14 @@
 </div>
 
 <div class="super-tab-bar">
-  <div class="super-tab-inner">
-    <button class="super-tab sp1 active" onclick="superTab(1)">🏆 Plan de Estudios & Seguimiento</button>
-    <button class="super-tab sp2" onclick="superTab(2)">🗓️ Planificador Cuatrimestral</button>
-    <button class="super-tab sp4" onclick="superTab(4)">📖 Guía Académica & FAQ</button>
-    <button class="super-tab sp0" onclick="superTab(0)">🔗 Links Útiles</button>
-  </div>
+  <div class="super-tab-inner"><button class="super-tab sp1 active" onclick="superTab(1)">🏆 Plan de Estudios & Seguimiento</button><button class="super-tab sp2" onclick="superTab(2)">🗓️ Planificador Cuatrimestral</button><button class="super-tab sp4" onclick="superTab(4)">📖 Guía Académica & FAQ</button><button class="super-tab sp0" onclick="superTab(0)">🔗 Links Útiles</button></div>
 </div>
 
 <main id="sp0" class="super-panel"></main>
 
 <main id="sp1" class="super-panel active">
   <div class="sub-tab-bar">
-    <div class="sub-tab-inner">
-      <button class="sub-tab active" onclick="sp1Tab(0)">🏆 Hitos & KPIs</button>
-      <button class="sub-tab" onclick="sp1Tab(1)">🗺️ Mapa Curricular K23</button>
-      <button class="sub-tab" onclick="sp1Tab(2)">📐 Peso Académico UTN</button>
-      <button class="sub-tab" onclick="sp1Tab(3)">🚀 Estrategia & Correlatividades</button>
-    </div>
+    <div class="sub-tab-inner"><button class="sub-tab active" onclick="sp1Tab(0)">🏆 Hitos & KPIs</button><button class="sub-tab" onclick="sp1Tab(1)">🗺️ Mapa Curricular K23</button><button class="sub-tab" onclick="sp1Tab(2)">📐 Peso Académico UTN</button><button class="sub-tab" onclick="sp1Tab(3)">🚀 Estrategia & Correlatividades</button></div>
   </div>
   <div class="sub-panel active" id="sp1p0"></div>
   <div class="sub-panel" id="sp1p1">
@@ -169,16 +172,8 @@
     <div class="modal-body">
       <div id="bannerHorasElectivasCumplidas" style="display:none;margin-bottom:12px;padding:10px 14px;border-radius:8px;font-size:12px;line-height:1.5;"></div>
       <div class="form-group" style="margin-bottom:12px;"><label class="form-label">Oferta de Materias Electivas Institucionales</label><select id="selectMateriaElectiva" class="form-input" onchange="actualizarInfoElectivaSeleccionada()"></select></div>
-      <div id="boxInfoElectiva" style="background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:12px;font-size:12px;">
-        <div style="font-weight:700;font-size:13px;margin-bottom:4px;" id="infoElectivaNombre">-</div>
-        <div style="color:var(--blue);font-family:'JetBrains Mono',monospace;margin-bottom:6px;" id="infoElectivaCarga">-</div>
-        <div style="color:var(--muted);line-height:1.5;" id="infoElectivaDesc">-</div>
-      </div>
-      <div class="form-grid">
-        <div class="form-group"><label class="form-label">Estado Académico</label><select id="selectEstadoElectiva" class="form-input"><option value="aprobada">Aprobada</option><option value="en_curso">En Curso</option><option value="planificada">Planificada</option></select></div>
-        <div class="form-group"><label class="form-label">Nota (1-10)</label><input type="number" min="1" max="10" id="inputNotaElectiva" class="form-input" placeholder="Ej: 10"></div>
-        <div class="form-group" style="grid-column:1/-1;"><label class="form-label">Fecha Aprobación / Cursada</label><input type="text" id="inputFechaElectiva" class="form-input" placeholder="AAAA-MM-DD"></div>
-      </div>
+      <div id="boxInfoElectiva" style="background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:12px;font-size:12px;"><div style="font-weight:700;font-size:13px;margin-bottom:4px;" id="infoElectivaNombre">-</div><div style="color:var(--blue);font-family:'JetBrains Mono',monospace;margin-bottom:6px;" id="infoElectivaCarga">-</div><div style="color:var(--muted);line-height:1.5;" id="infoElectivaDesc">-</div></div>
+      <div class="form-grid"><div class="form-group"><label class="form-label">Estado Académico</label><select id="selectEstadoElectiva" class="form-input"><option value="aprobada">Aprobada</option><option value="en_curso">En Curso</option><option value="planificada">Planificada</option></select></div><div class="form-group"><label class="form-label">Nota (1-10)</label><input type="number" min="1" max="10" id="inputNotaElectiva" class="form-input" placeholder="Ej: 10"></div><div class="form-group" style="grid-column:1/-1;"><label class="form-label">Fecha Aprobación / Cursada</label><input type="text" id="inputFechaElectiva" class="form-input" placeholder="AAAA-MM-DD"></div></div>
     </div>
     <div class="modal-footer"><button class="btn-sec" onclick="cerrarModalElectiva()">Cancelar</button><button class="btn-prim" onclick="guardarMateriaElectivaModal()">Guardar Electiva</button></div>
   </div>

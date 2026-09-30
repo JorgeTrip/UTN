@@ -19,7 +19,7 @@ test.describe('Modales y Formularios de Edición', () => {
 
     // Abre el menú del avatar y selecciona Editar Perfil
     await page.locator('.avatar-btn-header').click();
-    await page.getByRole('button', { name: /Editar Perfil \/ Datos/i }).click();
+    await page.locator('#avatarDropdown').getByRole('button', { name: /Editar Perfil \/ Datos/i }).click();
 
     // Valida que el modal se muestre abierto
     await expect(modalPerfil).toHaveClass(/open/);
