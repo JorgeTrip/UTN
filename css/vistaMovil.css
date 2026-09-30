@@ -3,13 +3,13 @@
    ═══════════════════════════════════════════════════════════════ */
 
 @media (max-width: 768px) {
-  /* Espacio de reserva para no solapar la Bottom Tab Bar */
+  /* Espacio de reserva para no solapar la Doble Barra Inferior (Principal + Sub-barra) */
   body, main {
-    padding-bottom: 82px !important;
+    padding-bottom: 125px !important;
   }
 
-  /* Ocultar barra de escritorio superior */
-  .super-tab-bar {
+  /* Ocultar barra de escritorio superior y sub-barras superiores duplicadas */
+  .super-tab-bar, #sp1 > .sub-tab-bar, #sp2 .sub-tab-bar {
     display: none !important;
   }
 

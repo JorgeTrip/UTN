@@ -1,12 +1,13 @@
 /* ═══════════════════════════════════════════════════════════════
-   BARRA DE NAVEGACIÓN INFERIOR (BOTTOM TAB BAR - ESTILO APPLE)
+   BARRA DE NAVEGACIÓN INFERIOR Y SUB-BARRA CONECTOR (APPLE UI)
    ═══════════════════════════════════════════════════════════════ */
 
-.bottom-tab-bar {
+.bottom-tab-bar, .sub-tab-bar-inferior {
   display: none;
 }
 
 @media (max-width: 768px) {
+  /* Barra Principal Inferior */
   .bottom-tab-bar {
     display: flex;
     position: fixed;
@@ -16,10 +17,10 @@
     height: auto;
     min-height: 58px;
     padding: 6px 8px max(6px, env(safe-area-inset-bottom));
-    background: rgba(28, 28, 30, 0.92);
+    background: rgba(28, 28, 30, 0.94);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border-top: 1px solid rgba(58, 58, 60, 0.8);
+    border-top: 1px solid rgba(58, 58, 60, 0.85);
     z-index: 1000;
     justify-content: space-around;
     align-items: center;
@@ -27,12 +28,13 @@
   }
 
   [data-tema="claro"] .bottom-tab-bar {
-    background: rgba(245, 245, 247, 0.92);
+    background: rgba(245, 245, 247, 0.94);
     border-top: 1px solid rgba(0, 0, 0, 0.12);
     box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.06);
   }
 
   .bottom-tab-item {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -75,11 +77,83 @@
     transform: scale(1.08);
   }
 
-  [data-tema="claro"] .bottom-tab-item {
+  /* Conector Visual: Flecha indicadora superior que da origen a la sub-barra */
+  .bottom-tab-item .tab-connector-arrow {
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 7px solid #0A84FF;
+    filter: drop-shadow(0 -2px 4px rgba(10, 132, 255, 0.6));
+    pointer-events: none;
+    animation: bounceConnector 1.2s infinite alternate ease-in-out;
+  }
+
+  @keyframes bounceConnector {
+    from { transform: translate(-50%, 0); }
+    to { transform: translate(-50%, -2px); }
+  }
+
+  /* Sub-Barra Inferior Flotante (Apilada sobre la barra principal) */
+  .sub-tab-bar-inferior {
+    display: flex;
+    position: fixed;
+    bottom: 60px;
+    left: 8px;
+    right: 8px;
+    z-index: 999;
+    background: rgba(28, 28, 30, 0.94);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(58, 58, 60, 0.85);
+    border-radius: 14px;
+    padding: 4px;
+    gap: 4px;
+    overflow-x: auto;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.4);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+
+  [data-tema="claro"] .sub-tab-bar-inferior {
+    background: rgba(245, 245, 247, 0.94);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.08);
+  }
+
+  .sub-tab-pill {
+    background: transparent;
+    border: 1px solid transparent;
+    padding: 6px 10px;
+    border-radius: 9px;
+    color: #8E8E93;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .sub-tab-pill.active {
+    background: rgba(10, 132, 255, 0.18);
+    color: #0A84FF;
+    font-weight: 600;
+    border-color: rgba(10, 132, 255, 0.35);
+  }
+
+  [data-tema="claro"] .sub-tab-pill {
     color: #6E6E73;
   }
 
-  [data-tema="claro"] .bottom-tab-item.active {
+  [data-tema="claro"] .sub-tab-pill.active {
+    background: rgba(0, 113, 227, 0.14);
     color: #0071E3;
+    border-color: rgba(0, 113, 227, 0.28);
   }
 }
