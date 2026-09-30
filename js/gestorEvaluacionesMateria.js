@@ -1,10 +1,8 @@
 /**
- * Módulo Gestor de Evaluaciones de Cursada (Parciales con 2 Recuperatorios y TPs)
- * Renderiza los controles de parciales (def: 2) con Nota Original, 1er Recup, 2do Recup y TPs (def: 0),
- * aplicando el algoritmo UTN y esperando la totalidad de parciales requeridos antes de clasificar la cursada.
+ * Módulo Gestor de Evaluaciones de Cursada (Parciales y Trabajos Prácticos)
+ * Maneja esquemas de cátedra con N parciales (hasta 2 recups) y M TPs (con reentrega).
  */
 
-/** Renderiza el formulario de configuración de parciales y TPs para la materia en edición. */
 function renderizarSeccionEvaluacionesModal(materiaObj) {
   const contenedor = document.getElementById('seccionEvaluacionesModal');
   if (!contenedor) return;
@@ -16,33 +14,29 @@ function renderizarSeccionEvaluacionesModal(materiaObj) {
 
   contenedor.replaceChildren();
   contenedor.insertAdjacentHTML('beforeend', `
-    <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);">
-      <div style="font-weight:600;font-size:13px;color:var(--blue);margin-bottom:10px;display:flex;align-items:center;gap:6px;">
-        📝 Evaluación de Cursada (Parciales con 2 Recuperatorios y TPs)
-      </div>
-      <div class="form-grid" style="grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
-        <div class="form-group">
-          <label class="form-label">Cant. Parciales (por defecto 2)</label>
-          <input type="number" min="1" max="6" id="evalCantParciales" class="form-input" value="${cantParciales}" onchange="reconstruirCamposEvaluacionModal()">
+    <div>
+      <div class="form-grid" style="grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="form-label" style="font-size:11px;">Cant. Parciales Cátedra</label>
+          <input type="number" min="0" max="6" id="evalCantParciales" class="form-input" value="${cantParciales}" onchange="reconstruirCamposEvaluacionModal()">
         </div>
-        <div class="form-group">
-          <label class="form-label">Cant. TPs Evaluativos (por defecto 0)</label>
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="form-label" style="font-size:11px;">Cant. TPs / Proyectos</label>
           <input type="number" min="0" max="6" id="evalCantTPs" class="form-input" value="${cantTPs}" onchange="reconstruirCamposEvaluacionModal()">
         </div>
       </div>
       <div id="gridCamposEvaluacion" style="display:flex;flex-direction:column;gap:8px;"></div>
-      <div id="boxResultadoCursadaCalculada" style="margin-top:12px;padding:10px;border-radius:6px;font-size:12px;background:var(--s1);border:1px solid var(--border);"></div>
+      <div id="boxResultadoCursadaCalculada" style="margin-top:10px;padding:8px 10px;border-radius:6px;font-size:11.5px;background:var(--s2);border:1px solid var(--border);"></div>
     </div>
   `);
   reconstruirCamposEvaluacionModal(evalData);
 }
 
-/** Reconstruye dinámicamente los campos de entrada de notas según la cantidad de instancias. */
 function reconstruirCamposEvaluacionModal(evalDataPrevias) {
   const grid = document.getElementById('gridCamposEvaluacion');
   if (!grid) return;
-  const nParciales = Math.max(1, parseInt(document.getElementById('evalCantParciales').value, 10) || 2);
-  const nTPs = Math.max(0, parseInt(document.getElementById('evalCantTPs').value, 10) || 0);
+  const nParciales = Math.max(0, parseInt(document.getElementById('evalCantParciales')?.value, 10) || 0);
+  const nTPs = Math.max(0, parseInt(document.getElementById('evalCantTPs')?.value, 10) || 0);
   const parcialesPrev = evalDataPrevias?.parciales || [];
   const tpsPrev = evalDataPrevias?.tps || [];
   let html = '';
@@ -54,40 +48,43 @@ function reconstruirCamposEvaluacionModal(evalDataPrevias) {
     const vRec2 = pObj.recup2 !== undefined && pObj.recup2 !== null ? pObj.recup2 : '';
 
     html += `
-      <div style="background:var(--s2);padding:10px;border-radius:8px;border:1px solid var(--border);margin-bottom:6px;">
-        <div style="font-size:12px;font-weight:600;margin-bottom:8px;color:var(--blue);">📌 Parcial ${i + 1}</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
-          <div class="form-group"><label class="form-label" style="font-size:10px;">Original</label><input type="number" min="1" max="10" class="form-input input-p-orig" data-pidx="${i}" value="${vOrig}" placeholder="Nota" oninput="actualizarEvaluacionesModal()"></div>
-          <div class="form-group"><label class="form-label" style="font-size:10px;">1er Recup</label><input type="number" min="1" max="10" class="form-input input-p-rec1" data-pidx="${i}" value="${vRec1}" placeholder="Recup 1" oninput="actualizarEvaluacionesModal()"></div>
-          <div class="form-group"><label class="form-label" style="font-size:10px;">2do Recup</label><input type="number" min="1" max="10" class="form-input input-p-rec2" data-pidx="${i}" value="${vRec2}" placeholder="Recup 2" oninput="actualizarEvaluacionesModal()"></div>
+      <div style="background:var(--s2);padding:8px 10px;border-radius:6px;border:1px solid var(--border);">
+        <div style="font-size:11.5px;font-weight:600;margin-bottom:6px;color:var(--blue);">📌 Parcial ${i + 1}</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
+          <div class="form-group" style="margin-bottom:0;"><label class="form-label" style="font-size:9.5px;">Original</label><input type="number" min="1" max="10" class="form-input input-p-orig" data-pidx="${i}" value="${vOrig}" placeholder="Nota" oninput="actualizarEvaluacionesModal()"></div>
+          <div class="form-group" style="margin-bottom:0;"><label class="form-label" style="font-size:9.5px;">1° Recup</label><input type="number" min="1" max="10" class="form-input input-p-rec1" data-pidx="${i}" value="${vRec1}" placeholder="Recup 1" oninput="actualizarEvaluacionesModal()"></div>
+          <div class="form-group" style="margin-bottom:0;"><label class="form-label" style="font-size:9.5px;">2° Recup</label><input type="number" min="1" max="10" class="form-input input-p-rec2" data-pidx="${i}" value="${vRec2}" placeholder="Recup 2" oninput="actualizarEvaluacionesModal()"></div>
         </div>
       </div>
     `;
   }
 
-  if (nTPs > 0) {
-    html += '<div style="margin-top:4px;font-size:12px;font-weight:600;color:var(--blue);margin-bottom:6px;">💻 Trabajos Prácticos Evaluativos</div>';
-    for (let j = 0; j < nTPs; j++) {
-      const tpObj = tpsPrev[j] || {};
-      const vTp = (tpObj.nota !== undefined && tpObj.nota !== null) ? tpObj.nota : (typeof tpObj === 'number' ? tpObj : '');
-      html += `
-        <div style="display:flex;align-items:center;justify-content:space-between;background:var(--s2);padding:8px 12px;border-radius:6px;border:1px solid var(--border);margin-bottom:4px;">
-          <span style="font-size:11.5px;font-weight:600;">TP ${j + 1}</span>
-          <input type="number" min="1" max="10" class="form-input input-tp-nota" data-tpidx="${j}" value="${vTp}" placeholder="Nota TP" style="width:90px;padding:4px 8px;font-size:12px;" oninput="actualizarEvaluacionesModal()">
+  for (let j = 0; j < nTPs; j++) {
+    const tpObj = tpsPrev[j] || {};
+    const vOrig = tpObj.original !== undefined && tpObj.original !== null ? tpObj.original : (tpObj.nota !== undefined && tpObj.nota !== null ? tpObj.nota : (typeof tpObj === 'number' ? tpObj : ''));
+    const vReent = tpObj.reentrega !== undefined && tpObj.reentrega !== null ? tpObj.reentrega : '';
+
+    html += `
+      <div style="background:var(--s2);padding:8px 10px;border-radius:6px;border:1px solid var(--border);">
+        <div style="font-size:11.5px;font-weight:600;margin-bottom:6px;color:var(--purple, #a855f7);">💻 Trabajo Práctico ${j + 1}</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+          <div class="form-group" style="margin-bottom:0;"><label class="form-label" style="font-size:9.5px;">Original</label><input type="number" min="1" max="10" class="form-input input-tp-orig" data-tpidx="${j}" value="${vOrig}" placeholder="Nota TP" oninput="actualizarEvaluacionesModal()"></div>
+          <div class="form-group" style="margin-bottom:0;"><label class="form-label" style="font-size:9.5px;">Reentrega</label><input type="number" min="1" max="10" class="form-input input-tp-reent" data-tpidx="${j}" value="${vReent}" placeholder="Reentrega" oninput="actualizarEvaluacionesModal()"></div>
         </div>
-      `;
-    }
+      </div>
+    `;
   }
+
   grid.replaceChildren();
   grid.insertAdjacentHTML('beforeend', html);
   actualizarEvaluacionesModal();
 }
 
-/** Recalcula en vivo la condición académica proyectada y actualiza el cuadro de resultado. */
 function actualizarEvaluacionesModal() {
   const box = document.getElementById('boxResultadoCursadaCalculada');
   if (!box) return;
-  const nParciales = Math.max(1, parseInt(document.getElementById('evalCantParciales')?.value, 10) || 2);
+  const nParciales = Math.max(0, parseInt(document.getElementById('evalCantParciales')?.value, 10) || 0);
+  const nTPs = Math.max(0, parseInt(document.getElementById('evalCantTPs')?.value, 10) || 0);
   const parcialesEstructurados = [];
 
   for (let i = 0; i < nParciales; i++) {
@@ -100,10 +97,17 @@ function actualizarEvaluacionesModal() {
     parcialesEstructurados.push({ original: orig, recup1, recup2 });
   }
 
-  const tpsInputs = document.querySelectorAll('.input-tp-nota');
-  const tpsNotas = Array.from(tpsInputs).map(inp => inp.value.trim() !== '' ? Number(inp.value) : null);
+  const tpsEstructurados = [];
+  for (let j = 0; j < nTPs; j++) {
+    const origInp = document.querySelector(`.input-tp-orig[data-tpidx="${j}"]`);
+    const reentInp = document.querySelector(`.input-tp-reent[data-tpidx="${j}"]`);
+    const orig = origInp && origInp.value.trim() !== '' ? Number(origInp.value) : null;
+    const reentrega = reentInp && reentInp.value.trim() !== '' ? Number(reentInp.value) : null;
+    tpsEstructurados.push({ original: orig, reentrega });
+  }
+
   const res = (typeof calcularCondicionCursadaCompleta === 'function')
-    ? calcularCondicionCursadaCompleta(parcialesEstructurados, tpsNotas, nParciales)
+    ? calcularCondicionCursadaCompleta(parcialesEstructurados, tpsEstructurados, nParciales, nTPs)
     : { condicionTexto: 'En evaluación' };
 
   let color = 'var(--blue)', bg = 'rgba(56,189,248,.08)';
@@ -114,7 +118,7 @@ function actualizarEvaluacionesModal() {
   box.style.borderColor = color;
   box.style.background = bg;
   box.replaceChildren();
-  box.insertAdjacentHTML('beforeend', `<strong style="color:${color}">Resultado Algoritmo:</strong> ${res.condicionTexto}`);
+  box.insertAdjacentHTML('beforeend', `<strong style="color:${color}">Resultado Cursada:</strong> ${res.condicionTexto}`);
 
   const selectEst = document.getElementById('selectEstadoMateria');
   const selectMod = document.getElementById('selectModalidadMateria');
@@ -127,18 +131,13 @@ function actualizarEvaluacionesModal() {
   } else if (res.estado === 'firmada') {
     if (selectEst) selectEst.value = 'firmada';
     if (selectMod) selectMod.value = 'final';
-  } else if (res.estado === 'en_curso') {
-    if (selectEst && selectEst.value !== 'aprobada' && selectEst.value !== 'equivalencia' && selectEst.value !== 'firmada') {
-      selectEst.value = 'en_curso';
-    }
   } else if (res.recursa) {
     if (selectEst) selectEst.value = 'pendiente';
   }
 }
 
-/** Recolecta el estado final de las evaluaciones cargadas para su almacenamiento. */
 function obtenerEvaluacionesModalData() {
-  const nParciales = Math.max(1, parseInt(document.getElementById('evalCantParciales')?.value, 10) || 2);
+  const nParciales = Math.max(0, parseInt(document.getElementById('evalCantParciales')?.value, 10) || 0);
   const nTPs = Math.max(0, parseInt(document.getElementById('evalCantTPs')?.value, 10) || 0);
   const parciales = [];
 
@@ -149,19 +148,19 @@ function obtenerEvaluacionesModalData() {
     const orig = origInp && origInp.value.trim() !== '' ? Number(origInp.value) : null;
     const recup1 = rec1Inp && rec1Inp.value.trim() !== '' ? Number(rec1Inp.value) : null;
     const recup2 = rec2Inp && rec2Inp.value.trim() !== '' ? Number(rec2Inp.value) : null;
-    let notaFinalCalculada = recup2 !== null ? recup2 : (recup1 !== null ? recup1 : orig);
-
-    parciales.push({
-      instancia: `${i + 1}er Parcial`,
-      original: orig, recup1, recup2, nota: notaFinalCalculada
-    });
+    let notaFinal = recup2 !== null ? recup2 : (recup1 !== null ? recup1 : orig);
+    parciales.push({ instancia: `${i + 1}° Parcial`, original: orig, recup1, recup2, nota: notaFinal });
   }
 
-  const tpsInputs = document.querySelectorAll('.input-tp-nota');
-  const tps = Array.from(tpsInputs).map((inp, j) => ({
-    instancia: `TP ${j + 1}`,
-    nota: inp.value.trim() !== '' ? Number(inp.value) : null
-  }));
+  const tps = [];
+  for (let j = 0; j < nTPs; j++) {
+    const origInp = document.querySelector(`.input-tp-orig[data-tpidx="${j}"]`);
+    const reentInp = document.querySelector(`.input-tp-reent[data-tpidx="${j}"]`);
+    const orig = origInp && origInp.value.trim() !== '' ? Number(origInp.value) : null;
+    const reentrega = reentInp && reentInp.value.trim() !== '' ? Number(reentInp.value) : null;
+    let notaFinal = reentrega !== null ? reentrega : orig;
+    tps.push({ instancia: `TP ${j + 1}`, original: orig, reentrega, nota: notaFinal });
+  }
 
   return {
     configuracionEvaluacion: { cantidadParciales: nParciales, cantidadTPs: nTPs },

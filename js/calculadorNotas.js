@@ -3,17 +3,18 @@
  * Procesa promedios, parciales con 2 recuperatorios y esperas a la totalidad de parciales requeridos.
  */
 
-function calcularCondicionCursadaCompleta(parcialesEstructurados, tpsNotas, cantParcialesReq) {
+function calcularCondicionCursadaCompleta(parcialesEstructurados, tpsEstructurados, cantParcialesReq, cantTPsReq) {
   const parciales = parcialesEstructurados || [];
-  const tps = (tpsNotas || []).filter(n => typeof n === 'number' && !isNaN(n));
-  const reqParciales = cantParcialesReq || parciales.length || 2;
+  const reqParciales = cantParcialesReq !== undefined ? cantParcialesReq : parciales.length;
+  const tpsLista = tpsEstructurados || [];
+  const reqTPs = cantTPsReq !== undefined ? cantTPsReq : tpsLista.length;
 
-  if (parciales.length === 0) {
-    return { estado: 'en_curso', condicionTexto: 'Sin evaluaciones cargadas', promedioParciales: null, promociona: false, regular: false, recursa: false };
+  if (reqParciales === 0 && reqTPs === 0) {
+    return { estado: 'en_curso', condicionTexto: 'Sin evaluaciones configuradas', promedioParciales: null, promociona: false, regular: false, recursa: false };
   }
 
   let recuperatoriosRendidos = 0;
-  const ultimasNotas = [];
+  const ultimasNotasParciales = [];
   let parcialesConNotaCount = 0;
 
   parciales.forEach(p => {
@@ -26,60 +27,78 @@ function calcularCondicionCursadaCompleta(parcialesEstructurados, tpsNotas, cant
       notaEfectiva = p.original;
     }
     if (notaEfectiva !== null) {
-      ultimasNotas.push(notaEfectiva);
+      ultimasNotasParciales.push(notaEfectiva);
       parcialesConNotaCount++;
     }
   });
 
-  if (parcialesConNotaCount === 0) {
+  const ultimasNotasTPs = [];
+  let tpsConNotaCount = 0;
+  tpsLista.forEach(tp => {
+    let notaTP = null;
+    if (typeof tp === 'object' && tp !== null) {
+      if (typeof tp.reentrega === 'number' && !isNaN(tp.reentrega)) {
+        notaTP = tp.reentrega; recuperatoriosRendidos += 1;
+      } else if (typeof tp.original === 'number' && !isNaN(tp.original)) {
+        notaTP = tp.original;
+      } else if (typeof tp.nota === 'number' && !isNaN(tp.nota)) {
+        notaTP = tp.nota;
+      }
+    } else if (typeof tp === 'number' && !isNaN(tp)) {
+      notaTP = tp;
+    }
+    if (notaTP !== null) {
+      ultimasNotasTPs.push(notaTP);
+      tpsConNotaCount++;
+    }
+  });
+
+  const todasLasNotas = [...ultimasNotasParciales, ...ultimasNotasTPs];
+  if (todasLasNotas.length === 0) {
     return { estado: 'en_curso', condicionTexto: '⏳ Cursada en Progreso (Sin notas ingresadas)', promedioParciales: null, promociona: false, regular: false, recursa: false };
   }
 
-  const suma = ultimasNotas.reduce((a, b) => a + b, 0);
-  const promedioParciales = Number((suma / ultimasNotas.length).toFixed(2));
+  const suma = todasLasNotas.reduce((a, b) => a + b, 0);
+  const promedioGeneral = Number((suma / todasLasNotas.length).toFixed(2));
 
-  if (parcialesConNotaCount < reqParciales) {
+  if (parcialesConNotaCount < reqParciales || tpsConNotaCount < reqTPs) {
     return {
       estado: 'en_curso',
-      condicionTexto: `⏳ Cursada en Progreso (${parcialesConNotaCount}/${reqParciales} parciales rendidos · Promedio actual: ${promedioParciales})`,
-      promedioParciales, recuperatoriosRendidos,
+      condicionTexto: `⏳ Cursada en Progreso (${parcialesConNotaCount}/${reqParciales} parc., ${tpsConNotaCount}/${reqTPs} TPs · Promedio: ${promedioGeneral})`,
+      promedioParciales: promedioGeneral, recuperatoriosRendidos,
       promociona: false, regular: false, recursa: false
     };
   }
 
-  const todosParcialesAprobados = ultimasNotas.every(n => n >= 6);
-  const algunParcialDesaprobado = ultimasNotas.some(n => n < 6);
-  const todosTPsAprobados = tps.length === 0 || tps.every(n => n >= 6);
-  const algunTPDesaprobado = tps.some(n => n < 6);
+  const todasAprobadas = todasLasNotas.every(n => n >= 6);
+  const algunaDesaprobada = todasLasNotas.some(n => n < 6);
+  const todasMayorIgual8 = todasLasNotas.every(n => n >= 8);
 
-  const todasNotasMayorIgual8 = ultimasNotas.every(n => n >= 8);
-  const todosTPsMayorIgual8 = tps.length === 0 || tps.every(n => n >= 8);
-
-  if (algunParcialDesaprobado || algunTPDesaprobado) {
+  if (algunaDesaprobada) {
     return {
       estado: 'recursa',
-      condicionTexto: '❌ RECURSAR MATERIA (Parcial o TP con nota final < 6)',
-      promedioParciales, recuperatoriosRendidos,
+      condicionTexto: '❌ RECURSAR MATERIA (Evaluación o TP con nota final < 6)',
+      promedioParciales: promedioGeneral, recuperatoriosRendidos,
       promociona: false, regular: false, recursa: true
     };
   }
 
-  if (todosParcialesAprobados && todosTPsAprobados) {
-    if (promedioParciales >= 8 && todasNotasMayorIgual8 && todosTPsMayorIgual8 && recuperatoriosRendidos <= 1) {
+  if (todasAprobadas) {
+    if (promedioGeneral >= 8 && todasMayorIgual8 && recuperatoriosRendidos <= 1) {
       return {
         estado: 'promocion',
-        condicionTexto: `🏆 PROMOCIONA DIRECTO (${recuperatoriosRendidos === 1 ? 'Con 1er Recup. · ' : ''}Promedio: ${promedioParciales})`,
-        promedioParciales, recuperatoriosRendidos,
+        condicionTexto: `🏆 PROMOCIONA DIRECTO (${recuperatoriosRendidos === 1 ? 'Con 1 Recup/Reentrega · ' : ''}Promedio: ${promedioGeneral})`,
+        promedioParciales: promedioGeneral, recuperatoriosRendidos,
         promociona: true, regular: true, recursa: false
       };
     } else {
       let motivo = '';
-      if (!todasNotasMayorIgual8) motivo = ' (Nota individual < 8)';
+      if (!todasMayorIgual8) motivo = ' (Nota individual < 8)';
       else if (recuperatoriosRendidos > 1) motivo = ' (Perdió promoción por >1 recuperatorio)';
       return {
         estado: 'firmada',
-        condicionTexto: `✍️ CURSADA FIRMADA · Rinde Final${motivo} (Promedio: ${promedioParciales})`,
-        promedioParciales, recuperatoriosRendidos,
+        condicionTexto: `✍️ CURSADA FIRMADA · Rinde Final${motivo} (Promedio: ${promedioGeneral})`,
+        promedioParciales: promedioGeneral, recuperatoriosRendidos,
         promociona: false, regular: true, recursa: false
       };
     }
@@ -87,8 +106,8 @@ function calcularCondicionCursadaCompleta(parcialesEstructurados, tpsNotas, cant
 
   return {
     estado: 'en_curso',
-    condicionTexto: `⏳ Cursada en Progreso (Promedio actual: ${promedioParciales})`,
-    promedioParciales, recuperatoriosRendidos,
+    condicionTexto: `⏳ Cursada en Progreso (Promedio actual: ${promedioGeneral})`,
+    promedioParciales: promedioGeneral, recuperatoriosRendidos,
     promociona: false, regular: false, recursa: false
   };
 }
@@ -118,14 +137,25 @@ function calcularPromedioGeneral(materiasAprobadas) {
 }
 
 /**
- * Calcula el promedio general histórico con aplazos según normativa UTN FRBA (aplazos nota < 6 o Reprobado).
+ * Calcula el promedio general histórico con aplazos según normativa UTN FRBA (aplazos nota < 6).
  * @param {Array} materiasAprobadas - Lista de asignaturas aprobadas.
- * @param {Array} historialSIU - Registro de exámenes y regularidades rendidos.
+ * @param {Array} historialSIU - Registro legacy de exámenes SIU.
+ * @param {Array} [materiasEnCurso] - Lista de asignaturas en curso.
  * @returns {number} Promedio con aplazos ponderado.
  */
-function calcularPromedioConAplazos(materiasAprobadas, historialSIU) {
+function calcularPromedioConAplazos(materiasAprobadas, historialSIU, materiasEnCurso) {
   const notasAprobadas = (materiasAprobadas || []).filter(m => typeof m.nota === 'number' && m.nota > 0).map(m => m.nota);
   const notasAplazos = (historialSIU || []).filter(h => typeof h.nota === 'number' && h.nota > 0 && (h.nota < 6 || h.resultado === 'Reprobado')).map(h => h.nota);
+
+  const todasMaterias = [...(materiasAprobadas || []), ...(materiasEnCurso || [])];
+  todasMaterias.forEach(m => {
+    (m.finales || []).forEach(f => {
+      if (typeof f.nota === 'number' && f.nota > 0 && (f.nota < 6 || f.resultado === 'desaprobado')) {
+        notasAplazos.push(f.nota);
+      }
+    });
+  });
+
   const todas = [...notasAprobadas, ...notasAplazos];
   if (todas.length === 0) return 0;
   return Number((todas.reduce((a, b) => a + b, 0) / todas.length).toFixed(2));

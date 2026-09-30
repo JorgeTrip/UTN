@@ -52,12 +52,29 @@ async function obtenerDatosAlumnoFirestore(uid) {
         localStorage.setItem(`pulso_datos_alumno_${uid}`, JSON.stringify(datos));
         return datos;
       }
-      // Si el documento no existe en Firestore, lo crea vacío
-      const nuevoAlumno = crearEsquemaAlumnoInicial(window.servicioAuth.obtenerUsuarioActual());
-      await docRef.set(nuevoAlumno);
-      return nuevoAlumno;
+
+      // Si el documento no existe en Firestore, sube los datos locales existentes o crea esquema inicial
+      const localPrevio = localStorage.getItem('pulso_datos_alumno');
+      let datosParaSubir = null;
+      if (localPrevio) {
+        try {
+          const parsed = JSON.parse(localPrevio);
+          if (parsed && (parsed.materiasAprobadas?.length > 0 || parsed.perfil?.nombre || parsed.perfil?.legajo)) {
+            datosParaSubir = parsed;
+          }
+        } catch (e) {}
+      }
+
+      if (!datosParaSubir) {
+        datosParaSubir = crearEsquemaAlumnoInicial(window.servicioAuth.obtenerUsuarioActual());
+      }
+
+      await docRef.set(datosParaSubir);
+      localStorage.setItem(`pulso_datos_alumno_${uid}`, JSON.stringify(datosParaSubir));
+      console.log('☁️ Datos migrados y guardados en Firestore exitosamente en alumnos/' + uid);
+      return datosParaSubir;
     } catch (error) {
-      console.warn('Error leyendo de Firestore, recurriendo a caché local:', error.message);
+      console.warn('Error leyendo o escribiendo en Firestore:', error.message);
     }
   }
 

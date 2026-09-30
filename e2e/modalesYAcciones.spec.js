@@ -59,9 +59,9 @@ test.describe('Modales y Formularios de Edición', () => {
     // Valida que el modal de materia esté abierto y con contenido
     const modalMateria = page.locator('#modalMateria');
     await expect(modalMateria).toHaveClass(/open/);
-    await expect(modalMateria.getByText(/Modificar Materia:/i)).toBeVisible();
+    await expect(modalMateria.getByText(/Materia:/i)).toBeVisible();
     await expect(page.locator('#selectEstadoMateria')).toBeVisible();
-    await expect(page.locator('#listaHistorialSIU')).toBeVisible();
+    await expect(page.locator('#listaLlamadosFinales')).toBeVisible();
 
     // Cierra el modal con el botón cancelar
     await modalMateria.getByRole('button', { name: /Cancelar/i }).click();

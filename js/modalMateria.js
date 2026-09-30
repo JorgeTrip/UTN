@@ -1,16 +1,11 @@
 /**
- * Módulo de Edición Interactiva de Materias, Evaluaciones y SIU
- * Permite gestionar notas, estados de cursada (firmada/aprobada/en curso),
- * evaluaciones parciales e historial de exámenes rendidos en SIU Guaraní.
+ * Módulo de Edición de Materias, Evaluaciones de Cursada y Exámenes Finales
+ * Permite configurar parciales/TPs y registrar llamados de exámenes finales (aprobados, aplazos, ausentes).
  */
 
 let materiaIdActualEdicion = null;
+let materiaObjEnEdicion = null;
 
-/**
- * Abre el modal para editar el estado, nota y evaluaciones de una materia curricular.
- * @param {string} materiaId - Identificador único de la asignatura.
- * @param {Event} [evento] - Evento de clic para evitar propagación de eventos contenedores.
- */
 function abrirModalEditarMateria(materiaId, evento) {
   if (evento) evento.stopPropagation();
   materiaIdActualEdicion = materiaId;
@@ -20,12 +15,11 @@ function abrirModalEditarMateria(materiaId, evento) {
   const datos = window.datosGlobales?.datosAlumno || {};
   const matAprobada = (datos.materiasAprobadas || []).find(m => m.id === materiaId);
   const matEnCurso = (datos.materiasEnCurso || []).find(m => m.id === materiaId);
-  const matObj = matAprobada || matEnCurso || {};
+  materiaObjEnEdicion = JSON.parse(JSON.stringify(matAprobada || matEnCurso || { id: materiaId }));
 
-  let estado = 'pendiente', nota = '', modalidad = 'promocion', fechaAprob = '', nombreMat = materiaId;
+  let estado = 'en_curso', nota = '', modalidad = 'promocion', fechaAprob = '', nombreMat = materiaId;
   if (matAprobada) {
-    if (matAprobada.estado === 'firmada' || matAprobada.modalidad === 'final_pendiente') estado = 'firmada';
-    else estado = matAprobada.modalidad?.startsWith('equivalencia') ? 'equivalencia' : 'aprobada';
+    estado = matAprobada.estado === 'firmada' ? 'firmada' : (matAprobada.modalidad?.startsWith('equivalencia') ? 'equivalencia' : 'aprobada');
     nota = matAprobada.nota !== null && matAprobada.nota !== undefined ? matAprobada.nota : '';
     modalidad = matAprobada.modalidad || 'promocion';
     fechaAprob = matAprobada.fechaAprobacion || '';
@@ -44,107 +38,121 @@ function abrirModalEditarMateria(materiaId, evento) {
   setVal('selectModalidadMateria', modalidad);
   setVal('inputFechaAprobacion', fechaAprob);
 
-  renderizarHistorialSIUEnModal(materiaId);
-  if (typeof renderizarSeccionEvaluacionesModal === 'function') renderizarSeccionEvaluacionesModal(matObj);
+  if (typeof renderizarSeccionEvaluacionesModal === 'function') renderizarSeccionEvaluacionesModal(materiaObjEnEdicion);
+  renderizarSeccionFinalesModal(materiaObjEnEdicion);
   modal.classList.add('open');
 }
 
-/**
- * Renderiza la lista de intentos de exámenes y regularidades cargados en SIU para la materia.
- * @param {string} materiaId - ID de la asignatura a consultar.
- */
-function renderizarHistorialSIUEnModal(materiaId) {
-  const contenedor = document.getElementById('listaHistorialSIU');
+function renderizarSeccionFinalesModal(matObj) {
+  const contenedor = document.getElementById('listaLlamadosFinales');
   if (!contenedor) return;
-  const historial = (window.datosGlobales?.datosAlumno?.historialSIU || []).filter(h => h.materiaId === materiaId);
-  if (historial.length === 0) {
+  const finales = matObj?.finales || [];
+
+  if (finales.length === 0) {
     contenedor.replaceChildren();
-    contenedor.insertAdjacentHTML('beforeend', '<div style="font-size:11.5px;color:var(--muted);padding:4px 0;">No hay intentos de examen/regularidad registrados en el SIU.</div>');
+    contenedor.insertAdjacentHTML('beforeend', '<div style="font-size:11.5px;color:var(--muted);padding:4px 0;">No hay llamados de examen final registrados.</div>');
     return;
   }
+
   contenedor.replaceChildren();
-  contenedor.insertAdjacentHTML('beforeend', historial.map((h, i) => `
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--s1);border:1px solid var(--border);border-radius:5px;margin-bottom:4px;font-size:11.5px;">
-      <div><strong style="color:${h.resultado === 'Aprobado' || h.resultado === 'Promocionado' ? 'var(--green)' : (h.resultado === 'Reprobado' ? 'var(--accent)' : 'var(--muted)')}">${h.tipo} ${h.nota !== null ? '(' + h.nota + ')' : ''}</strong> · ${h.resultado} <span style="font-size:10px;color:var(--muted);">(${h.fecha})</span></div>
-      <button class="btn-sec" style="padding:1px 5px;font-size:9.5px;color:var(--accent);" onclick="eliminarIntentoSIU('${materiaId}', ${i})">🗑</button>
-    </div>
-  `).join(''));
+  contenedor.insertAdjacentHTML('beforeend', finales.map((f, i) => {
+    let color = 'var(--muted)', badge = 'Ausente';
+    if (f.resultado === 'aprobado' || (f.nota && f.nota >= 6)) { color = 'var(--green)'; badge = `Aprobado (${f.nota})`; }
+    else if (f.resultado === 'desaprobado' || (f.nota && f.nota < 6)) { color = 'var(--accent)'; badge = `Aplazo (${f.nota})`; }
+
+    return `
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:5px 8px;background:var(--s2);border:1px solid var(--border);border-radius:6px;margin-bottom:4px;font-size:11.5px;">
+        <div><strong style="color:${color}">${badge}</strong> <span style="color:var(--muted);font-size:10.5px;margin-left:6px;">📅 ${f.fecha || 'Sin fecha'}</span></div>
+        <button type="button" class="btn-sec" style="padding:1px 6px;font-size:9.5px;color:var(--accent);" onclick="eliminarLlamadoFinal(${i})">🗑</button>
+      </div>
+    `;
+  }).join(''));
 }
 
-/**
- * Añade un nuevo intento de examen o regularidad SIU al historial del alumno.
- */
-function agregarIntentoSIU() {
-  if (!materiaIdActualEdicion) return;
-  const elFecha = document.getElementById('siuFecha');
-  const elTipo = document.getElementById('siuTipo');
-  const elNota = document.getElementById('siuNota');
-  const elRes = document.getElementById('siuResultado');
-  if (!elFecha || !elFecha.value.trim()) { alert('Ingresá una fecha válida'); return; }
+function actualizarEstadoInputNotaFinal() {
+  const select = document.getElementById('selectFinalResultado');
+  const inputNota = document.getElementById('inputFinalNota');
+  if (!select || !inputNota) return;
+  if (select.value === 'ausente') {
+    inputNota.value = '';
+    inputNota.disabled = true;
+    inputNota.placeholder = '-';
+  } else {
+    inputNota.disabled = false;
+    inputNota.placeholder = 'Nota';
+  }
+}
 
-  const fecha = elFecha.value.trim();
-  const tipo = elTipo ? elTipo.value : 'Examen';
-  const notaVal = elNota ? elNota.value.trim() : '';
-  const nota = notaVal !== '' && !isNaN(notaVal) ? Number(notaVal) : null;
-  const resultado = elRes ? elRes.value : 'Aprobado';
+function agregarLlamadoFinal() {
+  if (!materiaObjEnEdicion) return;
+  const elFecha = document.getElementById('inputFinalFecha');
+  const elRes = document.getElementById('selectFinalResultado');
+  const elNota = document.getElementById('inputFinalNota');
 
-  const datos = window.datosGlobales.datosAlumno;
-  if (!datos.historialSIU) datos.historialSIU = [];
-  datos.historialSIU.push({ materiaId: materiaIdActualEdicion, fecha, tipo, nota, resultado });
+  const fecha = elFecha?.value.trim() || new Date().toISOString().split('T')[0];
+  const resultado = elRes?.value || 'aprobado';
+  const notaVal = elNota?.value.trim() || '';
+  let nota = notaVal !== '' && !isNaN(notaVal) ? Number(notaVal) : null;
 
-  if (typeof guardarDatosAlumnoEnStorage === 'function') guardarDatosAlumnoEnStorage();
-  renderizarHistorialSIUEnModal(materiaIdActualEdicion);
+  if (resultado === 'aprobado') {
+    if (nota === null || nota < 6 || nota > 10) { alert('Un examen final aprobado requiere una nota entre 6 y 10.'); return; }
+  } else if (resultado === 'desaprobado') {
+    if (nota === null || nota < 1 || nota >= 6) { alert('Un aplazo requiere una nota entre 1 y 5.'); return; }
+  } else {
+    nota = null;
+  }
+
+  if (!materiaObjEnEdicion.finales) materiaObjEnEdicion.finales = [];
+  materiaObjEnEdicion.finales.push({ fecha, resultado, nota });
+
+  if (resultado === 'aprobado') {
+    const selectEst = document.getElementById('selectEstadoMateria');
+    const selectMod = document.getElementById('selectModalidadMateria');
+    const inpNota = document.getElementById('inputNotaMateria');
+    const inpFecha = document.getElementById('inputFechaAprobacion');
+    if (selectEst) selectEst.value = 'aprobada';
+    if (selectMod) selectMod.value = 'final';
+    if (inpNota) inpNota.value = nota;
+    if (inpFecha) inpFecha.value = fecha;
+  }
+
+  renderizarSeccionFinalesModal(materiaObjEnEdicion);
   if (elFecha) elFecha.value = '';
   if (elNota) elNota.value = '';
 }
 
-/**
- * Elimina un registro individual del historial de exámenes del SIU.
- * @param {string} materiaId - ID de la materia.
- * @param {number} indexFiltrado - Índice en la lista filtrada de la asignatura.
- */
-function eliminarIntentoSIU(materiaId, indexFiltrado) {
-  const datos = window.datosGlobales.datosAlumno;
-  if (!datos.historialSIU) return;
-  let contador = 0;
-  datos.historialSIU = datos.historialSIU.filter(h => {
-    if (h.materiaId === materiaId) { const mantener = contador !== indexFiltrado; contador++; return mantener; }
-    return true;
-  });
-  if (typeof guardarDatosAlumnoEnStorage === 'function') guardarDatosAlumnoEnStorage();
-  renderizarHistorialSIUEnModal(materiaId);
+function eliminarLlamadoFinal(index) {
+  if (!materiaObjEnEdicion || !materiaObjEnEdicion.finales) return;
+  materiaObjEnEdicion.finales.splice(index, 1);
+  renderizarSeccionFinalesModal(materiaObjEnEdicion);
 }
 
-/**
- * Cierra la ventana modal de edición de materia activa.
- */
 function cerrarModalEditarMateria() {
   const modal = document.getElementById('modalMateria');
   if (modal) modal.classList.remove('open');
   materiaIdActualEdicion = null;
+  materiaObjEnEdicion = null;
 }
 
-/**
- * Persiste los cambios de la materia editada en el estado del alumno y actualiza todo el dashboard.
- */
 function guardarEdicionMateria() {
   if (!materiaIdActualEdicion || !window.datosGlobales?.datosAlumno) return;
   const datos = window.datosGlobales.datosAlumno;
   let aprobadas = datos.materiasAprobadas || [];
   let enCurso = datos.materiasEnCurso || [];
 
-  const estado = document.getElementById('selectEstadoMateria')?.value || 'pendiente';
+  const estado = document.getElementById('selectEstadoMateria')?.value || 'en_curso';
   const notaVal = document.getElementById('inputNotaMateria')?.value.trim() || '';
   const nota = notaVal !== '' && !isNaN(notaVal) ? Number(notaVal) : null;
   const modalidad = document.getElementById('selectModalidadMateria')?.value || 'promocion';
   const fechaAprobacion = document.getElementById('inputFechaAprobacion')?.value.trim() || '';
   const evalData = (typeof obtenerEvaluacionesModalData === 'function') ? obtenerEvaluacionesModalData() : {};
   const nombreMat = document.getElementById('editNombreMateria')?.textContent || materiaIdActualEdicion;
+  const finales = materiaObjEnEdicion?.finales || [];
 
   aprobadas = aprobadas.filter(m => m.id !== materiaIdActualEdicion);
   enCurso = enCurso.filter(m => m.id !== materiaIdActualEdicion);
 
-  const matData = { id: materiaIdActualEdicion, nombre: nombreMat, estado, nota, modalidad, fechaAprobacion, plan: 'K23', ...evalData };
+  const matData = { id: materiaIdActualEdicion, nombre: nombreMat, estado, nota, modalidad, fechaAprobacion, plan: 'K23', finales, ...evalData };
 
   if (estado === 'aprobada' || estado === 'equivalencia') aprobadas.push(matData);
   else if (estado === 'en_curso' || estado === 'firmada') enCurso.push(matData);
