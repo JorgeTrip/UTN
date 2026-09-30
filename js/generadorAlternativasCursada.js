@@ -31,6 +31,15 @@ function combinacionEsValida(grupoComisiones) {
 
 function buscarCombinaciones(cursosPorMateria, metaCantidad, maxResultados = 3) {
   const codigos = Object.keys(cursosPorMateria);
+  const estrategia = typeof window.obtenerEstrategiaRecomendada === 'function' ? window.obtenerEstrategiaRecomendada() : null;
+  const prioritariasIds = new Set((estrategia?.materiasPrioritarias || []).map(m => String(m.id)));
+
+  codigos.sort((a, b) => {
+    const aPrio = prioritariasIds.has(a) ? 1 : 0;
+    const bPrio = prioritariasIds.has(b) ? 1 : 0;
+    return bPrio - aPrio;
+  });
+
   const resultados = [];
 
   function backtracking(idxMateria, actual) {

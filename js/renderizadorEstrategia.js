@@ -1,6 +1,6 @@
 /**
  * Módulo Renderizador de Estrategia Académica y Correlatividades (Super Panel 1 Sub Panel 3)
- * 100% Dinámico: Evalúa dinámicamente el estado real de correlatividades y la matriz de equivalencias K08 vs K23.
+ * Integra el Asesor Inteligente de Estrategia con Gemini API y Cadenas Troncales K23.
  */
 
 function renderizarEstrategia() {
@@ -10,43 +10,65 @@ function renderizarEstrategia() {
   const datos = window.datosGlobales?.datosAlumno || {};
   const aprobadas = datos.materiasAprobadas || [];
   const enCurso = datos.materiasEnCurso || [];
-  const equivalencias = window.datosGlobales?.planEstudio?.tabla_equivalencias_oficial_ord_1878 || [];
+  const estrategia = window.obtenerEstrategiaRecomendada ? window.obtenerEstrategiaRecomendada() : null;
 
-  /** Evalúa el estado de avance (Aprobada, En curso o Pendiente) de una materia por ID. */
-  const obtenerEstadoMateria = (id) => {
+  const getEstadoMat = (id) => {
     if (aprobadas.some(m => m.id === id)) return '<span style="color:var(--green);font-weight:700;">✓ Aprobada</span>';
     if (enCurso.some(m => m.id === id)) return '<span style="color:var(--blue);font-weight:700;">⏳ En curso</span>';
     return '<span style="color:var(--muted);">❌ Pendiente</span>';
   };
-  const getEstadoMat = obtenerEstadoMateria;
+
+  let bloqueIaHtml = '';
+  if (estrategia) {
+    const matsHtml = (estrategia.materiasPrioritarias || []).map(m => `
+      <div style="background:var(--s2);border:1px solid var(--border);border-radius:6px;padding:8px 12px;margin-bottom:6px;">
+        <div style="font-weight:600;color:var(--text);font-size:12.5px;">🎯 ${m.nombre} <span style="font-size:11px;color:var(--cyan);margin-left:6px;">(${m.tipo || 'Cursada'})</span></div>
+        <div style="font-size:11.5px;color:var(--text-sec);margin-top:2px;">${m.motivo || ''}</div>
+      </div>
+    `).join('');
+
+    const finalesHtml = (estrategia.finalesUrgentes || []).map(f => `
+      <div style="background:var(--s2);border:1px solid var(--border);border-radius:6px;padding:8px 12px;margin-bottom:6px;">
+        <div style="font-weight:600;color:var(--accent);font-size:12.5px;">⚠️ ${f.nombre}</div>
+        <div style="font-size:11.5px;color:var(--text-sec);margin-top:2px;">${f.motivo || ''}</div>
+      </div>
+    `).join('');
+
+    bloqueIaHtml = `
+      <div style="background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.3);border-radius:8px;padding:14px;margin-bottom:18px;">
+        <div style="font-size:12.5px;line-height:1.5;margin-bottom:12px;color:var(--text);">${estrategia.diagnosticoRuta || ''}</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;">
+          <div>
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--cyan);margin-bottom:6px;">📌 Materias Clave a Inscribir</div>
+            ${matsHtml || '<div style="font-size:12px;color:var(--muted);">Sin materias pendientes inmediatas.</div>'}
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--accent);margin-bottom:6px;">🎯 Finales Prioritarios a Rendir</div>
+            ${finalesHtml || '<div style="font-size:12px;color:var(--muted);">No hay finales pendientes críticos.</div>'}
+          </div>
+        </div>
+      </div>
+    `;
+  } else {
+    bloqueIaHtml = `
+      <div style="background:var(--s1);border:1px dashed var(--border);border-radius:8px;padding:14px;text-align:center;margin-bottom:18px;font-size:12.5px;color:var(--text-sec);">
+        Presiona el botón para que la IA de Gemini analice tus correlativas, materias anuales y finales pendientes.
+      </div>
+    `;
+  }
 
   contenedor.replaceChildren();
   contenedor.insertAdjacentHTML('beforeend', `
-    <div class="sec">🔄 Tabla Oficial de Nombres y Equivalencias · Plan K08 (Ord. 1150) → Plan K23 (Ord. 1877)</div>
-    <div class="infobox" style="margin-bottom:14px;font-size:12px;">
-      Basado en la <strong>Ordenanza N° 1878</strong> y la <strong>Resolución N° 3120/22 FRBA</strong>. Muestra la correspondencia directa entre el Plan K08 y el Plan K23.
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:14px;">
+      <div class="sec" style="margin:0;">💡 Estrategia Académica con IA (Gemini 2.0 Flash)</div>
+      <button class="btn-prim btn-estrategia-gemini" style="font-size:12px;padding:6px 12px;" onclick="ejecutarAnalisisEstrategiaIa()">
+        ${estrategia ? '🔄 Actualizar Estrategia con IA' : '✨ Generar Estrategia con IA'}
+      </button>
     </div>
 
-    <div style="max-height:240px;overflow-y:auto;border:1px solid var(--border);border-radius:8px;margin-bottom:20px;background:var(--s1);">
-      <table style="width:100%;border-collapse:collapse;font-size:12px;text-align:left;">
-        <thead>
-          <tr style="background:var(--s2);border-bottom:1px solid var(--border);color:var(--muted);text-transform:uppercase;font-size:10px;">
-            <th style="padding:6px 10px;">Denominación Plan K08 (Ord. 1150)</th>
-            <th style="padding:6px 10px;">Denominación Oficial Plan K23 (Ord. 1877)</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${equivalencias.map(eq => `
-            <tr style="border-bottom:1px solid var(--border);">
-              <td style="padding:6px 10px;"><span class="badge-plan-k08">K08</span> ${eq.plan_2008}</td>
-              <td style="padding:6px 10px;"><span class="badge-plan-k23">K23</span> <strong>${eq.plan_2023}</strong></td>
-            </tr>
-          `).join('')}
-        </tbody>
-      </table>
-    </div>
+    ${bloqueIaHtml}
 
-    <div class="sec">Cadenas de Correlatividades y Estado de Avance</div>
+    <div class="sec">Cadenas de Correlatividades y Ramas Troncales</div>
     <div class="strat-grid">
       <div class="strat-card">
         <h4><span style="color:var(--asi)">●</span> Rama Integradora Sistemas</h4>
@@ -72,3 +94,23 @@ function renderizarEstrategia() {
     </div>
   `);
 }
+
+async function ejecutarAnalisisEstrategiaIa() {
+  if (typeof window.consultarEstrategiaGemini !== 'function') return;
+  const btn = document.querySelector('.btn-estrategia-gemini');
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = '⏳ Analizando ruta...';
+  }
+  try {
+    await window.consultarEstrategiaGemini();
+    renderizarEstrategia();
+  } catch (e) {
+    alert(`Error al generar estrategia: ${e.message}`);
+  } finally {
+    if (btn) btn.disabled = false;
+  }
+}
+
+window.renderizarEstrategia = renderizarEstrategia;
+window.ejecutarAnalisisEstrategiaIa = ejecutarAnalisisEstrategiaIa;

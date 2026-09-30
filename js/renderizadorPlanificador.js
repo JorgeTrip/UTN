@@ -1,7 +1,7 @@
 /**
  * Módulo Renderizador del Planificador Académico (Super Panel 2)
  * Renderiza calendarios cuatrimestrales de 2026 y proyecciones futuras.
- * Se adapta al estado del alumno (pestaña única en estado inicial sin datos).
+ * Incluye botón global 'Cargar horarios' persistente en todas las solapas anuales.
  */
 
 function seleccionarAnioPlanificador(indice) {
@@ -41,16 +41,17 @@ function renderizarPlanificadorCompleto() {
 
   contenedor.replaceChildren();
   contenedor.insertAdjacentHTML('beforeend', `
-    <div class="sub-tab-bar">
-      <div class="sub-tab-inner">${pestañasAnualesHtml}</div>
+    <!-- Barra Superior Global con Pestañas y Botón Permanente -->
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+      <div class="sub-tab-bar" style="margin:0;">
+        <div class="sub-tab-inner">${pestañasAnualesHtml}</div>
+      </div>
+      <button class="btn-prim btn-oferta-horarios" style="font-size:12px;padding:6px 14px;" onclick="abrirModalCargaHorarios()">Cargar horarios</button>
     </div>
 
     <!-- AÑO 2026 -->
     <div class="sub-panel active" id="sp2p0">
-      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
-        <div class="sec" style="margin:0;">Planificación Cuatrimestral · Ciclo Lectivo 2026 (Turno ${turnoAlumno})</div>
-        <button class="btn-prim btn-oferta-horarios" style="font-size:12px;padding:6px 12px;" onclick="abrirModalCargaHorarios()">🤖 Cargar Horarios (Gemini & Nube)</button>
-      </div>
+      <div class="sec" style="margin-bottom:10px;">Planificación Cuatrimestral · Ciclo Lectivo 2026 (Turno ${turnoAlumno})</div>
 
       <div class="main-tabs" id="tab2026">
         <div class="main-tabs-inner">

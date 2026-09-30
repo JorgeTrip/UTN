@@ -68,22 +68,15 @@ test.describe('Sub-solapas de Plan de Estudios y Seguimiento', () => {
     await expect(subpanelPeso.getByText(/Glosario Completo de Referencias/i)).toBeVisible();
   });
 
-  test('debe mostrar Estrategia & Correlatividades con tabla de equivalencias', async ({ page }) => {
+  test('debe mostrar Estrategia & Correlatividades con cadenas troncales y asesor', async ({ page }) => {
     // Clic en la sub-solapa de Estrategia
     await page.getByRole('button', { name: /Estrategia & Correlatividades/i }).click();
 
     const subpanelEstrategia = page.locator('#sp1p3');
     await expect(subpanelEstrategia).toHaveClass(/active/);
 
-    // Valida encabezado de tabla de equivalencias
-    await expect(subpanelEstrategia.getByText('Tabla Oficial de Nombres y Equivalencias')).toBeVisible();
-    await expect(subpanelEstrategia.getByText('Denominación Plan K08 (Ord. 1150)')).toBeVisible();
-    await expect(subpanelEstrategia.getByText('Denominación Oficial Plan K23 (Ord. 1877)')).toBeVisible();
-
-    // Valida filas con badges de K08 y K23
-    const badgesK08 = subpanelEstrategia.locator('.badge-plan-k08');
-    const badgesK23 = subpanelEstrategia.locator('.badge-plan-k23');
-    await expect(badgesK08.first()).toBeVisible();
-    await expect(badgesK23.first()).toBeVisible();
+    // Valida presencia de las cadenas troncales
+    await expect(subpanelEstrategia.getByText(/Rama Integradora Sistemas/i)).toBeVisible();
+    await expect(subpanelEstrategia.getByText(/Rama Redes y Comunicaciones/i)).toBeVisible();
   });
 });
