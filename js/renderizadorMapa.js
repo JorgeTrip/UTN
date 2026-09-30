@@ -1,7 +1,6 @@
 /**
  * Módulo Renderizador del Mapa Curricular (Super Panel 1 Sub Panel 1)
- * Renderiza dinámicamente la grilla curricular del Plan K23 evaluando en tiempo real
- * las materias aprobadas, en curso o pendientes del estudiante (cero notas hardcodeadas).
+ * Renderiza la grilla del Plan K23 con badges estandarizados y desglose académico detallado.
  */
 
 const CAT_MATERIAS_K23 = [
@@ -47,72 +46,64 @@ const CAT_MATERIAS_K23 = [
   { nivel: 5, id: '082037', nombre: 'Proyecto Final', adusi: false }
 ];
 
+function obtenerInsigniasMateria(mat) {
+  if (!mat) return { claseEstado: 's-pe', insigniaNota: '<span class="acc-grade ag-muted">–</span>', badgeEstado: '<span class="acc-badge ab-pend">Pendiente</span>' };
+  if (mat.estado === 'equivalencia' || (mat.modalidad && mat.modalidad.startsWith('equivalencia') && mat.nota === null)) {
+    return {
+      claseEstado: 's-ap', insigniaNota: '<span class="acc-grade" style="font-size:11.5px;font-weight:700;color:#c084fc;border-color:rgba(168,85,247,.4);">EQ</span>',
+      badgeEstado: '<span class="acc-badge" style="background:rgba(168,85,247,.15);color:#c084fc;border:1px solid rgba(168,85,247,.3);">🔄 Equivalencia Carrera</span>'
+    };
+  }
+  if (mat.estado === 'firmada') {
+    return { claseEstado: 's-pl', insigniaNota: '<span class="acc-grade ag-blue">✍️</span>', badgeEstado: '<span class="acc-badge ab-plan">✍️ Cursada Firmada</span>' };
+  }
+  if (mat.estado === 'recursa') {
+    return { claseEstado: 's-pe', insigniaNota: '<span class="acc-grade" style="color:var(--accent);border-color:rgba(244,63,94,.4);">❌</span>', badgeEstado: '<span class="acc-badge ab-pend" style="color:var(--accent);border-color:rgba(244,63,94,.4);">❌ A Recursar</span>' };
+  }
+  if (mat.estado === 'en_curso') {
+    return { claseEstado: 's-pl', insigniaNota: '<span class="acc-grade ag-blue">⏳</span>', badgeEstado: '<span class="acc-badge ab-plan">⏳ En Curso</span>' };
+  }
+
+  const esK08 = mat.origenPlan === 'K08_homologada' || Boolean(mat.materiaOrigenK08);
+  const esPromo = mat.modalidad === 'promocion';
+  const txtBadge = esK08 ? '🔄 Homologación K08' : (esPromo ? '🏆 Promoción Directa' : '🎯 Examen Final');
+  return {
+    claseEstado: 's-ap', insigniaNota: `<span class="acc-grade ag-green">${mat.nota !== undefined && mat.nota !== null ? mat.nota : '✓'}</span>`,
+    badgeEstado: `<span class="acc-badge ab-promo">${txtBadge}</span>`
+  };
+}
+
+function renderizarTarjetaMateria(matPlan, aprobadas, enCurso) {
+  const mat = aprobadas.find(m => m.id === matPlan.id) || enCurso.find(m => m.id === matPlan.id);
+  const { claseEstado, insigniaNota, badgeEstado } = obtenerInsigniasMateria(mat);
+  const filasInfoHtml = window.formatearCuerpoTarjetaMateria ? window.formatearCuerpoTarjetaMateria(mat) : '';
+
+  return `
+    <div class="acc-card ${claseEstado}" onclick="toggleAcc(this)">
+      <div class="acc-header">
+        <span class="acc-chevron">▶</span>
+        <div style="flex:1">
+          <div class="acc-name">${matPlan.nombre} <span class="badge-plan-k23">K23</span> ${matPlan.adusi ? '🎓' : ''}</div>
+          <div class="acc-badges">${badgeEstado}</div>
+        </div>
+        ${insigniaNota}
+      </div>
+      <div class="acc-body">
+        ${filasInfoHtml}
+        <div class="acc-row" style="border:none;justify-content:flex-end;margin-top:6px;">
+          <button class="btn-sec" style="padding:3px 8px;font-size:11px;" onclick="abrirModalEditarMateria('${matPlan.id}', event)">✏️ Editar</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 function renderizarMapaCurricular() {
   const contenedor = document.getElementById('sp1p1');
   if (!contenedor) return;
-
   const datos = window.datosGlobales?.datosAlumno || {};
   const aprobadas = datos.materiasAprobadas || [];
   const enCurso = datos.materiasEnCurso || [];
-
-  const buscarMateria = (id) => aprobadas.find(m => m.id === id) || enCurso.find(m => m.id === id);
-
-  const renderizarTarjetaMateria = (matPlan) => {
-    const mat = buscarMateria(matPlan.id);
-    let claseEstado = 's-pe';
-    let insigniaNota = '<span class="acc-grade ag-muted">–</span>';
-    let badgeEstado = '<span class="acc-badge ab-pend">Pendiente</span>';
-    let detalle = 'Sin cursar';
-
-    if (mat) {
-      if (mat.estado === 'equivalencia' || mat.modalidad?.startsWith('equivalencia')) {
-        claseEstado = 's-ap';
-        insigniaNota = '<span class="acc-grade" style="font-size:12px;font-weight:700;color:var(--purple,#a855f7)">EQ</span>';
-        badgeEstado = `<span class="acc-badge ab-promo">${mat.modalidad === 'equivalencia_carrera' ? 'Equivalencia Carrera' : 'Homologación K08→K23'}</span>`;
-        detalle = mat.materiaOrigenK08 ? `Equivalencia K08: ${mat.materiaOrigenK08}` : (mat.fechaAprobacion || 'Aprobada por Equivalencia');
-      } else if (mat.estado === 'firmada') {
-        claseEstado = 's-pl';
-        insigniaNota = '<span class="acc-grade ag-blue">✍️</span>';
-        badgeEstado = '<span class="acc-badge ab-plan">Firmada / Rinde Final</span>';
-        detalle = 'Cursada regular aprobada · Rinde final';
-      } else if (mat.estado === 'recursa') {
-        claseEstado = 's-pe';
-        insigniaNota = '<span class="acc-grade" style="color:var(--accent)">❌</span>';
-        badgeEstado = '<span class="acc-badge" style="color:var(--accent);border-color:rgba(244,63,94,.3)">A Recursar</span>';
-        detalle = 'Desaprobada por cursada regular';
-      } else if (mat.estado === 'en_curso') {
-        claseEstado = 's-pl';
-        insigniaNota = '<span class="acc-grade ag-blue">⏳</span>';
-        badgeEstado = '<span class="acc-badge ab-plan">En Curso</span>';
-        detalle = mat.cuatrimestre || 'Cursando ciclo actual';
-      } else {
-        claseEstado = 's-ap';
-        const modTexto = mat.modalidad === 'promocion' ? 'Promoción Directa' : (mat.modalidad === 'final' ? 'Examen Final' : 'Aprobada');
-        insigniaNota = `<span class="acc-grade ag-green">${mat.nota !== undefined && mat.nota !== null ? mat.nota : '✓'}</span>`;
-        badgeEstado = `<span class="acc-badge ab-promo">${modTexto}</span>`;
-        detalle = mat.fechaAprobacion ? `Aprobada (${mat.fechaAprobacion})` : 'Aprobada';
-      }
-    }
-
-    return `
-      <div class="acc-card ${claseEstado}" onclick="toggleAcc(this)">
-        <div class="acc-header">
-          <span class="acc-chevron">▶</span>
-          <div style="flex:1">
-            <div class="acc-name">${matPlan.nombre} <span class="badge-plan-k23">K23</span> ${matPlan.adusi ? '🎓' : ''}</div>
-            <div class="acc-badges">${badgeEstado}</div>
-          </div>
-          ${insigniaNota}
-        </div>
-        <div class="acc-body">
-          <div class="acc-row"><span class="acc-row-lbl">Detalle:</span><span class="acc-row-val">${detalle}</span></div>
-          <div class="acc-row" style="border:none;justify-content:flex-end;margin-top:6px;">
-            <button class="btn-sec" style="padding:3px 8px;font-size:11px;" onclick="abrirModalEditarMateria('${matPlan.id}', event)">✏️ Editar</button>
-          </div>
-        </div>
-      </div>
-    `;
-  };
 
   const niveles = [1, 2, 3, 4, 5];
   const columnasHtml = niveles.map(n => {
@@ -121,7 +112,7 @@ function renderizarMapaCurricular() {
     return `
       <div class="map-col">
         <div class="map-lvl">Nivel ${n} · ${cantAprob}/${matsNivel.length} ${cantAprob === matsNivel.length && cantAprob > 0 ? '🎓' : ''}</div>
-        ${matsNivel.map(renderizarTarjetaMateria).join('')}
+        ${matsNivel.map(m => renderizarTarjetaMateria(m, aprobadas, enCurso)).join('')}
         ${n === 3 || n === 4 ? '<button class="btn-sec" style="width:100%;margin-top:10px;padding:6px;font-size:11.5px;border:1px dashed var(--yellow);color:var(--yellow);" onclick="abrirModalElectiva(3)">➕ Agregar Electiva (Bloque 3.º/4.º)</button>' : ''}
         ${n === 5 ? '<button class="btn-sec" style="width:100%;margin-top:10px;padding:6px;font-size:11.5px;border:1px dashed var(--yellow);color:var(--yellow);" onclick="abrirModalElectiva(5)">➕ Agregar Electiva (Bloque 5.º Nivel)</button>' : ''}
       </div>
@@ -130,9 +121,17 @@ function renderizarMapaCurricular() {
 
   contenedor.replaceChildren();
   contenedor.insertAdjacentHTML('beforeend', `
-    <div class="infobox" style="margin-bottom:16px;">
-      <strong>Mapa Curricular K23:</strong> Hacé clic en cualquier tarjeta para ver su desglose o presioná <strong>✏️ Editar</strong> para registrar o modificar notas y cursadas.
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
+      <div class="infobox" style="flex:1;min-width:280px;margin-bottom:0;">
+        <strong>Mapa Curricular K23:</strong> Hacé clic en cualquier tarjeta para ver su acta, parciales y origen K08 o presioná <strong>✏️ Editar</strong>.
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button class="btn-prim" style="font-size:11.5px;padding:6px 12px;background:var(--blue);color:#0f172a;" onclick="abrirModalImportadorSIU()">📥 Importar SIU</button>
+        <button class="btn-sec" style="font-size:11.5px;padding:6px 10px;color:var(--accent);border-color:rgba(244,63,94,.4);" onclick="abrirModalConfirmacionReinicio()">🗑️ Vaciar Mapa</button>
+      </div>
     </div>
     <div class="map-wrap"><div class="map-grid">${columnasHtml}</div></div>
   `);
 }
+
+window.renderizarMapaCurricular = renderizarMapaCurricular;

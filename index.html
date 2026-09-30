@@ -13,13 +13,8 @@
 
 <header class="g-header">
   <div class="g-header-inner">
-    <div class="g-logo">
-      <div class="g-badge-row"><span class="g-badge gb-utn">UTN · FRBA</span><span class="g-badge gb-k23" id="headerBadgePlan" style="display:none;">Plan K23</span></div>
-    </div>
-    <div class="g-header-titles">
-      <div class="g-title" id="gMobileTitle">Ingeniería en Sistemas de Información</div>
-      <div class="g-sub" id="headerSubtitulo">Sin datos de estudiante cargados</div>
-    </div>
+    <div class="g-logo"><div class="g-badge-row"><span class="g-badge gb-utn">UTN · FRBA</span><span class="g-badge gb-k23" id="headerBadgePlan" style="display:none;">Plan K23</span></div></div>
+    <div class="g-header-titles"><div class="g-title" id="gMobileTitle">Ingeniería en Sistemas de Información</div><div class="g-sub" id="headerSubtitulo">Sin datos de estudiante cargados</div></div>
     <div class="g-right">
       <div class="g-date">Actualizado: 08/03/2026</div>
       <div style="display:flex;align-items:center;gap:10px;margin-top:4px;">
@@ -42,14 +37,7 @@
 
 <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="cerrarMenu()">
   <div class="mobile-menu-drawer" onclick="event.stopPropagation()">
-    <div class="mobile-menu-profile">
-      <div class="profile-avatar">--</div>
-      <div class="profile-info">
-        <div class="profile-name">Estudiante</div>
-        <div class="profile-legajo" id="mobileProfileLegajo">Sin sesión activa</div>
-        <div class="profile-plan" id="mobileProfilePlan" style="display:none;"></div>
-      </div>
-    </div>
+    <div class="mobile-menu-profile"><div class="profile-avatar">--</div><div class="profile-info"><div class="profile-name">Estudiante</div><div class="profile-legajo" id="mobileProfileLegajo">Sin sesión activa</div><div class="profile-plan" id="mobileProfilePlan" style="display:none;"></div></div></div>
     <div class="mobile-menu-divider">Navegación Principal</div>
     <div class="mobile-menu-nav">
       <button class="mobile-menu-item" onclick="seleccionarSolapaMovil(0)">🔗 Links Útiles</button>
@@ -115,8 +103,8 @@
           <div class="form-group"><label class="form-label">Turno Cursada</label><select id="inputTurno" class="form-input"><option value="Noche">Noche</option><option value="Mañana">Mañana</option><option value="Tarde">Tarde</option></select></div>
           <div class="form-group"><label class="form-label">Plan Actual</label><select id="inputPlanActual" class="form-input"><option value="K23">Plan K23</option><option value="K08">Plan K08</option></select></div>
           <div class="form-group"><label class="form-label">Plan Origen</label><select id="inputPlanOriginal" class="form-input"><option value="K08">Plan K08</option><option value="K23">Plan K23</option></select></div>
-          <div class="form-group"><label class="form-label">Año de Ingreso</label><input type="text" id="inputFechaIngreso" class="form-input"></div>
-          <div class="form-group"><label class="form-label">Fecha Transición Plan</label><input type="text" id="inputFechaTransicion" class="form-input"></div>
+          <div class="form-group"><label class="form-label">Año Ingreso</label><input type="text" id="inputFechaIngreso" class="form-input"></div>
+          <div class="form-group"><label class="form-label">Fecha Transición</label><input type="text" id="inputFechaTransicion" class="form-input"></div>
         </div>
       </div>
     </div>
@@ -180,6 +168,29 @@
   </div>
 </div>
 
-<script src="js/configuracionFirebase.js"></script><script src="js/servicioAutenticacion.js"></script><script src="js/servicioFirestoreAlumno.js"></script><script src="js/modalAutenticacion.js"></script><script src="js/generadorModalesAuth.js"></script><script src="js/switchTema.js"></script><script src="js/cargadorDatos.js"></script><script src="js/calculadorNotas.js"></script><script src="js/gestorEvaluacionesMateria.js"></script><script src="js/navegacion.js"></script><script src="js/gestorPlanificador.js"></script><script src="js/modalPlanificador.js"></script><script src="js/modalCalendarioGoogle.js"></script><script src="js/constructorCalendario.js"></script><script src="js/renderizadorLinks.js"></script><script src="js/renderizadorHitos.js"></script><script src="js/renderizadorMapa.js"></script><script src="js/renderizadorPeso.js"></script><script src="js/renderizadorEstrategia.js"></script><script src="js/renderizadorPlanificador.js"></script><script src="js/renderizadorGuia.js"></script><script src="js/renderizadorUI.js"></script><script src="js/chevronesDesplazamiento.js"></script><script src="js/gestorAlumno.js"></script><script src="js/menuMovil.js"></script><script src="js/modalPerfil.js"></script><script src="js/modalMateria.js"></script><script src="js/modalMateriaElectiva.js"></script><script src="js/inicializador.js"></script>
+<!-- Modal Importador SIU Guaraní -->
+<div class="modal-overlay" id="modalImportadorSIU">
+  <div class="modal-card" style="max-width:540px;max-height:90vh;overflow-y:auto;">
+    <div class="modal-header"><div class="modal-title">📥 Importar Historia Académica SIU Guaraní</div><button class="modal-close" onclick="cerrarModalImportadorSIU()">&times;</button></div>
+    <div class="modal-body">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Pegá aquí el texto copiado de <strong>Historia Académica</strong> del SIU Guaraní:</div>
+      <textarea id="textoHistoriaSIU" class="form-input" style="height:110px;font-family:monospace;font-size:11px;" placeholder="Pegá el texto aquí..."></textarea>
+      <div style="margin-top:8px;display:flex;justify-content:flex-end;"><button type="button" class="btn-prim" style="font-size:11.5px;padding:6px 12px;" onclick="procesarTextoSIUModal()">🔍 Procesar y Previsualizar</button></div>
+      <div id="previewImportacionSIU" style="display:none;"></div>
+    </div>
+    <div class="modal-footer"><button class="btn-sec" onclick="cerrarModalImportadorSIU()">Cancelar</button><button id="btnAplicarImportacionSIU" class="btn-prim" style="display:none;" onclick="aplicarImportacionSIU()">✅ Confirmar e Importar</button></div>
+  </div>
+</div>
+
+<!-- Modal Confirmación Reinicio Mapa -->
+<div class="modal-overlay" id="modalConfirmacionReinicio">
+  <div class="modal-card" style="max-width:440px;">
+    <div class="modal-header"><div class="modal-title" style="color:var(--accent)">⚠️ Vaciar Mapa Curricular</div><button class="modal-close" onclick="cerrarModalConfirmacionReinicio()">&times;</button></div>
+    <div class="modal-body" style="font-size:12.5px;line-height:1.5;">¿Estás seguro de que deseás <strong>eliminar todas las materias aprobadas, en curso y notas</strong> del mapa curricular? Esta acción es definitiva.</div>
+    <div class="modal-footer"><button class="btn-sec" onclick="cerrarModalConfirmacionReinicio()">Cancelar</button><button class="btn-prim" style="background:var(--accent);color:#fff;" onclick="ejecutarReinicioMapaCurricular()">🗑️ Sí, vaciar todo</button></div>
+  </div>
+</div>
+
+<script src="js/configuracionFirebase.js"></script><script src="js/servicioAutenticacion.js"></script><script src="js/servicioFirestoreAlumno.js"></script><script src="js/modalAutenticacion.js"></script><script src="js/generadorModalesAuth.js"></script><script src="js/switchTema.js"></script><script src="js/cargadorDatos.js"></script><script src="js/calculadorNotas.js"></script><script src="js/gestorEvaluacionesMateria.js"></script><script src="js/mapeoTransicionK08K23.js"></script><script src="js/formateadorDetallesMateria.js"></script><script src="js/parserSIUGuarani.js"></script><script src="js/modalImportadorSIU.js"></script><script src="js/modalConfirmacionReinicio.js"></script><script src="js/navegacion.js"></script><script src="js/gestorPlanificador.js"></script><script src="js/modalPlanificador.js"></script><script src="js/modalCalendarioGoogle.js"></script><script src="js/constructorCalendario.js"></script><script src="js/renderizadorLinks.js"></script><script src="js/renderizadorHitos.js"></script><script src="js/renderizadorMapa.js"></script><script src="js/renderizadorPeso.js"></script><script src="js/renderizadorEstrategia.js"></script><script src="js/renderizadorPlanificador.js"></script><script src="js/renderizadorGuia.js"></script><script src="js/renderizadorUI.js"></script><script src="js/chevronesDesplazamiento.js"></script><script src="js/gestorAlumno.js"></script><script src="js/menuMovil.js"></script><script src="js/modalPerfil.js"></script><script src="js/modalMateria.js"></script><script src="js/modalMateriaElectiva.js"></script><script src="js/inicializador.js"></script>
 </body>
 </html>
