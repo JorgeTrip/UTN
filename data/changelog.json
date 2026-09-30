@@ -1,9 +1,25 @@
 [
   {
-    "version": "v1.37.0",
+    "version": "v1.38.0",
     "fecha": "2026-09-30",
-    "totalCambios": 59,
+    "totalCambios": 61,
     "cambios": [
+      {
+        "hash": "0579520",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se implementa chevron conector hacia barra terciaria y se unifican opciones de guia sin scroll"
+      },
+      {
+        "hash": "41b7a5a",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "docs",
+        "insignia": "📝 Documentación",
+        "mensaje": "Se actualiza changelog y version a v1.37.0 [skip ci]"
+      },
       {
         "hash": "4a813fe",
         "autor": "Jorge O. Tripodi",
