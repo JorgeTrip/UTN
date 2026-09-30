@@ -1,9 +1,25 @@
 [
   {
-    "version": "v1.33.0",
+    "version": "v1.34.0",
     "fecha": "2026-09-30",
-    "totalCambios": 51,
+    "totalCambios": 53,
     "cambios": [
+      {
+        "hash": "97d620b",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se implementa paridad 1:1 en menu avatar movil, chevron hacia abajo y saludo al tope"
+      },
+      {
+        "hash": "16d9340",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "chore",
+        "insignia": "⚙️ Mantenimiento",
+        "mensaje": "Se actualiza changelog y version a v1.33.0 [skip ci]"
+      },
       {
         "hash": "104a5d3",
         "autor": "Jorge O. Tripodi",
