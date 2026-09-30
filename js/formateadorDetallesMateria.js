@@ -66,13 +66,9 @@ function formatearCuerpoTarjetaMateria(mat) {
   const finAp = Array.isArray(mat.finales) ? mat.finales.slice().reverse().find(f => f.resultado === 'aprobado' || (f.nota && f.nota >= 6)) : null;
   const libro = mat.libro || finAp?.libro;
   const folio = mat.folio || finAp?.folio;
-  const turno = mat.turno || finAp?.turno;
-  const acta = mat.acta || mat.nroActa || finAp?.acta;
 
   if (libro && folio) {
-    const turnoTxt = turno ? ` · Turno: ${turno}` : '';
-    const actaTxt = acta ? `Acta ${acta} · ` : '';
-    html += `<div class="acc-row"><span class="acc-row-lbl">Acta Oficial:</span><span class="acc-row-val">${actaTxt}Libro ${libro} · Folio ${folio}${turnoTxt}</span></div>`;
+    html += `<div class="acc-row"><span class="acc-row-lbl">Acta Oficial:</span><span class="acc-row-val">Libro ${libro} · Folio ${folio}</span></div>`;
   }
 
   html += formatearParcialesHtml(mat.parciales);
