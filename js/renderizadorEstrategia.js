@@ -60,7 +60,7 @@ function renderizarEstrategia() {
   contenedor.replaceChildren();
   contenedor.insertAdjacentHTML('beforeend', `
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:14px;">
-      <div class="sec" style="margin:0;">💡 Estrategia Académica con IA (Gemini 2.0 Flash)</div>
+      <div class="sec" style="margin:0;">💡 Estrategia Académica con IA (Gemini 3.8 Flash)</div>
       <button class="btn-prim btn-estrategia-gemini" style="font-size:12px;padding:6px 12px;" onclick="ejecutarAnalisisEstrategiaIa()">
         ${estrategia ? '🔄 Actualizar Estrategia con IA' : '✨ Generar Estrategia con IA'}
       </button>

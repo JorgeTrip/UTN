@@ -32,7 +32,7 @@ async function analizarHorariosPdfConGemini(base64Pdf) {
     throw new Error('No se ha configurado la API Key de Gemini en el perfil o almacenamiento local.');
   }
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`;
 
   const promptExtraccion = `Eres un asistente universitario experto en analizar grillas de horarios de la UTN FRBA (Ingeniería en Sistemas de Información).
 Analiza el documento PDF adjunto que contiene la oferta de cursos y comisiones.
@@ -79,12 +79,14 @@ Retorna ÚNICAMENTE un objeto JSON válido con la propiedad "comisiones" conteni
   }
 
   const data = await respuesta.json();
-  const textoGenerado = data.candidates?.[0]?.content?.parts?.[0]?.text;
+  const textPart = data.candidates?.[0]?.content?.parts?.find(p => typeof p.text === 'string' && p.text.trim().length > 0);
+  const textoGenerado = textPart ? textPart.text : (data.candidates?.[0]?.content?.parts?.[0]?.text || '');
   if (!textoGenerado) {
     throw new Error('La respuesta de Gemini no contiene candidatos con texto estructurado.');
   }
 
-  const jsonParsed = JSON.parse(textoGenerado);
+  const cleanJson = textoGenerado.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '').trim();
+  const jsonParsed = JSON.parse(cleanJson);
   return Array.isArray(jsonParsed) ? jsonParsed : (jsonParsed.comisiones || []);
 }
 

@@ -57,7 +57,7 @@ Genera una recomendación estratégica en formato JSON con la siguiente estructu
   "diagnosticoRuta": "Resumen ejecutivo del estado de la carrera y plan de acción recomendado."
 }`;
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`;
   const respuesta = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -73,8 +73,10 @@ Genera una recomendación estratégica en formato JSON con la siguiente estructu
   }
 
   const data = await respuesta.json();
-  const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-  const json = JSON.parse(text);
+  const textPart = data.candidates?.[0]?.content?.parts?.find(p => typeof p.text === 'string' && p.text.trim().length > 0);
+  const text = textPart ? textPart.text : (data.candidates?.[0]?.content?.parts?.[0]?.text || '');
+  const cleanJson = text.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '').trim();
+  const json = JSON.parse(cleanJson);
   json.fechaGeneracion = new Date().toISOString();
   guardarEstrategiaRecomendada(json);
   return json;
