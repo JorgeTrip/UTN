@@ -4,6 +4,7 @@
 
 .g-header { position: relative; z-index: 999; background: var(--s1); border-bottom: 2px solid var(--border); padding: 18px 32px; }
 .g-header-inner { max-width: 1440px; margin: 0 auto; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; justify-content: space-between; }
+.g-brand-col { display: flex; align-items: center; gap: 16px; }
 .g-logo { display: flex; flex-direction: column; gap: 3px; }
 .g-badge-row { display: flex; gap: 6px; align-items: center; }
 .g-badge { font-size: 12px; font-weight: 800; letter-spacing: 1.2px; padding: 4px 10px; border-radius: 5px; text-transform: uppercase; }

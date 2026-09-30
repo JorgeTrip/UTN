@@ -38,9 +38,18 @@
     gap: 0;
   }
 
+  .g-brand-col {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 4px !important;
+    flex: 1;
+    min-width: 0;
+  }
+
   .g-badge-row {
     display: flex !important;
-    gap: 4px;
+    gap: 5px;
     align-items: center;
   }
 
@@ -48,20 +57,24 @@
     display: flex !important;
     flex-direction: column;
     min-width: 0;
-    flex: 1;
-    margin: 0 8px;
+    width: 100%;
+    margin: 0;
   }
 
   .g-title {
-    font-size: 13px !important;
+    font-size: 13.5px !important;
     font-weight: 700 !important;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    line-height: 1.2;
+    line-height: 1.25;
   }
 
   .g-sub {
+    display: none !important;
+  }
+
+  .menu-toggle {
     display: none !important;
   }
 
