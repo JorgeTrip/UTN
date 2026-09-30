@@ -54,7 +54,7 @@ test.describe('Banner de Electivas y Parser de Exámenes SIU', () => {
 
     const bannerAviso = modalElectiva.locator('#bannerHorasElectivasCumplidas');
     await expect(bannerAviso).toBeVisible();
-    await expect(bannerAviso).toContainText(/¡Requisito de horas cumplido!/i);
+    await expect(bannerAviso).toContainText(/Horas de Electivas Cumplidas|¡Requisito de horas cumplido!/i);
     await expect(bannerAviso).toContainText(/No es necesario/i);
     await expect(bannerAviso).toContainText(/(304|608)\s*\/\s*240\s*hs/i);
   });

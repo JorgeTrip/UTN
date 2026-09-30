@@ -31,24 +31,37 @@ function abrirModalElectiva(nivel) {
   if (banner) {
     const datos = window.datosGlobales?.datosAlumno || {};
     const info = window.calcularBloquesElectivas ? window.calcularBloquesElectivas(datos.materiasAprobadas || [], datos.materiasEnCurso || []) : null;
-    if (esBloque34 && info) {
-      const b = info.bloque34;
+    const b = esBloque34 ? info?.bloque34 : info?.bloque5;
+    const nombreBloque = esBloque34 ? '3.º / 4.º Nivel' : '5.º Nivel';
+    if (b) {
       banner.style.display = 'block';
       banner.replaceChildren();
       if (b.horasAprobadas >= 240) {
-        banner.style.background = 'rgba(16,185,129,.12)';
-        banner.style.border = '1px solid rgba(16,185,129,.3)';
+        banner.style.background = 'rgba(16,185,129,.14)';
+        banner.style.border = '1px solid rgba(16,185,129,.35)';
         banner.style.color = '#34d399';
-        const txt = document.createElement('div');
-        txt.textContent = `🎉 ¡Requisito de horas cumplido! Ya contás con ${b.horasAprobadas} / 240 hs reloj acreditadas en el Bloque de 3.º/4.º Nivel. No es necesario inscribirte a más materias electivas para este ciclo, salvo por vocación personal.`;
-        banner.appendChild(txt);
+        banner.insertAdjacentHTML('beforeend', `
+          <div style="display:flex;gap:10px;align-items:flex-start;">
+            <span style="font-size:20px;line-height:1;">🎓</span>
+            <div>
+              <div style="font-weight:700;font-size:12.5px;margin-bottom:3px;">Horas de Electivas Cumplidas (${b.horasAprobadas} / 240 hs)</div>
+              <div style="font-size:11.5px;opacity:.95;line-height:1.4;">Ya has cumplido el cupo obligatorio de 240 hs reloj en el <strong>Bloque ${nombreBloque}</strong>. No es necesario inscribirte a más materias electivas para este período.</div>
+            </div>
+          </div>
+        `);
       } else {
         banner.style.background = 'rgba(56,189,248,.1)';
         banner.style.border = '1px solid rgba(56,189,248,.25)';
         banner.style.color = 'var(--blue)';
-        const txt = document.createElement('div');
-        txt.textContent = `ℹ️ Llevás ${b.horasAprobadas} / 240 hs reloj acreditadas en este bloque (te restan ${240 - b.horasAprobadas} hs).`;
-        banner.appendChild(txt);
+        banner.insertAdjacentHTML('beforeend', `
+          <div style="display:flex;gap:10px;align-items:flex-start;">
+            <span style="font-size:18px;line-height:1;">ℹ️</span>
+            <div>
+              <div style="font-weight:700;font-size:12.5px;margin-bottom:3px;">Progreso de Electivas: ${b.horasAprobadas} / 240 hs (${b.porcentaje}%)</div>
+              <div style="font-size:11.5px;opacity:.95;line-height:1.4;">Llevás acreditadas ${b.horasAprobadas} hs en el <strong>Bloque ${nombreBloque}</strong> (te restan ${240 - b.horasAprobadas} hs reloj).</div>
+            </div>
+          </div>
+        `);
       }
     } else {
       banner.style.display = 'none';
