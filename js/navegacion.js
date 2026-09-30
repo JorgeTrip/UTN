@@ -127,4 +127,8 @@ window.superTab = seleccionarSolapaPrincipal;
 window.seleccionarSubSolapaSeguimiento = seleccionarSubSolapaSeguimiento;
 window.subTab = seleccionarSubSolapaSeguimiento;
 window.abrirMateria = abrirMateria;
+window.mainTabIn = seleccionarSolapaContenedor;
+window.seleccionarSolapaContenedor = seleccionarSolapaContenedor;
+window.planSubTabIn = seleccionarSubSolapaPlanificador;
+window.seleccionarSubSolapaPlanificador = seleccionarSubSolapaPlanificador;
 

@@ -2,7 +2,7 @@
    BARRA DE NAVEGACIÓN INFERIOR Y SUB-BARRA CONECTOR (APPLE UI)
    ═══════════════════════════════════════════════════════════════ */
 
-.bottom-tab-bar, .sub-tab-bar-inferior {
+.bottom-tab-bar, .sub-tab-bar-inferior, .sub-sub-tab-bar-inferior {
   display: none;
 }
 

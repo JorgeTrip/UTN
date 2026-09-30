@@ -95,6 +95,9 @@ function sincronizarBottomTabBar(indice) {
   });
 
   actualizarSubTabBarMovil(num);
+  if (typeof window.actualizarSubSubTabBarMovil === 'function') {
+    window.actualizarSubSubTabBarMovil(num, 0);
+  }
 }
 
 function actualizarSubTabBarMovil(superTabIndice, subActivoForzado = null) {
@@ -140,6 +143,10 @@ function navegarSubTabMovil(superTabIndice, subTabIndice) {
   document.querySelectorAll('#subTabBarInferiorMovil .sub-tab-pill').forEach(p => {
     p.classList.toggle('active', Number(p.dataset.sub) === numSub);
   });
+
+  if (typeof window.actualizarSubSubTabBarMovil === 'function') {
+    window.actualizarSubSubTabBarMovil(superTabIndice, numSub);
+  }
 }
 
 function engancharSincronizaciones() {
@@ -161,6 +168,20 @@ function engancharSincronizaciones() {
       if (superTabActivoActual === 1) actualizarSubTabBarMovil(1, Number(idx));
     };
     window.subTab = window.seleccionarSubSolapaSeguimiento;
+  }
+
+  const origPlan = window.seleccionarAnioPlanificador || window.planYearTab;
+  if (typeof origPlan === 'function') {
+    window.seleccionarAnioPlanificador = function(idx) {
+      origPlan(idx);
+      if (superTabActivoActual === 2) {
+        actualizarSubTabBarMovil(2, Number(idx));
+        if (typeof window.actualizarSubSubTabBarMovil === 'function') {
+          window.actualizarSubSubTabBarMovil(2, Number(idx));
+        }
+      }
+    };
+    window.planYearTab = window.seleccionarAnioPlanificador;
   }
 
   window._controladorMovilSincronizado = true;
