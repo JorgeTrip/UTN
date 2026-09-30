@@ -67,8 +67,8 @@ test.describe('Materias Electivas y Acreditación de Horas en Mapa Curricular', 
     await expect(tarjetaQuimica).toBeVisible();
     await expect(tarjetaQuimica.locator('.acc-badges')).toContainText(/Acredita 72hs/i);
 
-    // 3. Valida el chip de progreso acumulado del Bloque 3º/4º (144 / 240 hs)
-    const chipProgreso = page.locator('.chip-bloque-electivas:has-text("Bloque 3.º/4.º")');
+    // 3. Valida el chip de progreso acumulado del Bloque 3º/4º (304 / 240 hs)
+    const chipProgreso = page.locator('.chip-bloque-electivas:has-text("Bloque 3.º/4.º")').first();
     await expect(chipProgreso).toContainText(/304\s*\/\s*240\s*hs/i);
     await expect(chipProgreso).toContainText(/Cumplido/i);
   });

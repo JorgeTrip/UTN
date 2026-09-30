@@ -45,6 +45,7 @@ const CAT_MATERIAS_K23 = [
   { nivel: 5, id: '232055', nombre: 'Seguridad en los Sistemas', adusi: false },
   { nivel: 5, id: '082037', nombre: 'Proyecto Final', adusi: false }
 ];
+window.CAT_MATERIAS_K23 = CAT_MATERIAS_K23;
 
 function obtenerInsigniasMateria(mat) {
   if (!mat) return { claseEstado: 's-pe', insigniaNota: '<span class="acc-grade ag-muted">–</span>', badgeEstado: '<span class="acc-badge ab-pend">Pendiente</span>' };
@@ -129,11 +130,12 @@ function renderizarMapaCurricular() {
     const matsNivel = CAT_MATERIAS_K23.filter(m => m.nivel === n);
     const cantAprob = matsNivel.filter(m => aprobadas.some(a => a.id === m.id)).length;
     let extraElectivasHtml = '';
+    const chip34 = `<div class="chip-bloque-electivas" style="margin-top:12px;margin-bottom:8px;padding:6px 10px;background:rgba(234,179,8,.08);border:1px solid rgba(234,179,8,.25);border-radius:6px;font-size:11px;font-weight:700;color:var(--yellow);display:flex;align-items:center;justify-content:space-between;"><span>🧩 Bloque 3.º/4.º: ${infoEl.bloque34.horasAprobadas} / 240 hs</span><span>${infoEl.bloque34.cumplido ? '🎓 Cumplido' : infoEl.bloque34.porcentaje + '%'}</span></div>`;
     if (n === 3) {
-      const b = infoEl.bloque34;
-      const mats = [...b.materiasAprobadas, ...b.materiasEnCurso];
-      const chip = `<div class="chip-bloque-electivas" style="margin-top:12px;margin-bottom:8px;padding:6px 10px;background:rgba(234,179,8,.08);border:1px solid rgba(234,179,8,.25);border-radius:6px;font-size:11px;font-weight:700;color:var(--yellow);display:flex;align-items:center;justify-content:space-between;"><span>🧩 Bloque 3.º/4.º: ${b.horasAprobadas} / 240 hs</span><span>${b.cumplido ? '🎓 Cumplido' : b.porcentaje + '%'}</span></div>`;
-      extraElectivasHtml = chip + mats.map(m => renderizarTarjetaMateria({ id: m.id, nombre: m.nombre, adusi: false }, aprobadas, enCurso)).join('');
+      const mats = [...infoEl.bloque34.materiasAprobadas, ...infoEl.bloque34.materiasEnCurso];
+      extraElectivasHtml = chip34 + mats.map(m => renderizarTarjetaMateria({ id: m.id, nombre: m.nombre, adusi: false }, aprobadas, enCurso)).join('');
+    } else if (n === 4) {
+      extraElectivasHtml = chip34;
     } else if (n === 5) {
       const b = infoEl.bloque5;
       const mats = [...b.materiasAprobadas, ...b.materiasEnCurso];
