@@ -13,11 +13,17 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (usuario) {
         document.body.classList.remove('sin-sesion');
         cerrarModalAuth(true);
+        if (typeof window.actualizarOpcionesSesionDropdown === 'function') {
+          window.actualizarOpcionesSesionDropdown(usuario);
+        }
         await cargarDatosIniciales();
         renderizarTodoElDashboard();
       } else {
         document.body.classList.add('sin-sesion');
         window.datosGlobales.datosAlumno = null;
+        if (typeof window.actualizarOpcionesSesionDropdown === 'function') {
+          window.actualizarOpcionesSesionDropdown(null);
+        }
         renderizarHeaderYPerfil();
         abrirModalAuth(true);
       }

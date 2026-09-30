@@ -114,4 +114,5 @@ function renderizarTodoElDashboard() {
   if (typeof renderizarPlanificadorCompleto === 'function') renderizarPlanificadorCompleto();
   if (typeof renderizarGuiaAcademica === 'function') renderizarGuiaAcademica();
 }
-const renderizarUI = renderizarTodoElDashboard;
+window.renderizarUI = renderizarTodoElDashboard;
+window.actualizarOpcionesSesionDropdown = actualizarOpcionesSesionDropdown;

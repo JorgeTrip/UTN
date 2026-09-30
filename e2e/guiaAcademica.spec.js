@@ -65,4 +65,20 @@ test.describe('Guía Académica y Normativa UTN (Super Panel 4)', () => {
     await buscador.fill('RTF');
     await expect(panelGuia.getByText(/Sistema RTF/i)).toBeVisible();
   });
+
+  test('debe permitir conmutar a la tabla oficial de equivalencias K08 -> K23 y catálogo de electivas', async ({ page }) => {
+    const panelGuia = page.locator('#sp4');
+
+    // Conmuta a Transición K08 -> K23
+    await panelGuia.locator('button:has-text("🔄 Transición K08 ➔ K23")').click();
+    await expect(panelGuia.getByRole('cell', { name: 'Matemática Discreta' })).toBeVisible();
+    await expect(panelGuia.getByRole('cell', { name: 'Lógica y Estructuras Discretas' })).toBeVisible();
+    await expect(panelGuia.getByRole('cell', { name: 'Matemática Superior' })).toBeVisible();
+    await expect(panelGuia.getByRole('cell', { name: 'Análisis Numérico' })).toBeVisible();
+
+    // Conmuta a Electivas & Bloques
+    await panelGuia.locator('button:has-text("🧩 Electivas & Bloques")').click();
+    await expect(panelGuia.getByText(/Bloque 3.º y 4.º Nivel/i)).toBeVisible();
+    await expect(panelGuia.getByText('Ciberseguridad', { exact: true })).toBeVisible();
+  });
 });
