@@ -1,9 +1,17 @@
 [
   {
-    "version": "v1.39.5",
+    "version": "v1.40.0",
     "fecha": "2026-09-30",
-    "totalCambios": 68,
+    "totalCambios": 69,
     "cambios": [
+      {
+        "hash": "9e43f89",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se implementa funcion serverless de Netlify para consumo seguro de Gemini"
+      },
       {
         "hash": "e712d84",
         "autor": "github-actions[bot]",
