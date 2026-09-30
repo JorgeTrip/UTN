@@ -172,15 +172,14 @@ function guardarEdicionMateria() {
       estado = 'aprobada'; modalidad = 'final'; nota = finalAprobado.nota; fechaAprobacion = finalAprobado.fecha;
     } else if (res.promociona && res.promedioParciales !== null) {
       estado = 'aprobada'; modalidad = 'promocion'; nota = Math.round(res.promedioParciales); fechaAprobacion = new Date().toISOString().split('T')[0];
-    } else if (res.estado === 'firmada') {
-      estado = 'firmada'; modalidad = 'final_pendiente';
-    } else if (res.recursa) {
-      estado = 'recursa';
-    } else {
-      estado = 'en_curso';
-    }
+    } else if (res.estado === 'firmada') { estado = 'firmada'; modalidad = 'final_pendiente'; }
+    else if (res.recursa) { estado = 'recursa'; }
+    else { estado = 'en_curso'; }
 
-    const matData = { id: materiaIdActualEdicion, nombre: nombreMat, estado, modalidad, nota, fechaAprobacion, plan: 'K23', finales, ...evalData };
+    const prev = window.materiaObjEnEdicion || {};
+    const libro = finalAprobado?.libro || prev.libro || null, folio = finalAprobado?.folio || prev.folio || null;
+    const acta = finalAprobado?.acta || prev.acta || null, turno = finalAprobado?.turno || prev.turno || null;
+    const matData = { ...prev, id: materiaIdActualEdicion, nombre: nombreMat, estado, modalidad, nota, fechaAprobacion, plan: 'K23', finales, libro, folio, acta, turno, ...evalData };
     if (estado === 'aprobada') aprobadas.push(matData);
     else enCurso.push(matData);
   }
