@@ -60,11 +60,27 @@ function renderizarCatalogoElectivasHtml(electivas, filtro = '') {
     (el.nivel_asignado && el.nivel_asignado.toLowerCase().includes(q))
   );
 
+  const datos = window.datosGlobales?.datosAlumno || {};
+  const cursadasSet = new Set([
+    ...(datos.materiasAprobadas || []),
+    ...(datos.materiasEnCurso || [])
+  ].flatMap(m => [
+    String(m.codigo || '').toLowerCase().trim(),
+    String(m.id || '').toLowerCase().trim(),
+    String(m.materia || '').toLowerCase().trim(),
+    String(m.nombre || '').toLowerCase().trim()
+  ]).filter(Boolean));
+
   return `
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-top:10px;">
-      ${filtradas.map(el => `
-        <div class="guia-card" style="padding:12px;">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px;margin-bottom:4px;">
+      ${filtradas.map(el => {
+        const codigoEl = String(el.codigo || '').toLowerCase().trim();
+        const nombreEl = String(el.nombre || '').toLowerCase().trim();
+        const estaCursada = cursadasSet.has(codigoEl) || cursadasSet.has(nombreEl);
+        return `
+        <div class="guia-card" style="padding:12px;position:relative;">
+          ${estaCursada ? '<span class="badge-check-cursada" title="Materia Cursada o Aprobada" style="position:absolute;top:8px;right:8px;background:#10b981;color:#fff;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;box-shadow:0 2px 6px rgba(16,185,129,0.4);z-index:2;">✔</span>' : ''}
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px;margin-bottom:4px;padding-right:${estaCursada ? '24px' : '0'};">
             <div style="font-weight:700;font-size:13px;color:var(--text);">${el.nombre}</div>
             <span class="acc-badge ab-final" style="font-size:9px;">${el.codigo}</span>
           </div>
@@ -72,7 +88,8 @@ function renderizarCatalogoElectivasHtml(electivas, filtro = '') {
           <div style="font-size:11.5px;color:var(--muted);line-height:1.4;margin-bottom:6px;">${el.descripcion || ''}</div>
           ${el.correlativas_para_cursar?.length ? `<div style="font-size:10.5px;color:#a78bfa;"><strong>Correlativas:</strong> ${el.correlativas_para_cursar.join(', ')}</div>` : ''}
         </div>
-      `).join('')}
+        `;
+      }).join('')}
     </div>
   `;
 }

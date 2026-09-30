@@ -27,12 +27,12 @@ function renderizarPlanificadorCompleto() {
   const altElegida = (typeof obtenerAlternativaElegida === 'function') ? obtenerAlternativaElegida('2026', '2c') : 0;
   const turnoAlumno = datos.turno || 'Noche';
 
-  let pestañasHtml = '<button class="sub-tab active" onclick="planYearTab(0)">📅 2026 · Cursada Actual (' + enCurso.length + ')</button>';
+  let pestañasHtml = '<button class="sub-tab active" onclick="planYearTab(0)">2026 · Cursada Actual (' + enCurso.length + ')</button>';
   if (tieneDatos) {
     pestañasHtml += `
-      <button class="sub-tab" onclick="planYearTab(1)">📅 2027 · Nivel 4 y 5</button>
-      <button class="sub-tab" onclick="planYearTab(2)">📅 2028 · Proyecto Final</button>
-      <button class="sub-tab" onclick="planYearTab(3)">🎓 2029 · Cierre & Graduación</button>
+      <button class="sub-tab" onclick="planYearTab(1)">2027 · Nivel 4 y 5</button>
+      <button class="sub-tab" onclick="planYearTab(2)">2028 · Proyecto Final</button>
+      <button class="sub-tab" onclick="planYearTab(3)">2029 · Cierre & Graduación</button>
     `;
   }
 

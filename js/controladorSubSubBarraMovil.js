@@ -79,6 +79,7 @@ function actualizarSubSubTabBarMovil(superTabIndice, anioIndice = 0) {
 
   barra.style.display = 'flex';
   document.body.classList.add('con-sub-sub-barra');
+  if (typeof window.actualizarChevronesDesplazamiento === 'function') window.actualizarChevronesDesplazamiento();
 }
 
 function navegarSubSubTabMovil(tipo, valor, contenedorId = 'tab2026') {
