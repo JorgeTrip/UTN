@@ -35,8 +35,8 @@ test.describe('Sub-Barra Guía Académica, Chevrones y Checks en Electivas', () 
     await expect(pills).toHaveCount(5);
 
     // Debe existir un buscador integrado visible para Guía
-    const buscador = page.locator('#guiaBuscadorFlotanteMovil, #guiaBuscadorInput');
-    await expect(buscador.first()).toBeVisible();
+    const buscador = page.locator('#guiaBuscadorFlotanteMovil');
+    await expect(buscador).toBeVisible();
   });
 
   test('Las materias electivas cursadas/aprobadas deben tener el check verde en la esquina superior derecha', async ({ page }) => {

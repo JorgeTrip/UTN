@@ -78,7 +78,8 @@
   }
 
   /* Conector Visual: Flecha indicadora que apunta hacia abajo (▼) marcando el origen */
-  .bottom-tab-item .tab-connector-arrow {
+  .bottom-tab-item .tab-connector-arrow,
+  .sub-tab-pill .tab-connector-arrow {
     position: absolute;
     top: -7px;
     left: 50%;
@@ -87,11 +88,12 @@
     height: 0;
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
-    border-top: 7px solid #0A84FF;
+    border-top: 6px solid #0A84FF;
     border-bottom: none;
     filter: drop-shadow(0 2px 4px rgba(10, 132, 255, 0.6));
     pointer-events: none;
     animation: bounceConnector 1.2s infinite alternate ease-in-out;
+    z-index: 10;
   }
 
   @keyframes bounceConnector {
@@ -114,7 +116,7 @@
     border-radius: 14px;
     padding: 4px;
     gap: 4px;
-    overflow-x: auto;
+    overflow: visible;
     justify-content: space-around;
     align-items: center;
     box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.4);
@@ -128,9 +130,10 @@
   }
 
   .sub-tab-pill {
+    position: relative;
     background: transparent;
     border: 1px solid transparent;
-    padding: 6px 10px;
+    padding: 6px 8px;
     border-radius: 9px;
     color: #8E8E93;
     font-size: 11px;
@@ -156,5 +159,11 @@
     background: rgba(0, 113, 227, 0.14);
     color: #0071E3;
     border-color: rgba(0, 113, 227, 0.28);
+  }
+
+  #sp4 #guiaBuscadorInput,
+  .guia-desktop-nav,
+  #sp4 .guia-tab-btn {
+    display: none !important;
   }
 }

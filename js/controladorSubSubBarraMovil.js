@@ -28,8 +28,21 @@ function actualizarSubSubTabBarMovil(superTabIndice, anioIndice = 0) {
   if (numSuper !== 2) {
     barra.style.display = 'none';
     document.body.classList.remove('con-sub-sub-barra');
+    document.querySelectorAll('#subTabBarInferiorMovil .tab-connector-arrow').forEach(el => el.remove());
     return;
   }
+
+  document.querySelectorAll('#subTabBarInferiorMovil .sub-tab-pill').forEach(btn => {
+    const esActivo = String(btn.dataset.sub) === String(numAnio) || (btn.classList.contains('active') && !btn.dataset.sub);
+    let conector = btn.querySelector('.tab-connector-arrow');
+    if (esActivo) {
+      if (!conector) {
+        conector = document.createElement('div');
+        conector.className = 'tab-connector-arrow';
+        btn.appendChild(conector);
+      }
+    } else if (conector) conector.remove();
+  });
 
   barra.replaceChildren();
 

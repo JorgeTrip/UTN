@@ -6,7 +6,7 @@
 const CONFIGURACION_SUBTABS = {
   1: [{ sub: 0, label: '📈 Hitos' }, { sub: 1, label: '🗺️ Mapa' }, { sub: 2, label: '⚖️ Peso' }, { sub: 3, label: '💡 Estrategia' }],
   2: [{ sub: 0, label: '2026' }, { sub: 1, label: '2027' }, { sub: 2, label: '2028' }, { sub: 3, label: '2029' }],
-  4: [{ sub: 'todas', label: '🌐 Todo' }, { sub: 'plan', label: '🎓 Plan' }, { sub: 'transicion', label: '🔄 Transición' }, { sub: 'electivas', label: '🧩 Electivas' }, { sub: 'normativas', label: '📐 Normativas' }]
+  4: [{ sub: 'todas', label: 'Todo' }, { sub: 'plan', label: 'Plan' }, { sub: 'transicion', label: 'Transición' }, { sub: 'electivas', label: 'Electivas' }, { sub: 'normativas', label: 'Normativas' }]
 };
 
 let superTabActivoActual = 1;
@@ -103,13 +103,14 @@ function actualizarSubTabBarMovil(superTabIndice, subActivoForzado = null) {
 
   const pillsWrap = document.createElement('div');
   pillsWrap.className = 'sub-tab-pills-row';
-  pillsWrap.style.cssText = 'display:flex;gap:4px;width:100%;overflow-x:auto;justify-content:space-around;align-items:center;';
+  pillsWrap.style.cssText = 'display:flex;gap:3px;width:100%;overflow:visible;justify-content:space-between;align-items:center;box-sizing:border-box;';
 
   lista.forEach(item => {
     const pill = document.createElement('button');
     pill.className = `sub-tab-pill ${String(item.sub) === String(subActivo) ? 'active' : ''}`;
     pill.textContent = item.label;
     pill.dataset.sub = String(item.sub);
+    if (superTabIndice === 4) pill.style.cssText = 'padding:5px 4px;font-size:10.5px;flex:1 1 auto;text-align:center;';
     pill.onclick = () => navegarSubTabMovil(superTabIndice, item.sub);
     pillsWrap.appendChild(pill);
   });
@@ -118,12 +119,12 @@ function actualizarSubTabBarMovil(superTabIndice, subActivoForzado = null) {
   if (superTabIndice === 4) {
     subBarra.style.flexDirection = 'column';
     const searchWrap = document.createElement('div');
-    searchWrap.style.cssText = 'width:100%;margin-top:4px;';
+    searchWrap.style.cssText = 'width:100%;margin-top:6px;';
     const inp = document.createElement('input');
     inp.type = 'text';
     inp.id = 'guiaBuscadorFlotanteMovil';
     inp.placeholder = '🔍 Buscar en la guía...';
-    inp.style.cssText = 'width:100%;padding:6px 12px;border-radius:8px;border:1px solid rgba(58,58,60,0.8);background:rgba(20,20,22,0.85);color:var(--text);font-size:11.5px;box-sizing:border-box;';
+    inp.style.cssText = 'width:100%;height:38px;padding:8px 12px;border-radius:10px;border:1px solid rgba(58,58,60,0.8);background:rgba(20,20,22,0.85);color:var(--text);font-size:12.5px;box-sizing:border-box;';
     inp.oninput = (e) => { if (typeof window.filtrarContenidoGuia === 'function') window.filtrarContenidoGuia(e.target.value); };
     searchWrap.appendChild(inp);
     subBarra.appendChild(searchWrap);

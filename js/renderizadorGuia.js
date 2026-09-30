@@ -23,8 +23,8 @@ async function cargarDatosGuiaCompletos() {
 
 function conmutarSeccionGuia(seccion) {
   seccionGuiaActiva = seccion;
-  document.querySelectorAll('#sp4 .guia-tab-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.seccion === seccion);
+  document.querySelectorAll('#subTabBarInferiorMovil .sub-tab-pill').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.sub === seccion);
   });
   document.querySelectorAll('#sp4 .guia-seccion-bloque').forEach(bloque => {
     bloque.style.display = (seccion === 'todas' || bloque.id === `guiaSec_${seccion}`) ? 'block' : 'none';
@@ -52,7 +52,7 @@ async function renderizarGuiaAcademica() {
       <p style="font-size:13px;color:var(--muted);margin:0 0 12px;line-height:1.5;">
         Compendio interactivo oficial de Ingeniería en Sistemas de Información (Planes K23 y K08).
       </p>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+      <div class="guia-desktop-nav" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
         <button class="sub-tab guia-tab-btn active" data-seccion="todas" onclick="conmutarSeccionGuia('todas')">🌐 Ver Todo</button>
         <button class="sub-tab guia-tab-btn" data-seccion="plan" onclick="conmutarSeccionGuia('plan')">🎓 Plan K23 & ADUSI</button>
         <button class="sub-tab guia-tab-btn" data-seccion="transicion" onclick="conmutarSeccionGuia('transicion')">🔄 Transición K08 ➔ K23</button>
