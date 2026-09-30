@@ -60,11 +60,53 @@ test.describe('Modales y Formularios de Edición', () => {
     const modalMateria = page.locator('#modalMateria');
     await expect(modalMateria).toHaveClass(/open/);
     await expect(modalMateria.getByText(/Materia:/i)).toBeVisible();
-    await expect(page.locator('#selectEstadoMateria')).toBeVisible();
+    await expect(page.locator('#selectModalidadMateria')).toBeVisible();
     await expect(page.locator('#listaLlamadosFinales')).toBeVisible();
 
     // Cierra el modal con el botón cancelar
     await modalMateria.getByRole('button', { name: /Cancelar/i }).click();
+    await expect(modalMateria).not.toHaveClass(/open/);
+  });
+
+  test('debe calcular automáticamente la condición de cursada y registrar final aprobado', async ({ page }) => {
+    // Navega a Plan de Estudios & Seguimiento -> Mapa Curricular
+    await page.locator('.super-tab.sp1').click();
+    await page.getByRole('button', { name: /Mapa Curricular K23/i }).click();
+
+    // Abre el modal de la primera materia
+    const primeraTarjeta = page.locator('#sp1p1 .acc-card').first();
+    await primeraTarjeta.click();
+    await primeraTarjeta.locator('button:has-text("✏️ Editar")').click();
+
+    const modalMateria = page.locator('#modalMateria');
+    await expect(modalMateria).toHaveClass(/open/);
+
+    // Carga parcial 1 = 6 y parcial 2 = 6 (Firmada)
+    const inpP1 = page.locator('.input-p-orig[data-pidx="0"]');
+    const inpP2 = page.locator('.input-p-orig[data-pidx="1"]');
+    await inpP1.fill('6');
+    await inpP2.fill('6');
+
+    // Valida que el algoritmo calcule cursada firmada y active aviso
+    const boxResultado = page.locator('#boxResultadoCursadaCalculada');
+    await expect(boxResultado).toContainText(/CURSADA FIRMADA/i);
+
+    // Valida que el formulario de finales esté visible para cursada firmada
+    const formFinal = page.locator('#formAgregarFinal');
+    await expect(formFinal).toBeVisible();
+
+    // Agrega un llamado de final aprobado con nota 8
+    await page.locator('#inputFinalFecha').fill('2026-07-20');
+    await page.locator('#selectFinalResultado').selectOption('aprobado');
+    await page.locator('#inputFinalNota').fill('8');
+    await page.locator('#formAgregarFinal button:has-text("+ Registrar")').click();
+
+    // Valida que el llamado quede registrado en la lista
+    const listaFinales = page.locator('#listaLlamadosFinales');
+    await expect(listaFinales).toContainText(/Aprobado \(8\)/i);
+
+    // Guarda los cambios
+    await modalMateria.locator('button:has-text("Guardar Materia")').click();
     await expect(modalMateria).not.toHaveClass(/open/);
   });
 
@@ -94,3 +136,4 @@ test.describe('Modales y Formularios de Edición', () => {
     await expect(modalElectiva).not.toHaveClass(/open/);
   });
 });
+

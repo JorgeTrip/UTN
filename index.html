@@ -129,24 +129,29 @@
   <div class="modal-card" style="max-width:540px;max-height:90vh;overflow-y:auto;">
     <div class="modal-header"><div class="modal-title">✏️ Materia: <span id="editNombreMateria" style="color:var(--blue)">-</span></div><button class="modal-close" onclick="cerrarModalEditarMateria()">&times;</button></div>
     <div class="modal-body" style="display:flex;flex-direction:column;gap:12px;">
-      <div style="background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:12px;">
-        <div style="font-weight:700;font-size:12.5px;color:var(--blue);margin-bottom:8px;">📚 1. Evaluación de Cursada Regular (Cátedra)</div>
-        <div id="seccionEvaluacionesModal"></div>
-        <div class="form-grid" style="margin-top:10px;">
-          <div class="form-group"><label class="form-label">Estado Cursada</label><select id="selectEstadoMateria" class="form-input"><option value="en_curso">Cursando / En Curso</option><option value="firmada">Firmada (Cursada Aprobada / Rinde Final)</option><option value="aprobada">Promocionada / Aprobada Directa</option><option value="equivalencia">Homologada por Equivalencia K08→K23</option><option value="pendiente">Sin Cursar / Desaprobada</option></select></div>
-          <div class="form-group"><label class="form-label">Modalidad Aprobación</label><select id="selectModalidadMateria" class="form-input"><option value="promocion">Promoción Directa</option><option value="final">Examen Final</option><option value="equivalencia_k08">Equivalencia Plan K08→K23</option><option value="equivalencia_carrera">Equivalencia Pase Carrera</option></select></div>
-          <div class="form-group"><label class="form-label">Nota Aprobación</label><input type="number" min="1" max="10" id="inputNotaMateria" class="form-input" placeholder="Ej: 8"></div>
-          <div class="form-group"><label class="form-label">Fecha Aprobación</label><input type="text" id="inputFechaAprobacion" class="form-input" placeholder="AAAA-MM-DD"></div>
-        </div>
+      <div class="form-group" style="margin-bottom:0;">
+        <label class="form-label" style="font-weight:700;color:var(--blue);">Modalidad u Origen de la Materia</label>
+        <select id="selectModalidadMateria" class="form-input" onchange="conmutarModoModalMateria()"><option value="cursada">Cursada Regular UTN FRBA (Interactiva)</option><option value="equivalencia_k08">Homologación por Cambio de Plan K08 → K23</option><option value="equivalencia_carrera">Equivalencia Pase de Carrera / Otra Universidad</option><option value="pendiente">Sin Cursar / Materia Pendiente</option></select>
       </div>
-      <div style="background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:12px;">
-        <div style="font-weight:700;font-size:12.5px;color:var(--blue);margin-bottom:8px;">🎯 2. Exámenes Finales (Llamados e Intentos)</div>
-        <div id="listaLlamadosFinales"></div>
-        <div class="form-grid" style="grid-template-columns:repeat(auto-fit,minmax(105px,1fr));gap:6px;align-items:end;margin-top:8px;">
-          <div class="form-group" style="margin-bottom:0;"><label class="form-label" style="font-size:9.5px;">Fecha</label><input type="date" id="inputFinalFecha" class="form-input" style="font-size:11.5px;padding:5px 6px;"></div>
-          <div class="form-group" style="margin-bottom:0;"><label class="form-label" style="font-size:9.5px;">Resultado</label><select id="selectFinalResultado" class="form-input" style="font-size:11.5px;padding:5px 6px;" onchange="actualizarEstadoInputNotaFinal()"><option value="aprobado">Aprobado (6-10)</option><option value="desaprobado">Aplazo (1-5)</option><option value="ausente">Ausente</option></select></div>
-          <div class="form-group" style="margin-bottom:0;"><label class="form-label" style="font-size:9.5px;">Nota</label><input type="number" min="1" max="10" id="inputFinalNota" class="form-input" placeholder="Nota" style="font-size:11.5px;padding:5px 6px;"></div>
-          <button type="button" class="btn-prim" style="font-size:11px;padding:6px 8px;height:30px;" onclick="agregarLlamadoFinal()">+ Registrar</button>
+      <div id="panelEquivalencia" style="display:none;background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:12px;">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:8px;line-height:1.4;">🔄 Las materias aprobadas por equivalencia u homologación se reflejan con su símbolo alusivo en el mapa curricular sin requerir nota numérica.</div>
+        <div class="form-group" style="margin-bottom:0;"><label class="form-label">Fecha o N° Resolución (Opcional)</label><input type="text" id="inputFechaEquivalencia" class="form-input" placeholder="AAAA-MM-DD o Res. N°"></div>
+      </div>
+      <div id="panelCursadaRegular" style="display:flex;flex-direction:column;gap:12px;">
+        <div style="background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:12px;">
+          <div style="font-weight:700;font-size:12.5px;color:var(--blue);margin-bottom:8px;">📚 1. Evaluación de Cursada (Parciales y TPs)</div>
+          <div id="seccionEvaluacionesModal"></div>
+        </div>
+        <div id="bloqueFinalesModal" style="background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:12px;">
+          <div style="font-weight:700;font-size:12.5px;color:var(--blue);margin-bottom:8px;">🎯 2. Exámenes Finales (Llamados e Intentos)</div>
+          <div id="avisoFinalesModal" style="display:none;font-size:11.5px;color:var(--muted);padding:4px 0;margin-bottom:8px;"></div>
+          <div id="listaLlamadosFinales"></div>
+          <div id="formAgregarFinal" class="form-grid" style="grid-template-columns:repeat(auto-fit,minmax(105px,1fr));gap:6px;align-items:end;margin-top:8px;">
+            <div class="form-group" style="margin-bottom:0;"><label class="form-label" style="font-size:9.5px;">Fecha</label><input type="date" id="inputFinalFecha" class="form-input" style="font-size:11.5px;padding:5px 6px;"></div>
+            <div class="form-group" style="margin-bottom:0;"><label class="form-label" style="font-size:9.5px;">Resultado</label><select id="selectFinalResultado" class="form-input" style="font-size:11.5px;padding:5px 6px;" onchange="actualizarEstadoInputNotaFinal()"><option value="aprobado">Aprobado (6-10)</option><option value="desaprobado">Aplazo (1-5)</option><option value="ausente">Ausente</option></select></div>
+            <div class="form-group" style="margin-bottom:0;"><label class="form-label" style="font-size:9.5px;">Nota</label><input type="number" min="1" max="10" id="inputFinalNota" class="form-input" placeholder="Nota" style="font-size:11.5px;padding:5px 6px;"></div>
+            <button type="button" class="btn-prim" style="font-size:11px;padding:6px 8px;height:30px;" onclick="agregarLlamadoFinal()">+ Registrar</button>
+          </div>
         </div>
       </div>
     </div>
@@ -159,10 +164,7 @@
   <div class="modal-card" style="max-width:520px;">
     <div class="modal-header"><div class="modal-title">➕ Seleccionar Materia Electiva (<span id="txtNivelElectiva" style="color:var(--blue)">Nivel 3</span>)</div><button class="modal-close" onclick="cerrarModalElectiva()">&times;</button></div>
     <div class="modal-body">
-      <div class="form-group" style="margin-bottom:12px;">
-        <label class="form-label">Oferta de Materias Electivas Institucionales</label>
-        <select id="selectMateriaElectiva" class="form-input" onchange="actualizarInfoElectivaSeleccionada()"></select>
-      </div>
+      <div class="form-group" style="margin-bottom:12px;"><label class="form-label">Oferta de Materias Electivas Institucionales</label><select id="selectMateriaElectiva" class="form-input" onchange="actualizarInfoElectivaSeleccionada()"></select></div>
       <div id="boxInfoElectiva" style="background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:12px;font-size:12px;">
         <div style="font-weight:700;font-size:13px;margin-bottom:4px;" id="infoElectivaNombre">-</div>
         <div style="color:var(--blue);font-family:'JetBrains Mono',monospace;margin-bottom:6px;" id="infoElectivaCarga">-</div>

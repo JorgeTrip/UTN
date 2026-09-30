@@ -1,6 +1,6 @@
 /**
  * Módulo Gestor de Evaluaciones de Cursada (Parciales y Trabajos Prácticos)
- * Maneja esquemas de cátedra con N parciales (hasta 2 recups) y M TPs (con reentrega).
+ * Gestiona configuraciones de cátedra con N parciales y M TPs, calculando en vivo la condición.
  */
 
 function renderizarSeccionEvaluacionesModal(materiaObj) {
@@ -17,11 +17,11 @@ function renderizarSeccionEvaluacionesModal(materiaObj) {
     <div>
       <div class="form-grid" style="grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
         <div class="form-group" style="margin-bottom:0;">
-          <label class="form-label" style="font-size:11px;">Cant. Parciales Cátedra</label>
+          <label class="form-label" style="font-size:11px;">Cant. Parciales (def: 2)</label>
           <input type="number" min="0" max="6" id="evalCantParciales" class="form-input" value="${cantParciales}" onchange="reconstruirCamposEvaluacionModal()">
         </div>
         <div class="form-group" style="margin-bottom:0;">
-          <label class="form-label" style="font-size:11px;">Cant. TPs / Proyectos</label>
+          <label class="form-label" style="font-size:11px;">Cant. TPs / Proyectos (def: 0)</label>
           <input type="number" min="0" max="6" id="evalCantTPs" class="form-input" value="${cantTPs}" onchange="reconstruirCamposEvaluacionModal()">
         </div>
       </div>
@@ -88,22 +88,24 @@ function actualizarEvaluacionesModal() {
   const parcialesEstructurados = [];
 
   for (let i = 0; i < nParciales; i++) {
-    const origInp = document.querySelector(`.input-p-orig[data-pidx="${i}"]`);
-    const rec1Inp = document.querySelector(`.input-p-rec1[data-pidx="${i}"]`);
-    const rec2Inp = document.querySelector(`.input-p-rec2[data-pidx="${i}"]`);
-    const orig = origInp && origInp.value.trim() !== '' ? Number(origInp.value) : null;
-    const recup1 = rec1Inp && rec1Inp.value.trim() !== '' ? Number(rec1Inp.value) : null;
-    const recup2 = rec2Inp && rec2Inp.value.trim() !== '' ? Number(rec2Inp.value) : null;
-    parcialesEstructurados.push({ original: orig, recup1, recup2 });
+    const orig = document.querySelector(`.input-p-orig[data-pidx="${i}"]`)?.value.trim();
+    const rec1 = document.querySelector(`.input-p-rec1[data-pidx="${i}"]`)?.value.trim();
+    const rec2 = document.querySelector(`.input-p-rec2[data-pidx="${i}"]`)?.value.trim();
+    parcialesEstructurados.push({
+      original: orig !== '' && !isNaN(orig) ? Number(orig) : null,
+      recup1: rec1 !== '' && !isNaN(rec1) ? Number(rec1) : null,
+      recup2: rec2 !== '' && !isNaN(rec2) ? Number(rec2) : null
+    });
   }
 
   const tpsEstructurados = [];
   for (let j = 0; j < nTPs; j++) {
-    const origInp = document.querySelector(`.input-tp-orig[data-tpidx="${j}"]`);
-    const reentInp = document.querySelector(`.input-tp-reent[data-tpidx="${j}"]`);
-    const orig = origInp && origInp.value.trim() !== '' ? Number(origInp.value) : null;
-    const reentrega = reentInp && reentInp.value.trim() !== '' ? Number(reentInp.value) : null;
-    tpsEstructurados.push({ original: orig, reentrega });
+    const orig = document.querySelector(`.input-tp-orig[data-tpidx="${j}"]`)?.value.trim();
+    const reent = document.querySelector(`.input-tp-reent[data-tpidx="${j}"]`)?.value.trim();
+    tpsEstructurados.push({
+      original: orig !== '' && !isNaN(orig) ? Number(orig) : null,
+      reentrega: reent !== '' && !isNaN(reent) ? Number(reent) : null
+    });
   }
 
   const res = (typeof calcularCondicionCursadaCompleta === 'function')
@@ -120,19 +122,33 @@ function actualizarEvaluacionesModal() {
   box.replaceChildren();
   box.insertAdjacentHTML('beforeend', `<strong style="color:${color}">Resultado Cursada:</strong> ${res.condicionTexto}`);
 
-  const selectEst = document.getElementById('selectEstadoMateria');
-  const selectMod = document.getElementById('selectModalidadMateria');
-  const inputNota = document.getElementById('inputNotaMateria');
+  actualizarVisibilidadBloqueFinales(res);
+}
 
-  if (res.promociona && res.promedioParciales !== null) {
-    if (selectEst && selectEst.value !== 'aprobada' && selectEst.value !== 'equivalencia') selectEst.value = 'aprobada';
-    if (selectMod && selectMod.value !== 'promocion') selectMod.value = 'promocion';
-    if (inputNota && inputNota.value === '') inputNota.value = Math.round(res.promedioParciales);
-  } else if (res.estado === 'firmada') {
-    if (selectEst) selectEst.value = 'firmada';
-    if (selectMod) selectMod.value = 'final';
-  } else if (res.recursa) {
-    if (selectEst) selectEst.value = 'pendiente';
+function actualizarVisibilidadBloqueFinales(resCursada) {
+  const aviso = document.getElementById('avisoFinalesModal');
+  const formFinal = document.getElementById('formAgregarFinal');
+  if (!aviso || !formFinal) return;
+
+  const finalesCargados = window.materiaObjEnEdicion?.finales || [];
+  const tieneFinalAprobado = finalesCargados.some(f => f.resultado === 'aprobado' || (f.nota && f.nota >= 6));
+
+  if (resCursada.promociona && !tieneFinalAprobado) {
+    aviso.style.display = 'block';
+    aviso.textContent = '🏆 Materia promocionada por cursada. No requiere rendir examen final.';
+    formFinal.style.display = 'none';
+  } else if (resCursada.estado === 'firmada' || tieneFinalAprobado || finalesCargados.length > 0) {
+    aviso.style.display = 'block';
+    aviso.textContent = '✍️ Cursada firmada. Podés cargar todos los llamados rendidos hasta el examen final definitivo.';
+    formFinal.style.display = 'grid';
+  } else if (resCursada.recursa) {
+    aviso.style.display = 'block';
+    aviso.textContent = '❌ Materia desaprobada por cursada. Para rendir final se debe firmar la cursada.';
+    formFinal.style.display = 'none';
+  } else {
+    aviso.style.display = 'block';
+    aviso.textContent = '⏳ Cursada en progreso. Al firmar la cursada se habilitará el registro de exámenes finales.';
+    formFinal.style.display = 'none';
   }
 }
 
@@ -142,22 +158,22 @@ function obtenerEvaluacionesModalData() {
   const parciales = [];
 
   for (let i = 0; i < nParciales; i++) {
-    const origInp = document.querySelector(`.input-p-orig[data-pidx="${i}"]`);
-    const rec1Inp = document.querySelector(`.input-p-rec1[data-pidx="${i}"]`);
-    const rec2Inp = document.querySelector(`.input-p-rec2[data-pidx="${i}"]`);
-    const orig = origInp && origInp.value.trim() !== '' ? Number(origInp.value) : null;
-    const recup1 = rec1Inp && rec1Inp.value.trim() !== '' ? Number(rec1Inp.value) : null;
-    const recup2 = rec2Inp && rec2Inp.value.trim() !== '' ? Number(rec2Inp.value) : null;
+    const origVal = document.querySelector(`.input-p-orig[data-pidx="${i}"]`)?.value.trim();
+    const rec1Val = document.querySelector(`.input-p-rec1[data-pidx="${i}"]`)?.value.trim();
+    const rec2Val = document.querySelector(`.input-p-rec2[data-pidx="${i}"]`)?.value.trim();
+    const orig = origVal !== '' && !isNaN(origVal) ? Number(origVal) : null;
+    const recup1 = rec1Val !== '' && !isNaN(rec1Val) ? Number(rec1Val) : null;
+    const recup2 = rec2Val !== '' && !isNaN(rec2Val) ? Number(rec2Val) : null;
     let notaFinal = recup2 !== null ? recup2 : (recup1 !== null ? recup1 : orig);
     parciales.push({ instancia: `${i + 1}° Parcial`, original: orig, recup1, recup2, nota: notaFinal });
   }
 
   const tps = [];
   for (let j = 0; j < nTPs; j++) {
-    const origInp = document.querySelector(`.input-tp-orig[data-tpidx="${j}"]`);
-    const reentInp = document.querySelector(`.input-tp-reent[data-tpidx="${j}"]`);
-    const orig = origInp && origInp.value.trim() !== '' ? Number(origInp.value) : null;
-    const reentrega = reentInp && reentInp.value.trim() !== '' ? Number(reentInp.value) : null;
+    const origVal = document.querySelector(`.input-tp-orig[data-tpidx="${j}"]`)?.value.trim();
+    const reentVal = document.querySelector(`.input-tp-reent[data-tpidx="${j}"]`)?.value.trim();
+    const orig = origVal !== '' && !isNaN(origVal) ? Number(origVal) : null;
+    const reentrega = reentVal !== '' && !isNaN(reentVal) ? Number(reentVal) : null;
     let notaFinal = reentrega !== null ? reentrega : orig;
     tps.push({ instancia: `TP ${j + 1}`, original: orig, reentrega, nota: notaFinal });
   }

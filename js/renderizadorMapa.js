@@ -65,21 +65,32 @@ function renderizarMapaCurricular() {
     let detalle = 'Sin cursar';
 
     if (mat) {
-      if (mat.estado === 'firmada') {
+      if (mat.estado === 'equivalencia' || mat.modalidad?.startsWith('equivalencia')) {
+        claseEstado = 's-ap';
+        insigniaNota = '<span class="acc-grade" style="font-size:12px;font-weight:700;color:var(--purple,#a855f7)">EQ</span>';
+        badgeEstado = `<span class="acc-badge ab-promo">${mat.modalidad === 'equivalencia_carrera' ? 'Equivalencia Carrera' : 'Homologación K08→K23'}</span>`;
+        detalle = mat.materiaOrigenK08 ? `Equivalencia K08: ${mat.materiaOrigenK08}` : (mat.fechaAprobacion || 'Aprobada por Equivalencia');
+      } else if (mat.estado === 'firmada') {
         claseEstado = 's-pl';
         insigniaNota = '<span class="acc-grade ag-blue">✍️</span>';
         badgeEstado = '<span class="acc-badge ab-plan">Firmada / Rinde Final</span>';
-        detalle = 'Cursada regular aprobada';
-      } else if (enCurso.some(m => m.id === matPlan.id)) {
+        detalle = 'Cursada regular aprobada · Rinde final';
+      } else if (mat.estado === 'recursa') {
+        claseEstado = 's-pe';
+        insigniaNota = '<span class="acc-grade" style="color:var(--accent)">❌</span>';
+        badgeEstado = '<span class="acc-badge" style="color:var(--accent);border-color:rgba(244,63,94,.3)">A Recursar</span>';
+        detalle = 'Desaprobada por cursada regular';
+      } else if (mat.estado === 'en_curso') {
         claseEstado = 's-pl';
         insigniaNota = '<span class="acc-grade ag-blue">⏳</span>';
         badgeEstado = '<span class="acc-badge ab-plan">En Curso</span>';
         detalle = mat.cuatrimestre || 'Cursando ciclo actual';
       } else {
         claseEstado = 's-ap';
+        const modTexto = mat.modalidad === 'promocion' ? 'Promoción Directa' : (mat.modalidad === 'final' ? 'Examen Final' : 'Aprobada');
         insigniaNota = `<span class="acc-grade ag-green">${mat.nota !== undefined && mat.nota !== null ? mat.nota : '✓'}</span>`;
-        badgeEstado = `<span class="acc-badge ab-promo">${mat.modalidad || 'Aprobada'}</span>`;
-        detalle = mat.materiaOrigenK08 ? `Equivalencia K08: ${mat.materiaOrigenK08}` : (mat.fechaAprobacion || 'Aprobada');
+        badgeEstado = `<span class="acc-badge ab-promo">${modTexto}</span>`;
+        detalle = mat.fechaAprobacion ? `Aprobada (${mat.fechaAprobacion})` : 'Aprobada';
       }
     }
 
