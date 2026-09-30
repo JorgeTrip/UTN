@@ -119,6 +119,14 @@ function renderizarMapaCurricular() {
     `;
   }).join('');
 
+  const grillaHtml = `<div class="map-wrap"><div class="map-grid">${columnasHtml}</div></div>`;
+  const contenedorGrilla = document.getElementById('contenedorGrillaMapa');
+  if (contenedorGrilla) {
+    contenedorGrilla.replaceChildren();
+    contenedorGrilla.insertAdjacentHTML('beforeend', grillaHtml);
+    return;
+  }
+
   contenedor.replaceChildren();
   contenedor.insertAdjacentHTML('beforeend', `
     <div class="map-toolbar" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;background:var(--s2);border:1px solid var(--border);border-radius:10px;padding:12px 16px;">
@@ -141,7 +149,7 @@ function renderizarMapaCurricular() {
         </button>
       </div>
     </div>
-    <div class="map-wrap"><div class="map-grid">${columnasHtml}</div></div>
+    ${grillaHtml}
   `);
 }
 
