@@ -1,9 +1,25 @@
 [
   {
-    "version": "v1.29.0",
+    "version": "v1.30.0",
     "fecha": "2026-09-30",
-    "totalCambios": 43,
+    "totalCambios": 45,
     "cambios": [
+      {
+        "hash": "90a3b73",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se persiste estrategia en Firestore con fecha y titulo limpio"
+      },
+      {
+        "hash": "3e513cd",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "chore",
+        "insignia": "⚙️ Mantenimiento",
+        "mensaje": "Se actualiza changelog y version automatica [skip ci]"
+      },
       {
         "hash": "0812f90",
         "autor": "Jorge O. Tripodi",
