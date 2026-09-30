@@ -121,3 +121,10 @@ function abrirMateria(url, titulo) {
     localStorage.setItem('activeMateriaTitulo', titulo || '');
   }
 }
+
+window.seleccionarSolapaPrincipal = seleccionarSolapaPrincipal;
+window.superTab = seleccionarSolapaPrincipal;
+window.seleccionarSubSolapaSeguimiento = seleccionarSubSolapaSeguimiento;
+window.subTab = seleccionarSubSolapaSeguimiento;
+window.abrirMateria = abrirMateria;
+
