@@ -140,9 +140,24 @@ async function restaurarBackupEnFirestore(uid, jsonImportado) {
   await guardarDatosAlumnoFirestore(uid, jsonImportado);
 }
 
+async function guardarEstrategiaFirestore(uid, estrategia) {
+  if (!uid || !estrategia) return false;
+  const { db, configurado } = window.gestorFirebase.inicializar();
+  if (configurado && db) {
+    try {
+      await db.collection('alumnos').doc(uid).set({ estrategiaAcademica: estrategia }, { merge: true });
+      return true;
+    } catch (e) {
+      console.warn('Error guardando estrategia en Firestore:', e.message);
+    }
+  }
+  return false;
+}
+
 window.servicioFirestore = {
   crearEsquemaInicial: crearEsquemaAlumnoInicial,
   obtenerDatosAlumno: obtenerDatosAlumnoFirestore,
   guardarDatosAlumno: guardarDatosAlumnoFirestore,
+  guardarEstrategia: guardarEstrategiaFirestore,
   restaurarBackup: restaurarBackupEnFirestore
 };

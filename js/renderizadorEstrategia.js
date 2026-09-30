@@ -67,10 +67,19 @@ function renderizarEstrategia() {
     `;
   }
 
+  let badgeFechaHtml = '';
+  if (estrategia && (estrategia.fechaFormateada || estrategia.fechaGeneracion)) {
+    const fechaTxt = estrategia.fechaFormateada || new Date(estrategia.fechaGeneracion).toLocaleString('es-AR');
+    badgeFechaHtml = `<div class="badge-fecha-estrategia" style="font-size:11px;color:var(--text-sec);margin-top:3px;">🕒 Última consulta IA: <strong style="color:var(--text);">${fechaTxt}</strong> <span style="color:var(--cyan);font-size:10px;">(En la Nube ☁️)</span></div>`;
+  }
+
   contenedor.replaceChildren();
   contenedor.insertAdjacentHTML('beforeend', `
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:14px;">
-      <div class="sec" style="margin:0;">💡 Estrategia Académica con IA (Gemini Flash / 3.x)</div>
+      <div>
+        <div class="sec" style="margin:0;">💡 Estrategia Académica con IA</div>
+        ${badgeFechaHtml}
+      </div>
       <button class="btn-prim btn-estrategia-gemini" style="font-size:12px;padding:6px 12px;" onclick="ejecutarAnalisisEstrategiaIa()">
         ${estrategia ? '🔄 Actualizar Estrategia con IA' : '✨ Generar Estrategia con IA'}
       </button>

@@ -15,10 +15,32 @@ function obtenerEstrategiaRecomendada() {
   }
 }
 
+async function persistirEstrategiaFirestore(estrategia) {
+  if (!estrategia) return false;
+  const uid = window.servicioAuth?.obtenerUsuarioActual()?.uid;
+  if (uid && typeof window.servicioFirestore?.guardarEstrategia === 'function') {
+    return await window.servicioFirestore.guardarEstrategia(uid, estrategia);
+  }
+  return false;
+}
+
 function guardarEstrategiaRecomendada(estrategia) {
   if (!estrategia) return;
+  if (!estrategia.fechaGeneracion) estrategia.fechaGeneracion = new Date().toISOString();
+  if (!estrategia.fechaFormateada) {
+    try {
+      estrategia.fechaFormateada = new Date(estrategia.fechaGeneracion).toLocaleString('es-AR', {
+        dateStyle: 'short',
+        timeStyle: 'short'
+      });
+    } catch (e) {
+      estrategia.fechaFormateada = new Date().toLocaleDateString();
+    }
+  }
+
   try {
     localStorage.setItem(CLAVE_STORAGE_ESTRATEGIA, JSON.stringify(estrategia));
+    persistirEstrategiaFirestore(estrategia);
   } catch (e) {
     console.error('Error al guardar estrategia en localStorage', e);
   }
@@ -133,3 +155,4 @@ window.obtenerMateriasSeleccionadasEstrategia = obtenerMateriasSeleccionadasEstr
 window.guardarMateriasSeleccionadasEstrategia = guardarMateriasSeleccionadasEstrategia;
 window.toggleSeleccionMateriaEstrategia = toggleSeleccionMateriaEstrategia;
 window.consultarEstrategiaGemini = consultarEstrategiaGemini;
+window.persistirEstrategiaFirestore = persistirEstrategiaFirestore;
