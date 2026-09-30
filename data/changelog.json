@@ -1,0 +1,329 @@
+[
+  {
+    "version": "v1.27.0",
+    "fecha": "2026-09-30",
+    "totalCambios": 40,
+    "cambios": [
+      {
+        "hash": "a2fa840",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se implementa cliente Gemini resiliente y separacion de modulos"
+      },
+      {
+        "hash": "17ee562",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "fix",
+        "insignia": "🔧 Corrección",
+        "mensaje": "Se actualiza modelo a gemini-3.8-flash y se robustece parseo de respuesta"
+      },
+      {
+        "hash": "4d92edd",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se reordenan solapas con links utiles al final y se integra saludo avatar y api gemini transparente"
+      },
+      {
+        "hash": "f932267",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se implementa asesor de estrategia con Gemini API y se unifica boton cargar horarios"
+      },
+      {
+        "hash": "eca816a",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se implementa planificador cuatrimestral inteligente con Gemini API y persistencia de oferta en Firestore"
+      },
+      {
+        "hash": "ffcb94a",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "fix",
+        "insignia": "🔧 Corrección",
+        "mensaje": "Se normaliza período lectivo en SIU y tarjetas de materia excluyendo grado y siglas residuales"
+      },
+      {
+        "hash": "93f7860",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "fix",
+        "insignia": "🔧 Corrección",
+        "mensaje": "Se limita el acta oficial a libro y folio excluyendo el turno"
+      },
+      {
+        "hash": "6cc24b4",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se preserva y muestra libro, folio y acta oficial al pegar examenes SIU"
+      },
+      {
+        "hash": "763637d",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se actualiza nombre oficial de titulacion intermedia ADUSI"
+      },
+      {
+        "hash": "0628872",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "fix",
+        "insignia": "🔧 Corrección",
+        "mensaje": "Se independiza resolucion de niveles k23 y se actualiza version a v6"
+      },
+      {
+        "hash": "1720f02",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se sincronizan KPIs de hitos, bloque de electivas en nivel 4 y cajas SIU full-width"
+      },
+      {
+        "hash": "eeed9ce",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "fix",
+        "insignia": "🔧 Corrección",
+        "mensaje": "Se actualiza version de scripts v5 y se refina banner de horas cumplidas"
+      },
+      {
+        "hash": "9344b8f",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se implementa banner de electivas cumplidas y pegado de examenes SIU"
+      },
+      {
+        "hash": "cb83daa",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se integra renderizado de electivas y cómputo de horas K08 en mapa"
+      },
+      {
+        "hash": "ef40900",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se implementa inferencia de promoción SIU y sincronización Firestore"
+      },
+      {
+        "hash": "37bb6ea",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se implementa mapeo por código K08/K23 y Guía Académica interactiva"
+      },
+      {
+        "hash": "ecbfa29",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se fija barra de herramientas con botones de SIU y vaciado en HTML y versionado de scripts"
+      },
+      {
+        "hash": "2d822ba",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se añade barra de herramientas superior en mapa curricular con botones de importación y vaciado"
+      },
+      {
+        "hash": "4b2a701",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se implementa vinculación K08/K23 con comisiones, períodos, parciales y actas en mapa curricular"
+      },
+      {
+        "hash": "103ec3d",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se automatiza cálculo de estados y notas en modal de materia eliminando campos manuales"
+      },
+      {
+        "hash": "53b36b9",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se rediseña modal de materias en bloques de cursada y finales"
+      },
+      {
+        "hash": "2fb1400",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "fix",
+        "insignia": "🔧 Corrección",
+        "mensaje": "Se corrige cierre prematuro del script Iniciar.bat y formato de saltos de linea CRLF"
+      },
+      {
+        "hash": "641bd73",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-29",
+        "tipo": "chore",
+        "insignia": "⚙️ Mantenimiento",
+        "mensaje": "Se excluye node_modules y archivos temporales de testing del repositorio"
+      },
+      {
+        "hash": "0a78ef1",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-29",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se implementa pantalla de acceso obligatoria y se remueve configuracion tecnica de Firebase"
+      },
+      {
+        "hash": "edebcc8",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-08-11",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se agrega selección y persistencia de alternativa definitiva en el planificador"
+      },
+      {
+        "hash": "28b83b6",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-08-11",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se agrega botón y modal de exportación a Google Calendar en materias del planificador"
+      },
+      {
+        "hash": "725346f",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-08-11",
+        "tipo": "chore",
+        "insignia": "⚙️ Mantenimiento",
+        "mensaje": "refactor: Se reorganiza arquitectura del proyecto en módulos CSS, JS y datos JSON"
+      },
+      {
+        "hash": "d52b7c0",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-07-28",
+        "tipo": "fix",
+        "insignia": "🔧 Corrección",
+        "mensaje": "Se corrige duplicación de hint de scroll y navegación por cuatrimestre en planificador"
+      },
+      {
+        "hash": "4e117da",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-07-27",
+        "tipo": "fix",
+        "insignia": "🔧 Corrección",
+        "mensaje": "Se oculta menú hamburguesa en pantallas de escritorio"
+      },
+      {
+        "hash": "e42d4b7",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-07-27",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se implementa catálogo de electivas Plan K23 y colapso dinámico de materias"
+      },
+      {
+        "hash": "e9ca5db",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-07-27",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se reestructura menú de navegación y se implementa vista por acordeón"
+      },
+      {
+        "hash": "fe600cf",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-07-27",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se agrega sangría de 20px y conectores de árbol para sub-opciones de Seguimiento de Carrera"
+      },
+      {
+        "hash": "e75ef9d",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-07-27",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se implementa menú hamburguesa, optimización móvil y persistencia de navegación"
+      },
+      {
+        "hash": "65ab29d",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-07-10",
+        "tipo": "chore",
+        "insignia": "⚙️ Mantenimiento",
+        "mensaje": "Se implementa lógica automática para mostrar 2do cuatrimestre desde 15 de julio y se actualiza estado de Seminario Integrador"
+      },
+      {
+        "hash": "a1b1a28",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-05-05",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se agregan KPIs de materias y tiempos al dashboard agrupados"
+      },
+      {
+        "hash": "21f3e5f",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-05-05",
+        "tipo": "chore",
+        "insignia": "⚙️ Mantenimiento",
+        "mensaje": "Se mejora legibilidad: tipografía más grande y header centrado en móvil"
+      },
+      {
+        "hash": "42831a2",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-05-05",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se implementa diseño responsive con swipe en mapa curricular"
+      },
+      {
+        "hash": "58f1ac9",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-04-30",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se agrega pestaña de Links útiles al dashboard"
+      },
+      {
+        "hash": "4ec06f8",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-04-30",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se agrega efecto de iluminación intermitente para destacar el día actual en calendarios"
+      },
+      {
+        "hash": "0ee3820",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-04-29",
+        "tipo": "chore",
+        "insignia": "⚙️ Mantenimiento",
+        "mensaje": "Se inicializa el repositorio con el dashboard académico ISI UTN"
+      }
+    ]
+  }
+]

@@ -1,12 +1,13 @@
 {
   "name": "utn",
-  "version": "0.1.0",
+  "version": "1.27.0",
   "private": true,
   "type": "module",
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
     "e2e": "playwright test",
+    "changelog": "node tools/generarChangelog.mjs",
     "auditar": "node C:\\Users\\Jorge\\.gemini\\tools\\auditarProyecto.mjs ."
   },
   "devDependencies": {
