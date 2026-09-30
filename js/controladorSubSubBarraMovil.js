@@ -58,7 +58,7 @@ function actualizarSubSubTabBarMovil(superTabIndice, anioIndice = 0) {
 
     items2026.forEach(it => {
       const pill = document.createElement('button');
-      const esActivo = (it.tipo === 'cuat' && it.valor === subSubCuatActivo && subSubCuatActivo === 0) ||
+      const esActivo = (it.tipo === 'cuat' && it.valor === subSubCuatActivo) ||
                        (it.tipo === 'alt' && it.valor === subSubAltActiva && subSubCuatActivo === 1);
       pill.className = `sub-sub-pill ${esActivo ? 'active' : ''}`;
       pill.textContent = it.label;
@@ -100,8 +100,14 @@ function navegarSubSubTabMovil(tipo, valor, contenedorId = 'tab2026') {
 
   if (tipo === 'cuat') {
     subSubCuatActivo = numVal;
+    if (numVal === 1) {
+      if (typeof subSubAltActiva !== 'number' || subSubAltActiva < 0) subSubAltActiva = 0;
+    }
     if (typeof window.mainTabIn === 'function') {
       window.mainTabIn(contenedorId, numVal);
+    }
+    if (numVal === 1 && typeof window.planSubTabIn === 'function') {
+      window.planSubTabIn('mp2026q2', subSubAltActiva);
     }
   } else if (tipo === 'alt') {
     subSubCuatActivo = 1;
@@ -119,8 +125,12 @@ function navegarSubSubTabMovil(tipo, valor, contenedorId = 'tab2026') {
     barra.querySelectorAll('.sub-sub-pill').forEach(btn => {
       const bTipo = btn.dataset.tipo;
       const bVal = Number(btn.dataset.valor);
-      const activo = (tipo === 'cuat' && bTipo === 'cuat' && bVal === numVal) ||
-                     (tipo === 'alt' && bTipo === 'alt' && bVal === numVal);
+      let activo = false;
+      if (subSubCuatActivo === 0) {
+        activo = (bTipo === 'cuat' && bVal === 0);
+      } else if (subSubCuatActivo === 1) {
+        activo = (bTipo === 'cuat' && bVal === 1) || (bTipo === 'alt' && bVal === subSubAltActiva);
+      }
       btn.classList.toggle('active', activo);
     });
   }

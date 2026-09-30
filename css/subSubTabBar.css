@@ -57,4 +57,12 @@
   body.con-sub-sub-barra main {
     padding-bottom: 165px !important;
   }
+
+  #sp2 .main-tabs-inner,
+  #sp2 .main-tab,
+  #sp2 .plan-sub-tab-bar .plan-sub-tab-inner,
+  #sp2 .plan-sub-tab {
+    display: none !important;
+  }
 }
+
