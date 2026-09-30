@@ -123,7 +123,7 @@ test.describe('Planificador con Gemini API y Oferta Compartida Firestore', () =>
   test('debe permitir guardar y recuperar la API Key de Gemini en localStorage de forma segura', async ({ page }) => {
     await page.goto('/');
 
-    const keyPrueba = 'AQ.Ab8RN6K0C7vVZjzw7pyHddas3VjjzDa8P0ZoFiAqd4SLcxxszA';
+    const keyPrueba = 'AIzaSy_MOCK_GEMINI_API_KEY_PRUEBA_9876543210';
     await page.evaluate((key) => {
       if (typeof window.guardarApiKeyGemini === 'function') {
         window.guardarApiKeyGemini(key);
