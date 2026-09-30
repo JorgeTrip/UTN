@@ -124,3 +124,11 @@ function guardarDatosPerfil() {
   renderizarHeaderYPerfil();
   cerrarModalPerfil();
 }
+
+window.alternarMenuAvatar = alternarMenuAvatar;
+window.cerrarMenuAvatar = cerrarMenuAvatar;
+window.abrirModalPerfil = abrirModalPerfil;
+window.cerrarModalPerfil = cerrarModalPerfil;
+window.guardarDatosPerfil = guardarDatosPerfil;
+window.cambiarSolapaModal = cambiarSolapaModal;
+

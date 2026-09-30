@@ -29,15 +29,15 @@ const updateMobileHeaderTitle = actualizarTituloCabeceraMovil;
  */
 function alternarMenu() {
   const overlay = document.getElementById('mobileMenuOverlay');
+  if (!overlay) return;
   const toggle = document.getElementById('menuToggle');
-  if (!overlay || !toggle) return;
   const estaAbierto = overlay.classList.contains('open');
 
   if (estaAbierto) {
     cerrarMenu();
   } else {
     overlay.classList.add('open');
-    toggle.classList.add('open');
+    if (toggle) toggle.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
 }
@@ -49,9 +49,9 @@ const toggleMenu = alternarMenu;
 function cerrarMenu() {
   const overlay = document.getElementById('mobileMenuOverlay');
   const toggle = document.getElementById('menuToggle');
-  if (overlay && toggle) {
+  if (overlay) {
     overlay.classList.remove('open');
-    toggle.classList.remove('open');
+    if (toggle) toggle.classList.remove('open');
     document.body.style.overflow = '';
   }
 }
@@ -85,3 +85,8 @@ function alternarSubgrupoMenu(indice) {
   }
 }
 const toggleMenuSubgroup = alternarSubgrupoMenu;
+
+window.alternarMenu = alternarMenu;
+window.cerrarMenu = cerrarMenu;
+window.seleccionarSolapaMovil = seleccionarSolapaMovil;
+window.actualizarTituloCabeceraMovil = actualizarTituloCabeceraMovil;
