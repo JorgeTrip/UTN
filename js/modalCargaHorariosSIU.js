@@ -34,12 +34,7 @@ function crearEstructuraModalHorarios() {
             <button class="btn-prim" style="padding:6px 12px;font-size:12px;" onclick="aplicarOfertaFirestore()">⚡ Utilizar oferta disponible</button>
           </div>
 
-          <!-- Configuración de API Key -->
-          <div style="margin-bottom:12px;">
-            <label style="display:block;font-weight:600;margin-bottom:4px;">Gemini API Key (Google AI Studio):</label>
-            <input type="password" id="inputApiKeyGemini" class="modal-input" placeholder="Pega tu API Key de Gemini aquí" style="width:100%;box-sizing:border-box;" value="${window.obtenerApiKeyGemini ? window.obtenerApiKeyGemini() : ''}">
-            <div style="font-size:11px;color:var(--text-sec);margin-top:2px;">Se almacena de forma segura en tu navegador (localStorage).</div>
-          </div>
+
 
           <!-- Carga de Archivo PDF -->
           <div style="border:2px dashed var(--border-color);border-radius:8px;padding:20px;text-align:center;margin-bottom:12px;">

@@ -57,6 +57,19 @@ function renderizarHeaderYPerfil() {
     }
   }
 
+  const saludoEl = document.getElementById('saludoUsuarioHeader');
+  if (saludoEl) {
+    if (tienePerfil || usuario) {
+      const nombreCompleto = p.nombre || (nombreMostrar.includes(' · ') ? nombreMostrar.split(' · ')[0] : nombreMostrar);
+      const nombrePila = nombreCompleto.trim().split(' ')[0] || 'Estudiante';
+      saludoEl.textContent = `Hola, ${nombrePila}!`;
+      saludoEl.style.display = 'inline-block';
+    } else {
+      saludoEl.textContent = '';
+      saludoEl.style.display = 'none';
+    }
+  }
+
   const nombreMovil = document.querySelector('.profile-name');
   if (nombreMovil) nombreMovil.textContent = nombreMostrar;
 

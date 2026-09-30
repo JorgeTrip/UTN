@@ -18,15 +18,17 @@
     <div class="g-right">
       <div class="g-date">Actualizado: 08/03/2026</div>
       <div style="display:flex;align-items:center;gap:10px;margin-top:4px;">
+        <span id="saludoUsuarioHeader" style="font-size:12.5px;font-weight:600;color:var(--text);white-space:nowrap;"></span>
         <div id="avatarWrap" style="position:relative;">
           <button class="avatar-btn-header profile-avatar" onclick="alternarMenuAvatar(event)" title="Opciones de cuenta">--</button>
           <div class="avatar-dropdown" id="avatarDropdown">
-            <button class="dropdown-item" id="dropdownItemAuth"><span>🔐</span> Iniciar Sesión / Registro</button>
             <button class="dropdown-item" onclick="abrirModalPerfil()"><span>👤</span> Editar Perfil / Datos</button>
             <button class="dropdown-item" onclick="alternarTema()"><span id="switchTemaIcono">🌙</span> <span id="switchTemaTexto">Modo Oscuro</span></button>
             <div class="dropdown-divider"></div>
             <button class="dropdown-item" onclick="exportarDatosAlumno(); cerrarMenuAvatar();"><span>💾</span> Descargar Backup JSON</button>
             <label class="dropdown-item" style="cursor:pointer;margin:0;"><span>📥</span> Cargar Backup JSON<input type="file" accept=".json" onchange="importarDatosAlumno(event); cerrarMenuAvatar();" style="display:none;"></label>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item" id="dropdownItemAuth"><span>🚪</span> Cerrar Sesión</button>
           </div>
         </div>
         <button class="menu-toggle" id="menuToggle" onclick="alternarMenu()" aria-label="Abrir menú de navegación móvil"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
@@ -40,26 +42,26 @@
     <div class="mobile-menu-profile"><div class="profile-avatar">--</div><div class="profile-info"><div class="profile-name">Estudiante</div><div class="profile-legajo" id="mobileProfileLegajo">Sin sesión activa</div><div class="profile-plan" id="mobileProfilePlan" style="display:none;"></div></div></div>
     <div class="mobile-menu-divider">Navegación Principal</div>
     <div class="mobile-menu-nav">
-      <button class="mobile-menu-item" onclick="seleccionarSolapaMovil(0)">🔗 Links Útiles</button>
       <button class="mobile-menu-item" onclick="seleccionarSolapaMovil(1)">🏆 Plan de Estudios & Seguimiento</button>
       <button class="mobile-menu-item" onclick="seleccionarSolapaMovil(2)">🗓️ Planificador Cuatrimestral</button>
       <button class="mobile-menu-item" onclick="seleccionarSolapaMovil(4)">📖 Guía Académica & FAQ</button>
+      <button class="mobile-menu-item" onclick="seleccionarSolapaMovil(0)">🔗 Links Útiles</button>
     </div>
   </div>
 </div>
 
 <div class="super-tab-bar">
   <div class="super-tab-inner">
-    <button class="super-tab sp0 active" onclick="superTab(0)">🔗 Links Útiles</button>
-    <button class="super-tab sp1" onclick="superTab(1)">🏆 Plan de Estudios & Seguimiento</button>
+    <button class="super-tab sp1 active" onclick="superTab(1)">🏆 Plan de Estudios & Seguimiento</button>
     <button class="super-tab sp2" onclick="superTab(2)">🗓️ Planificador Cuatrimestral</button>
     <button class="super-tab sp4" onclick="superTab(4)">📖 Guía Académica & FAQ</button>
+    <button class="super-tab sp0" onclick="superTab(0)">🔗 Links Útiles</button>
   </div>
 </div>
 
-<main id="sp0" class="super-panel active"></main>
+<main id="sp0" class="super-panel"></main>
 
-<main id="sp1" class="super-panel">
+<main id="sp1" class="super-panel active">
   <div class="sub-tab-bar">
     <div class="sub-tab-inner">
       <button class="sub-tab active" onclick="sp1Tab(0)">🏆 Hitos & KPIs</button>

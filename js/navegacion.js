@@ -9,11 +9,15 @@
  * @param {number} indice - 0: Links Útiles, 1: Plan y Seguimiento, 2: Planificador.
  */
 function seleccionarSolapaPrincipal(indice) {
-  document.querySelectorAll('.super-tab').forEach((tab, i) => {
-    tab.classList.toggle('active', i === indice);
+  const targetId = typeof indice === 'string'
+    ? indice
+    : (indice === 0 ? 'sp0' : (indice === 1 ? 'sp1' : (indice === 2 ? 'sp2' : (indice === 4 ? 'sp4' : `sp${indice}`))));
+
+  document.querySelectorAll('.super-tab').forEach((tab) => {
+    tab.classList.toggle('active', tab.classList.contains(targetId));
   });
-  document.querySelectorAll('.super-panel').forEach((panel, i) => {
-    panel.classList.toggle('active', i === indice);
+  document.querySelectorAll('.super-panel').forEach((panel) => {
+    panel.classList.toggle('active', panel.id === targetId);
   });
 
   const vistaIframe = document.getElementById('materiaViewContainer');
@@ -24,11 +28,11 @@ function seleccionarSolapaPrincipal(indice) {
   localStorage.setItem('activeViewType', 'tab');
   localStorage.setItem('dashboardSuperTab', indice);
 
-  if (indice === 0 && typeof renderizarLinksUtiles === 'function') {
+  if (targetId === 'sp0' && typeof renderizarLinksUtiles === 'function') {
     renderizarLinksUtiles();
-  } else if (indice === 2 && typeof renderizarPlanificadorCompleto === 'function') {
+  } else if (targetId === 'sp2' && typeof renderizarPlanificadorCompleto === 'function') {
     renderizarPlanificadorCompleto();
-  } else if (indice === 4 && typeof renderizarGuiaAcademica === 'function') {
+  } else if (targetId === 'sp4' && typeof renderizarGuiaAcademica === 'function') {
     renderizarGuiaAcademica();
   }
 

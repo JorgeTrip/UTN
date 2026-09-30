@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (url) abrirMateria(url, titulo || '');
   } else {
     const tabSuperGuardado = localStorage.getItem('dashboardSuperTab');
-    const tabInicial = tabSuperGuardado !== null ? parseInt(tabSuperGuardado) : 0;
+    const tabInicial = tabSuperGuardado !== null ? parseInt(tabSuperGuardado) : 1;
     superTab(tabInicial);
 
     if (tabInicial === 1) {
