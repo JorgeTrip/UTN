@@ -40,9 +40,17 @@ function renderizarHitosCarrera() {
   const cantidadMochila = setMochilas.size;
 
   // Resolución dinámica de nivel de asignaturas (catálogo oficial K23 y electivas)
+  const MAPEO_NIVELES_K23 = {
+    '232001':1,'232002':1,'232003':1,'232004':1,'232010':1,'082021':1,'082022':1,'232011':1,
+    '232009':2,'232010_f2':2,'232011_is':2,'232012':2,'082025':2,'082026':2,'082027':2,'082024':2,
+    '232017':3,'232018':3,'232030':3,'232020':3,'232032':3,'232033':3,'232034':3,'082099':3,
+    '232045':4,'232042':4,'232043':4,'232044':4,'232041':4,'232040':4,
+    '232051':5,'232052':5,'232053':5,'232054':5,'232055':5,'082037':5
+  };
   const catalogoK23 = window.CAT_MATERIAS_K23 || [];
   const obtenerNivelMateria = (m) => {
     const cod = (m.id || m.codigoSIU || '').toString();
+    if (MAPEO_NIVELES_K23[cod]) return MAPEO_NIVELES_K23[cod];
     const matCat = catalogoK23.find(c => c.id === cod);
     if (matCat) return matCat.nivel;
     if (typeof window.clasificarElectiva === 'function') {
