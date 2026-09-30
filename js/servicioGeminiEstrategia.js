@@ -1,10 +1,10 @@
 /**
  * Módulo de Servicio de Estrategia Académica con Gemini API
- * Analiza el avance del estudiante, correlatividades y cuellos de botella para
- * recomendar las materias prioritarias y los exámenes finales clave.
+ * Gestiona el análisis curricular, resiliencia y selección de materias para cursar.
  */
 
 const CLAVE_STORAGE_ESTRATEGIA = 'estrategiaRecomendadaAlumno_v1';
+const CLAVE_STORAGE_SELECCION_ESTRATEGIA = 'materiasSeleccionadasEstrategia_v1';
 
 function obtenerEstrategiaRecomendada() {
   try {
@@ -24,10 +24,39 @@ function guardarEstrategiaRecomendada(estrategia) {
   }
 }
 
+function obtenerMateriasSeleccionadasEstrategia() {
+  try {
+    const raw = localStorage.getItem(CLAVE_STORAGE_SELECCION_ESTRATEGIA);
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function guardarMateriasSeleccionadasEstrategia(ids) {
+  try {
+    const limpios = Array.isArray(ids) ? Array.from(new Set(ids)) : [];
+    localStorage.setItem(CLAVE_STORAGE_SELECCION_ESTRATEGIA, JSON.stringify(limpios));
+  } catch (e) {
+    console.error('Error al guardar selección de estrategia', e);
+  }
+}
+
+function toggleSeleccionMateriaEstrategia(id, checked) {
+  const actuales = obtenerMateriasSeleccionadasEstrategia();
+  const set = new Set(actuales);
+  if (checked) {
+    set.add(id);
+  } else {
+    set.delete(id);
+  }
+  guardarMateriasSeleccionadasEstrategia(Array.from(set));
+}
+
 async function consultarEstrategiaGemini() {
-  const apiKey = window.obtenerApiKeyGemini ? window.obtenerApiKeyGemini() : '';
-  if (!apiKey) {
-    throw new Error('Debes configurar tu API Key de Gemini en el modal de horarios o perfil.');
+  if (typeof window.abrirModalProgresoIA === 'function') {
+    window.abrirModalProgresoIA('Generando Estrategia Académica con IA...');
+    window.actualizarProgresoIA(15, 'Recopilando historia académica...', 'Leyendo aprobadas y correlativas K23');
   }
 
   const datosAlumno = window.datosGlobales?.datosAlumno || {};
@@ -39,11 +68,11 @@ async function consultarEstrategiaGemini() {
 El alumno tiene el siguiente estado:
 - Materias aprobadas: ${JSON.stringify(aprobadas)}
 - Materias en curso / firmadas: ${JSON.stringify(enCurso)}
-- Catálogo K23 con correlativas y tipo anual/cuatrimestral: ${JSON.stringify(planK23.map(m => ({ id: m.id, nombre: m.nombre, nivel: m.nivel, tipo: m.tipo, correlativas: m.correlativas })))}
+- Catálogo K23: ${JSON.stringify(planK23.map(m => ({ id: m.id, nombre: m.nombre, nivel: m.nivel, tipo: m.tipo, correlativas: m.correlativas })))}
 
 Reglas de Negocio UTN:
-1. Las materias ANUALES (ej. Análisis de Sistemas, Diseño de Sistemas, Proyecto Final) solo arrancan a inicio de ciclo lectivo y son cuellos de botella críticos.
-2. La Rama Integradora (AyED -> ASI -> DSI -> AdSI -> Proyecto Final) no debe demorarse bajo ningún concepto.
+1. Las materias ANUALES (ej. Análisis de Sistemas, Diseño de Sistemas, Proyecto Final) son cuellos de botella críticos.
+2. La Rama Integradora (AyED -> ASI -> DSI -> AdSI -> Proyecto Final) no debe demorarse.
 3. Distingue materias firmadas pendientes de final que traban cursadas posteriores ("mochila de finales").
 
 Genera una recomendación estratégica en formato JSON con la siguiente estructura exacta:
@@ -57,31 +86,50 @@ Genera una recomendación estratégica en formato JSON con la siguiente estructu
   "diagnosticoRuta": "Resumen ejecutivo del estado de la carrera y plan de acción recomendado."
 }`;
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`;
-  const respuesta = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      contents: [{ parts: [{ text: prompt }] }],
-      generationConfig: { responseMimeType: 'application/json', temperature: 0.2 }
-    })
-  });
+  try {
+    if (typeof window.actualizarProgresoIA === 'function') {
+      window.actualizarProgresoIA(40, 'Consultando modelos Gemini oficiales...', 'Conectando con 3.8 / 3.7 / 3.6 Flash');
+    }
 
-  if (!respuesta.ok) {
-    const errorText = await respuesta.text();
-    throw new Error(`Error en Gemini API (${respuesta.status}): ${errorText}`);
+    const json = await window.ejecutarConsultaGeminiResiliente({
+      prompt,
+      onProgreso: (info) => {
+        if (typeof window.actualizarProgresoIA === 'function') {
+          window.actualizarProgresoIA(60, `Procesando con ${info.modelo}...`, info.mensaje);
+        }
+      }
+    });
+
+    if (typeof window.actualizarProgresoIA === 'function') {
+      window.actualizarProgresoIA(85, 'Validando restricciones y correlatividades...', 'Filtrando opciones académicas viables');
+    }
+
+    json.fechaGeneracion = new Date().toISOString();
+    guardarEstrategiaRecomendada(json);
+
+    // Inicializamos selección con las materias sugeridas si no había selección previa
+    const prevSeleccion = obtenerMateriasSeleccionadasEstrategia();
+    if (prevSeleccion.length === 0 && Array.isArray(json.materiasPrioritarias)) {
+      guardarMateriasSeleccionadasEstrategia(json.materiasPrioritarias.map(m => m.id));
+    }
+
+    if (typeof window.actualizarProgresoIA === 'function') {
+      window.actualizarProgresoIA(100, '¡Estrategia generada con éxito!', 'Mostrando resultados...');
+      setTimeout(() => window.cerrarModalProgresoIA(), 600);
+    }
+
+    return json;
+  } catch (err) {
+    if (typeof window.cerrarModalProgresoIA === 'function') {
+      window.cerrarModalProgresoIA();
+    }
+    throw err;
   }
-
-  const data = await respuesta.json();
-  const textPart = data.candidates?.[0]?.content?.parts?.find(p => typeof p.text === 'string' && p.text.trim().length > 0);
-  const text = textPart ? textPart.text : (data.candidates?.[0]?.content?.parts?.[0]?.text || '');
-  const cleanJson = text.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '').trim();
-  const json = JSON.parse(cleanJson);
-  json.fechaGeneracion = new Date().toISOString();
-  guardarEstrategiaRecomendada(json);
-  return json;
 }
 
 window.obtenerEstrategiaRecomendada = obtenerEstrategiaRecomendada;
 window.guardarEstrategiaRecomendada = guardarEstrategiaRecomendada;
+window.obtenerMateriasSeleccionadasEstrategia = obtenerMateriasSeleccionadasEstrategia;
+window.guardarMateriasSeleccionadasEstrategia = guardarMateriasSeleccionadasEstrategia;
+window.toggleSeleccionMateriaEstrategia = toggleSeleccionMateriaEstrategia;
 window.consultarEstrategiaGemini = consultarEstrategiaGemini;

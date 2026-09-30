@@ -1,6 +1,6 @@
 /**
  * Módulo Renderizador de Estrategia Académica y Correlatividades (Super Panel 1 Sub Panel 3)
- * Integra el Asesor Inteligente de Estrategia con Gemini API y Cadenas Troncales K23.
+ * Integra el Asesor Inteligente de Estrategia con Gemini API, checkboxes de selección y Cadenas Troncales.
  */
 
 function renderizarEstrategia() {
@@ -11,6 +11,7 @@ function renderizarEstrategia() {
   const aprobadas = datos.materiasAprobadas || [];
   const enCurso = datos.materiasEnCurso || [];
   const estrategia = window.obtenerEstrategiaRecomendada ? window.obtenerEstrategiaRecomendada() : null;
+  const seleccionadas = window.obtenerMateriasSeleccionadasEstrategia ? window.obtenerMateriasSeleccionadasEstrategia() : [];
 
   const getEstadoMat = (id) => {
     if (aprobadas.some(m => m.id === id)) return '<span style="color:var(--green);font-weight:700;">✓ Aprobada</span>';
@@ -20,12 +21,18 @@ function renderizarEstrategia() {
 
   let bloqueIaHtml = '';
   if (estrategia) {
-    const matsHtml = (estrategia.materiasPrioritarias || []).map(m => `
-      <div style="background:var(--s2);border:1px solid var(--border);border-radius:6px;padding:8px 12px;margin-bottom:6px;">
-        <div style="font-weight:600;color:var(--text);font-size:12.5px;">🎯 ${m.nombre} <span style="font-size:11px;color:var(--cyan);margin-left:6px;">(${m.tipo || 'Cursada'})</span></div>
-        <div style="font-size:11.5px;color:var(--text-sec);margin-top:2px;">${m.motivo || ''}</div>
-      </div>
-    `).join('');
+    const matsHtml = (estrategia.materiasPrioritarias || []).map(m => {
+      const estaTildada = seleccionadas.includes(m.id);
+      return `
+        <div style="background:var(--s2);border:1px solid var(--border);border-radius:6px;padding:8px 12px;margin-bottom:6px;display:flex;align-items:flex-start;gap:10px;">
+          <input type="checkbox" class="chk-materia-estrategia" data-materia-id="${m.id}" ${estaTildada ? 'checked' : ''} onchange="window.toggleSeleccionMateriaEstrategia('${m.id}', this.checked)" style="margin-top:3px;cursor:pointer;width:16px;height:16px;accent-color:var(--blue);" />
+          <div style="flex:1;">
+            <div style="font-weight:600;color:var(--text);font-size:12.5px;">🎯 ${m.nombre} <span style="font-size:11px;color:var(--cyan);margin-left:6px;">(${m.tipo || 'Cursada'})</span></div>
+            <div style="font-size:11.5px;color:var(--text-sec);margin-top:2px;">${m.motivo || ''}</div>
+          </div>
+        </div>
+      `;
+    }).join('');
 
     const finalesHtml = (estrategia.finalesUrgentes || []).map(f => `
       <div style="background:var(--s2);border:1px solid var(--border);border-radius:6px;padding:8px 12px;margin-bottom:6px;">
@@ -39,7 +46,10 @@ function renderizarEstrategia() {
         <div style="font-size:12.5px;line-height:1.5;margin-bottom:12px;color:var(--text);">${estrategia.diagnosticoRuta || ''}</div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;">
           <div>
-            <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--cyan);margin-bottom:6px;">📌 Materias Clave a Inscribir</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+              <span style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--cyan);">📌 Materias Sugeridas para Próximo Período</span>
+              <span style="font-size:10.5px;color:var(--muted);">(Tilda las que vas a cursar)</span>
+            </div>
             ${matsHtml || '<div style="font-size:12px;color:var(--muted);">Sin materias pendientes inmediatas.</div>'}
           </div>
           <div>
@@ -60,7 +70,7 @@ function renderizarEstrategia() {
   contenedor.replaceChildren();
   contenedor.insertAdjacentHTML('beforeend', `
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:14px;">
-      <div class="sec" style="margin:0;">💡 Estrategia Académica con IA (Gemini 3.8 Flash)</div>
+      <div class="sec" style="margin:0;">💡 Estrategia Académica con IA (Gemini 3.8 / 3.7 / 3.6)</div>
       <button class="btn-prim btn-estrategia-gemini" style="font-size:12px;padding:6px 12px;" onclick="ejecutarAnalisisEstrategiaIa()">
         ${estrategia ? '🔄 Actualizar Estrategia con IA' : '✨ Generar Estrategia con IA'}
       </button>

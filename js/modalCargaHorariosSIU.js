@@ -1,6 +1,6 @@
 /**
  * Modal de Carga de Horarios y Procesamiento Inteligente con Gemini & Firestore
- * Permite subir el PDF oficial de cursada, consultar la oferta comunitaria y configurar la API Key.
+ * Permite subir el PDF oficial de cursada y almacenarlo completo en Firestore / local.
  */
 
 function abrirModalCargaHorarios() {
@@ -23,18 +23,16 @@ function crearEstructuraModalHorarios() {
     <div class="modal-overlay" id="modalCargaHorarios">
       <div class="modal-card" style="max-width:580px;">
         <div class="modal-header">
-          <div class="modal-title">🤖 Cargar Horarios de Cursada con IA (Gemini)</div>
+          <div class="modal-title">🤖 Cargar Horarios de Cursada (PDF a la Nube)</div>
           <button class="modal-close" onclick="cerrarModalCargaHorarios()">&times;</button>
         </div>
         <div class="modal-body" style="font-size:13px;line-height:1.5;">
           <!-- Aviso de oferta compartida en Firestore -->
           <div id="avisoOfertaFirestore" style="display:none;background:rgba(59,130,246,0.12);border:1px solid #3b82f6;padding:10px 14px;border-radius:8px;margin-bottom:14px;">
-            <div style="font-weight:600;color:#60a5fa;" id="txtTituloOferta">✨ Oferta Horaria 2026 Disponible</div>
+            <div style="font-weight:600;color:#60a5fa;" id="txtTituloOferta">✨ Oferta Horaria 2026 Ya Disponible en la Nube</div>
             <div style="font-size:12px;margin:4px 0 8px;" id="txtDetalleOferta">Cargada por la comunidad.</div>
-            <button class="btn-prim" style="padding:6px 12px;font-size:12px;" onclick="aplicarOfertaFirestore()">⚡ Utilizar oferta disponible</button>
+            <button class="btn-prim" style="padding:6px 12px;font-size:12px;" onclick="aplicarOfertaFirestore()">☁️ Descargar oferta comunitaria</button>
           </div>
-
-
 
           <!-- Carga de Archivo PDF -->
           <div style="border:2px dashed var(--border-color);border-radius:8px;padding:20px;text-align:center;margin-bottom:12px;">
@@ -43,12 +41,16 @@ function crearEstructuraModalHorarios() {
             <div id="nombreArchivoPdf" style="font-size:12px;color:var(--text-sec);margin-top:6px;">Formatos admitidos: PDF oficial de horarios UTN</div>
           </div>
 
+          <div style="font-size:11.5px;color:var(--text-sec);margin-bottom:8px;">
+            ℹ️ <strong>Nota:</strong> Este botón procesa el PDF con la IA y almacena la oferta horaria completa en la nube (Firestore) para que toda la comunidad pueda usarla. Luego podrás cruzarla con tus materias desde el botón <em>"⚡ Analizar horarios de cursada"</em>.
+          </div>
+
           <!-- Alerta de Turno o Estado -->
           <div id="estadoProcesamientoHorarios" style="font-size:12.5px;padding:8px;display:none;border-radius:6px;"></div>
         </div>
         <div class="modal-footer">
           <button class="btn-sec" onclick="cerrarModalCargaHorarios()">Cancelar</button>
-          <button class="btn-prim" id="btnAnalizarPdfGemini" onclick="ejecutarAnalisisPdfGemini()" disabled>🚀 Analizar y Guardar en Nube</button>
+          <button class="btn-prim" id="btnAnalizarPdfGemini" onclick="ejecutarAnalisisPdfGemini()" disabled>🚀 Procesar PDF y Guardar en Nube</button>
         </div>
       </div>
     </div>
@@ -78,7 +80,7 @@ async function verificarOfertaComunitaria() {
   if (!aviso) return;
   if (res.existe) {
     aviso.style.display = 'block';
-    document.getElementById('txtDetalleOferta').textContent = `Contiene ${res.totalComisiones} comisiones. Subida por ${res.subidoPor}.`;
+    document.getElementById('txtDetalleOferta').textContent = `Contiene ${res.totalComisiones} comisiones. Subida por ${res.subidoPor}. Ya no necesitas subir el PDF nuevamente.`;
     window.ofertaHorariosFirestoreCargada = res.comisiones;
   } else {
     aviso.style.display = 'none';
@@ -87,44 +89,35 @@ async function verificarOfertaComunitaria() {
 
 async function aplicarOfertaFirestore() {
   if (!window.ofertaHorariosFirestoreCargada) return;
-  guardarYProcesarOferta(window.ofertaHorariosFirestoreCargada);
+  localStorage.setItem('alumnosHorariosOferta_2026', JSON.stringify(window.ofertaHorariosFirestoreCargada));
+  alert('✅ Oferta horaria comunitaria cargada en tu sesión. Ahora puedes presionar "⚡ Analizar horarios de cursada" para cruzarla con tus materias.');
   cerrarModalCargaHorarios();
 }
 
 async function ejecutarAnalisisPdfGemini() {
-  const clave = document.getElementById('inputApiKeyGemini')?.value?.trim();
-  if (clave && window.guardarApiKeyGemini) window.guardarApiKeyGemini(clave);
-
   const status = document.getElementById('estadoProcesamientoHorarios');
   status.style.display = 'block';
   status.style.background = 'rgba(59,130,246,0.1)';
   status.style.color = '#60a5fa';
-  status.textContent = '⏳ Analizando PDF con Gemini 2.0 Flash... (Extrayendo materias y comisiones)';
+  status.textContent = '⏳ Procesando PDF con Gemini... (Extrayendo oferta de comisiones)';
 
   try {
     const comisiones = await window.analizarHorariosPdfConGemini(pdfBase64Cargado);
-    status.textContent = `✅ ${comisiones.length} comisiones extraídas exitosamente. Guardando en Firestore...`;
+    status.textContent = `✅ ${comisiones.length} comisiones extraídas. Guardando en Firestore...`;
 
     if (window.guardarOfertaHorariosFirestore) {
       await window.guardarOfertaHorariosFirestore(comisiones, window.datosGlobales?.datosAlumno?.nombre || 'Alumno UTN');
     }
 
-    guardarYProcesarOferta(comisiones);
+    localStorage.setItem('alumnosHorariosOferta_2026', JSON.stringify(comisiones));
     status.style.background = 'rgba(16,185,129,0.1)';
     status.style.color = '#34d399';
-    status.textContent = '🎉 Oferta guardada y alternativas generadas.';
-    setTimeout(cerrarModalCargaHorarios, 1500);
+    status.textContent = '🎉 Horarios guardados en la nube exitosamente. Utiliza "⚡ Analizar horarios de cursada" para armar tus alternativas.';
+    setTimeout(cerrarModalCargaHorarios, 2000);
   } catch (err) {
     status.style.background = 'rgba(239,68,68,0.1)';
     status.style.color = '#f87171';
     status.textContent = `❌ ${err.message}`;
-  }
-}
-
-function guardarYProcesarOferta(comisiones) {
-  localStorage.setItem('alumnosHorariosOferta_2026', JSON.stringify(comisiones));
-  if (typeof window.actualizarPlanificadorConOferta === 'function') {
-    window.actualizarPlanificadorConOferta(comisiones);
   }
 }
 

@@ -1,7 +1,6 @@
 /**
- * Módulo de Servicio de Integración con Google Gemini API
- * Procesa documentos PDF de oferta horaria universitaria utilizando gemini-2.0-flash.
- * Gestiona de forma segura la API Key en localStorage (SAST Compliant).
+ * Módulo de Servicio de Integración con Google Gemini API para Horarios
+ * Procesa documentos PDF de oferta horaria utilizando el cliente resiliente (3.8, 3.7 y 3.6).
  */
 
 const CLAVE_STORAGE_GEMINI = 'gemini_api_key_utn';
@@ -27,13 +26,6 @@ function guardarApiKeyGemini(clave) {
 }
 
 async function analizarHorariosPdfConGemini(base64Pdf) {
-  const apiKey = obtenerApiKeyGemini();
-  if (!apiKey) {
-    throw new Error('No se ha configurado la API Key de Gemini en el perfil o almacenamiento local.');
-  }
-
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`;
-
   const promptExtraccion = `Eres un asistente universitario experto en analizar grillas de horarios de la UTN FRBA (Ingeniería en Sistemas de Información).
 Analiza el documento PDF adjunto que contiene la oferta de cursos y comisiones.
 Para cada fila o comisión de materia:
@@ -47,47 +39,37 @@ Para cada fila o comisión de materia:
 8. Grilla de horarios ocupados: identifica los días (Lunes, Martes, Miércoles, Jueves, Viernes, Sábado) y los módulos ocupados (0 a 6).
 Retorna ÚNICAMENTE un objeto JSON válido con la propiedad "comisiones" conteniendo el arreglo de cursos.`;
 
-  const payload = {
-    contents: [
-      {
-        parts: [
-          { text: promptExtraccion },
-          {
-            inlineData: {
-              mimeType: 'application/pdf',
-              data: base64Pdf
-            }
-          }
-        ]
+  if (typeof window.abrirModalProgresoIA === 'function') {
+    window.abrirModalProgresoIA('Analizando PDF de Horarios con IA...');
+    window.actualizarProgresoIA(20, 'Leyendo documento PDF...', 'Codificando contenido para modelos oficiales Gemini');
+  }
+
+  try {
+    const jsonParsed = await window.ejecutarConsultaGeminiResiliente({
+      prompt: promptExtraccion,
+      inlineData: {
+        mimeType: 'application/pdf',
+        data: base64Pdf
+      },
+      onProgreso: (info) => {
+        if (typeof window.actualizarProgresoIA === 'function') {
+          window.actualizarProgresoIA(60, `Extrayendo comisiones con ${info.modelo}...`, info.mensaje);
+        }
       }
-    ],
-    generationConfig: {
-      responseMimeType: 'application/json',
-      temperature: 0.1
+    });
+
+    if (typeof window.actualizarProgresoIA === 'function') {
+      window.actualizarProgresoIA(90, 'Estructurando comisiones...', 'Normalizando divisiones, turnos y sedes');
+      setTimeout(() => window.cerrarModalProgresoIA(), 500);
     }
-  };
 
-  const respuesta = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  });
-
-  if (!respuesta.ok) {
-    const errorDetalle = await respuesta.text();
-    throw new Error(`Error en llamada a Gemini API (${respuesta.status}): ${errorDetalle}`);
+    return Array.isArray(jsonParsed) ? jsonParsed : (jsonParsed.comisiones || []);
+  } catch (err) {
+    if (typeof window.cerrarModalProgresoIA === 'function') {
+      window.cerrarModalProgresoIA();
+    }
+    throw err;
   }
-
-  const data = await respuesta.json();
-  const textPart = data.candidates?.[0]?.content?.parts?.find(p => typeof p.text === 'string' && p.text.trim().length > 0);
-  const textoGenerado = textPart ? textPart.text : (data.candidates?.[0]?.content?.parts?.[0]?.text || '');
-  if (!textoGenerado) {
-    throw new Error('La respuesta de Gemini no contiene candidatos con texto estructurado.');
-  }
-
-  const cleanJson = textoGenerado.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '').trim();
-  const jsonParsed = JSON.parse(cleanJson);
-  return Array.isArray(jsonParsed) ? jsonParsed : (jsonParsed.comisiones || []);
 }
 
 window.obtenerApiKeyGemini = obtenerApiKeyGemini;
