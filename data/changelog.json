@@ -1,9 +1,25 @@
 [
   {
-    "version": "v1.35.0",
+    "version": "v1.36.0",
     "fecha": "2026-09-30",
-    "totalCambios": 55,
+    "totalCambios": 57,
     "cambios": [
+      {
+        "hash": "451d406",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se implementa sub-sub-barra inferior movil para cuatrimestres y alternativas"
+      },
+      {
+        "hash": "590f87a",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "chore",
+        "insignia": "⚙️ Mantenimiento",
+        "mensaje": "Se actualiza changelog y version a v1.35.0 [skip ci]"
+      },
       {
         "hash": "1c1e638",
         "autor": "Jorge O. Tripodi",
