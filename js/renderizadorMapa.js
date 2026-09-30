@@ -64,6 +64,24 @@ function obtenerInsigniasMateria(mat) {
     return { claseEstado: 's-pl', insigniaNota: '<span class="acc-grade ag-blue">⏳</span>', badgeEstado: '<span class="acc-badge ab-plan">⏳ En Curso</span>' };
   }
 
+  if (mat.esAcreditacionElectiva || mat.horasRelojAcreditadas) {
+    const hs = mat.horasRelojAcreditadas || 72;
+    return {
+      claseEstado: 's-ap', insigniaNota: `<span class="acc-grade ag-green">${mat.nota !== undefined && mat.nota !== null ? mat.nota : '✓'}</span>`,
+      badgeEstado: `<span class="acc-badge" style="background:rgba(234,179,8,.15);color:var(--yellow);border:1px solid rgba(234,179,8,.3);">🧩 Acredita ${hs}hs Electivas (Bloque 3º/4º)</span>`
+    };
+  }
+  const esElec = mat.esElectiva || (window.clasificarElectiva && window.clasificarElectiva(mat).esElectiva);
+  if (esElec) {
+    const hs = mat.horasReloj || 80;
+    const txt = mat.estado === 'aprobada' ? `🧩 Electiva Aprobada (${hs}hs)` : `🧩 Electiva en Curso (${hs}hs)`;
+    return {
+      claseEstado: mat.estado === 'aprobada' ? 's-ap' : 's-pl',
+      insigniaNota: `<span class="acc-grade ${mat.estado === 'aprobada' ? 'ag-green' : 'ag-blue'}">${mat.nota !== undefined && mat.nota !== null ? mat.nota : (mat.estado === 'aprobada' ? '✓' : '⏳')}</span>`,
+      badgeEstado: `<span class="acc-badge" style="background:rgba(56,189,248,.15);color:var(--blue);border:1px solid rgba(56,189,248,.3);">${txt}</span>`
+    };
+  }
+
   const esK08 = mat.origenPlan === 'K08_homologada' || Boolean(mat.materiaOrigenK08);
   const esPromo = mat.modalidad === 'promocion';
   const txtBadge = esK08 ? '🔄 Homologación K08' : (esPromo ? '🏆 Promoción Directa' : '🎯 Examen Final');
@@ -104,15 +122,29 @@ function renderizarMapaCurricular() {
   const datos = window.datosGlobales?.datosAlumno || {};
   const aprobadas = datos.materiasAprobadas || [];
   const enCurso = datos.materiasEnCurso || [];
+  const infoEl = window.calcularBloquesElectivas ? window.calcularBloquesElectivas(aprobadas, enCurso) : { bloque34: { materiasAprobadas: [], materiasEnCurso: [], horasAprobadas: 0 }, bloque5: { materiasAprobadas: [], materiasEnCurso: [], horasAprobadas: 0 } };
 
   const niveles = [1, 2, 3, 4, 5];
   const columnasHtml = niveles.map(n => {
     const matsNivel = CAT_MATERIAS_K23.filter(m => m.nivel === n);
     const cantAprob = matsNivel.filter(m => aprobadas.some(a => a.id === m.id)).length;
+    let extraElectivasHtml = '';
+    if (n === 3) {
+      const b = infoEl.bloque34;
+      const mats = [...b.materiasAprobadas, ...b.materiasEnCurso];
+      const chip = `<div class="chip-bloque-electivas" style="margin-top:12px;margin-bottom:8px;padding:6px 10px;background:rgba(234,179,8,.08);border:1px solid rgba(234,179,8,.25);border-radius:6px;font-size:11px;font-weight:700;color:var(--yellow);display:flex;align-items:center;justify-content:space-between;"><span>🧩 Bloque 3.º/4.º: ${b.horasAprobadas} / 240 hs</span><span>${b.cumplido ? '🎓 Cumplido' : b.porcentaje + '%'}</span></div>`;
+      extraElectivasHtml = chip + mats.map(m => renderizarTarjetaMateria({ id: m.id, nombre: m.nombre, adusi: false }, aprobadas, enCurso)).join('');
+    } else if (n === 5) {
+      const b = infoEl.bloque5;
+      const mats = [...b.materiasAprobadas, ...b.materiasEnCurso];
+      const chip = `<div class="chip-bloque-electivas" style="margin-top:12px;margin-bottom:8px;padding:6px 10px;background:rgba(168,85,247,.08);border:1px solid rgba(168,85,247,.25);border-radius:6px;font-size:11px;font-weight:700;color:#c084fc;display:flex;align-items:center;justify-content:space-between;"><span>🧩 Bloque 5.º Nivel: ${b.horasAprobadas} / 240 hs</span><span>${b.cumplido ? '🎓 Cumplido' : b.porcentaje + '%'}</span></div>`;
+      extraElectivasHtml = chip + mats.map(m => renderizarTarjetaMateria({ id: m.id, nombre: m.nombre, adusi: false }, aprobadas, enCurso)).join('');
+    }
     return `
       <div class="map-col">
         <div class="map-lvl">Nivel ${n} · ${cantAprob}/${matsNivel.length} ${cantAprob === matsNivel.length && cantAprob > 0 ? '🎓' : ''}</div>
         ${matsNivel.map(m => renderizarTarjetaMateria(m, aprobadas, enCurso)).join('')}
+        ${extraElectivasHtml}
         ${n === 3 || n === 4 ? '<button class="btn-sec" style="width:100%;margin-top:10px;padding:6px;font-size:11.5px;border:1px dashed var(--yellow);color:var(--yellow);" onclick="abrirModalElectiva(3)">➕ Agregar Electiva (Bloque 3.º/4.º)</button>' : ''}
         ${n === 5 ? '<button class="btn-sec" style="width:100%;margin-top:10px;padding:6px;font-size:11.5px;border:1px dashed var(--yellow);color:var(--yellow);" onclick="abrirModalElectiva(5)">➕ Agregar Electiva (Bloque 5.º Nivel)</button>' : ''}
       </div>
