@@ -132,12 +132,16 @@ function actualizarVisibilidadBloqueFinales(resCursada) {
 
   const finalesCargados = window.materiaObjEnEdicion?.finales || [];
   const tieneFinalAprobado = finalesCargados.some(f => f.resultado === 'aprobado' || (f.nota && f.nota >= 6));
-
-  if (resCursada.promociona && !tieneFinalAprobado) {
+  if (tieneFinalAprobado) {
+    const finAp = finalesCargados.slice().reverse().find(f => f.resultado === 'aprobado' || (f.nota && f.nota >= 6));
+    aviso.style.display = 'block';
+    aviso.textContent = `🎯 Examen final aprobado con nota ${finAp?.nota || '6+'}. Materia Aprobada en forma definitiva.`;
+    formFinal.style.display = 'none';
+  } else if (resCursada.promociona) {
     aviso.style.display = 'block';
     aviso.textContent = '🏆 Materia promocionada por cursada. No requiere rendir examen final.';
     formFinal.style.display = 'none';
-  } else if (resCursada.estado === 'firmada' || tieneFinalAprobado || finalesCargados.length > 0) {
+  } else if (resCursada.estado === 'firmada' || finalesCargados.length > 0) {
     aviso.style.display = 'block';
     aviso.textContent = '✍️ Cursada firmada. Podés cargar todos los llamados rendidos hasta el examen final definitivo.';
     formFinal.style.display = 'grid';

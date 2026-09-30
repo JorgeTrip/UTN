@@ -73,9 +73,10 @@ function renderizarSeccionFinalesModal(matObj) {
     if (f.resultado === 'aprobado' || (f.nota && f.nota >= 6)) { color = 'var(--green)'; badge = `Aprobado (${f.nota})`; }
     else if (f.resultado === 'desaprobado' || (f.nota && f.nota < 6)) { color = 'var(--accent)'; badge = `Aplazo (${f.nota})`; }
 
+    const extra = (f.libro ? ` · Libro ${f.libro}` : '') + (f.folio ? ` Folio ${f.folio}` : '') + (f.acta ? ` · Acta ${f.acta}` : '');
     return `
       <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--s2);border:1px solid var(--border);border-radius:6px;margin-bottom:4px;font-size:11.5px;">
-        <div><strong style="color:${color}">${badge}</strong> <span style="color:var(--muted);font-size:10px;margin-left:6px;">📅 ${f.fecha || 'Sin fecha'}</span></div>
+        <div><strong style="color:${color}">${badge}</strong> <span style="color:var(--muted);font-size:10px;margin-left:6px;">📅 ${f.fecha || 'Sin fecha'}${extra}</span></div>
         <button type="button" class="btn-sec" style="padding:1px 5px;font-size:9.5px;color:var(--accent);" onclick="eliminarLlamadoFinal(${i})">🗑</button>
       </div>
     `;

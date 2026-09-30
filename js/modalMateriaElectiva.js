@@ -26,6 +26,35 @@ function abrirModalElectiva(nivel) {
     select.replaceChildren();
     select.insertAdjacentHTML('beforeend', oferta.map(e => `<option value="${e.codigo || e.id}">${e.nombre} (${e.horas_reloj_estimadas || e.horas_reloj || 80}hs reloj · ${e.area_tematica || 'Electiva'})</option>`).join(''));
   }
+
+  const banner = document.getElementById('bannerHorasElectivasCumplidas');
+  if (banner) {
+    const datos = window.datosGlobales?.datosAlumno || {};
+    const info = window.calcularBloquesElectivas ? window.calcularBloquesElectivas(datos.materiasAprobadas || [], datos.materiasEnCurso || []) : null;
+    if (esBloque34 && info) {
+      const b = info.bloque34;
+      banner.style.display = 'block';
+      banner.replaceChildren();
+      if (b.horasAprobadas >= 240) {
+        banner.style.background = 'rgba(16,185,129,.12)';
+        banner.style.border = '1px solid rgba(16,185,129,.3)';
+        banner.style.color = '#34d399';
+        const txt = document.createElement('div');
+        txt.textContent = `🎉 ¡Requisito de horas cumplido! Ya contás con ${b.horasAprobadas} / 240 hs reloj acreditadas en el Bloque de 3.º/4.º Nivel. No es necesario inscribirte a más materias electivas para este ciclo, salvo por vocación personal.`;
+        banner.appendChild(txt);
+      } else {
+        banner.style.background = 'rgba(56,189,248,.1)';
+        banner.style.border = '1px solid rgba(56,189,248,.25)';
+        banner.style.color = 'var(--blue)';
+        const txt = document.createElement('div');
+        txt.textContent = `ℹ️ Llevás ${b.horasAprobadas} / 240 hs reloj acreditadas en este bloque (te restan ${240 - b.horasAprobadas} hs).`;
+        banner.appendChild(txt);
+      }
+    } else {
+      banner.style.display = 'none';
+    }
+  }
+
   actualizarInfoElectivaSeleccionada();
   modal.classList.add('open');
 }
