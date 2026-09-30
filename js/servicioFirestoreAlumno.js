@@ -49,6 +49,21 @@ async function obtenerDatosAlumnoFirestore(uid) {
       const snapshot = await docRef.get();
       if (snapshot.exists) {
         const datos = snapshot.data();
+        const tieneMateriasNube = Boolean(datos && datos.materiasAprobadas && datos.materiasAprobadas.length > 0);
+        const localPrevioRaw = localStorage.getItem('pulso_datos_alumno');
+        let localPrevio = null;
+        if (localPrevioRaw) {
+          try { localPrevio = JSON.parse(localPrevioRaw); } catch (e) {}
+        }
+        const tieneMateriasLocal = Boolean(localPrevio && localPrevio.materiasAprobadas && localPrevio.materiasAprobadas.length > 0);
+
+        if (!tieneMateriasNube && tieneMateriasLocal) {
+          await docRef.set(localPrevio, { merge: true });
+          localStorage.setItem(`pulso_datos_alumno_${uid}`, JSON.stringify(localPrevio));
+          console.log('☁️ Sincronizados datos locales preexistentes hacia Firestore para alumnos/' + uid);
+          return localPrevio;
+        }
+
         localStorage.setItem(`pulso_datos_alumno_${uid}`, JSON.stringify(datos));
         return datos;
       }
@@ -104,10 +119,13 @@ async function guardarDatosAlumnoFirestore(uid, datos) {
     try {
       await db.collection('alumnos').doc(uid).set(datos, { merge: true });
       console.log('☁️ Datos sincronizados con Firestore exitosamente');
+      return true;
     } catch (error) {
       console.error('Error sincronizando con Firestore:', error.message);
+      return false;
     }
   }
+  return true;
 }
 
 /**

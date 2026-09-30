@@ -24,20 +24,24 @@ function exportarDatosAlumno() {
  * Lee un archivo JSON cargado por el usuario, valida su esquema básico y restaura el estado.
  * @param {Event} evento - Evento 'change' del input type="file".
  */
-function importarDatosAlumno(evento) {
-  const archivo = evento.target.files[0];
+async function importarDatosAlumno(evento) {
+  const archivo = evento.target?.files?.[0];
   if (!archivo) return;
   const lector = new FileReader();
-  lector.onload = function(e) {
+  lector.onload = async function(e) {
     try {
       const datosImportados = JSON.parse(e.target.result);
-      if (datosImportados.perfil && datosImportados.materiasAprobadas) {
+      if (datosImportados.perfil && (datosImportados.materiasAprobadas || datosImportados.materiasEnCurso)) {
         window.datosGlobales.datosAlumno = datosImportados;
-        guardarDatosAlumnoEnStorage();
-        alert('¡Datos importados correctamente!');
-        location.reload();
+        if (typeof guardarDatosAlumnoEnStorage === 'function') {
+          await guardarDatosAlumnoEnStorage();
+        }
+        if (typeof window.renderizarUI === 'function') {
+          window.renderizarUI();
+        }
+        alert('¡Datos importados y sincronizados correctamente!');
       } else {
-        alert('El archivo JSON no tiene una estructura válida.');
+        alert('El archivo JSON no tiene una estructura válida de estudiante.');
       }
     } catch (err) {
       alert('Error al leer el archivo JSON: ' + err.message);
@@ -45,3 +49,7 @@ function importarDatosAlumno(evento) {
   };
   lector.readAsText(archivo);
 }
+
+window.exportarDatosAlumno = exportarDatosAlumno;
+window.importarDatosAlumno = importarDatosAlumno;
+

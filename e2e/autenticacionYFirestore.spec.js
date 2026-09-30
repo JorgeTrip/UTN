@@ -70,4 +70,22 @@ test.describe('Autenticación y Configuración Firebase', () => {
     // El menú principal de la app debe estar oculto
     await expect(page.locator('.super-tab-bar')).not.toBeVisible();
   });
+
+  test('debe permitir exportar e importar datos JSON sincronizando con la sesión', async ({ page }) => {
+    const modalAuth = page.locator('#modalAuth');
+    await modalAuth.locator('#authInputEmail').fill('alumno.test@alumnos.utn.ba');
+    await modalAuth.locator('#authInputPassword').fill('ClaveSegura123!');
+    await modalAuth.locator('#btnAuthSubmit').click();
+    await expect(modalAuth).not.toHaveClass(/open/);
+    await page.waitForFunction(() => window.datosGlobales?.datosAlumno !== null, { timeout: 15000 });
+
+    const resultado = await page.evaluate(async () => {
+      window.datosGlobales.datosAlumno.perfil.legajo = '99999';
+      await window.guardarDatosAlumnoEnStorage();
+      return localStorage.getItem('pulso_datos_alumno');
+    });
+
+    expect(resultado).toContain('99999');
+  });
 });
+

@@ -139,4 +139,32 @@ test.describe('Importador de Historia Académica SIU Guaraní con Homologación 
     await expect(tarjetaNum.locator('.acc-grade')).toContainText('–');
     await expect(tarjetaNum.locator('.acc-badges')).toContainText(/Pendiente/i);
   });
+
+  test('debe inferir como promocionada una materia con Regularidad >= 8 sin acta separada de promoción', async ({ page }) => {
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+    await page.waitForFunction(() => window.datosGlobales?.datosAlumno !== null, { timeout: 15000 });
+
+    const resultado = await page.evaluate(() => {
+      const texto = `
+Sistemas Operativos (082027)
+Regularidad - 8 (OCHO) Aprobado 05/12/2022 - Libro XXI200008 - Folio 45 - Detalle
+Comisión: K2055
+Química (081420)
+Regularidad - 6 (SEIS) Aprobado 10/12/2020 - Libro XIX200 - Folio 12 - Detalle
+Comisión: K1020
+      `;
+      return window.parsearHistoriaAcademicaSIU(texto);
+    });
+
+    const so = resultado.materiasAprobadas.find(m => m.nombre.includes('Sistemas Operativos'));
+    expect(so).toBeDefined();
+    expect(so.estado).toBe('aprobada');
+    expect(so.modalidad).toBe('promocion');
+    expect(so.nota).toBe(8);
+
+    const quimica = resultado.materiasEnCurso.find(m => m.nombre.includes('Química'));
+    expect(quimica).toBeDefined();
+    expect(quimica.estado).toBe('firmada');
+  });
 });
+

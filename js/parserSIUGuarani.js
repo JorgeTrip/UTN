@@ -99,7 +99,7 @@ function consolidarMateriasSIU(materiasDetectadas) {
       fecha: e.fecha, resultado: e.resultado === 'Ausente' ? 'ausente' : (e.resultado === 'Reprobado' || (e.nota && e.nota < 6) ? 'desaprobado' : 'aprobado'),
       nota: e.nota, libro: e.libro, folio: e.folio, turno: e.turno
     }));
-    const promo = m.eventos.find(e => e.tipo === 'Promoción');
+    const promo = m.eventos.find(e => e.tipo === 'Promoción') || m.eventos.find(e => e.tipo === 'Regularidad' && e.resultado === 'Aprobado' && e.nota && e.nota >= 8);
     const finalAp = finales.slice().reverse().find(f => f.resultado === 'aprobado' || (f.nota && f.nota >= 6));
     const regAp = m.eventos.find(e => e.tipo === 'Regularidad' && e.resultado === 'Aprobado');
     const esCurso = m.eventos.some(e => e.tipo === 'En curso');
@@ -122,7 +122,7 @@ function consolidarMateriasSIU(materiasDetectadas) {
       fecha: e.fecha, resultado: e.resultado === 'Ausente' ? 'ausente' : (e.resultado === 'Reprobado' || (e.nota && e.nota < 6) ? 'desaprobado' : 'aprobado'),
       nota: e.nota, libro: e.libro, folio: e.folio, turno: e.turno
     }));
-    const promo = m.eventos.find(e => e.tipo === 'Promoción');
+    const promo = m.eventos.find(e => e.tipo === 'Promoción') || m.eventos.find(e => e.tipo === 'Regularidad' && e.resultado === 'Aprobado' && e.nota && e.nota >= 8);
     const finalAp = finales.slice().reverse().find(f => f.resultado === 'aprobado' || (f.nota && f.nota >= 6));
     const equiv = m.eventos.find(e => e.tipo.startsWith('Equivalencia'));
     const regAp = m.eventos.find(e => e.tipo === 'Regularidad' && e.resultado === 'Aprobado');

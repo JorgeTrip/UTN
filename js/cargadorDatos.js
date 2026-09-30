@@ -49,15 +49,20 @@ async function cargarDatosIniciales() {
 
 /**
  * Guarda el estado actual de los datos del alumno en localStorage y Firestore.
+ * @returns {Promise<Object|null>} Datos sincronizados.
  */
-function guardarDatosAlumnoEnStorage() {
+async function guardarDatosAlumnoEnStorage() {
   const datos = window.datosGlobales.datosAlumno;
-  if (!datos) return;
+  if (!datos) return null;
 
   localStorage.setItem('pulso_datos_alumno', JSON.stringify(datos));
 
   const usuario = window.servicioAuth?.obtenerUsuarioActual();
   if (usuario && window.servicioFirestore) {
-    window.servicioFirestore.guardarDatosAlumno(usuario.uid, datos);
+    await window.servicioFirestore.guardarDatosAlumno(usuario.uid, datos);
   }
+  return datos;
 }
+
+window.guardarDatosAlumnoEnStorage = guardarDatosAlumnoEnStorage;
+
