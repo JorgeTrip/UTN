@@ -1,9 +1,25 @@
 [
   {
-    "version": "v1.32.0",
+    "version": "v1.33.0",
     "fecha": "2026-09-30",
-    "totalCambios": 49,
+    "totalCambios": 51,
     "cambios": [
+      {
+        "hash": "104a5d3",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se restaura visibilidad de encabezado móvil y sub-barra inicial"
+      },
+      {
+        "hash": "42515c3",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "chore",
+        "insignia": "⚙️ Mantenimiento",
+        "mensaje": "Se actualiza changelog y version automatica [skip ci]"
+      },
       {
         "hash": "1003378",
         "autor": "Jorge O. Tripodi",
