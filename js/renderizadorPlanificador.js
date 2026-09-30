@@ -1,12 +1,9 @@
 /**
  * Módulo Renderizador del Planificador Académico (Super Panel 2)
- * Renderiza calendarios cuatrimestrales de 2026, 2027 y 2028 con soporte para ubicar y borrar materias.
+ * Renderiza calendarios cuatrimestrales de 2026 y proyecciones futuras.
+ * Se adapta al estado del alumno (pestaña única en estado inicial sin datos).
  */
 
-/**
- * Conmuta entre los paneles anuales del planificador cuatrimestral (2026, 2027, 2028, 2029).
- * @param {number} indice - Índice de la solapa anual.
- */
 function seleccionarAnioPlanificador(indice) {
   document.querySelectorAll('#sp2 .sub-tab-bar .sub-tab').forEach((tab, i) => {
     tab.classList.toggle('active', i === indice);
@@ -25,26 +22,36 @@ function renderizarPlanificadorCompleto() {
   const datos = window.datosGlobales?.datosAlumno || {};
   const aprobadas = datos.materiasAprobadas || [];
   const enCurso = datos.materiasEnCurso || [];
+  const tieneDatos = aprobadas.length > 0 || enCurso.length > 0;
   const restantesCount = Math.max(0, 38 - aprobadas.length);
 
   const mesActual = new Date().getMonth() + 1;
   const esSegundoCuatrimestre = mesActual >= 7;
   const altElegida2026q2 = (typeof obtenerAlternativaElegida === 'function') ? obtenerAlternativaElegida('2026', '2c') : 0;
+  const turnoAlumno = datos.turno || 'Noche';
+
+  let pestañasAnualesHtml = '<button class="sub-tab active" onclick="planYearTab(0)">📅 2026 · Cursada Actual (' + enCurso.length + ')</button>';
+  if (tieneDatos) {
+    pestañasAnualesHtml += `
+      <button class="sub-tab" onclick="planYearTab(1)">📅 2027 · Nivel 4 y 5</button>
+      <button class="sub-tab" onclick="planYearTab(2)">📅 2028 · Proyecto Final</button>
+      <button class="sub-tab" onclick="planYearTab(3)">🎓 2029 · Cierre & Graduación</button>
+    `;
+  }
 
   contenedor.replaceChildren();
   contenedor.insertAdjacentHTML('beforeend', `
     <div class="sub-tab-bar">
-      <div class="sub-tab-inner">
-        <button class="sub-tab active" onclick="planYearTab(0)">📅 2026 · Cursada Actual (${enCurso.length})</button>
-        <button class="sub-tab" onclick="planYearTab(1)">📅 2027 · Nivel 4 y 5</button>
-        <button class="sub-tab" onclick="planYearTab(2)">📅 2028 · Proyecto Final</button>
-        <button class="sub-tab" onclick="planYearTab(3)">🎓 2029 · Cierre & Graduación</button>
-      </div>
+      <div class="sub-tab-inner">${pestañasAnualesHtml}</div>
     </div>
 
     <!-- AÑO 2026 -->
     <div class="sub-panel active" id="sp2p0">
-      <div class="sec">Planificación Cuatrimestral · Ciclo Lectivo 2026 (Turno Noche)</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+        <div class="sec" style="margin:0;">Planificación Cuatrimestral · Ciclo Lectivo 2026 (Turno ${turnoAlumno})</div>
+        <button class="btn-prim btn-oferta-horarios" style="font-size:12px;padding:6px 12px;" onclick="abrirModalCargaHorarios()">🤖 Cargar Horarios (Gemini & Nube)</button>
+      </div>
+
       <div class="main-tabs" id="tab2026">
         <div class="main-tabs-inner">
           <button class="main-tab mq1 ${!esSegundoCuatrimestre ? 'active' : ''}" onclick="mainTabIn('tab2026', 0)">1er Cuatrimestre 2026</button>
@@ -99,82 +106,49 @@ function renderizarPlanificadorCompleto() {
       </div>
     </div>
 
-    <!-- AÑO 2027 -->
-    <div class="sub-panel" id="sp2p1">
-      <div class="sec">Planificación Futura · Ciclo Lectivo 2027</div>
-      <div class="main-tabs" id="tab2027">
-        <div class="main-tabs-inner">
-          <button class="main-tab mq1 active" onclick="mainTabIn('tab2027', 0)">1er Cuatrimestre 2027</button>
-          <button class="main-tab mq2" onclick="mainTabIn('tab2027', 1)">2do Cuatrimestre 2027</button>
-        </div>
-        <div class="main-panel active">
-          <div style="display:flex;justify-content:flex-start;margin:10px 0 8px;">
-            <button class="btn-ubicar-materia" onclick="abrirModalUbicarMateria('2027', '1c', 0)">📌 + Ubicar Materia</button>
-          </div>
-          <div class="cal-outer"><div class="cal-head" style="grid-template-columns:48px repeat(5,1fr)"><div class="cal-head-cell"></div><div class="cal-head-cell lit">LUN</div><div class="cal-head-cell lit">MAR</div><div class="cal-head-cell lit">MIÉ</div><div class="cal-head-cell lit">JUE</div><div class="cal-head-cell lit">VIE</div></div><div class="cal-body" id="y27q1body" style="grid-template-columns:48px repeat(5,1fr)"></div></div>
-        </div>
-        <div class="main-panel">
-          <div style="display:flex;justify-content:flex-start;margin:10px 0 8px;">
-            <button class="btn-ubicar-materia" onclick="abrirModalUbicarMateria('2027', '2c', 0)">📌 + Ubicar Materia</button>
-          </div>
-          <div class="cal-outer"><div class="cal-head" style="grid-template-columns:48px repeat(5,1fr)"><div class="cal-head-cell"></div><div class="cal-head-cell lit">LUN</div><div class="cal-head-cell lit">MAR</div><div class="cal-head-cell lit">MIÉ</div><div class="cal-head-cell lit">JUE</div><div class="cal-head-cell lit">VIE</div></div><div class="cal-body" id="y27q2body" style="grid-template-columns:48px repeat(5,1fr)"></div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- AÑO 2028 -->
-    <div class="sub-panel" id="sp2p2">
-      <div class="sec">Planificación Futura · Ciclo Lectivo 2028</div>
-      <div class="main-tabs" id="tab2028">
-        <div class="main-tabs-inner">
-          <button class="main-tab mq1 active" onclick="mainTabIn('tab2028', 0)">1er Cuatrimestre 2028</button>
-          <button class="main-tab mq2" onclick="mainTabIn('tab2028', 1)">2do Cuatrimestre 2028</button>
-        </div>
-        <div class="main-panel active">
-          <div style="display:flex;justify-content:flex-start;margin:10px 0 8px;">
-            <button class="btn-ubicar-materia" onclick="abrirModalUbicarMateria('2028', '1c', 0)">📌 + Ubicar Materia</button>
-          </div>
-          <div class="cal-outer"><div class="cal-head" style="grid-template-columns:48px repeat(5,1fr)"><div class="cal-head-cell"></div><div class="cal-head-cell lit">LUN</div><div class="cal-head-cell lit">MAR</div><div class="cal-head-cell lit">MIÉ</div><div class="cal-head-cell lit">JUE</div><div class="cal-head-cell lit">VIE</div></div><div class="cal-body" id="y28q1body" style="grid-template-columns:48px repeat(5,1fr)"></div></div>
-        </div>
-        <div class="main-panel">
-          <div style="display:flex;justify-content:flex-start;margin:10px 0 8px;">
-            <button class="btn-ubicar-materia" onclick="abrirModalUbicarMateria('2028', '2c', 0)">📌 + Ubicar Materia</button>
-          </div>
-          <div class="cal-outer"><div class="cal-head" style="grid-template-columns:48px repeat(5,1fr)"><div class="cal-head-cell"></div><div class="cal-head-cell lit">LUN</div><div class="cal-head-cell lit">MAR</div><div class="cal-head-cell lit">MIÉ</div><div class="cal-head-cell lit">JUE</div><div class="cal-head-cell lit">VIE</div></div><div class="cal-body" id="y28q2body" style="grid-template-columns:48px repeat(5,1fr)"></div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- AÑO 2029 -->
-    <div class="sub-panel" id="sp2p3">
-      <div class="sec">Cierre de Carrera y Graduación (2029)</div>
-      <div class="infobox">
-        <strong>Estimación de Graduación:</strong> ${restantesCount > 0 ? 'Restan ' + restantesCount + ' materias en el plan. Manteniendo la proyección actual, la titulación de Grado se completará en 2029.' : '¡Plan de estudio 100% completado!'}
-      </div>
-    </div>
+    ${tieneDatos && typeof window.generarHtmlPanelesFuturos === 'function' ? window.generarHtmlPanelesFuturos(restantesCount) : ''}
   `);
 
   renderizarGrillasPlanificador();
   if (typeof resaltarDiaActual === 'function') resaltarDiaActual();
 }
 
-/**
- * Renderiza dinámicamente cada grilla del planificador utilizando los eventos guardados.
- */
 function renderizarGrillasPlanificador() {
   const f = (typeof obtenerEventosPlanificacion === 'function') ? obtenerEventosPlanificacion : () => [];
 
-  // 2026 1C y 2C
-  construirCalendario('q1body', 5, f('2026', '1c', 0), false, { anio: '2026', cuatrimestre: '1c', alternativa: 0 });
-  construirCalendario('q2a1body', 6, f('2026', '2c', 0), true, { anio: '2026', cuatrimestre: '2c', alternativa: 0 });
-  construirCalendario('q2a2body', 6, f('2026', '2c', 1), true, { anio: '2026', cuatrimestre: '2c', alternativa: 1 });
-  construirCalendario('q2a3body', 6, f('2026', '2c', 2), true, { anio: '2026', cuatrimestre: '2c', alternativa: 2 });
+  if (document.getElementById('q1body')) construirCalendario('q1body', 5, f('2026', '1c', 0), false, { anio: '2026', cuatrimestre: '1c', alternativa: 0 });
+  if (document.getElementById('q2a1body')) construirCalendario('q2a1body', 6, f('2026', '2c', 0), true, { anio: '2026', cuatrimestre: '2c', alternativa: 0 });
+  if (document.getElementById('q2a2body')) construirCalendario('q2a2body', 6, f('2026', '2c', 1), true, { anio: '2026', cuatrimestre: '2c', alternativa: 1 });
+  if (document.getElementById('q2a3body')) construirCalendario('q2a3body', 6, f('2026', '2c', 2), true, { anio: '2026', cuatrimestre: '2c', alternativa: 2 });
 
-  // 2027 1C y 2C
-  construirCalendario('y27q1body', 5, f('2027', '1c', 0), false, { anio: '2027', cuatrimestre: '1c', alternativa: 0 });
-  construirCalendario('y27q2body', 5, f('2027', '2c', 0), false, { anio: '2027', cuatrimestre: '2c', alternativa: 0 });
-
-  // 2028 1C y 2C
-  construirCalendario('y28q1body', 5, f('2028', '1c', 0), false, { anio: '2028', cuatrimestre: '1c', alternativa: 0 });
-  construirCalendario('y28q2body', 5, f('2028', '2c', 0), false, { anio: '2028', cuatrimestre: '2c', alternativa: 0 });
+  if (document.getElementById('y27q1body')) construirCalendario('y27q1body', 5, f('2027', '1c', 0), false, { anio: '2027', cuatrimestre: '1c', alternativa: 0 });
+  if (document.getElementById('y27q2body')) construirCalendario('y27q2body', 5, f('2027', '2c', 0), false, { anio: '2027', cuatrimestre: '2c', alternativa: 0 });
+  if (document.getElementById('y28q1body')) construirCalendario('y28q1body', 5, f('2028', '1c', 0), false, { anio: '2028', cuatrimestre: '1c', alternativa: 0 });
+  if (document.getElementById('y28q2body')) construirCalendario('y28q2body', 5, f('2028', '2c', 0), false, { anio: '2028', cuatrimestre: '2c', alternativa: 0 });
 }
+
+function actualizarPlanificadorConOferta(comisiones) {
+  const datos = window.datosGlobales?.datosAlumno || {};
+  const turno = datos.turno || 'Noche';
+  const aprobadas = new Set((datos.materiasAprobadas || []).map(m => String(m.id)));
+  const materiasK23 = window.datosGlobales?.planEstudio?.materias || [];
+  const habilitadas = materiasK23.filter(m => !aprobadas.has(String(m.id))).map(m => String(m.id));
+
+  const resultado = window.generarAlternativasCursada({
+    oferta: comisiones,
+    materiasHabilitadas: habilitadas,
+    turnoPreferido: turno,
+    materiasPorCuatrimestre: 3
+  });
+
+  if (resultado.turnoInsuficiente && resultado.mensajeTurno) {
+    alert(resultado.mensajeTurno);
+  }
+  renderizarPlanificadorCompleto();
+}
+
+window.renderizarPlanificadorCompleto = renderizarPlanificadorCompleto;
+window.renderizarGrillasPlanificador = renderizarGrillasPlanificador;
+window.seleccionarAnioPlanificador = seleccionarAnioPlanificador;
+window.planYearTab = seleccionarAnioPlanificador;
+window.actualizarPlanificadorConOferta = actualizarPlanificadorConOferta;
