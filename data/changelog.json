@@ -1,9 +1,25 @@
 [
   {
-    "version": "v1.38.0",
+    "version": "v1.39.0",
     "fecha": "2026-09-30",
-    "totalCambios": 61,
+    "totalCambios": 63,
     "cambios": [
+      {
+        "hash": "4e465be",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se ocultan pestanas redundantes en cuerpo de planificador y se sincroniza cuatrimestre con alternativas"
+      },
+      {
+        "hash": "88d8384",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "docs",
+        "insignia": "📝 Documentación",
+        "mensaje": "Se actualiza changelog y version a v1.38.0 [skip ci]"
+      },
       {
         "hash": "0579520",
         "autor": "Jorge O. Tripodi",
