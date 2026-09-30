@@ -1,9 +1,17 @@
 [
   {
-    "version": "v1.27.0",
+    "version": "v1.28.0",
     "fecha": "2026-09-30",
-    "totalCambios": 40,
+    "totalCambios": 41,
     "cambios": [
+      {
+        "hash": "6b40bb7",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-09-30",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se implementa opcion Acerca de, Changelog y pipeline CI/CD"
+      },
       {
         "hash": "a2fa840",
         "autor": "Jorge O. Tripodi",
