@@ -32,17 +32,23 @@ test.describe('Cabecera, Menú Avatar, Gemini Transparente y Links al Final', ()
     await expect(ultimoItem).toContainText('Cerrar Sesión');
   });
 
-  test('la API Key de Gemini debe estar disponible internamente sin requerir ingreso manual', async ({ page }) => {
-    // Limpiamos cualquier clave manual de localStorage
-    await page.evaluate(() => localStorage.removeItem('gemini_api_key_utn'));
-
-    const key = await page.evaluate(() => {
-      return typeof window.obtenerApiKeyGemini === 'function' ? window.obtenerApiKeyGemini() : null;
+  test('el cliente resiliente de Gemini debe estar disponible e integrado con almacenamiento seguro', async ({ page }) => {
+    // Verificamos que el cliente resiliente esté registrado
+    const clienteDisponible = await page.evaluate(() => {
+      return typeof window.ejecutarConsultaGeminiResiliente === 'function' &&
+             Array.isArray(window.MODELOS_GEMINI_OFICIALES);
     });
+    expect(clienteDisponible).toBe(true);
 
-    expect(key).not.toBeNull();
-    expect(key.length).toBeGreaterThan(20);
-    expect(key).toContain('AQ.');
+    // Verificamos el almacenamiento seguro sin tokens quemados
+    await page.evaluate(() => {
+      window.guardarApiKeyGemini('AIzaSy_PRUEBA_MOCK_GEMINI_KEY');
+    });
+    const keyRecuperada = await page.evaluate(() => window.obtenerApiKeyGemini());
+    expect(keyRecuperada).toBe('AIzaSy_PRUEBA_MOCK_GEMINI_KEY');
+
+    // Limpieza
+    await page.evaluate(() => localStorage.removeItem('gemini_api_key_utn'));
   });
 
   test('Links Útiles debe ser la última solapa y Plan de Estudios la primera y activa por defecto', async ({ page }) => {

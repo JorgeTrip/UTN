@@ -1,7 +1,7 @@
 /**
  * Módulo de Cliente Despachador Resiliente para Google Gemini API
- * Gestiona la terna oficial de modelos (3.8, 3.7 y 3.6) con tolerancia a fallos,
- * reintentos automáticos ante 503 (alta demanda) y limpieza determinística de JSON.
+ * Gestiona la conmutación entre función serverless segura (Netlify) y fallback directo,
+ * rotando entre la terna oficial de modelos con tolerancia a fallos y reintentos ante saturación.
  */
 
 const MODELOS_GEMINI_OFICIALES = [
@@ -11,72 +11,99 @@ const MODELOS_GEMINI_OFICIALES = [
   'gemini-3.8-flash'
 ];
 
-async function ejecutarConsultaGeminiResiliente({ prompt, inlineData = null, onProgreso = null }) {
-  const apiKey = window.obtenerApiKeyGemini ? window.obtenerApiKeyGemini() : '';
+function extraerTextoLimpioJson(data, modelo) {
+  const textPart = data.candidates?.[0]?.content?.parts?.find(p => typeof p.text === 'string' && p.text.trim().length > 0);
+  const rawText = textPart ? textPart.text : (data.candidates?.[0]?.content?.parts?.[0]?.text || '');
+  if (!rawText) {
+    throw new Error(`La respuesta de ${modelo} no contiene texto válido.`);
+  }
+  const cleanJson = rawText.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '').trim();
+  return JSON.parse(cleanJson);
+}
+
+async function despacharConsultaModelo({ prompt, inlineData, modelo, apiKey }) {
+  // Si no hay apiKey local, intentamos llamar al proxy serverless seguro de Netlify
   if (!apiKey) {
-    throw new Error('Credencial de Gemini no disponible en la aplicación.');
+    const respServerless = await fetch('/api/gemini', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt, inlineData, modelo })
+    });
+
+    if (respServerless.status === 503 || respServerless.status === 429) {
+      return { saturado: true, status: respServerless.status };
+    }
+    if (!respServerless.ok) {
+      const errTxt = await respServerless.text();
+      throw new Error(`Error en proxy serverless (${respServerless.status}): ${errTxt}`);
+    }
+    const data = await respServerless.json();
+    return { exito: true, data: extraerTextoLimpioJson(data, modelo) };
   }
 
-  const parts = [{ text: prompt }];
-  if (inlineData) parts.push({ inlineData });
-
+  // Fallback directo con API Key local
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelo}:generateContent?key=${apiKey}`;
   const payload = {
-    contents: [{ parts }],
+    contents: [{ parts: inlineData ? [{ text: prompt }, { inlineData }] : [{ text: prompt }] }],
     generationConfig: { responseMimeType: 'application/json', temperature: 0.1 }
   };
 
+  const respDirecta = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+
+  if (respDirecta.status === 503 || respDirecta.status === 429) {
+    return { saturado: true, status: respDirecta.status };
+  }
+  if (!respDirecta.ok) {
+    const errTxt = await respDirecta.text();
+    throw new Error(`Error en llamada directa a ${modelo} (${respDirecta.status}): ${errTxt}`);
+  }
+  const data = await respDirecta.json();
+  return { exito: true, data: extraerTextoLimpioJson(data, modelo) };
+}
+
+async function ejecutarConsultaGeminiResiliente({ prompt, inlineData = null, onProgreso = null }) {
+  const apiKeyLocal = window.obtenerApiKeyGemini ? window.obtenerApiKeyGemini() : '';
   let ultimoError = null;
 
   for (let i = 0; i < MODELOS_GEMINI_OFICIALES.length; i++) {
     const modelo = MODELOS_GEMINI_OFICIALES[i];
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelo}:generateContent?key=${apiKey}`;
 
     if (onProgreso) {
       onProgreso({
         intento: i + 1,
         modelo,
-        mensaje: i === 0 ? `Consultando modelo ${modelo}...` : `Nodo con alta demanda. Conmutando a ${modelo}...`
+        mensaje: i === 0 ? `Consultando modelo ${modelo}...` : `Nodo saturado. Conmutando a ${modelo}...`
       });
     }
 
     try {
-      const respuesta = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+      const resultado = await despacharConsultaModelo({
+        prompt,
+        inlineData,
+        modelo,
+        apiKey: apiKeyLocal
       });
 
-      if (respuesta.status === 503 || respuesta.status === 429) {
-        const detalle = await respuesta.text();
-        console.warn(`[Gemini Resiliente] Modelo ${modelo} saturado (${respuesta.status}). Intentando alternativa...`, detalle);
-        ultimoError = new Error(`El modelo ${modelo} experimenta alta demanda.`);
-        // Pausa breve antes de intentar el siguiente nodo
+      if (resultado.saturado) {
+        ultimoError = new Error(`El modelo ${modelo} experimenta alta demanda (${resultado.status}).`);
         await new Promise(res => setTimeout(res, 600));
         continue;
       }
 
-      if (!respuesta.ok) {
-        const errTxt = await respuesta.text();
-        throw new Error(`Error en ${modelo} (${respuesta.status}): ${errTxt}`);
+      if (resultado.exito) {
+        return resultado.data;
       }
-
-      const data = await respuesta.json();
-      const textPart = data.candidates?.[0]?.content?.parts?.find(p => typeof p.text === 'string' && p.text.trim().length > 0);
-      const rawText = textPart ? textPart.text : (data.candidates?.[0]?.content?.parts?.[0]?.text || '');
-
-      if (!rawText) {
-        throw new Error(`La respuesta de ${modelo} no contiene texto válido.`);
-      }
-
-      const cleanJson = rawText.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '').trim();
-      return JSON.parse(cleanJson);
     } catch (err) {
       console.warn(`[Gemini Resiliente] Fallo con ${modelo}:`, err.message);
       ultimoError = err;
     }
   }
 
-  throw new Error(`Todos los modelos oficiales (${MODELOS_GEMINI_OFICIALES.join(', ')}) están saturados temporalmente. ${ultimoError?.message || ''}`);
+  throw new Error(`No fue posible procesar la consulta con los modelos oficiales (${MODELOS_GEMINI_OFICIALES.join(', ')}). ${ultimoError?.message || ''}`);
 }
 
 window.MODELOS_GEMINI_OFICIALES = MODELOS_GEMINI_OFICIALES;

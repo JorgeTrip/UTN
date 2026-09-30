@@ -4,7 +4,6 @@
  */
 
 const CLAVE_STORAGE_GEMINI = 'gemini_api_key_utn';
-const CREDENCIAL_INTERNA_B64 = 'QVEuQWI4Uk42SzBDN3ZWWmp6dzdweUhkZGFzM1ZqanpEYThQMFpvRmlBcWQ0U0xjeHhzekE=';
 
 function obtenerApiKeyGemini() {
   try {
@@ -13,7 +12,7 @@ function obtenerApiKeyGemini() {
   } catch (e) {
     // ignorar error de acceso a storage
   }
-  return atob(CREDENCIAL_INTERNA_B64);
+  return '';
 }
 
 function guardarApiKeyGemini(clave) {
