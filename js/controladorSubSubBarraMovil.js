@@ -24,8 +24,8 @@ function actualizarSubSubTabBarMovil(superTabIndice, anioIndice = 0) {
   const numSuper = Number(superTabIndice);
   const numAnio = Number(anioIndice);
 
-  // La sub-sub-barra solo aplica al Planificador (superTab 2)
-  if (numSuper !== 2) {
+  // La sub-sub-barra solo aplica al Planificador (superTab 2) en dispositivos móviles
+  if (window.innerWidth > 768 || numSuper !== 2) {
     barra.style.display = 'none';
     document.body.classList.remove('con-sub-sub-barra');
     document.querySelectorAll('#subTabBarInferiorMovil .tab-connector-arrow').forEach(el => el.remove());

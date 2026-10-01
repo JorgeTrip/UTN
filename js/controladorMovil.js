@@ -85,12 +85,12 @@ function actualizarSubTabBarMovil(superTabIndice, subActivoForzado = null) {
   const subBarra = document.getElementById('subTabBarInferiorMovil');
   if (!subBarra) return;
 
-  const lista = CONFIGURACION_SUBTABS[superTabIndice];
-  if (!lista || lista.length === 0) {
+  if (window.innerWidth > 768 || !CONFIGURACION_SUBTABS[superTabIndice]) {
     subBarra.style.display = 'none';
     return;
   }
 
+  const lista = CONFIGURACION_SUBTABS[superTabIndice];
   subBarra.style.display = 'flex';
   subBarra.replaceChildren();
 

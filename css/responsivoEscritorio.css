@@ -2,6 +2,22 @@
    ESTILOS ESPECÍFICOS PARA PANTALLAS ESCRITORIO (≥ 901px)
    ═══════════════════════════════════════════════════════════════ */
 
+@media (min-width: 769px) {
+  /* Blindaje estricto: Ocultamiento absoluto de navegación móvil en escritorio */
+  .bottom-tab-bar,
+  .sub-tab-bar-inferior,
+  .sub-sub-tab-bar-inferior,
+  #bottomTabBarMovil,
+  #subTabBarInferiorMovil,
+  #subSubTabBarInferiorMovil,
+  .chevron-scroll-indicator,
+  .mobile-menu-overlay {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
 @media (min-width: 901px) {
   .menu-toggle {
     display: none !important;
