@@ -70,11 +70,7 @@ function sincronizarBottomTabBar(indice) {
     btn.classList.toggle('active', esActivo);
     const conector = btn.querySelector('.tab-connector-arrow');
     if (esActivo && CONFIGURACION_SUBTABS[num]) {
-      if (!conector) {
-        const arrow = document.createElement('div');
-        arrow.className = 'tab-connector-arrow';
-        btn.appendChild(arrow);
-      }
+      if (!conector) { const arrow = document.createElement('div'); arrow.className = 'tab-connector-arrow'; btn.appendChild(arrow); }
     } else if (conector) conector.remove();
   });
   actualizarSubTabBarMovil(num);
@@ -90,7 +86,12 @@ function actualizarSubTabBarMovil(superTabIndice, subActivoForzado = null) {
     return;
   }
 
-  const lista = CONFIGURACION_SUBTABS[superTabIndice];
+  let lista = CONFIGURACION_SUBTABS[superTabIndice];
+  if (superTabIndice === 2 && typeof window.calcularProyeccionAniosFuturos === 'function') {
+    const d = window.datosGlobales?.datosAlumno || {};
+    const anios = [2026, ...window.calcularProyeccionAniosFuturos(d.materiasAprobadas || [], d.materiasEnCurso || [], 2026)];
+    lista = anios.map((a, i) => ({ sub: i, label: String(a) }));
+  }
   subBarra.style.display = 'flex';
   subBarra.replaceChildren();
 
@@ -167,10 +168,7 @@ function engancharSincronizaciones() {
   }
   const origSubTab1 = window.seleccionarSubSolapaSeguimiento || window.subTab;
   if (typeof origSubTab1 === 'function') {
-    window.seleccionarSubSolapaSeguimiento = (idx) => {
-      origSubTab1(idx);
-      if (superTabActivoActual === 1) actualizarSubTabBarMovil(1, Number(idx));
-    };
+    window.seleccionarSubSolapaSeguimiento = (idx) => { origSubTab1(idx); if (superTabActivoActual === 1) actualizarSubTabBarMovil(1, Number(idx)); };
     window.subTab = window.seleccionarSubSolapaSeguimiento;
   }
   const origPlan = window.seleccionarAnioPlanificador || window.planYearTab;

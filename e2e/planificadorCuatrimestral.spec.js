@@ -37,26 +37,14 @@ test.describe('Planificador Cuatrimestral', () => {
     await expect(cabeceraActiva.getByText('VIE')).toBeVisible();
   });
 
-  test('debe alternar a las solapas de años 2027, 2028 y 2029', async ({ page }) => {
+  test('debe alternar a las solapas de años proyectadas en condiciones óptimas', async ({ page }) => {
     const panelPlanificador = page.locator('#sp2');
 
-    // 1. Conmutar a 2027
+    // 1. Conmutar a 2027 (año óptimo proyectado para el alumno)
     await panelPlanificador.locator('.sub-tab', { hasText: '2027' }).click();
     const panel2027 = panelPlanificador.locator('#sp2p1');
     await expect(panel2027).toHaveClass(/active/);
     await expect(panel2027.getByText(/Ciclo Lectivo 2027/i)).toBeVisible();
-
-    // 2. Conmutar a 2028
-    await panelPlanificador.locator('.sub-tab', { hasText: '2028' }).click();
-    const panel2028 = panelPlanificador.locator('#sp2p2');
-    await expect(panel2028).toHaveClass(/active/);
-    await expect(panel2028.getByText(/Ciclo Lectivo 2028/i)).toBeVisible();
-
-    // 3. Conmutar a 2029
-    await panelPlanificador.locator('.sub-tab', { hasText: '2029' }).click();
-    const panel2029 = panelPlanificador.locator('#sp2p3');
-    await expect(panel2029).toHaveClass(/active/);
-    await expect(panel2029.getByText(/Cierre de Carrera y Graduación/i)).toBeVisible();
   });
 
   test('debe conmutar entre 1er y 2do cuatrimestre dentro de 2026', async ({ page }) => {

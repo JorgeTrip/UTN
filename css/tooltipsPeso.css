@@ -1,0 +1,83 @@
+/* ═══════════════════════════════════════════════════════════════
+   TOOLTIPS EN HOVER PARA TARJETAS DE VARIABLES DE PESO ACADÉMICO
+   ═══════════════════════════════════════════════════════════════ */
+
+.calc-item {
+  position: relative;
+  cursor: pointer;
+  outline: none;
+}
+
+.tooltip-desglose {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  width: max-content;
+  min-width: 200px;
+  max-width: 290px;
+  background: rgba(28, 28, 30, 0.98);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  text-align: left;
+}
+
+[data-tema="claro"] .tooltip-desglose {
+  background: rgba(245, 245, 247, 0.98);
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+.calc-item:hover .tooltip-desglose,
+.calc-item:focus .tooltip-desglose,
+.calc-item:focus-within .tooltip-desglose {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+.tooltip-header {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 4px;
+}
+
+.tooltip-body {
+  max-height: 180px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.tooltip-lista {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.tooltip-lista li {
+  margin-bottom: 3px;
+  word-break: break-word;
+}
+
+.tooltip-vacio {
+  font-size: 11px;
+  color: var(--muted);
+  font-style: italic;
+}

@@ -25,7 +25,10 @@
   position: absolute;
   top: calc(100% + 6px);
   right: 0;
-  width: 220px;
+  width: max-content;
+  min-width: 240px;
+  max-width: min(320px, calc(100vw - 24px));
+  box-sizing: border-box;
   background: var(--s2);
   border: 1px solid var(--border);
   border-radius: 12px;
@@ -33,6 +36,7 @@
   padding: 8px 0;
   display: none;
   z-index: 10000;
+  overflow: hidden;
 }
 
 .avatar-dropdown.open { display: block; }
@@ -43,6 +47,33 @@
   font-weight: 500; cursor: pointer; transition: background .15s;
   border: none; background: none; width: 100%; text-align: left;
   font-family: 'Outfit', sans-serif;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.dropdown-label-group {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  text-align: left;
+}
+
+.dropdown-main-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.dropdown-sub-label {
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .dropdown-item:hover { background: var(--s3); color: var(--blue); }

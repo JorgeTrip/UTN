@@ -27,14 +27,14 @@ function renderizarPlanificadorCompleto() {
   const altElegida = (typeof obtenerAlternativaElegida === 'function') ? obtenerAlternativaElegida('2026', '2c') : 0;
   const turnoAlumno = datos.turno || 'Noche';
 
+  const aniosFuturos = (tieneDatos && typeof window.calcularProyeccionAniosFuturos === 'function')
+    ? window.calcularProyeccionAniosFuturos(aprobadas, enCurso, 2026)
+    : (tieneDatos ? [2027, 2028] : []);
+
   let pestañasHtml = '<button class="sub-tab active" onclick="planYearTab(0)">2026 · Cursada Actual (' + enCurso.length + ')</button>';
-  if (tieneDatos) {
-    pestañasHtml += `
-      <button class="sub-tab" onclick="planYearTab(1)">2027 · Nivel 4 y 5</button>
-      <button class="sub-tab" onclick="planYearTab(2)">2028 · Proyecto Final</button>
-      <button class="sub-tab" onclick="planYearTab(3)">2029 · Cierre & Graduación</button>
-    `;
-  }
+  aniosFuturos.forEach((anio, idx) => {
+    pestañasHtml += `<button class="sub-tab" onclick="planYearTab(${idx + 1})">${anio}</button>`;
+  });
 
   contenedor.replaceChildren();
   contenedor.insertAdjacentHTML('beforeend', `
@@ -67,9 +67,9 @@ function renderizarPlanificadorCompleto() {
         <div class="main-panel ${esSegundoCuatrimestre ? 'active' : ''}">
           <div class="plan-sub-tab-bar" id="mp2026q2">
             <div class="plan-sub-tab-inner">
-              <button class="plan-sub-tab rec ${altElegida === 0 ? 'active' : ''}" onclick="planSubTabIn('mp2026q2',0)">Alt 1 (Recomendada · N4)${altElegida === 0 ? ' 🏆' : ''}</button>
-              <button class="plan-sub-tab ${altElegida === 1 ? 'active' : ''}" onclick="planSubTabIn('mp2026q2',1)">Alt 2 (Balanceada · N4)${altElegida === 1 ? ' 🏆' : ''}</button>
-              <button class="plan-sub-tab ${altElegida === 2 ? 'active' : ''}" onclick="planSubTabIn('mp2026q2',2)">Alt 3 (Intensiva N4/N5)${altElegida === 2 ? ' 🏆' : ''}</button>
+              <button class="plan-sub-tab rec ${altElegida === 0 ? 'active' : ''}" onclick="planSubTabIn('mp2026q2',0)">Alt 1 (Recomendada)${altElegida === 0 ? ' 🏆' : ''}</button>
+              <button class="plan-sub-tab ${altElegida === 1 ? 'active' : ''}" onclick="planSubTabIn('mp2026q2',1)">Alt 2 (Balanceada)${altElegida === 1 ? ' 🏆' : ''}</button>
+              <button class="plan-sub-tab ${altElegida === 2 ? 'active' : ''}" onclick="planSubTabIn('mp2026q2',2)">Alt 3 (Intensiva)${altElegida === 2 ? ' 🏆' : ''}</button>
             </div>
             ${[0, 1, 2].map(idx => `
               <div class="plan-sub-panel ${altElegida === idx ? 'active' : ''}">
@@ -84,7 +84,7 @@ function renderizarPlanificadorCompleto() {
         </div>
       </div>
     </div>
-    ${tieneDatos && typeof window.generarHtmlPanelesFuturos === 'function' ? window.generarHtmlPanelesFuturos(restantesCount) : ''}
+    ${tieneDatos && typeof window.generarHtmlPanelesFuturos === 'function' ? window.generarHtmlPanelesFuturos(aniosFuturos, restantesCount) : ''}
   `);
 
   renderizarGrillasPlanificador();

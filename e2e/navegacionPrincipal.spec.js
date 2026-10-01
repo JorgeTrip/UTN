@@ -62,10 +62,8 @@ test.describe('Navegación de Solapas Principales', () => {
     await expect(panelPlanificador).toHaveClass(/active/);
     await expect(page.locator('#sp0')).not.toHaveClass(/active/);
 
-    // Debe mostrar las solapas anuales del planificador
+    // Debe mostrar las solapas anuales calculadas dinámicamente para el alumno
     await expect(panelPlanificador.locator('.sub-tab', { hasText: '2026' })).toBeVisible();
     await expect(panelPlanificador.locator('.sub-tab', { hasText: '2027' })).toBeVisible();
-    await expect(panelPlanificador.locator('.sub-tab', { hasText: '2028' })).toBeVisible();
-    await expect(panelPlanificador.locator('.sub-tab', { hasText: '2029' })).toBeVisible();
   });
 });

@@ -93,7 +93,13 @@ function actualizarOpcionesSesionDropdown(usuario) {
   if (!itemAuth) return;
   itemAuth.replaceChildren();
   if (usuario) {
-    itemAuth.insertAdjacentHTML('beforeend', `<span>🚪</span> Cerrar Sesión (${usuario.email || 'Alumno'})`);
+    itemAuth.insertAdjacentHTML('beforeend', `
+      <span>🚪</span>
+      <div class="dropdown-label-group">
+        <span class="dropdown-main-label">Cerrar Sesión</span>
+        <span class="dropdown-sub-label" title="${usuario.email || 'Alumno'}">${usuario.email || 'Alumno'}</span>
+      </div>
+    `);
     itemAuth.onclick = async () => {
       await window.servicioAuth.cerrarSesion();
       cerrarMenuAvatar();
