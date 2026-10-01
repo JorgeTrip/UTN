@@ -1,9 +1,25 @@
 [
   {
-    "version": "v1.42.2",
+    "version": "v1.43.0",
     "fecha": "2026-10-01",
-    "totalCambios": 75,
+    "totalCambios": 77,
     "cambios": [
+      {
+        "hash": "233c081",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-10-01",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se implementa planificador optimo, control de desbordes en menues y hover dinamico en peso"
+      },
+      {
+        "hash": "a7e3a0c",
+        "autor": "github-actions[bot]",
+        "fecha": "2026-10-01",
+        "tipo": "chore",
+        "insignia": "⚙️ Mantenimiento",
+        "mensaje": "Se actualiza changelog y version automatica [skip ci]"
+      },
       {
         "hash": "88bbae9",
         "autor": "Jorge O. Tripodi",
