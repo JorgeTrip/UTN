@@ -1,9 +1,25 @@
 [
   {
-    "version": "v1.42.0",
+    "version": "v1.42.2",
     "fecha": "2026-10-01",
-    "totalCambios": 73,
+    "totalCambios": 75,
     "cambios": [
+      {
+        "hash": "88bbae9",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-10-01",
+        "tipo": "fix",
+        "insignia": "🔧 Corrección",
+        "mensaje": "Se corrige segregación de barras móviles en vista de escritorio"
+      },
+      {
+        "hash": "69afcb0",
+        "autor": "github-actions[bot]",
+        "fecha": "2026-10-01",
+        "tipo": "chore",
+        "insignia": "⚙️ Mantenimiento",
+        "mensaje": "Se actualiza changelog y version automatica [skip ci]"
+      },
       {
         "hash": "7366638",
         "autor": "Jorge O. Tripodi",
