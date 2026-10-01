@@ -1,9 +1,17 @@
 [
   {
-    "version": "v1.41.1",
+    "version": "v1.42.0",
     "fecha": "2026-10-01",
-    "totalCambios": 72,
+    "totalCambios": 73,
     "cambios": [
+      {
+        "hash": "7366638",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-10-01",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se incorpora guia de tramite presencial para titulo intermedio y de grado"
+      },
       {
         "hash": "14a8872",
         "autor": "github-actions[bot]",
