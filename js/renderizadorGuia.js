@@ -74,6 +74,16 @@ async function renderizarGuiaAcademica() {
           <div class="guia-card-title">⏱️ Duración y Carga Total</div>
           <div class="guia-card-desc">${infoPlan.duracion_anos || 5} Años · <strong>${infoPlan.carga_horaria_total_horas_reloj || 3992} hs reloj</strong> (${infoPlan.creditos_rtf_totales || 300} créditos RTF totales).</div>
         </div>
+        <div class="guia-card">
+          <div class="guia-card-title">🏛️ Trámite de Expedición de Título (Intermedio y Grado)</div>
+          <div class="guia-card-desc" style="line-height:1.5;">
+            <div>• <strong>Modalidad:</strong> Trámite presencial en <strong>Oficina 306</strong> (Sede Medrano).</div>
+            <div>• <strong>Horarios:</strong> Lunes a viernes de 10:00 a 13:00 y de 14:00 a 20:30 hs.</div>
+            <div>• <strong>Documentación:</strong> Fotocopia de DNI y fotocopia de título secundario.</div>
+            <div>• <strong>Plazo estimado:</strong> 12 meses aproximadamente.</div>
+            <div>• <strong>Consultas oficiales:</strong> <a href="mailto:titulos@frba.utn.edu.ar" style="color:var(--blue);text-decoration:none;">titulos@frba.utn.edu.ar</a>.</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -146,13 +156,6 @@ async function renderizarGuiaAcademica() {
       </div>
     </div>
   `);
-}
-
-function convertirHorasCatedra(val) {
-  const horas = parseFloat(val) || 0;
-  const reloj = horas * 0.75;
-  const res = document.getElementById('resultadoHorasReloj');
-  if (res) res.textContent = `${reloj.toFixed(2)} hs reloj (${(reloj * 60).toFixed(0)} minutos)`;
 }
 
 function actualizarContenedorHtml(elemento, htmlString) {

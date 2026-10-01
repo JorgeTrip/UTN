@@ -1,9 +1,17 @@
 [
   {
-    "version": "v1.41.0",
-    "fecha": "2026-09-30",
-    "totalCambios": 71,
+    "version": "v1.41.1",
+    "fecha": "2026-10-01",
+    "totalCambios": 72,
     "cambios": [
+      {
+        "hash": "14a8872",
+        "autor": "github-actions[bot]",
+        "fecha": "2026-10-01",
+        "tipo": "chore",
+        "insignia": "⚙️ Mantenimiento",
+        "mensaje": "Se actualiza changelog y version automatica [skip ci]"
+      },
       {
         "hash": "f751faa",
         "autor": "Jorge O. Tripodi",

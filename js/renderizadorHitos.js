@@ -88,12 +88,30 @@ function renderizarHitosCarrera() {
         <div style="font-size:11px;font-weight:700;color:var(--pink);text-transform:uppercase;margin-bottom:4px;">Título Intermedio</div>
         <div style="font-size:15px;font-weight:800;margin-bottom:6px;line-height:1.3;">Analista Desarrollador Universitario de Sistemas de Información (ADUSI)</div>
         <div style="font-size:12px;color:var(--muted);line-height:1.5;">${textoFaltantesAdusi}</div>
+        <button type="button" class="btn-sec btn-tramite-titulo" onclick="alternarInfoTramiteTitulo('tramiteAdusiInfo')" style="font-size:11px;padding:5px 9px;margin-top:10px;border-radius:6px;cursor:pointer;background:rgba(244,114,182,.1);border:1px solid rgba(244,114,182,.3);color:var(--text);">🏛️ ¿Cómo tramitar el título?</button>
+        <div id="tramiteAdusiInfo" class="info-tramite-titulo" style="display:none;margin-top:10px;background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:12px;font-size:11.5px;line-height:1.5;">
+          <div style="font-weight:700;color:var(--text);margin-bottom:4px;">🏛️ Trámite de Expedición (Presencial)</div>
+          <div>• <strong>Lugar:</strong> Oficina 306 (Sede Medrano).</div>
+          <div>• <strong>Horarios:</strong> Lunes a viernes de 10:00 a 13:00 y de 14:00 a 20:30 hs.</div>
+          <div>• <strong>Documentación:</strong> Fotocopia de DNI y fotocopia de título secundario.</div>
+          <div>• <strong>Demora estimada:</strong> 12 meses aproximadamente.</div>
+          <div>• <strong>Contacto:</strong> <a href="mailto:titulos@frba.utn.edu.ar" style="color:var(--blue);text-decoration:none;">titulos@frba.utn.edu.ar</a></div>
+        </div>
       </div>
       <div class="milestone-card" style="background:linear-gradient(135deg,rgba(139,92,246,.08) 0%,rgba(139,92,246,.03) 100%);border:1px solid rgba(139,92,246,.3);border-radius:12px;padding:18px;position:relative;">
         <div style="position:absolute;top:0;right:0;background:rgba(139,92,246,.2);color:#a78bfa;font-size:10px;font-weight:700;padding:4px 10px;border-bottom-left-radius:8px;">Progreso ${pctCerrado}%</div>
         <div style="font-size:11px;font-weight:700;color:var(--purple);text-transform:uppercase;margin-bottom:4px;">Título de Grado</div>
         <div style="font-size:16px;font-weight:800;margin-bottom:6px;">Ingeniero en Sistemas de Información</div>
         <div style="font-size:12px;color:var(--muted);line-height:1.5;">${aprobadas.length} de ${totalK23} materias aprobadas. Restan ${Math.max(0, totalK23 - aprobadas.length)} materias.</div>
+        <button type="button" class="btn-sec btn-tramite-titulo" onclick="alternarInfoTramiteTitulo('tramiteGradoInfo')" style="font-size:11px;padding:5px 9px;margin-top:10px;border-radius:6px;cursor:pointer;background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.3);color:var(--text);">🏛️ ¿Cómo tramitar el título?</button>
+        <div id="tramiteGradoInfo" class="info-tramite-titulo" style="display:none;margin-top:10px;background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:12px;font-size:11.5px;line-height:1.5;">
+          <div style="font-weight:700;color:var(--text);margin-bottom:4px;">🏛️ Trámite de Expedición (Presencial)</div>
+          <div>• <strong>Lugar:</strong> Oficina 306 (Sede Medrano).</div>
+          <div>• <strong>Horarios:</strong> Lunes a viernes de 10:00 a 13:00 y de 14:00 a 20:30 hs.</div>
+          <div>• <strong>Documentación:</strong> Fotocopia de DNI y fotocopia de título secundario.</div>
+          <div>• <strong>Demora estimada:</strong> 12 meses aproximadamente.</div>
+          <div>• <strong>Contacto:</strong> <a href="mailto:titulos@frba.utn.edu.ar" style="color:var(--blue);text-decoration:none;">titulos@frba.utn.edu.ar</a></div>
+        </div>
       </div>
     </div>
 
@@ -135,3 +153,13 @@ function renderizarHitosCarrera() {
     `}
   `);
 }
+
+function alternarInfoTramiteTitulo(idElemento) {
+  const el = document.getElementById(idElemento);
+  if (el) {
+    el.style.display = (el.style.display === 'none' || !el.style.display) ? 'block' : 'none';
+  }
+}
+
+window.renderizarHitosCarrera = renderizarHitosCarrera;
+window.alternarInfoTramiteTitulo = alternarInfoTramiteTitulo;

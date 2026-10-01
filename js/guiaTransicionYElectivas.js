@@ -94,6 +94,14 @@ function renderizarCatalogoElectivasHtml(electivas, filtro = '') {
   `;
 }
 
+function convertirHorasCatedra(val) {
+  const horas = parseFloat(val) || 0;
+  const reloj = horas * 0.75;
+  const res = document.getElementById('resultadoHorasReloj');
+  if (res) res.textContent = `${reloj.toFixed(2)} hs reloj (${(reloj * 60).toFixed(0)} minutos)`;
+}
+
 window.renderizarTablaEquivalenciasHtml = renderizarTablaEquivalenciasHtml;
 window.renderizarCronogramaTransicionHtml = renderizarCronogramaTransicionHtml;
 window.renderizarCatalogoElectivasHtml = renderizarCatalogoElectivasHtml;
+window.convertirHorasCatedra = convertirHorasCatedra;
