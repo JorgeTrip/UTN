@@ -101,6 +101,9 @@ async function cerrarSesion() {
     await auth.signOut();
   }
   localStorage.removeItem('pulso_usuario_simulado');
+  if (window.datosGlobales) {
+    window.datosGlobales.datosAlumno = null;
+  }
   notificarCambioAuth(null);
 }
 

@@ -1,7 +1,7 @@
 /**
  * Módulo de Carga de Datos Académicos y Personales
  * Responsable de obtener y almacenar en memoria los archivos JSON del plan de estudio
- * y de los datos del alumno, gestionando la sincronización dual (Firestore + LocalStorage).
+ * y de los datos del alumno, gestionando la sincronización dual (Firestore + LocalStorage aislado).
  */
 
 window.datosGlobales = {
@@ -34,7 +34,7 @@ async function cargarDatosIniciales() {
 
     const usuario = window.servicioAuth?.obtenerUsuarioActual();
     if (usuario && window.servicioFirestore) {
-      // 1. Carga desde Firestore según la cuenta del alumno autenticado
+      // Carga aislada desde Firestore según la cuenta del alumno autenticado
       window.datosGlobales.datosAlumno = await window.servicioFirestore.obtenerDatosAlumno(usuario.uid);
       return true;
     }
@@ -48,21 +48,23 @@ async function cargarDatosIniciales() {
 }
 
 /**
- * Guarda el estado actual de los datos del alumno en localStorage y Firestore.
+ * Guarda el estado actual de los datos del alumno en localStorage aislado y Firestore.
  * @returns {Promise<Object|null>} Datos sincronizados.
  */
 async function guardarDatosAlumnoEnStorage() {
   const datos = window.datosGlobales.datosAlumno;
   if (!datos) return null;
 
+  const usuario = window.servicioAuth?.obtenerUsuarioActual();
+  if (usuario) {
+    localStorage.setItem(`pulso_datos_alumno_${usuario.uid}`, JSON.stringify(datos));
+    if (window.servicioFirestore) {
+      await window.servicioFirestore.guardarDatosAlumno(usuario.uid, datos);
+    }
+  }
   localStorage.setItem('pulso_datos_alumno', JSON.stringify(datos));
 
-  const usuario = window.servicioAuth?.obtenerUsuarioActual();
-  if (usuario && window.servicioFirestore) {
-    await window.servicioFirestore.guardarDatosAlumno(usuario.uid, datos);
-  }
   return datos;
 }
 
 window.guardarDatosAlumnoEnStorage = guardarDatosAlumnoEnStorage;
-

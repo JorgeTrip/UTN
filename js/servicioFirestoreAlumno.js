@@ -1,13 +1,13 @@
 /**
  * Servicio de Persistencia en Cloud Firestore para Alumnos
  * Gestiona la sincronización en la nube de la colección 'alumnos/{uid}'
- * integrando respaldo local en caché y soporte offline.
+ * asegurando aislamiento estricto por usuario y respaldo local en caché por UID.
  */
 
 /**
  * Genera el esquema de datos inicial limpio para un estudiante recién registrado.
  * @param {Object} usuarioAuth - Objeto usuario con uid y email.
- * @returns {Object} Estructura inicial sin información hardcodeada.
+ * @returns {Object} Estructura inicial sin información hardcodeada ni materias previas.
  */
 function crearEsquemaAlumnoInicial(usuarioAuth) {
   const nombre = usuarioAuth?.displayName || (usuarioAuth?.email ? usuarioAuth.email.split('@')[0] : 'Estudiante');
@@ -21,27 +21,42 @@ function crearEsquemaAlumnoInicial(usuarioAuth) {
       dni: '',
       telefono: '',
       direccion: '',
-      turno: '',
-      planActual: '',
-      planOriginal: '',
+      turno: 'Noche',
+      planActual: 'K23',
+      planOriginal: 'K23',
       fechaIngreso: '',
       fechaTransicion: ''
     },
     materiasAprobadas: [],
     materiasEnCurso: [],
     historialSIU: [],
-    planificacionCuatrimestral: {}
+    planificacion: {
+      "2026": {
+        "1c": { alternativaElegida: 0, alternativas: [{ nombre: "Única", hasSat: false, eventos: [] }] },
+        "2c": { alternativaElegida: 0, alternativas: [{ nombre: "Alt 1 (Recomendada)", hasSat: false, eventos: [] }] }
+      },
+      "2027": {
+        "1c": { alternativaElegida: 0, alternativas: [{ nombre: "Plan 2027 · 1C", hasSat: false, eventos: [] }] },
+        "2c": { alternativaElegida: 0, alternativas: [{ nombre: "Plan 2027 · 2C", hasSat: false, eventos: [] }] }
+      },
+      "2028": {
+        "1c": { alternativaElegida: 0, alternativas: [{ nombre: "Plan 2028 · 1C", hasSat: false, eventos: [] }] },
+        "2c": { alternativaElegida: 0, alternativas: [{ nombre: "Plan 2028 · 2C", hasSat: false, eventos: [] }] }
+      }
+    }
   };
 }
 
 /**
- * Obtiene los datos del estudiante desde Cloud Firestore o caché local.
+ * Obtiene los datos del estudiante desde Cloud Firestore o caché local aislada por UID.
  * @param {string} uid - Identificador único del usuario.
- * @returns {Promise<Object>} Datos del alumno cargados.
+ * @returns {Promise<Object>} Datos del alumno cargados de forma independiente.
  */
-async function obtenerDatosAlumnoFirestore(uid) {
+async function obtenerDatosAlumnoFirestore(uid, usuarioAuth = null) {
   if (!uid) return null;
+  const claveCacheUsuario = `pulso_datos_alumno_${uid}`;
   const { db, configurado } = window.gestorFirebase.inicializar();
+  const usuarioActivo = usuarioAuth || window.servicioAuth?.obtenerUsuarioActual() || { uid };
 
   if (configurado && db) {
     try {
@@ -49,76 +64,49 @@ async function obtenerDatosAlumnoFirestore(uid) {
       const snapshot = await docRef.get();
       if (snapshot.exists) {
         const datos = snapshot.data();
-        const tieneMateriasNube = Boolean(datos && datos.materiasAprobadas && datos.materiasAprobadas.length > 0);
-        const localPrevioRaw = localStorage.getItem('pulso_datos_alumno');
-        let localPrevio = null;
-        if (localPrevioRaw) {
-          try { localPrevio = JSON.parse(localPrevioRaw); } catch (e) {}
-        }
-        const tieneMateriasLocal = Boolean(localPrevio && localPrevio.materiasAprobadas && localPrevio.materiasAprobadas.length > 0);
-
-        if (!tieneMateriasNube && tieneMateriasLocal) {
-          await docRef.set(localPrevio, { merge: true });
-          localStorage.setItem(`pulso_datos_alumno_${uid}`, JSON.stringify(localPrevio));
-          console.log('☁️ Sincronizados datos locales preexistentes hacia Firestore para alumnos/' + uid);
-          return localPrevio;
-        }
-
-        localStorage.setItem(`pulso_datos_alumno_${uid}`, JSON.stringify(datos));
+        localStorage.setItem(claveCacheUsuario, JSON.stringify(datos));
         return datos;
       }
 
-      // Si el documento no existe en Firestore, sube los datos locales existentes o crea esquema inicial
-      const localPrevio = localStorage.getItem('pulso_datos_alumno');
-      let datosParaSubir = null;
-      if (localPrevio) {
-        try {
-          const parsed = JSON.parse(localPrevio);
-          if (parsed && (parsed.materiasAprobadas?.length > 0 || parsed.perfil?.nombre || parsed.perfil?.legajo)) {
-            datosParaSubir = parsed;
-          }
-        } catch (e) {}
-      }
-
-      if (!datosParaSubir) {
-        datosParaSubir = crearEsquemaAlumnoInicial(window.servicioAuth.obtenerUsuarioActual());
-      }
-
-      await docRef.set(datosParaSubir);
-      localStorage.setItem(`pulso_datos_alumno_${uid}`, JSON.stringify(datosParaSubir));
-      console.log('☁️ Datos migrados y guardados en Firestore exitosamente en alumnos/' + uid);
-      return datosParaSubir;
+      // Usuario nuevo en la nube: inicializar con esquema limpio exclusivo
+      const datosIniciales = crearEsquemaAlumnoInicial(usuarioActivo);
+      await docRef.set(datosIniciales);
+      localStorage.setItem(claveCacheUsuario, JSON.stringify(datosIniciales));
+      console.log('☁️ Perfil nuevo inicializado en Firestore exitosamente para alumnos/' + uid);
+      return datosIniciales;
     } catch (error) {
       console.warn('Error leyendo o escribiendo en Firestore:', error.message);
     }
   }
 
-  // Fallback a almacenamiento local asociado al uid
-  const local = localStorage.getItem(`pulso_datos_alumno_${uid}`) || localStorage.getItem('pulso_datos_alumno');
-  if (local) {
+  // Fallback a almacenamiento local aislado por UID
+  const localUsuario = localStorage.getItem(claveCacheUsuario);
+  if (localUsuario) {
     try {
-      return JSON.parse(local);
+      return JSON.parse(localUsuario);
     } catch (e) {}
   }
-  return crearEsquemaAlumnoInicial(window.servicioAuth.obtenerUsuarioActual());
+
+  const nuevoEsquema = crearEsquemaAlumnoInicial(usuarioActivo);
+  localStorage.setItem(claveCacheUsuario, JSON.stringify(nuevoEsquema));
+  return nuevoEsquema;
 }
 
 /**
- * Guarda los datos del alumno en Firestore y actualiza el caché local.
+ * Guarda los datos del alumno en Firestore y actualiza el caché local asociado al UID.
  * @param {string} uid - Identificador del usuario.
  * @param {Object} datos - Objeto completo de datos del alumno.
  */
 async function guardarDatosAlumnoFirestore(uid, datos) {
   if (!uid || !datos) return;
-  // Guardado optimista inmediato en caché local
-  localStorage.setItem(`pulso_datos_alumno_${uid}`, JSON.stringify(datos));
-  localStorage.setItem('pulso_datos_alumno', JSON.stringify(datos));
+  const claveCacheUsuario = `pulso_datos_alumno_${uid}`;
+  localStorage.setItem(claveCacheUsuario, JSON.stringify(datos));
 
   const { db, configurado } = window.gestorFirebase.inicializar();
   if (configurado && db) {
     try {
       await db.collection('alumnos').doc(uid).set(datos, { merge: true });
-      console.log('☁️ Datos sincronizados con Firestore exitosamente');
+      console.log('☁️ Datos sincronizados con Firestore exitosamente para alumnos/' + uid);
       return true;
     } catch (error) {
       console.error('Error sincronizando con Firestore:', error.message);
