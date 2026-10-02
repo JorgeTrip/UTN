@@ -40,33 +40,33 @@ function generarHtmlLanding() {
             <div class="landing-section-tag">Todo en una sola plataforma</div>
             <h2 class="landing-section-title">¿Qué podés hacer con esta herramienta?</h2>
           </div>
-          <div class="landing-cards-grid">
-            <div class="landing-card">
+          <div class="landing-cards-grid" id="grillaCardsParallax">
+            <div class="landing-card card-izq">
               <span class="landing-card-icon">🗺️</span>
               <h3 class="landing-card-title">Mapa Curricular K23 & K08</h3>
               <p class="landing-card-desc">Visualizá el árbol de correlativas por nivel, homologaciones entre planes, actas, parciales y finales pendientes en un solo vistazo.</p>
             </div>
-            <div class="landing-card">
+            <div class="landing-card card-centro">
               <span class="landing-card-icon">⚡</span>
               <h3 class="landing-card-title">Estimación por Ritmo de Cursada</h3>
               <p class="landing-card-desc">Calculá tu promedio anual histórico y usá el simulador dinámico para estimar con exactitud cuántos años te faltan y cuándo te graduás.</p>
             </div>
-            <div class="landing-card">
+            <div class="landing-card card-der">
               <span class="landing-card-icon">🤖</span>
               <h3 class="landing-card-title">Estrategia Académica con IA</h3>
               <p class="landing-card-desc">Recibí recomendaciones inteligentes impulsadas por Gemini: qué materias priorizar en la próxima inscripción y qué finales destraban el plan.</p>
             </div>
-            <div class="landing-card">
+            <div class="landing-card card-izq">
               <span class="landing-card-icon">📥</span>
               <h3 class="landing-card-title">Importador Directo SIU Guaraní</h3>
               <p class="landing-card-desc">Sin cargas manuales tediosas: copiá tu Historia Académica del SIU, pegala y sincronizá automáticamente todas tus notas, fechas y materias.</p>
             </div>
-            <div class="landing-card">
+            <div class="landing-card card-centro">
               <span class="landing-card-icon">🗓️</span>
               <h3 class="landing-card-title">Planificador Cuatrimestral</h3>
               <p class="landing-card-desc">Armá tus grillas de horarios semanales, detectá superposiciones y exportá tu calendario de cursada directamente a Google Calendar.</p>
             </div>
-            <div class="landing-card">
+            <div class="landing-card card-der">
               <span class="landing-card-icon">🏛️</span>
               <h3 class="landing-card-title">Hitos ADUSI & Título de Grado</h3>
               <p class="landing-card-desc">Seguimiento automático del título intermedio de Analista (ADUSI) y de Grado, con instrucciones claras para el trámite de expedición en Medrano.</p>

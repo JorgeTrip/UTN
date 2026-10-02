@@ -1,6 +1,6 @@
 /**
  * Controlador de Efectos Visuales Parallax en Scroll
- * Provee animaciones fluidas y aceleradas por hardware para la imagen de fondo Hero y formas.
+ * Anima el fondo hero y genera convergencia lateral interactiva de las tarjetas de beneficios.
  */
 
 let listenerScrollActivo = null;
@@ -13,25 +13,51 @@ function inicializarEfectoParallax() {
   if (typeof window === 'undefined') return;
 
   const bgHero = document.getElementById('heroParallaxBg');
-  const formasParallax = document.querySelectorAll('.parallax-shape');
-
-  if (!bgHero && formasParallax.length === 0) return;
+  const grilla = document.getElementById('grillaCardsParallax');
+  const cardsIzq = document.querySelectorAll('.card-izq');
+  const cardsCentro = document.querySelectorAll('.card-centro');
+  const cardsDer = document.querySelectorAll('.card-der');
 
   const aplicarTransformaciones = () => {
     const scrollY = window.scrollY || window.pageYOffset;
+    const altoVentana = window.innerHeight || 800;
 
-    // Desplazamiento parallax de la imagen de fondo Hero (velocidad relativa suave ~0.35)
+    // 1. Desplazamiento parallax de la imagen hero
     if (bgHero) {
-      const offsetHero = Math.min(250, scrollY * 0.35);
+      const offsetHero = Math.min(260, scrollY * 0.35);
       bgHero.style.transform = `translate3d(0, ${offsetHero}px, 0)`;
     }
 
-    // Desplazamiento sutil de formas de fondo a diferentes profundidades
-    formasParallax.forEach((forma, idx) => {
-      const factor = (idx + 1) * 0.15;
-      const desplazamiento = scrollY * factor;
-      forma.style.transform = `translate3d(0, ${desplazamiento}px, 0)`;
-    });
+    // 2. Convergencia interactiva de tarjetas desde los laterales hacia el centro
+    if (grilla) {
+      const rectGrilla = grilla.getBoundingClientRect();
+      const puntoEntrada = altoVentana * 0.95;
+      const puntoConsolidado = altoVentana * 0.35;
+
+      // Progreso de 0 (recién entra) a 1 (totalmente centrada)
+      const factorDistancia = (puntoEntrada - rectGrilla.top) / (puntoEntrada - puntoConsolidado);
+      const progreso = Math.min(1, Math.max(0, factorDistancia));
+
+      const desplazamientoLateral = (1 - progreso) * (window.innerWidth < 768 ? 40 : 80);
+      const desplazamientoVertical = (1 - progreso) * 35;
+      const opacidad = 0.35 + progreso * 0.65;
+      const escala = 0.93 + progreso * 0.07;
+
+      cardsIzq.forEach(card => {
+        card.style.transform = `translate3d(-${desplazamientoLateral}px, 0, 0)`;
+        card.style.opacity = String(opacidad);
+      });
+
+      cardsDer.forEach(card => {
+        card.style.transform = `translate3d(${desplazamientoLateral}px, 0, 0)`;
+        card.style.opacity = String(opacidad);
+      });
+
+      cardsCentro.forEach(card => {
+        card.style.transform = `translate3d(0, ${desplazamientoVertical}px, 0) scale(${escala})`;
+        card.style.opacity = String(opacidad);
+      });
+    }
 
     animacionFrameId = null;
   };
@@ -42,13 +68,12 @@ function inicializarEfectoParallax() {
     }
   };
 
-  // Limpia cualquier listener previo
   destruirEfectoParallax();
 
   window.addEventListener('scroll', onScrollHandler, { passive: true });
   listenerScrollActivo = onScrollHandler;
 
-  // Ejecuta una primera pasada de posicionamiento
+  // Ejecuta una primera pasada
   onScrollHandler();
 }
 

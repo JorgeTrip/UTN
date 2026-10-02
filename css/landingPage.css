@@ -13,6 +13,11 @@
   z-index: 50;
 }
 
+body.sin-sesion {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
 body.sin-sesion .landing-container {
   display: block;
 }
@@ -114,6 +119,7 @@ body.sin-sesion .sub-sub-tab-bar {
   max-width: 1200px;
   margin: 0 auto;
   position: relative;
+  overflow: hidden;
 }
 
 .landing-section-head {
@@ -164,17 +170,17 @@ body.sin-sesion .sub-sub-tab-bar {
 /* Footer & Banner Final */
 .landing-cta-banner {
   text-align: center;
-  padding: 50px 30px;
+  padding: 44px 24px;
   background: linear-gradient(135deg, rgba(56, 189, 248, 0.12) 0%, rgba(168, 85, 247, 0.1) 100%);
   border: 1px solid var(--border);
   border-radius: 22px;
-  margin: 40px 20px 80px;
+  margin: 30px 20px 20px;
   backdrop-filter: blur(16px);
 }
 
 .landing-footer {
   text-align: center;
-  padding: 30px 20px 40px;
+  padding: 16px 20px 20px;
   border-top: 1px solid var(--border);
   color: var(--muted);
   font-size: 12.5px;
