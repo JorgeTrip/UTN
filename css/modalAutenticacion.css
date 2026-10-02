@@ -109,14 +109,9 @@ body.sin-sesion #menuToggle {
   display: none !important;
 }
 
-body.sin-sesion #modalAuth {
+#modalAuth.open {
   display: flex !important;
-  background: var(--bg) !important;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-}
-
-body.sin-sesion #modalAuth .modal-close {
-  display: none !important;
 }
 

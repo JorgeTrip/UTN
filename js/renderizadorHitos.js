@@ -125,8 +125,9 @@ function renderizarHitosCarrera() {
       <div class="kpi-card k-blue"><div class="kpi-val" style="color:var(--blue);font-size:30px;">${pctTotal}%</div><div class="kpi-lbl">Avance Total (con en curso)</div><div class="prog-bar-bg" style="margin:6px 0;"><div class="prog-bar-fill" style="width:${pctTotal}%;background:var(--blue)"></div></div><div class="kpi-sub">${aprobadas.length + enCurso.length} de ${totalK23} consideradas.</div></div>
       <div class="kpi-card ${cantidadMochila > 0 ? 'k-yellow' : 'k-green'}"><div class="kpi-val" style="color:${cantidadMochila > 0 ? 'var(--yellow)' : 'var(--green)'};font-size:30px;">${cantidadMochila}</div><div class="kpi-lbl">Finales Pendientes ("Mochila")</div><div class="kpi-sub">${cantidadMochila === 0 ? 'Sin finales pendientes registrados.' : (cantidadMochila === 1 ? '1 final pendiente por rendir.' : cantidadMochila + ' finales pendientes por rendir.')}</div></div>
       <div class="kpi-card k-blue"><div class="kpi-val" style="color:var(--blue);font-size:30px;">${promCalculado}</div><div class="kpi-lbl">Promedio Ponderado</div><div class="kpi-sub">${aprobadasConNota.length} aprobadas con calificación numérica.</div></div>
-      <div class="kpi-card k-pink"><div class="kpi-val" style="color:var(--pink);font-size:30px;">${faltantesAdusi.length}</div><div class="kpi-lbl">Para Título Intermedio</div><div class="kpi-sub">${faltantesAdusi.length === 0 ? 'Completado' : 'Materias pendientes de N1-N3.'}</div></div>
     </div>
+    <!-- SIMULADOR INTERACTIVO DE RITMO DE CURSADA -->
+    <div id="contenedorSimuladorRitmo"></div>
 
     <!-- DISTRIBUCIÓN REAL POR NIVEL -->
     <div class="sec">📊 Distribución Real por Nivel</div>
@@ -152,6 +153,11 @@ function renderizarHitosCarrera() {
       </div>
     `}
   `);
+
+  const contenedorSim = document.getElementById('contenedorSimuladorRitmo');
+  if (contenedorSim && window.simuladorRitmoCursada?.renderizarBloqueSimuladorRitmo) {
+    window.simuladorRitmoCursada.renderizarBloqueSimuladorRitmo(contenedorSim, datos);
+  }
 }
 
 function alternarInfoTramiteTitulo(idElemento) {

@@ -25,7 +25,9 @@ document.addEventListener('DOMContentLoaded', async () => {
           window.actualizarOpcionesSesionDropdown(null);
         }
         renderizarHeaderYPerfil();
-        abrirModalAuth(true);
+        if (typeof window.inicializarLandingPage === 'function') {
+          window.inicializarLandingPage();
+        }
       }
     });
     window.servicioAuth.iniciarObservadorAuth();

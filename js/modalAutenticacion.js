@@ -12,11 +12,9 @@ let pestanaAuthActiva = 'login'; // 'login' | 'registro'
 function abrirModalAuth(esObligatorio = false) {
   const modal = document.getElementById('modalAuth');
   if (modal) {
-    const usuario = window.servicioAuth?.obtenerUsuarioActual();
-    const obligatorio = esObligatorio || !usuario;
     const btnCerrar = modal.querySelector('.modal-close');
     if (btnCerrar) {
-      btnCerrar.style.display = obligatorio ? 'none' : 'block';
+      btnCerrar.style.display = esObligatorio ? 'none' : 'block';
     }
     modal.classList.add('open');
     cambiarPestanaAuth('login');
@@ -28,10 +26,6 @@ function abrirModalAuth(esObligatorio = false) {
  * @param {boolean} [forzar=false] - Forzar cierre cuando se completa el login.
  */
 function cerrarModalAuth(forzar = false) {
-  const usuario = window.servicioAuth?.obtenerUsuarioActual();
-  if (!usuario && !forzar) {
-    return;
-  }
   const modal = document.getElementById('modalAuth');
   if (modal) modal.classList.remove('open');
 }

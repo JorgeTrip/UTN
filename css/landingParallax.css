@@ -1,0 +1,61 @@
+/* ========================================================
+   Efectos Visuales Parallax y Formas Gradientes Desenfoque
+   ======================================================== */
+
+.parallax-wrap {
+  position: relative;
+  perspective: 1000px;
+}
+
+.parallax-shape {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  opacity: 0.35;
+  will-change: transform;
+  transition: transform 0.1s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.shape-1 {
+  width: 450px;
+  height: 450px;
+  top: -100px;
+  right: -50px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.45) 0%, rgba(30, 58, 138, 0.1) 70%);
+}
+
+.shape-2 {
+  width: 500px;
+  height: 500px;
+  top: 600px;
+  left: -120px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.35) 0%, rgba(88, 28, 135, 0.05) 70%);
+}
+
+.shape-3 {
+  width: 400px;
+  height: 400px;
+  bottom: 200px;
+  right: -80px;
+  background: radial-gradient(circle, rgba(34, 197, 94, 0.3) 0%, rgba(20, 83, 45, 0.05) 70%);
+}
+
+.landing-card {
+  background: var(--s1);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 28px;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  will-change: transform;
+}
+
+.landing-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(56, 189, 248, 0.4);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.16);
+}

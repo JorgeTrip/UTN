@@ -43,8 +43,12 @@ function calcularProyeccionAniosFuturos(materiasAprobadas = [], materiasEnCurso 
     }
   });
 
-  // 2. Volumen de materias: a un ritmo de ~8 materias por año
-  const aniosPorVolumen = Math.ceil(materiasRestantes / MATERIAS_OPTIMAS_POR_ANIO);
+  // 2. Volumen de materias: según el ritmo dinámico configurado o 8 por defecto
+  const ritmoConfigurado = (typeof window !== 'undefined' && window.localStorage)
+    ? Number(localStorage.getItem('ritmo_cursada_simulado'))
+    : null;
+  const ritmoEfectivo = (ritmoConfigurado && ritmoConfigurado > 0) ? ritmoConfigurado : MATERIAS_OPTIMAS_POR_ANIO;
+  const aniosPorVolumen = Math.ceil(materiasRestantes / ritmoEfectivo);
 
   // El tiempo óptimo mínimo es el máximo entre ambos factores
   const aniosOptimos = Math.max(eslabonesPendientes, aniosPorVolumen, 1);
