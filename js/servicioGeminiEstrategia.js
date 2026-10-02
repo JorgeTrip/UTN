@@ -3,12 +3,17 @@
  * Gestiona el análisis curricular, resiliencia y selección de materias para cursar.
  */
 
-const CLAVE_STORAGE_ESTRATEGIA = 'estrategiaRecomendadaAlumno_v1';
-const CLAVE_STORAGE_SELECCION_ESTRATEGIA = 'materiasSeleccionadasEstrategia_v1';
+function obtenerClavesEstrategia() {
+  const uid = window.servicioAuth?.obtenerUsuarioActual()?.uid;
+  return {
+    estrategia: uid ? `estrategia_${uid}` : 'estrategiaRecomendadaAlumno_v1',
+    seleccion: uid ? `seleccion_estrategia_${uid}` : 'materiasSeleccionadasEstrategia_v1'
+  };
+}
 
 function obtenerEstrategiaRecomendada() {
   try {
-    const raw = localStorage.getItem(CLAVE_STORAGE_ESTRATEGIA);
+    const raw = localStorage.getItem(obtenerClavesEstrategia().estrategia);
     return raw ? JSON.parse(raw) : null;
   } catch (e) {
     return null;
@@ -39,7 +44,7 @@ function guardarEstrategiaRecomendada(estrategia) {
   }
 
   try {
-    localStorage.setItem(CLAVE_STORAGE_ESTRATEGIA, JSON.stringify(estrategia));
+    localStorage.setItem(obtenerClavesEstrategia().estrategia, JSON.stringify(estrategia));
     persistirEstrategiaFirestore(estrategia);
   } catch (e) {
     console.error('Error al guardar estrategia en localStorage', e);
@@ -48,7 +53,7 @@ function guardarEstrategiaRecomendada(estrategia) {
 
 function obtenerMateriasSeleccionadasEstrategia() {
   try {
-    const raw = localStorage.getItem(CLAVE_STORAGE_SELECCION_ESTRATEGIA);
+    const raw = localStorage.getItem(obtenerClavesEstrategia().seleccion);
     return raw ? JSON.parse(raw) : [];
   } catch (e) {
     return [];
@@ -58,7 +63,7 @@ function obtenerMateriasSeleccionadasEstrategia() {
 function guardarMateriasSeleccionadasEstrategia(ids) {
   try {
     const limpios = Array.isArray(ids) ? Array.from(new Set(ids)) : [];
-    localStorage.setItem(CLAVE_STORAGE_SELECCION_ESTRATEGIA, JSON.stringify(limpios));
+    localStorage.setItem(obtenerClavesEstrategia().seleccion, JSON.stringify(limpios));
   } catch (e) {
     console.error('Error al guardar selección de estrategia', e);
   }

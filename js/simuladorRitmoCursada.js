@@ -21,8 +21,10 @@ function renderizarBloqueSimuladorRitmo(contenedor, datosAlumno = {}) {
   const calcRitmo = window.calculadorRitmoCursada;
   if (!calcRitmo) return;
 
+  const uid = window.servicioAuth?.obtenerUsuarioActual()?.uid;
+  const claveRitmo = uid ? `ritmo_cursada_simulado_${uid}` : 'ritmo_cursada_simulado';
   const ritmoHistorico = calcRitmo.calcularRitmoHistorico(anioIngreso, aprobadas.length, anioActual);
-  const ritmoGuardado = Number(localStorage.getItem('ritmo_cursada_simulado'));
+  const ritmoGuardado = Number(localStorage.getItem(claveRitmo));
   const ritmoActivo = ritmoGuardado || (ritmoHistorico > 0 ? Math.round(ritmoHistorico) : 6);
 
   const estimacion = calcRitmo.calcularEstimacionGraduacion({
@@ -110,7 +112,9 @@ function renderizarBloqueSimuladorRitmo(contenedor, datosAlumno = {}) {
  */
 function actualizarSimuladorRitmo(nuevoRitmo) {
   const ritmo = Number(nuevoRitmo) || 6;
-  localStorage.setItem('ritmo_cursada_simulado', String(ritmo));
+  const uid = window.servicioAuth?.obtenerUsuarioActual()?.uid;
+  const claveRitmo = uid ? `ritmo_cursada_simulado_${uid}` : 'ritmo_cursada_simulado';
+  localStorage.setItem(claveRitmo, String(ritmo));
 
   const txtRitmo = document.getElementById('txtRitmoSeleccionado');
   if (txtRitmo) txtRitmo.textContent = `${ritmo} materias / año`;

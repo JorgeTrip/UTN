@@ -48,8 +48,8 @@ async function registrarConEmail(email, password) {
     notificarCambioAuth(credenciales.user);
     return credenciales.user;
   }
-  // Modo local simulado para entornos de prueba o sin claves cargadas
-  const usuarioMock = { uid: 'usr_' + btoa(email).slice(0, 8), email, displayName: email.split('@')[0] };
+  const uidUnico = 'usr_' + email.toLowerCase().trim().replace(/[^a-z0-9]/g, '_');
+  const usuarioMock = { uid: uidUnico, email, displayName: email.split('@')[0] };
   localStorage.setItem('pulso_usuario_simulado', JSON.stringify(usuarioMock));
   notificarCambioAuth(usuarioMock);
   return usuarioMock;
@@ -68,7 +68,8 @@ async function iniciarSesionConEmail(email, password) {
     notificarCambioAuth(credenciales.user);
     return credenciales.user;
   }
-  const usuarioMock = { uid: 'usr_' + btoa(email).slice(0, 8), email, displayName: email.split('@')[0] };
+  const uidUnico = 'usr_' + email.toLowerCase().trim().replace(/[^a-z0-9]/g, '_');
+  const usuarioMock = { uid: uidUnico, email, displayName: email.split('@')[0] };
   localStorage.setItem('pulso_usuario_simulado', JSON.stringify(usuarioMock));
   notificarCambioAuth(usuarioMock);
   return usuarioMock;
@@ -82,11 +83,14 @@ async function iniciarSesionConGoogle() {
   const { auth, configurado } = window.gestorFirebase.inicializar();
   if (configurado && auth && typeof firebase !== 'undefined' && !window.__MODO_TEST_E2E__) {
     const proveedor = new firebase.auth.GoogleAuthProvider();
+    proveedor.setCustomParameters({ prompt: 'select_account' });
     const credenciales = await auth.signInWithPopup(proveedor);
     notificarCambioAuth(credenciales.user);
     return credenciales.user;
   }
-  const usuarioMock = { uid: 'usr_google_123', email: 'estudiante.utn@gmail.com', displayName: 'Estudiante UTN' };
+  const emailGoogle = 'estudiante.utn@gmail.com';
+  const uidUnico = 'usr_' + emailGoogle.replace(/[^a-z0-9]/g, '_');
+  const usuarioMock = { uid: uidUnico, email: emailGoogle, displayName: 'Estudiante UTN' };
   localStorage.setItem('pulso_usuario_simulado', JSON.stringify(usuarioMock));
   notificarCambioAuth(usuarioMock);
   return usuarioMock;
