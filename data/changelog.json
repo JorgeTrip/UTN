@@ -1,9 +1,57 @@
 [
   {
-    "version": "v1.43.0",
-    "fecha": "2026-10-01",
-    "totalCambios": 77,
+    "version": "v1.46.2",
+    "fecha": "2026-10-02",
+    "totalCambios": 83,
     "cambios": [
+      {
+        "hash": "4e04e2d",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-10-02",
+        "tipo": "fix",
+        "insignia": "🔧 Corrección",
+        "mensaje": "Se corrige compatibilidad de entorno de pruebas y sincronización en cargador de datos"
+      },
+      {
+        "hash": "77becf1",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-10-02",
+        "tipo": "fix",
+        "insignia": "🔧 Corrección",
+        "mensaje": "Se corrige aislamiento de datos de cursada entre cuentas de usuario"
+      },
+      {
+        "hash": "136f376",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-10-02",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se implementa convergencia lateral en tarjetas y se ajusta espacio de footer"
+      },
+      {
+        "hash": "d2a1805",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-10-02",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se actualiza landing page con background parallax de estudiantes y autoría"
+      },
+      {
+        "hash": "8de8edb",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-10-02",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se implementa landing page pública con parallax y simulador de ritmo de cursada"
+      },
+      {
+        "hash": "85c17fb",
+        "autor": "github-actions[bot]",
+        "fecha": "2026-10-01",
+        "tipo": "chore",
+        "insignia": "⚙️ Mantenimiento",
+        "mensaje": "Se actualiza changelog y version automatica [skip ci]"
+      },
       {
         "hash": "233c081",
         "autor": "Jorge O. Tripodi",
