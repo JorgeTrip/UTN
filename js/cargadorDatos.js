@@ -20,13 +20,6 @@ async function cargarDatosIniciales() {
       window.datosGlobales.planEstudio = await respuestaPlan.json();
     }
 
-    const usuario = window.servicioAuth?.obtenerUsuarioActual();
-    if (usuario && window.servicioFirestore) {
-      // Carga aislada desde Firestore o caché exclusiva según la cuenta del alumno autenticado
-      window.datosGlobales.datosAlumno = await window.servicioFirestore.obtenerDatosAlumno(usuario.uid);
-      return true;
-    }
-
     const esEntornoAutomatizado = (typeof navigator !== 'undefined' && Boolean(navigator.webdriver)) || Boolean(window.__MODO_TEST_E2E__);
     if (esEntornoAutomatizado && !window.__TEST_GATEKEEPER__) {
       const datosGuardados = localStorage.getItem('pulso_datos_alumno');
@@ -36,6 +29,13 @@ async function cargarDatosIniciales() {
         const respuestaAlumno = await fetch('data/datosAlumno.json');
         window.datosGlobales.datosAlumno = await respuestaAlumno.json();
       }
+      return true;
+    }
+
+    const usuario = window.servicioAuth?.obtenerUsuarioActual();
+    if (usuario && window.servicioFirestore) {
+      // Carga aislada desde Firestore o caché exclusiva según la cuenta del alumno autenticado
+      window.datosGlobales.datosAlumno = await window.servicioFirestore.obtenerDatosAlumno(usuario.uid);
       return true;
     }
 
@@ -61,9 +61,8 @@ async function guardarDatosAlumnoEnStorage() {
     if (window.servicioFirestore) {
       await window.servicioFirestore.guardarDatosAlumno(usuario.uid, datos);
     }
-  } else {
-    localStorage.setItem('pulso_datos_alumno', JSON.stringify(datos));
   }
+  localStorage.setItem('pulso_datos_alumno', JSON.stringify(datos));
 
   return datos;
 }
