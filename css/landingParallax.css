@@ -1,5 +1,5 @@
 /* ========================================================
-   Efectos Visuales Parallax y Formas Gradientes Desenfoque
+   Efectos Visuales Parallax y Background Hero de Estudiantes
    ======================================================== */
 
 .parallax-wrap {
@@ -7,30 +7,81 @@
   perspective: 1000px;
 }
 
+/* Background Parallax con Alumnos Universitarios */
+.landing-hero-bg-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.landing-hero-bg {
+  position: absolute;
+  top: -30px;
+  left: 0;
+  width: 100%;
+  height: 125%;
+  background-image: url('../img/estudiantes_hero.jpg');
+  background-size: cover;
+  background-position: center 25%;
+  background-repeat: no-repeat;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  filter: brightness(0.85) contrast(1.05);
+}
+
+.landing-hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(28, 28, 30, 0.72) 0%, rgba(28, 28, 30, 0.88) 65%, var(--bg) 100%);
+  backdrop-filter: blur(1.5px);
+  -webkit-backdrop-filter: blur(1.5px);
+}
+
+body.tema-claro .landing-hero-overlay {
+  background: linear-gradient(180deg, rgba(245, 245, 247, 0.78) 0%, rgba(245, 245, 247, 0.92) 65%, var(--bg) 100%);
+}
+
+.landing-hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Formas Desenfoque Decorativas */
 .parallax-shape {
   position: absolute;
   border-radius: 50%;
   filter: blur(80px);
   pointer-events: none;
-  opacity: 0.35;
+  opacity: 0.3;
   will-change: transform;
-  transition: transform 0.1s cubic-bezier(0.2, 0.8, 0.2, 1);
+  z-index: 1;
 }
 
 .shape-1 {
   width: 450px;
   height: 450px;
-  top: -100px;
+  top: 100px;
   right: -50px;
-  background: radial-gradient(circle, rgba(56, 189, 248, 0.45) 0%, rgba(30, 58, 138, 0.1) 70%);
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.4) 0%, rgba(30, 58, 138, 0.1) 70%);
 }
 
 .shape-2 {
   width: 500px;
   height: 500px;
-  top: 600px;
+  top: 800px;
   left: -120px;
-  background: radial-gradient(circle, rgba(168, 85, 247, 0.35) 0%, rgba(88, 28, 135, 0.05) 70%);
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, rgba(88, 28, 135, 0.05) 70%);
 }
 
 .shape-3 {
@@ -38,7 +89,7 @@
   height: 400px;
   bottom: 200px;
   right: -80px;
-  background: radial-gradient(circle, rgba(34, 197, 94, 0.3) 0%, rgba(20, 83, 45, 0.05) 70%);
+  background: radial-gradient(circle, rgba(34, 197, 94, 0.25) 0%, rgba(20, 83, 45, 0.05) 70%);
 }
 
 .landing-card {
@@ -48,10 +99,10 @@
   padding: 28px;
   backdrop-filter: blur(16px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
   position: relative;
   overflow: hidden;
-  will-change: transform;
+  z-index: 2;
 }
 
 .landing-card:hover {

@@ -14,13 +14,19 @@ test.describe('Landing Page y Simulador de Ritmo', () => {
     await page.waitForFunction(() => window.datosGlobales?.planEstudio !== null, { timeout: 15000 });
   });
 
-  test('debe mostrar la landing pública con parallax, beneficios y footer institucional', async ({ page }) => {
+  test('debe mostrar la landing pública con parallax, beneficios y footer con autoría', async ({ page }) => {
     const landing = page.locator('#landingPageRoot');
     await expect(landing).toBeVisible();
 
-    // Valida elementos del Hero
+    // Valida elementos del Hero y fondo con imagen parallax
     await expect(landing.locator('.landing-title')).toContainText('Tomá el control total de tu carrera en UTN');
     await expect(landing.locator('.landing-badge')).toContainText('Portal Académico Gratuito');
+    await expect(landing.locator('#heroParallaxBg')).toBeAttached();
+
+    // Valida que exista únicamente el botón principal de acceso
+    const botonesAcceso = landing.locator('.landing-actions button');
+    await expect(botonesAcceso).toHaveCount(1);
+    await expect(botonesAcceso.first()).toContainText('Comenzar Gratis / Ingresar');
 
     // Valida formas para el efecto parallax
     await expect(landing.locator('.shape-1')).toBeAttached();
@@ -31,8 +37,10 @@ test.describe('Landing Page y Simulador de Ritmo', () => {
     const tarjetas = landing.locator('.landing-card');
     await expect(tarjetas).toHaveCount(6);
 
-    // Valida banner CTA final y gratuidad
-    await expect(landing.locator('.landing-cta-banner')).toContainText('100% Gratuito y de Código Abierto');
+    // Valida footer con autoría de Jorge O. Tripodi y copyright
+    const footer = landing.locator('.landing-footer');
+    await expect(footer).toContainText('Jorge O. Tripodi');
+    await expect(footer).toContainText('Todos los derechos reservados');
   });
 
   test('debe permitir simular el ritmo de cursada y recalcular el año de graduación en vivo', async ({ page }) => {
