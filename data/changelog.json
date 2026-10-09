@@ -1,9 +1,41 @@
 [
   {
-    "version": "v1.46.2",
-    "fecha": "2026-10-02",
-    "totalCambios": 83,
+    "version": "v1.48.1",
+    "fecha": "2026-10-09",
+    "totalCambios": 87,
     "cambios": [
+      {
+        "hash": "8a3287a",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-10-09",
+        "tipo": "fix",
+        "insignia": "🔧 Corrección",
+        "mensaje": "Se sincroniza package-lock para resolver fallo en CI/CD"
+      },
+      {
+        "hash": "60ee0ea",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-10-09",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se agrega README con documentacion del proyecto"
+      },
+      {
+        "hash": "98def12",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-10-09",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se agrega script de inicio y lanzador local de desarrollo"
+      },
+      {
+        "hash": "fb958e0",
+        "autor": "github-actions[bot]",
+        "fecha": "2026-10-02",
+        "tipo": "chore",
+        "insignia": "⚙️ Mantenimiento",
+        "mensaje": "Se actualiza changelog y version automatica [skip ci]"
+      },
       {
         "hash": "4e04e2d",
         "autor": "Jorge O. Tripodi",
