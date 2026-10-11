@@ -1,9 +1,33 @@
 [
   {
-    "version": "v1.48.1",
-    "fecha": "2026-10-09",
-    "totalCambios": 87,
+    "version": "v1.49.1",
+    "fecha": "2026-10-11",
+    "totalCambios": 90,
     "cambios": [
+      {
+        "hash": "063034b",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-10-11",
+        "tipo": "fix",
+        "insignia": "🔧 Corrección",
+        "mensaje": "Se corrige condicion de carrera en prueba e2e del planificador"
+      },
+      {
+        "hash": "9f39d6a",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-10-11",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se agrega hot-reloading y proteccion anti-cache en servidor local"
+      },
+      {
+        "hash": "b1eb73e",
+        "autor": "github-actions[bot]",
+        "fecha": "2026-10-09",
+        "tipo": "chore",
+        "insignia": "⚙️ Mantenimiento",
+        "mensaje": "Se actualiza changelog y version automatica [skip ci]"
+      },
       {
         "hash": "8a3287a",
         "autor": "Jorge O. Tripodi",
