@@ -20,6 +20,7 @@ const PUERTO = process.env.PORT || 8080;
 const URL_LOCAL = `http://localhost:${PUERTO}`;
 const IP_RED = obtenerIpRedLocal();
 const URL_RED = `http://${IP_RED}:${PUERTO}`;
+const ARCHIVO_LOCK = path.join(os.tmpdir(), `iniciar_dev_utn_${PUERTO}.lock`);
 
 const TIPOS_MIME = {
     ".html": "text/html; charset=utf-8",
@@ -43,11 +44,6 @@ const TIPOS_MIME = {
     ".txt": "text/plain; charset=utf-8"
 };
 
-/**
- * Detecta la dirección IPv4 local del equipo en la red (LAN/Wi-Fi).
- *
- * @returns {string} Dirección IP o 'localhost'.
- */
 function obtenerIpRedLocal() {
     const interfaces = os.networkInterfaces();
     const patronesExcluidos = /vethernet|virtual|vbox|vmware|wsl|pseudo|loopback/i;
@@ -68,12 +64,15 @@ function obtenerIpRedLocal() {
     return ipCandidata || "localhost";
 }
 
-/**
- * Abre el navegador predeterminado en la URL especificada.
- *
- * @param {string} url - Dirección a abrir.
- */
 function abrirNavegador(url) {
+    if (fs.existsSync(ARCHIVO_LOCK)) {
+        console.log("🔄 Servidor reiniciado automáticamente por cambios en el código.");
+        return;
+    }
+    try {
+        fs.writeFileSync(ARCHIVO_LOCK, Date.now().toString());
+    } catch {}
+
     const comando = process.platform === "win32"
         ? `start "" "${url}"`
         : process.platform === "darwin"
@@ -82,9 +81,14 @@ function abrirNavegador(url) {
     exec(comando);
 }
 
-/**
- * Despacha un archivo estático al cliente HTTP.
- */
+function limpiarLock() {
+    try {
+        if (fs.existsSync(ARCHIVO_LOCK)) {
+            fs.unlinkSync(ARCHIVO_LOCK);
+        }
+    } catch {}
+}
+
 function despacharArchivo(rutaArchivo, res, req) {
     fs.stat(rutaArchivo, (err, stats) => {
         if (err || !stats.isFile()) {
@@ -98,6 +102,8 @@ function despacharArchivo(rutaArchivo, res, req) {
         const rango = req.headers.range;
 
         res.setHeader("Access-Control-Allow-Origin", "*");
+        res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+        res.setHeader("Pragma", "no-cache");
 
         if (rango) {
             const partes = rango.replace(/bytes=/, "").split("-");
@@ -159,5 +165,11 @@ servidor.listen(PUERTO, "0.0.0.0", () => {
 });
 
 process.on("SIGINT", () => {
+    limpiarLock();
+    servidor.close(() => process.exit(0));
+});
+
+process.on("SIGTERM", () => {
+    limpiarLock();
     servidor.close(() => process.exit(0));
 });
