@@ -12,19 +12,17 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Planificador con Gemini API y Oferta Compartida Firestore', () => {
   test('debe mostrar únicamente la pestaña 2026 cuando el alumno aún no cargó materias', async ({ page }) => {
-    await page.goto('/');
-
-    // Simulamos alumno nuevo sin materias cargadas
-    await page.evaluate(() => {
-      window.datosGlobales.datosAlumno = {
+    // Setea estado limpio en localStorage antes de que carguen los scripts para evitar condiciones de carrera
+    await page.addInitScript(() => {
+      localStorage.setItem('pulso_datos_alumno', JSON.stringify({
+        perfil: { nombre: 'Estudiante Nuevo', turno: 'Noche' },
         materiasAprobadas: [],
         materiasEnCurso: [],
         turno: 'Noche'
-      };
-      if (typeof window.renderizarPlanificadorCompleto === 'function') {
-        window.renderizarPlanificadorCompleto();
-      }
+      }));
     });
+
+    await page.goto('/');
 
     await page.locator('.super-tab.sp2').click();
     const panelPlanificador = page.locator('#sp2');
