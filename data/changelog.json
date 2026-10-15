@@ -1,9 +1,25 @@
 [
   {
-    "version": "v1.49.1",
-    "fecha": "2026-10-11",
-    "totalCambios": 90,
+    "version": "v1.49.3",
+    "fecha": "2026-10-15",
+    "totalCambios": 92,
     "cambios": [
+      {
+        "hash": "91b03f9",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-10-15",
+        "tipo": "fix",
+        "insignia": "🔧 Corrección",
+        "mensaje": "Se elimina script bat legado de desarrollo"
+      },
+      {
+        "hash": "a59c93d",
+        "autor": "github-actions[bot]",
+        "fecha": "2026-10-11",
+        "tipo": "chore",
+        "insignia": "⚙️ Mantenimiento",
+        "mensaje": "Se actualiza changelog y version automatica [skip ci]"
+      },
       {
         "hash": "063034b",
         "autor": "Jorge O. Tripodi",
