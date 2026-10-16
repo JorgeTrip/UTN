@@ -1,9 +1,25 @@
 [
   {
-    "version": "v1.49.3",
+    "version": "v1.50.0",
     "fecha": "2026-10-15",
-    "totalCambios": 92,
+    "totalCambios": 94,
     "cambios": [
+      {
+        "hash": "0a82cba",
+        "autor": "Jorge O. Tripodi",
+        "fecha": "2026-10-15",
+        "tipo": "feat",
+        "insignia": "🚀 Nueva Funcionalidad",
+        "mensaje": "Se actualiza script de desarrollo con proteccion spawn y puerto"
+      },
+      {
+        "hash": "f3fe251",
+        "autor": "github-actions[bot]",
+        "fecha": "2026-10-15",
+        "tipo": "chore",
+        "insignia": "⚙️ Mantenimiento",
+        "mensaje": "Se actualiza changelog y version automatica [skip ci]"
+      },
       {
         "hash": "91b03f9",
         "autor": "Jorge O. Tripodi",
