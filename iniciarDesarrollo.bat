@@ -7,6 +7,11 @@ echo   Iniciando Panel Academico UTN - Modo Desarrollo
 echo ====================================================
 echo.
 
+node scripts/gestorInstancia.mjs --verificar
+if %ERRORLEVEL% EQU 2 (
+    exit /b 0
+)
+
 node --watch scripts/iniciarDesarrollo.mjs
 if %ERRORLEVEL% NEQ 0 (
     echo.
